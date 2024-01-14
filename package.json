@@ -1,0 +1,43 @@
+{
+  "name": "read-quill",
+  "version": "0.0.1",
+  "description": "",
+  "author": {
+    "name": "Faustino Zanetto",
+    "email": "zanettofaustino@gmail.com"
+  },
+  "repository": {
+    "url": "https://github.com/faustinozanetto/read-quill",
+    "type": "git"
+  },
+  "license": "MIT",
+  "private": true,
+  "prisma": {
+    "schema": "packages/database-shortly/prisma/schema.prisma"
+  },
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "clean": "turbo clean",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/types": "18.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.0",
+    "eslint": "^8.0.0",
+    "prettier": "^2.7.1",
+    "turbo": "^1.9.5"
+  },
+  "lint-staged": {
+    "extends": "./lint-staged.config.ts"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  }
+}
