@@ -33,4 +33,31 @@ model User {
   emailVerified DateTime?
   image         String?
   accounts      Account[]
+
+  books Book[]
+}
+
+model Book {
+  id         String    @id @default(cuid())
+  name       String
+  author     String
+  coverImage String
+  language   String
+  pageCount  Int
+  startedAt  DateTime?
+  finishedAt DateTime?
+  isFavorite Boolean?
+
+  reader   User   @relation(fields: [readerId], references: [id])
+  readerId String
+
+  review BookReview[]
+}
+
+model BookReview {
+  id      String @id @default(cuid())
+  content String
+
+  book   Book?  @relation(fields: [bookId], references: [id])
+  bookId String
 }
