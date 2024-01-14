@@ -1,0 +1,12 @@
+{
+  "name": "@read-quill/typescript-config",
+  "version": "0.0.1",
+  "description": "",
+  "author": {
+    "name": "Faustino Zanetto",
+    "email": "zanettofaustino@gmail.com"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

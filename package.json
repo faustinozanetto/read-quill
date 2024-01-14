@@ -27,6 +27,8 @@
     "@commitlint/cli": "^17.4.4",
     "@commitlint/types": "18.4.4",
     "@commitlint/config-conventional": "^17.4.4",
+    "@read-quill/typescript-config": "workspace:*",
+    "@types/node": "20.11.0",
     "husky": "^8.0.3",
     "lint-staged": "^13.2.0",
     "eslint": "^8.0.0",

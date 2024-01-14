@@ -1,0 +1,3 @@
+{
+  "extends": "@read-quill/typescript-config/base.json"
+}
