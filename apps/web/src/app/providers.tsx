@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { ToastsProvider } from '@read-quill/design-system';
 import { ThemeProvider } from 'next-theme-kit';
 
 interface ProvidersProps {
@@ -12,7 +13,7 @@ const Providers: React.FC<ProvidersProps> = (props) => {
 
   return (
     <ThemeProvider useLocalStorage useSystem={false}>
-      {children}
+      <ToastsProvider>{children}</ToastsProvider>
     </ThemeProvider>
   );
 };

@@ -22,7 +22,8 @@
     "@radix-ui/react-slot": "1.0.2",
     "tailwind-merge": "2.0.0",
     "clsx": "2.0.0",
-    "class-variance-authority": "0.7.0"
+    "class-variance-authority": "0.7.0",
+    "framer-motion": "10.18.0"
   },
   "peerDependencies": {
     "react": "^18.2.0"
