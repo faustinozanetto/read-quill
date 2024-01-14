@@ -1,0 +1,13 @@
+{
+  "name": "eslint-config-read-quill",
+  "version": "0.0.1",
+  "description": "",
+  "author": {
+    "name": "Faustino Zanetto",
+    "email": "zanettofaustino@gmail.com"
+  },
+  "dependencies": {
+    "@vercel/style-guide": "^5.1.0",
+    "eslint-config-turbo": "^1.11.3"
+  }
+}
