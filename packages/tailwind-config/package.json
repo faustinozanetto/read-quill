@@ -1,0 +1,11 @@
+{
+  "name": "@read-quill/tailwind-config",
+  "version": "0.0.1",
+  "exports": {
+    ".": "./tailwind.config.ts"
+  },
+  "devDependencies": {
+    "@read-quill/typescript-config": "workspace:*",
+    "tailwindcss": "^3.4.0"
+  }
+}
