@@ -22,6 +22,9 @@ export async function GET(request: NextRequest) {
     const books = await prisma.book.findMany({ where: { readerId: userId } });
     return NextResponse.json({ books });
   } catch (error) {
-    return new NextResponse(error.message, { status: 500 });
+    let errorMessage = 'An error occurred!';
+    if (error instanceof Error) errorMessage = error.message;
+
+    return new NextResponse(errorMessage, { status: 500 });
   }
 }

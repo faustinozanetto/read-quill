@@ -22,6 +22,9 @@ export async function GET(request: NextRequest) {
     const user = await prisma.user.findUnique({ where: { id: userId } });
     return NextResponse.json({ user });
   } catch (error) {
-    return new NextResponse(error.message, { status: 500 });
+    let errorMessage = 'An error occurred!';
+    if (error instanceof Error) errorMessage = error.message;
+
+    return new NextResponse(errorMessage, { status: 500 });
   }
 }
