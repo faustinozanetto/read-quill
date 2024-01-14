@@ -1,7 +1,7 @@
 import { NextAuthOptions, Session, getServerSession } from 'next-auth';
-import GithubProvider from 'next-auth/providers/github';
-import DiscordProvider from 'next-auth/providers/discord';
 import GoogleProvider from 'next-auth/providers/google';
+import { prisma } from '@read-quill/database';
+import { PrismaAdapter } from '@auth/prisma-adapter';
 
 const COOKIES_PREFIX = 'readquill';
 
@@ -34,6 +34,7 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt',
   },
+  adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: '/sign-in',

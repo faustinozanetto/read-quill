@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 import { Button } from '@read-quill/design-system';
 import ThemeToggler from '@modules/theme/components/theme-toggler';
+import AuthSignIn from '@modules/auth/components/sign-in/auth-sign-in';
 
 export const metadata: Metadata = {
   title: 'Sign In',
@@ -33,6 +34,7 @@ export default function AuthSignInPage() {
       <div className="absolute right-4 top-4">
         <ThemeToggler />
       </div>
+      <AuthSignIn />
     </div>
   );
 }
