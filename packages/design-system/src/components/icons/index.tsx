@@ -10,3 +10,5 @@ export * from './google-icon';
 export * from './loading-icon';
 export * from './qr-icon';
 export * from './sign-in-icon';
+export * from './plus-icon';
+export * from './x-icon';

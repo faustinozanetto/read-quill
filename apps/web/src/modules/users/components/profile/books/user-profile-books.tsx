@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Book } from '@read-quill/database';
+import type { Book } from '@read-quill/database';
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import UserProfileBooksHeader from './user-profile-books-header';
@@ -9,9 +9,9 @@ import UserProfileBooksHeader from './user-profile-books-header';
 const UserProfileBooks: React.FC = () => {
   const params = useParams();
 
-  const { isLoading, data } = useQuery<Book[]>(['user-books', params['userId']], {
+  const { isLoading, data } = useQuery<Book[]>(['user-books', params.userId], {
     queryFn: async () => {
-      const userId = params['userId'] as string;
+      const userId = params.userId as string;
       const url = new URL('/api/user/books', process.env.NEXT_PUBLIC_URL);
       url.searchParams.set('userId', userId);
 
@@ -30,7 +30,7 @@ const UserProfileBooks: React.FC = () => {
       <div className="flex w-full flex-col">
         <UserProfileBooksHeader />
 
-        {!isLoading && data && data.length === 0 && <p>This user has not read any books so far!</p>}
+        {!isLoading && data && data.length === 0 ? <p>This user has not read any books so far!</p> : null}
       </div>
     </div>
   );
