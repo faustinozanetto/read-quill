@@ -3,7 +3,7 @@ import { prisma } from '@read-quill/database';
 import { getServerSession } from 'next-auth/next';
 import { NextRequest, NextResponse } from 'next/server';
 
-// /api/user GET : Gets a user by a given userId
+// /api/user/books GET : Gets the books of a user by a given userId
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
@@ -19,8 +19,8 @@ export async function GET(request: NextRequest) {
       return new NextResponse('User ID is missing', { status: 400 });
     }
 
-    const user = await prisma.user.findUnique({ where: { id: userId } });
-    return NextResponse.json({ user });
+    const books = await prisma.book.findMany({ where: { readerId: userId } });
+    return NextResponse.json({ books });
   } catch (error) {
     return new NextResponse(error.message, { status: 500 });
   }

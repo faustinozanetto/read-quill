@@ -4,7 +4,7 @@ import React from 'react';
 import UserProfile from '@modules/users/components/profile/user-profile';
 import { User } from '@read-quill/database';
 import { useQuery } from '@tanstack/react-query';
-import UserProfilePlaceholder from '@modules/users/components/profile/user-profile-placeholder';
+import { useUserProfileStore } from '@modules/users/state/user-profile.slice';
 
 interface UserPageProps {
   params: {
@@ -16,8 +16,9 @@ const UserPage: React.FC<UserPageProps> = (props) => {
   const { params } = props;
   const { userId } = params;
 
-  const { isPending, isError, data, error } = useQuery<User>({
-    queryKey: ['user-page', userId],
+  const { setUser, setIsLoading } = useUserProfileStore();
+
+  useQuery<User>(['user-page', userId], {
     queryFn: async () => {
       const url = new URL('/api/user', process.env.NEXT_PUBLIC_URL);
       url.searchParams.set('userId', userId);
@@ -30,15 +31,16 @@ const UserPage: React.FC<UserPageProps> = (props) => {
       const { user }: { user: User } = await response.json();
       return user;
     },
+    onSuccess(data) {
+      setIsLoading(false);
+      setUser(data);
+    },
+    onError(err) {
+      setIsLoading(false);
+    },
   });
 
-  if (isPending) return <UserProfilePlaceholder />;
-
-  if (isError) {
-    return <span>Error: {error.message}</span>;
-  }
-
-  return <UserProfile user={data} />;
+  return <UserProfile />;
 };
 
 export default UserPage;
