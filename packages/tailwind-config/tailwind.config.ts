@@ -1,6 +1,12 @@
 import type { Config } from 'tailwindcss';
+import forms from '@tailwindcss/forms';
+import typography from '@tailwindcss/typography';
 
-const config: Omit<Config, 'content'> = {
+const config: Config = {
+  content: ['./src/**/*.{js,ts,jsx,tsx,mdx}'],
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   darkMode: ['class'],
   theme: {
     container: {
@@ -52,12 +58,12 @@ const config: Omit<Config, 'content'> = {
       },
       keyframes: {
         'accordion-down': {
-          from: { height: 0 },
+          from: { height: '0' },
           to: { height: 'var(--radix-accordion-content-height)' },
         },
         'accordion-up': {
           from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: 0 },
+          to: { height: '0' },
         },
       },
       animation: {
@@ -66,7 +72,7 @@ const config: Omit<Config, 'content'> = {
       },
     },
   },
-  plugins: [],
+  plugins: [forms, typography],
 };
 
 export default config;

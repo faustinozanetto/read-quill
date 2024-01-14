@@ -2,25 +2,18 @@
   "name": "@read-quill/design-system",
   "version": "0.0.1",
   "sideEffects": false,
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
-    }
-  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "files": [
-    "dist",
-    "src"
+    "dist/**"
   ],
   "license": "MIT",
   "scripts": {
     "build": "tsup",
     "lint": "eslint src/",
     "dev": "tsup --watch",
-    "type-check": "tsc --noEmit"
+    "check-types": "tsc --noEmit"
   },
   "dependencies": {
     "@radix-ui/react-slot": "1.0.2",
