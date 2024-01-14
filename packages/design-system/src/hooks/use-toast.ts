@@ -2,7 +2,7 @@ import { ToastActionType, type Toast } from '../types/toasts.types';
 import { useToastContext } from './use-toast-context';
 
 interface UseToastReturn {
-  toast: (data: Omit<Toast, 'id'>, duration: number) => void;
+  toast: (data: Omit<Toast, 'id'>, duration?: number) => void;
 }
 
 /**

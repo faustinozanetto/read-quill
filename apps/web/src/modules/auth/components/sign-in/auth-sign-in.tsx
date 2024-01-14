@@ -3,7 +3,7 @@ import React from 'react';
 import { signIn } from 'next-auth/react';
 import { AuthSignInOption } from '@modules/auth/types/auth.types';
 import { BuiltInProviderType } from 'next-auth/providers/index';
-import { Button } from '@read-quill/design-system';
+import { Button, useToast, GithubIcon, GoogleIcon } from '@read-quill/design-system';
 
 export const AUTH_SIGN_IN_OPTIONS: AuthSignInOption[] = [
   {
