@@ -1,9 +1,11 @@
 import { authOptions } from '@modules/auth/lib/auth.lib';
 import {
   createBookValidationSchemaAPI,
+  deleteBookValidationSchemaForm,
   editBookValidationSchemaAPI,
 } from '@modules/books/validations/books.validations';
 import { prisma } from '@read-quill/database';
+import { del } from '@vercel/blob';
 import { getServerSession } from 'next-auth/next';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
@@ -106,6 +108,43 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
     });
 
     return NextResponse.json({ book });
+  } catch (error) {
+    let errorMessage = 'An error occurred!';
+    if (error instanceof Error) errorMessage = error.message;
+    else if (error instanceof z.ZodError) errorMessage = error.issues[0].message;
+
+    return new NextResponse(errorMessage, { status: 500 });
+  }
+}
+
+// /api/books DELETE : deletes a book
+export async function DELETE(request: NextRequest): Promise<NextResponse> {
+  try {
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      return new NextResponse('Unauthorized', { status: 403 });
+    }
+
+    const email = session.user?.email;
+    if (!email) {
+      return new NextResponse('Unauthorized', { status: 403 });
+    }
+
+    const json = await request.json();
+    const { bookId } = deleteBookValidationSchemaForm.parse(json);
+
+    const book = await prisma.book.delete({
+      where: {
+        id: bookId,
+      },
+    });
+
+    // Delete vercel cover image
+    const urlToDelete = book.coverImage;
+    await del(urlToDelete);
+
+    return NextResponse.json({ success: true });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;

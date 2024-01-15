@@ -33,6 +33,11 @@ export const editBookValidationSchemaAPI = editBookValidationSchemaBase.extend({
   coverImage: z.string().optional(),
 });
 
+/* Delete Book */
+export const deleteBookValidationSchemaForm = z.object({
+  bookId: z.string({ required_error: 'Book ID is required!' }),
+});
+
 /* Book Review */
 export const bookReviewValidationSchemaForm = z.object({
   review: z.string({ required_error: 'Review is required!' }).max(2000, 'Review max characters is 2000!'),

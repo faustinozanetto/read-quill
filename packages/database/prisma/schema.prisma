@@ -49,6 +49,6 @@ model Book {
   isFavorite Boolean?
   review     String?
 
-  reader   User   @relation(fields: [readerId], references: [id])
+  reader   User   @relation(fields: [readerId], references: [id], onDelete: Cascade)
   readerId String
 }
