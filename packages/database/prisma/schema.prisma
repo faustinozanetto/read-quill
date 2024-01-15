@@ -47,17 +47,8 @@ model Book {
   startedAt  DateTime?
   finishedAt DateTime?
   isFavorite Boolean?
+  review     String?
 
   reader   User   @relation(fields: [readerId], references: [id])
   readerId String
-
-  review BookReview[]
-}
-
-model BookReview {
-  id      String @id @default(cuid())
-  content String
-
-  book   Book?  @relation(fields: [bookId], references: [id])
-  bookId String
 }

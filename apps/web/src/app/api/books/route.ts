@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
       return new NextResponse('Book ID is missing', { status: 400 });
     }
 
-    const book = await prisma.book.findUnique({ where: { id: bookId } });
+    const book = await prisma.book.findUnique({ where: { id: bookId }, include: { reader: true } });
     return NextResponse.json({ book });
   } catch (error) {
     let errorMessage = 'An error occurred!';
@@ -39,6 +39,7 @@ export async function POST(request: NextRequest) {
     }
 
     const json = await request.json();
+
     const { name, author, coverImage, language, pageCount } = createBookValidationSchemaAPI.parse(json);
 
     const book = await prisma.book.create({
@@ -53,6 +54,9 @@ export async function POST(request: NextRequest) {
             email,
           },
         },
+      },
+      include: {
+        reader: true,
       },
     });
 

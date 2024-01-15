@@ -14,3 +14,11 @@ export const createBookValidationSchemaForm = createBookValidationSchemaBase.ext
 export const createBookValidationSchemaAPI = createBookValidationSchemaBase.extend({
   coverImage: z.string(),
 });
+
+export const bookReviewValidationSchemaForm = z.object({
+  review: z.string({ required_error: 'Review is required!' }).max(500, 'Review max characters is 500!'),
+});
+
+export const bookReviewValidationSchemaAPI = bookReviewValidationSchemaForm.extend({
+  bookId: z.string(),
+});

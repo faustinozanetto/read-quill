@@ -19,11 +19,11 @@ const UserBookDetails: React.FC = () => {
           <h1 className="text-2xl font-bold md:text-3xl">{book?.name!}</h1>
         )}
         {isLoading ? (
-          <Skeleton className="h-6 w-1/3" />
+          <Skeleton className="mb-2 h-6 w-1/3" />
         ) : (
           <h2 className="text-lg font-medium md:text-xl">{book?.author!}</h2>
         )}
-        <span>{book.pageCount} pages</span>
+        {isLoading ? <Skeleton className="h-4 w-1/5" /> : <span>{book?.pageCount} pages</span>}
       </div>
     </div>
   );

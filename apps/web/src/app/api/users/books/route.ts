@@ -3,7 +3,7 @@ import { prisma } from '@read-quill/database';
 import { getServerSession } from 'next-auth/next';
 import { NextRequest, NextResponse } from 'next/server';
 
-// /api/user/books GET : Gets the books of a user by a given userId
+// /api/users/books GET : Gets the books of a user by a given userId
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);

@@ -69,9 +69,8 @@ const UserBooksManagementCreate: React.FC = () => {
       router.push(`/books/${book.id}`);
     } catch (error) {
       let errorMessage = 'Could not register book!';
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
+      if (error instanceof Error) errorMessage = error.message;
+
       toast({ variant: 'error', content: errorMessage });
     }
   };

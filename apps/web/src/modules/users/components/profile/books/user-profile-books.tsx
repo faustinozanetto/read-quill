@@ -26,12 +26,10 @@ const UserProfileBooks: React.FC = () => {
   });
 
   return (
-    <div className="flex rounded-lg p-4 shadow border">
-      <div className="flex w-full flex-col">
-        <UserProfileBooksHeader />
+    <div className="flex flex-col rounded-lg p-4 shadow border">
+      <UserProfileBooksHeader />
 
-        {!isLoading && data && data.length === 0 ? <p>This user has not read any books so far!</p> : null}
-      </div>
+      {!isLoading && data && data.length === 0 ? <p>This user has not read any books so far!</p> : null}
     </div>
   );
 };

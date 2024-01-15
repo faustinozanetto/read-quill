@@ -10,6 +10,7 @@ export * from './components/label';
 export * from './components/input';
 export * from './components/tooltip';
 export * from './components/select';
+export * from './components/textarea';
 export * from './components/file-input';
 
 // Hook Expors

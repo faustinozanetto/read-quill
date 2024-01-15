@@ -1,14 +1,15 @@
 import { Book } from '@read-quill/database';
 import { create } from 'zustand';
+import { BookWithReader } from '../types/book.types';
 
 export interface BookSliceState {
   isLoading: boolean;
-  book: Book | null;
+  book: BookWithReader | null;
 }
 
 export interface BookSliceActions {
   setIsLoading: (isLoading: boolean) => void;
-  setBook: (book: Book) => void;
+  setBook: (book: BookWithReader) => void;
 }
 
 export const useBookStore = create<BookSliceState & BookSliceActions>((set) => ({

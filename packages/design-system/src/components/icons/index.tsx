@@ -19,3 +19,4 @@ export * from './chevron-up-icon';
 export * from './check-icon';
 export * from './arrows-sort-icon';
 export * from './book-icon';
+export * from './pencil-icon';
