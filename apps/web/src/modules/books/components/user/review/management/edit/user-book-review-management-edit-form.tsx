@@ -1,6 +1,6 @@
 import React from 'react';
 import { bookReviewValidationSchemaForm } from '@modules/books/validations/books.validations';
-import { z } from 'zod';
+import type { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import {
@@ -35,7 +35,7 @@ const UserBookReviewManagementEditForm: React.FC<UserBookReviewManagementEditFor
     resolver: zodResolver(bookReviewValidationSchemaForm),
     mode: 'onBlur',
     defaultValues: {
-      review: (book && book.review) ?? undefined,
+      review: book?.review ?? undefined,
     },
   });
 
@@ -61,10 +61,10 @@ const UserBookReviewManagementEditForm: React.FC<UserBookReviewManagementEditFor
 
         <DialogFooter>
           <Button
-            className={cn('w-full', isFormLoading && 'cursor-not-allowed')}
-            type="submit"
             aria-label="Edit Review"
+            className={cn('w-full', isFormLoading && 'cursor-not-allowed')}
             disabled={isFormLoading}
+            type="submit"
           >
             {isFormLoading ? <LoadingIcon className="mr-2" /> : <PencilIcon className="mr-2" />}
             Edit

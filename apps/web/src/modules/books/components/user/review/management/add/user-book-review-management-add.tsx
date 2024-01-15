@@ -1,5 +1,4 @@
 import React from 'react';
-
 import {
   Dialog,
   DialogTrigger,
@@ -11,12 +10,10 @@ import {
   EditIcon,
   useToast,
 } from '@read-quill/design-system';
-
 import { useRouter } from 'next/navigation';
-import UserBookReviewManagementAddForm, {
-  UserBookReviewManagementAddFormData,
-} from './user-book-review-management-add-form';
 import { useBookStore } from '@modules/books/state/book.slice';
+import type { UserBookReviewManagementAddFormData } from './user-book-review-management-add-form';
+import UserBookReviewManagementAddForm from './user-book-review-management-add-form';
 
 const UserBookReviewManagementAdd: React.FC = () => {
   const router = useRouter();
@@ -40,6 +37,7 @@ const UserBookReviewManagementAdd: React.FC = () => {
       }
 
       toast({ variant: 'success', content: `Book review added successfully!` });
+      router.refresh();
     } catch (error) {
       let errorMessage = 'Could not add book review!';
       if (error instanceof Error) errorMessage = error.message;

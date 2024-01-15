@@ -18,7 +18,7 @@ const UserBookPage: React.FC<UserBookPageProps> = (props) => {
 
   const { setBook, setIsLoading } = useBookStore();
 
-  const { data } = useQuery<Book>(['book-page', bookId], {
+  useQuery<Book>(['book-page', bookId], {
     queryFn: async () => {
       const url = new URL('/api/books', process.env.NEXT_PUBLIC_URL);
       url.searchParams.set('bookId', bookId);

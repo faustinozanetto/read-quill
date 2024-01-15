@@ -2,10 +2,12 @@ import { authOptions } from '@modules/auth/lib/auth.lib';
 import { bookReviewValidationSchemaAPI } from '@modules/books/validations/books.validations';
 import { prisma } from '@read-quill/database';
 import { getServerSession } from 'next-auth/next';
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
+import { z } from 'zod';
 
 // /api/books/rewiew POST : creates a book review
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     const session = await getServerSession(authOptions);
 
@@ -35,13 +37,14 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
+    else if (error instanceof z.ZodError) errorMessage = error.issues[0].message;
 
     return new NextResponse(errorMessage, { status: 500 });
   }
 }
 
 // /api/books/rewiew PATCH : updated a book review
-export async function PATCH(request: NextRequest) {
+export async function PATCH(request: NextRequest): Promise<NextResponse> {
   try {
     const session = await getServerSession(authOptions);
 
@@ -71,6 +74,7 @@ export async function PATCH(request: NextRequest) {
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
+    else if (error instanceof z.ZodError) errorMessage = error.issues[0].message;
 
     return new NextResponse(errorMessage, { status: 500 });
   }
