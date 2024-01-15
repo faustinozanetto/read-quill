@@ -14,28 +14,33 @@ import {
 import UserBooksManagementCreateForm, { UserBooksManagementCreateFormData } from './user-books-management-create-form';
 import { Book } from '@read-quill/database';
 import { PutBlobResult } from '@vercel/blob';
+import { useRouter } from 'next/navigation';
 
 const UserBooksManagementCreate: React.FC = () => {
+  const router = useRouter();
   const { toast } = useToast();
 
   const [isBookCoverUploading, setIsBookCoverUploading] = useState(false);
 
   const handleUploadBookCover = async (coverFile: File): Promise<PutBlobResult> => {
-    try {
-      setIsBookCoverUploading(true);
-      const response = await fetch(`/api/books/upload?filename=${coverFile.name}`, {
-        method: 'POST',
-        body: coverFile,
-      });
+    setIsBookCoverUploading(true);
 
-      const coverBlob = (await response.json()) as PutBlobResult;
+    const url = new URL('/api/books/upload', process.env.NEXT_PUBLIC_URL);
+    url.searchParams.set('filename', coverFile.name);
 
-      setIsBookCoverUploading(false);
-      return coverBlob;
-    } catch (error) {
-      setIsBookCoverUploading(false);
-      throw new Error('Could not upload book cover!');
+    const response = await fetch(url, {
+      method: 'POST',
+      body: coverFile,
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to upload book cover!');
     }
+
+    const coverBlob = (await response.json()) as PutBlobResult;
+    setIsBookCoverUploading(false);
+
+    return coverBlob;
   };
 
   const handleCreateBook = async (data: UserBooksManagementCreateFormData) => {
@@ -45,7 +50,7 @@ const UserBooksManagementCreate: React.FC = () => {
 
       const url = new URL('/api/books', process.env.NEXT_PUBLIC_URL);
       const body = JSON.stringify({
-        name: data.language,
+        name: data.name,
         author: data.author,
         language: data.language,
         coverImage: coverBlob.url,
@@ -60,8 +65,13 @@ const UserBooksManagementCreate: React.FC = () => {
       const { book }: { book: Book } = await response.json();
 
       toast({ variant: 'success', content: `Book ${book.name} registered successfully!` });
+      router.push(`/user/books/${book.id}`);
     } catch (error) {
-      toast({ variant: 'error', content: 'Could not register book!' });
+      let errorMessage = 'Could not register book!';
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+      toast({ variant: 'error', content: errorMessage });
     }
   };
 

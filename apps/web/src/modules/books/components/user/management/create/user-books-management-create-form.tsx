@@ -80,11 +80,11 @@ const UserBooksManagementCreateForm: React.FC<UserBooksManagementCreateFormProps
         <FormField
           control={form.control}
           name="coverImage"
-          render={({ field }) => (
+          render={({ field: { onChange, ...rest } }) => (
             <FormItem>
               <FormLabel>Cover Image</FormLabel>
               <FormControl>
-                <FileInput {...field} />
+                <FileInput onChange={(files) => onChange(files[0])} {...rest} />
               </FormControl>
               <FormDescription>The cover of the book.</FormDescription>
               <FormMessage />

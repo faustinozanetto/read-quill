@@ -97,7 +97,7 @@ const Toast: React.FC<ToastProps> = (props) => {
         )}
       >
         <div className="mr-2 flex-shrink-0">{getToastIcon()}</div>
-        <p className="text-sm font-semibold md:text-base">{toast.content}</p>
+        <p className="text-sm font-medium md:text-base">{toast.content}</p>
       </div>
     </motion.li>
   );
