@@ -1,9 +1,16 @@
 import { z } from 'zod';
 
-export const createBookValidationSchema = z.object({
-  name: z.string(),
-  author: z.string(),
+export const createBookValidationSchemaBase = z.object({
+  name: z.string({ required_error: 'Name is required!' }),
+  author: z.string({ required_error: 'Author is required!' }),
+  language: z.string({ required_error: 'Language is required!' }),
+  pageCount: z.number({ required_error: 'Page count is required!' }).min(0, 'Page count must be positive!'),
+});
+
+export const createBookValidationSchemaForm = createBookValidationSchemaBase.extend({
+  coverImage: z.custom<File>(),
+});
+
+export const createBookValidationSchemaAPI = createBookValidationSchemaBase.extend({
   coverImage: z.string(),
-  language: z.string(),
-  pageCount: z.number(),
 });

@@ -1,5 +1,5 @@
 import { authOptions } from '@modules/auth/lib/auth.lib';
-import { createBookValidationSchema } from '@modules/books/validations/books.validations';
+import { createBookValidationSchemaAPI } from '@modules/books/validations/books.validations';
 import { prisma } from '@read-quill/database';
 import { getServerSession } from 'next-auth/next';
 import { NextRequest, NextResponse } from 'next/server';
@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
     }
 
     const json = await request.json();
-    const { name, author, coverImage, language, pageCount } = createBookValidationSchema.parse(json);
+    const { name, author, coverImage, language, pageCount } = createBookValidationSchemaAPI.parse(json);
 
     const book = await prisma.book.create({
       data: {
@@ -35,6 +35,7 @@ export async function POST(request: NextRequest) {
         },
       },
     });
+
     return NextResponse.json({ book });
   } catch (error) {
     let errorMessage = 'An error occurred!';

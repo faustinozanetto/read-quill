@@ -12,7 +12,7 @@ const UserProfileBooks: React.FC = () => {
   const { isLoading, data } = useQuery<Book[]>(['user-books', params.userId], {
     queryFn: async () => {
       const userId = params.userId as string;
-      const url = new URL('/api/user/books', process.env.NEXT_PUBLIC_URL);
+      const url = new URL('/api/users/books', process.env.NEXT_PUBLIC_URL);
       url.searchParams.set('userId', userId);
 
       const response = await fetch(url, { method: 'GET' });
