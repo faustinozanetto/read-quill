@@ -65,7 +65,8 @@ const UserBooksManagementCreate: React.FC = () => {
       const { book }: { book: Book } = await response.json();
 
       toast({ variant: 'success', content: `Book ${book.name} registered successfully!` });
-      router.push(`/user/books/${book.id}`);
+
+      router.push(`/books/${book.id}`);
     } catch (error) {
       let errorMessage = 'Could not register book!';
       if (error instanceof Error) {

@@ -1,5 +1,5 @@
 import { getCurrentUser } from '@modules/auth/lib/auth.lib';
-import UserBooks from '@modules/books/components/user/user-books';
+import UserBooks from '@modules/books/components/detailed/user-books';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
