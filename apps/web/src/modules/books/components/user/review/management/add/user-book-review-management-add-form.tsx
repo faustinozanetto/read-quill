@@ -1,6 +1,6 @@
 import React from 'react';
 import { bookReviewValidationSchemaForm } from '@modules/books/validations/books.validations';
-import { z } from 'zod';
+import type { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import {
@@ -28,7 +28,7 @@ interface UserBookReviewManagementAddFormProps {
 const UserBookReviewManagementAddForm: React.FC<UserBookReviewManagementAddFormProps> = (props) => {
   const { onSubmit } = props;
 
-  const form = useForm<UserBookReviewManagementAddFormProps>({
+  const form = useForm<UserBookReviewManagementAddFormData>({
     resolver: zodResolver(bookReviewValidationSchemaForm),
     mode: 'onBlur',
   });
@@ -55,10 +55,10 @@ const UserBookReviewManagementAddForm: React.FC<UserBookReviewManagementAddFormP
 
         <DialogFooter>
           <Button
-            className={cn('w-full', isFormLoading && 'cursor-not-allowed')}
-            type="submit"
             aria-label="Add Review"
+            className={cn('w-full', isFormLoading && 'cursor-not-allowed')}
             disabled={isFormLoading}
+            type="submit"
           >
             {isFormLoading ? <LoadingIcon className="mr-2" /> : <PencilIcon className="mr-2" />}
             Add

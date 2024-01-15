@@ -14,9 +14,9 @@ import {
   FormLabel,
   FormMessage,
   Textarea,
-  PencilIcon,
   cn,
   LoadingIcon,
+  EditIcon,
 } from '@read-quill/design-system';
 import { useBookStore } from '@modules/books/state/book.slice';
 
@@ -31,7 +31,7 @@ const UserBookReviewManagementEditForm: React.FC<UserBookReviewManagementEditFor
 
   const { book } = useBookStore();
 
-  const form = useForm<UserBookReviewManagementEditFormProps>({
+  const form = useForm<UserBookReviewManagementEditFormData>({
     resolver: zodResolver(bookReviewValidationSchemaForm),
     mode: 'onBlur',
     defaultValues: {
@@ -66,7 +66,7 @@ const UserBookReviewManagementEditForm: React.FC<UserBookReviewManagementEditFor
             disabled={isFormLoading}
             type="submit"
           >
-            {isFormLoading ? <LoadingIcon className="mr-2" /> : <PencilIcon className="mr-2" />}
+            {isFormLoading ? <LoadingIcon className="mr-2" /> : <EditIcon className="mr-2" />}
             Edit
           </Button>
         </DialogFooter>

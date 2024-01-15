@@ -1,5 +1,5 @@
 import React from 'react';
-import { createBookValidationSchemaForm } from '@modules/books/validations/books.validations';
+import { editBookValidationSchemaForm } from '@modules/books/validations/books.validations';
 import type { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -13,35 +13,43 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  Input,
-  BookIcon,
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-  FileInput,
   cn,
   LoadingIcon,
+  EditIcon,
+  Input,
+  FileInput,
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
 } from '@read-quill/design-system';
+import { useBookStore } from '@modules/books/state/book.slice';
 import { BOOK_LANGUAGES } from '@modules/books/lib/book.constants';
 
-export type UserBooksManagementCreateFormData = z.infer<typeof createBookValidationSchemaForm>;
+export type UserBookManagementEditFormData = z.infer<typeof editBookValidationSchemaForm>;
 
-interface UserBooksManagementCreateFormProps {
-  isBookCoverUploading: boolean;
-  onSubmit: (data: UserBooksManagementCreateFormData) => void;
+interface UserBookManagementEditFormProps {
+  onSubmit: (data: UserBookManagementEditFormData) => void;
 }
 
-const UserBooksManagementCreateForm: React.FC<UserBooksManagementCreateFormProps> = (props) => {
-  const { onSubmit, isBookCoverUploading } = props;
+const UserBookManagementEditForm: React.FC<UserBookManagementEditFormProps> = (props) => {
+  const { onSubmit } = props;
 
-  const form = useForm<UserBooksManagementCreateFormData>({
-    resolver: zodResolver(createBookValidationSchemaForm),
+  const { book } = useBookStore();
+
+  const form = useForm<UserBookManagementEditFormData>({
+    resolver: zodResolver(editBookValidationSchemaForm),
     mode: 'onBlur',
+    defaultValues: {
+      name: book?.name,
+      author: book?.author,
+      language: book?.language,
+      pageCount: book?.pageCount,
+    },
   });
 
-  const isFormLoading = isBookCoverUploading || form.formState.isSubmitting;
+  const isFormLoading = form.formState.isSubmitting;
 
   return (
     <Form {...form}>
@@ -80,7 +88,7 @@ const UserBooksManagementCreateForm: React.FC<UserBooksManagementCreateFormProps
         <FormField
           control={form.control}
           name="coverImage"
-          render={({ field: { onChange, ...rest } }) => (
+          render={({ field: { onChange, value, ...rest } }) => (
             <FormItem>
               <FormLabel>Cover Image</FormLabel>
               <FormControl>
@@ -88,6 +96,7 @@ const UserBooksManagementCreateForm: React.FC<UserBooksManagementCreateFormProps
                   onChange={(files) => {
                     onChange(files[0]);
                   }}
+                  value={value ? [value] : []}
                   {...rest}
                 />
               </FormControl>
@@ -151,13 +160,13 @@ const UserBooksManagementCreateForm: React.FC<UserBooksManagementCreateFormProps
 
         <DialogFooter>
           <Button
-            aria-label="Create Book"
+            aria-label="Edit Book"
             className={cn('w-full', isFormLoading && 'cursor-not-allowed')}
             disabled={isFormLoading}
             type="submit"
           >
-            {isFormLoading ? <LoadingIcon className="mr-2" /> : <BookIcon className="mr-2" />}
-            Create
+            {isFormLoading ? <LoadingIcon className="mr-2" /> : <EditIcon className="mr-2" />}
+            Edit
           </Button>
         </DialogFooter>
       </form>
@@ -165,4 +174,4 @@ const UserBooksManagementCreateForm: React.FC<UserBooksManagementCreateFormProps
   );
 };
 
-export default UserBooksManagementCreateForm;
+export default UserBookManagementEditForm;

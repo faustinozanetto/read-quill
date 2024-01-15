@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import {
   Dialog,
   DialogTrigger,
@@ -11,10 +10,11 @@ import {
   PlusIcon,
   useToast,
 } from '@read-quill/design-system';
-import UserBooksManagementCreateForm, { UserBooksManagementCreateFormData } from './user-books-management-create-form';
-import { Book } from '@read-quill/database';
-import { PutBlobResult } from '@vercel/blob';
+import type { Book } from '@read-quill/database';
+import type { PutBlobResult } from '@vercel/blob';
 import { useRouter } from 'next/navigation';
+import UserBooksManagementCreateForm from './user-books-management-create-form';
+import type { UserBooksManagementCreateFormData } from './user-books-management-create-form';
 
 const UserBooksManagementCreate: React.FC = () => {
   const router = useRouter();
@@ -90,7 +90,7 @@ const UserBooksManagementCreate: React.FC = () => {
           <DialogDescription>Register a book you started reading here.</DialogDescription>
         </DialogHeader>
 
-        <UserBooksManagementCreateForm onSubmit={handleCreateBook} isBookCoverUploading={isBookCoverUploading} />
+        <UserBooksManagementCreateForm isBookCoverUploading={isBookCoverUploading} onSubmit={handleCreateBook} />
       </DialogContent>
     </Dialog>
   );

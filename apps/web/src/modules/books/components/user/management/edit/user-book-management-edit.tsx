@@ -7,40 +7,40 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-  EditIcon,
   useToast,
+  EditIcon,
 } from '@read-quill/design-system';
 import { useBookStore } from '@modules/books/state/book.slice';
 import { useMutation } from '@tanstack/react-query';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
-import type { UserBookReviewManagementAddFormData } from './user-book-review-management-add-form';
-import UserBookReviewManagementAddForm from './user-book-review-management-add-form';
+import type { UserBookManagementEditFormData } from './user-book-management-edit-form';
+import UserBookManagementEditForm from './user-book-management-edit-form';
 
-const UserBookReviewManagementAdd: React.FC = () => {
+const UserBookManagementEdit: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const { toast } = useToast();
   const { queryClient } = useQueriesStore();
   const { book } = useBookStore();
 
   const { mutateAsync } = useMutation({
-    mutationFn: async (data: UserBookReviewManagementAddFormData) => {
+    mutationFn: async (data: UserBookManagementEditFormData) => {
       if (!book) return;
 
       try {
-        const url = new URL('/api/books/review', process.env.NEXT_PUBLIC_URL);
+        const url = new URL('/api/books', process.env.NEXT_PUBLIC_URL);
         const body = JSON.stringify({
           bookId: book.id,
-          review: data.review,
+          ...data,
         });
 
-        const response = await fetch(url, { method: 'POST', body });
+        const response = await fetch(url, { method: 'PATCH', body });
         if (!response.ok) {
-          throw new Error('Could not add book review!');
+          throw new Error('Could not updated book review!');
         }
 
-        toast({ variant: 'success', content: `Book review added successfully!` });
+        toast({ variant: 'success', content: `Book review updated successfully!` });
       } catch (error) {
-        let errorMessage = 'Could not add book review!';
+        let errorMessage = 'Could not updated book review!';
         if (error instanceof Error) errorMessage = error.message;
 
         toast({ variant: 'error', content: errorMessage });
@@ -58,22 +58,22 @@ const UserBookReviewManagementAdd: React.FC = () => {
   return (
     <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
       <DialogTrigger asChild>
-        <Button aria-label="Add Review">
+        <Button aria-label="Update Book">
           <EditIcon className="mr-2 stroke-current" />
-          Add Review
+          Update Book
         </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add Review</DialogTitle>
-          <DialogDescription>Add your personal review of the book.</DialogDescription>
+          <DialogTitle>Update Book</DialogTitle>
+          <DialogDescription>Update your book details here..</DialogDescription>
         </DialogHeader>
 
-        <UserBookReviewManagementAddForm onSubmit={mutateAsync} />
+        <UserBookManagementEditForm onSubmit={mutateAsync} />
       </DialogContent>
     </Dialog>
   );
 };
 
-export default UserBookReviewManagementAdd;
+export default UserBookManagementEdit;

@@ -1,11 +1,16 @@
 import { authOptions } from '@modules/auth/lib/auth.lib';
-import { createBookValidationSchemaAPI } from '@modules/books/validations/books.validations';
+import {
+  createBookValidationSchemaAPI,
+  editBookValidationSchemaAPI,
+} from '@modules/books/validations/books.validations';
 import { prisma } from '@read-quill/database';
 import { getServerSession } from 'next-auth/next';
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
+import { z } from 'zod';
 
 // /api/books GET : Gets a book by a given bookId
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
     const { searchParams } = new URL(request.url);
     const bookId = searchParams.get('bookId');
@@ -25,7 +30,7 @@ export async function GET(request: NextRequest) {
 }
 
 // /api/books POST : creates a book
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     const session = await getServerSession(authOptions);
 
@@ -64,6 +69,47 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
+    else if (error instanceof z.ZodError) errorMessage = error.issues[0].message;
+
+    return new NextResponse(errorMessage, { status: 500 });
+  }
+}
+
+// /api/books PATCH : updates a book
+export async function PATCH(request: NextRequest): Promise<NextResponse> {
+  try {
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      return new NextResponse('Unauthorized', { status: 403 });
+    }
+
+    const email = session.user?.email;
+    if (!email) {
+      return new NextResponse('Unauthorized', { status: 403 });
+    }
+
+    const json = await request.json();
+
+    const { bookId, ...updateData } = editBookValidationSchemaAPI.parse(json);
+
+    const book = await prisma.book.update({
+      where: {
+        id: bookId,
+      },
+      data: {
+        ...updateData,
+      },
+      include: {
+        reader: true,
+      },
+    });
+
+    return NextResponse.json({ book });
+  } catch (error) {
+    let errorMessage = 'An error occurred!';
+    if (error instanceof Error) errorMessage = error.message;
+    else if (error instanceof z.ZodError) errorMessage = error.issues[0].message;
 
     return new NextResponse(errorMessage, { status: 500 });
   }

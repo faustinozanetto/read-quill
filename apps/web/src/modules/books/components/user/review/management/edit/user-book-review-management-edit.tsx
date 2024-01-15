@@ -7,8 +7,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-  PlusIcon,
   useToast,
+  EditIcon,
 } from '@read-quill/design-system';
 import { useBookStore } from '@modules/books/state/book.slice';
 import { useMutation } from '@tanstack/react-query';
@@ -59,7 +59,7 @@ const UserBookReviewManagementEdit: React.FC = () => {
     <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
       <DialogTrigger asChild>
         <Button aria-label="Update Review">
-          <PlusIcon className="mr-2 stroke-current" />
+          <EditIcon className="mr-2 stroke-current" />
           Update Review
         </Button>
       </DialogTrigger>
