@@ -10,9 +10,10 @@ import {
   useToast,
   EditIcon,
 } from '@read-quill/design-system';
-import { useBookStore } from '@modules/books/state/book.slice';
 import { useMutation } from '@tanstack/react-query';
+import { useBookStore } from '@modules/books/state/book.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
+import { __URL__ } from '@modules/common/lib/common.constants';
 import type { UserBookReviewManagementEditFormData } from './user-book-review-management-edit-form';
 import UserBookReviewManagementEditForm from './user-book-review-management-edit-form';
 
@@ -27,7 +28,7 @@ const UserBookReviewManagementEdit: React.FC = () => {
       if (!book) return;
 
       try {
-        const url = new URL('/api/books/review', process.env.NEXT_PUBLIC_URL);
+        const url = new URL('/api/books/review', __URL__);
         const body = JSON.stringify({
           bookId: book.id,
           review: data.review,

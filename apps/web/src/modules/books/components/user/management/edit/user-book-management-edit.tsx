@@ -10,9 +10,10 @@ import {
   useToast,
   EditIcon,
 } from '@read-quill/design-system';
-import { useBookStore } from '@modules/books/state/book.slice';
 import { useMutation } from '@tanstack/react-query';
+import { useBookStore } from '@modules/books/state/book.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
+import { __URL__ } from '@modules/common/lib/common.constants';
 import type { UserBookManagementEditFormData } from './user-book-management-edit-form';
 import UserBookManagementEditForm from './user-book-management-edit-form';
 
@@ -27,7 +28,7 @@ const UserBookManagementEdit: React.FC = () => {
       if (!book) return;
 
       try {
-        const url = new URL('/api/books', process.env.NEXT_PUBLIC_URL);
+        const url = new URL('/api/books', __URL__);
         const body = JSON.stringify({
           bookId: book.id,
           ...data,

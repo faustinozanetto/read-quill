@@ -1,9 +1,9 @@
 'use client';
 import React from 'react';
 import { signIn } from 'next-auth/react';
-import { AuthSignInOption } from '@modules/auth/types/auth.types';
-import { BuiltInProviderType } from 'next-auth/providers/index';
+import type { BuiltInProviderType } from 'next-auth/providers/index';
 import { Button, useToast, GithubIcon, GoogleIcon } from '@read-quill/design-system';
+import type { AuthSignInOption } from '@modules/auth/types/auth.types';
 
 export const AUTH_SIGN_IN_OPTIONS: AuthSignInOption[] = [
   {
@@ -41,9 +41,11 @@ const AuthSignIn: React.FC = () => {
           {AUTH_SIGN_IN_OPTIONS.map((option) => {
             return (
               <Button
-                key={option.provider}
                 aria-label={`Sign In With ${option.label}`}
-                onClick={async () => await handleAuthSignIn(option.provider)}
+                key={option.provider}
+                onClick={async () => {
+                  await handleAuthSignIn(option.provider);
+                }}
               >
                 {option.icon}
                 Sign In With {option.label}

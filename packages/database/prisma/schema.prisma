@@ -38,16 +38,16 @@ model User {
 }
 
 model Book {
-  id         String    @id @default(cuid())
-  name       String
-  author     String
-  coverImage String
-  language   String
-  pageCount  Int
-  startedAt  DateTime?
-  finishedAt DateTime?
-  isFavorite Boolean?
-  review     String?
+  id          String    @id @default(cuid())
+  name        String
+  author      String
+  coverImage  String
+  language    String
+  pageCount   Int
+  startedAt   DateTime?
+  finishedAt  DateTime?
+  isFavourite Boolean?
+  review      String?
 
   reader   User   @relation(fields: [readerId], references: [id], onDelete: Cascade)
   readerId String

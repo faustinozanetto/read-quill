@@ -14,7 +14,7 @@ const UserBookReviewHeader: React.FC<UserBookReviewHeaderProps> = (props) => {
   const { data: session } = useSession();
   const { book, isLoading } = useBookStore();
 
-  const isBookOwner = session && session.user && book && book.reader && book.reader.email === session.user.email;
+  const isBookOwner = session?.user && book && book.reader && book.reader.email === session.user.email;
 
   return (
     <div className="flex flex-col gap-2 md:flex-row md:justify-between md:gap-0">

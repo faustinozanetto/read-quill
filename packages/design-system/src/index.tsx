@@ -12,6 +12,7 @@ export * from './components/tooltip';
 export * from './components/select';
 export * from './components/textarea';
 export * from './components/alert-dialog';
+export * from './components/badge';
 export * from './components/file-input';
 
 // Hook Expors

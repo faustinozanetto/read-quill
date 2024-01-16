@@ -1,10 +1,11 @@
 'use client';
 
 import React from 'react';
-import { Book } from '@read-quill/database';
 import { useQuery } from '@tanstack/react-query';
 import { useBookStore } from '@modules/books/state/book.slice';
 import UserBook from '@modules/books/components/user/user-book';
+import type { BookWithReader } from '@modules/books/types/book.types';
+import { __URL__ } from '@modules/common/lib/common.constants';
 
 interface UserBookPageProps {
   params: {
@@ -18,9 +19,9 @@ const UserBookPage: React.FC<UserBookPageProps> = (props) => {
 
   const { setBook, setIsLoading } = useBookStore();
 
-  useQuery<Book>(['book-page', bookId], {
+  useQuery<BookWithReader>(['book-page', bookId], {
     queryFn: async () => {
-      const url = new URL('/api/books', process.env.NEXT_PUBLIC_URL);
+      const url = new URL('/api/books', __URL__);
       url.searchParams.set('bookId', bookId);
 
       const response = await fetch(url, { method: 'GET' });
@@ -28,19 +29,23 @@ const UserBookPage: React.FC<UserBookPageProps> = (props) => {
         throw new Error('Failed to fetch book!');
       }
 
-      const { book }: { book: Book } = await response.json();
+      const { book }: { book: BookWithReader } = await response.json();
       return book;
     },
     onSuccess(data) {
       setBook(data);
       setIsLoading(false);
     },
-    onError(err) {
+    onError() {
       setIsLoading(false);
     },
   });
 
-  return <UserBook />;
+  return (
+    <div className="container my-4">
+      <UserBook />
+    </div>
+  );
 };
 
 export default UserBookPage;

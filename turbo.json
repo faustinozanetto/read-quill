@@ -17,7 +17,6 @@
       "persistent": true
     },
     "generate": {
-      "dependsOn": ["^generate"],
       "cache": false
     },
     "clean": {

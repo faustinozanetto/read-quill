@@ -1,15 +1,15 @@
-import { authOptions } from '@modules/auth/lib/auth.lib';
-import {
-  createBookValidationSchemaAPI,
-  deleteBookValidationSchemaForm,
-  editBookValidationSchemaAPI,
-} from '@modules/books/validations/books.validations';
 import { prisma } from '@read-quill/database';
 import { del } from '@vercel/blob';
 import { getServerSession } from 'next-auth/next';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
+import {
+  createBookValidationSchemaAPI,
+  deleteBookValidationSchemaForm,
+  editBookValidationSchemaAPI,
+} from '@modules/books/validations/books.validations';
+import { authOptions } from '@modules/auth/lib/auth.lib';
 
 // /api/books GET : Gets a book by a given bookId
 export async function GET(request: NextRequest): Promise<NextResponse> {

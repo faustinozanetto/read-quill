@@ -1,4 +1,4 @@
-import { User } from '@read-quill/database';
+import type { User } from '@read-quill/database';
 import { create } from 'zustand';
 
 export interface UserProfileSliceState {

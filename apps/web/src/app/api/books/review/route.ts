@@ -1,10 +1,10 @@
-import { authOptions } from '@modules/auth/lib/auth.lib';
-import { bookReviewValidationSchemaAPI } from '@modules/books/validations/books.validations';
 import { prisma } from '@read-quill/database';
 import { getServerSession } from 'next-auth/next';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
+import { bookReviewValidationSchemaAPI } from '@modules/books/validations/books.validations';
+import { authOptions } from '@modules/auth/lib/auth.lib';
 
 // /api/books/rewiew POST : creates a book review
 export async function POST(request: NextRequest): Promise<NextResponse> {

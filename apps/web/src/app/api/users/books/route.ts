@@ -1,10 +1,11 @@
-import { authOptions } from '@modules/auth/lib/auth.lib';
 import { prisma } from '@read-quill/database';
 import { getServerSession } from 'next-auth/next';
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
+import { authOptions } from '@modules/auth/lib/auth.lib';
 
 // /api/users/books GET : Gets the books of a user by a given userId
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
     const session = await getServerSession(authOptions);
 

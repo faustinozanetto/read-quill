@@ -1,7 +1,7 @@
-import { BuiltInProviderType } from 'next-auth/providers/index';
+import type { BuiltInProviderType } from 'next-auth/providers/index';
 
-export type AuthSignInOption = {
+export interface AuthSignInOption {
   label: string;
   provider: BuiltInProviderType;
   icon: JSX.Element;
-};
+}

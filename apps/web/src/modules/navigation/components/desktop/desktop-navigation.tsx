@@ -2,8 +2,8 @@
 
 import React from 'react';
 import ThemeToggler from '@modules/theme/components/theme-toggler';
-import NavigationLink from '../navigation-link';
 import { NAVIGATION_LINKS } from '@modules/navigation/data/navigation-lib';
+import NavigationLink from '../navigation-link';
 
 const DesktopNavigation: React.FC = () => {
   return (
@@ -13,7 +13,7 @@ const DesktopNavigation: React.FC = () => {
         <nav className="flex grow flex-col gap-2 w-full">
           {NAVIGATION_LINKS.map((link) => {
             return (
-              <NavigationLink key={link.href} href={link.href}>
+              <NavigationLink href={link.href} key={link.href}>
                 {link.children}
               </NavigationLink>
             );

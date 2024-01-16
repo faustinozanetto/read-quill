@@ -3,8 +3,8 @@
 import React from 'react';
 import { ToastsProvider } from '@read-quill/design-system';
 import { ThemeProvider } from 'next-theme-kit';
+import type { Session } from 'next-auth';
 import AuthProvider from '@modules/auth/context/auth-context';
-import { Session } from 'next-auth';
 import QueriesProvider from '@modules/queries/components/queries-provider';
 
 interface ProvidersProps {

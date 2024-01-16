@@ -1,6 +1,5 @@
-import { Book } from '@read-quill/database';
 import { create } from 'zustand';
-import { BookWithReader } from '../types/book.types';
+import type { BookWithReader } from '../types/book.types';
 
 export interface BookSliceState {
   isLoading: boolean;

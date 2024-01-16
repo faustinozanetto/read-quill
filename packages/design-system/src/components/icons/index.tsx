@@ -20,3 +20,5 @@ export * from './check-icon';
 export * from './arrows-sort-icon';
 export * from './book-icon';
 export * from './pencil-icon';
+export * from './heart-minus-icon';
+export * from './heart-plus-icon';

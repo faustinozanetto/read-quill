@@ -10,14 +10,14 @@ const UserProfileAvatar: React.FC<UserProfileAvatarProps> = (props) => {
 
   return (
     <Image
-      src={avatarUrl}
       alt="User Avatar"
       aria-label="User Avatar"
+      className="h-32 w-full rounded-lg object-cover object-center md:h-36 md:w-36"
       draggable={false}
-      width={512}
       height={512}
       priority
-      className="h-32 w-full rounded-lg object-cover object-center md:h-36 md:w-36"
+      src={avatarUrl}
+      width={512}
     />
   );
 };

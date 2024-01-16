@@ -15,6 +15,7 @@ import type { PutBlobResult } from '@vercel/blob';
 import { useRouter } from 'next/navigation';
 import UserBooksManagementCreateForm from './user-books-management-create-form';
 import type { UserBooksManagementCreateFormData } from './user-books-management-create-form';
+import { __URL__ } from '@modules/common/lib/common.constants';
 
 const UserBooksManagementCreate: React.FC = () => {
   const router = useRouter();
@@ -25,7 +26,7 @@ const UserBooksManagementCreate: React.FC = () => {
   const handleUploadBookCover = async (coverFile: File): Promise<PutBlobResult> => {
     setIsBookCoverUploading(true);
 
-    const url = new URL('/api/books/upload', process.env.NEXT_PUBLIC_URL);
+    const url = new URL('/api/books/upload', __URL__);
     url.searchParams.set('filename', coverFile.name);
 
     const response = await fetch(url, {
@@ -48,7 +49,7 @@ const UserBooksManagementCreate: React.FC = () => {
       // First upload cover book to vercel blob storage.
       const coverBlob = await handleUploadBookCover(data.coverImage);
 
-      const url = new URL('/api/books', process.env.NEXT_PUBLIC_URL);
+      const url = new URL('/api/books', __URL__);
       const body = JSON.stringify({
         name: data.name,
         author: data.author,

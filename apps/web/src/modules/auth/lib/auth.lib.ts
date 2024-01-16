@@ -1,12 +1,14 @@
-import { NextAuthOptions, Session, getServerSession } from 'next-auth';
+import type { NextAuthOptions, Session } from 'next-auth';
+import { getServerSession } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import { prisma } from '@read-quill/database';
 import { PrismaAdapter } from '@auth/prisma-adapter';
+import { __PROD__, __URL__ } from '@modules/common/lib/common.constants';
 
 const COOKIES_PREFIX = 'readquill';
 
 export const getSession = async (cookie: string): Promise<Session> => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/auth/session`, {
+  const response = await fetch(`${__URL__}/api/auth/session`, {
     headers: {
       cookie,
     },
@@ -34,11 +36,19 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt',
   },
-  // @ts-ignore
+  // @ts-expect-error
   adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: '/sign-in',
+  },
+
+  callbacks: {
+    session({ session, token }) {
+      if (token.sub) session.user.id = token.sub;
+
+      return session;
+    },
   },
 
   cookies: {
@@ -48,7 +58,7 @@ export const authOptions: NextAuthOptions = {
         httpOnly: true,
         sameSite: 'lax',
         path: '/',
-        secure: process.env.NODE_ENV === 'production',
+        secure: __PROD__,
       },
     },
     callbackUrl: {
@@ -56,7 +66,7 @@ export const authOptions: NextAuthOptions = {
       options: {
         sameSite: 'lax',
         path: '/',
-        secure: process.env.NODE_ENV === 'production',
+        secure: __PROD__,
       },
     },
     csrfToken: {
@@ -65,7 +75,7 @@ export const authOptions: NextAuthOptions = {
         httpOnly: true,
         sameSite: 'lax',
         path: '/',
-        secure: process.env.NODE_ENV === 'production',
+        secure: __PROD__,
       },
     },
     pkceCodeVerifier: {
@@ -74,7 +84,7 @@ export const authOptions: NextAuthOptions = {
         httpOnly: true,
         sameSite: 'lax',
         path: '/',
-        secure: process.env.NODE_ENV === 'production',
+        secure: __PROD__,
       },
     },
     state: {
@@ -83,7 +93,7 @@ export const authOptions: NextAuthOptions = {
         httpOnly: true,
         sameSite: 'lax',
         path: '/',
-        secure: process.env.NODE_ENV === 'production',
+        secure: __PROD__,
       },
     },
   },

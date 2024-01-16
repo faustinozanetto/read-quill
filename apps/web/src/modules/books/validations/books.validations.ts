@@ -43,6 +43,12 @@ export const bookReviewValidationSchemaForm = z.object({
   review: z.string({ required_error: 'Review is required!' }).max(2000, 'Review max characters is 2000!'),
 });
 
+/* Book Review */
+export const bookFavouriteValidationSchemaForm = z.object({
+  bookId: z.string(),
+  isFavourite: z.boolean({ required_error: 'Favourite is required!' }),
+});
+
 export const bookReviewValidationSchemaAPI = bookReviewValidationSchemaForm.extend({
   bookId: z.string(),
 });

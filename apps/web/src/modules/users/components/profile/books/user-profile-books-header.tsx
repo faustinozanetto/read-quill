@@ -1,14 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
-import { useUserProfileStore } from '@modules/users/state/user-profile.slice';
 import { Button, Skeleton } from '@read-quill/design-system';
+import { useUserProfileStore } from '@modules/users/state/user-profile.slice';
 
 const UserProfileBooksHeader: React.FC = () => {
   const { data: session } = useSession();
   const { user, isLoading } = useUserProfileStore();
 
-  const isProfileOwner = (user && session && session.user && user.email === session.user.email) as boolean;
+  const isProfileOwner = (user && session?.user && user.email === session.user.email)!;
 
   return (
     <div className="flex flex-col gap-2 md:flex-row md:justify-between md:gap-0">
@@ -17,8 +17,8 @@ const UserProfileBooksHeader: React.FC = () => {
       {isLoading ? (
         <Skeleton className="h-10 w-32" />
       ) : isProfileOwner ? (
-        <Button asChild className="w-full md:w-auto" aria-label="Manage Containers">
-          <Link href="/books" className="w-full md:w-auto">
+        <Button aria-label="Manage Containers" asChild className="w-full md:w-auto">
+          <Link className="w-full md:w-auto" href="/books">
             Manage Books
           </Link>
         </Button>

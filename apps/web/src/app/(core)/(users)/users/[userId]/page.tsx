@@ -1,10 +1,11 @@
 'use client';
 
 import React from 'react';
-import UserProfile from '@modules/users/components/profile/user-profile';
-import { User } from '@read-quill/database';
+import type { User } from '@read-quill/database';
 import { useQuery } from '@tanstack/react-query';
+import UserProfile from '@modules/users/components/profile/user-profile';
 import { useUserProfileStore } from '@modules/users/state/user-profile.slice';
+import { __URL__ } from '@modules/common/lib/common.constants';
 
 interface UserPageProps {
   params: {
@@ -20,7 +21,7 @@ const UserPage: React.FC<UserPageProps> = (props) => {
 
   useQuery<User>(['user-page', userId], {
     queryFn: async () => {
-      const url = new URL('/api/user', process.env.NEXT_PUBLIC_URL);
+      const url = new URL('/api/users', __URL__);
       url.searchParams.set('userId', userId);
 
       const response = await fetch(url, { method: 'GET' });
@@ -40,7 +41,11 @@ const UserPage: React.FC<UserPageProps> = (props) => {
     },
   });
 
-  return <UserProfile />;
+  return (
+    <div className="container my-4">
+      <UserProfile />
+    </div>
+  );
 };
 
 export default UserPage;
