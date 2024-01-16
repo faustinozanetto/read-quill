@@ -6,12 +6,9 @@
     "name": "Faustino Zanetto",
     "email": "zanettofaustino@gmail.com"
   },
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist/**"
-  ],
+  "exports": {
+    ".": "./src/client.ts"
+  },
   "scripts": {
     "db:migrate:deploy": "prisma migrate deploy",
     "db:migrate:dev": "prisma migrate dev",
