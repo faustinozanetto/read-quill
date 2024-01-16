@@ -1,6 +1,6 @@
 import React from 'react';
-import type { NavigationLinkProps } from '../components/navigation-link';
 import { BookIcon } from '@read-quill/design-system';
+import type { NavigationLinkProps } from '../components/navigation-link';
 
 export const NAVIGATION_LINKS: Omit<NavigationLinkProps, 'isCompact'>[] = [
   {

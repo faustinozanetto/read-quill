@@ -30,6 +30,7 @@
     "@read-quill/design-system": "workspace:*"
   },
   "devDependencies": {
+    "@prisma/nextjs-monorepo-workaround-plugin": "5.8.1",
     "@read-quill/database": "workspace:*",
     "@next/eslint-plugin-next": "^14.0.4",
     "@types/node": "^20.10.6",

@@ -96,6 +96,9 @@ importers:
       '@next/eslint-plugin-next':
         specifier: ^14.0.4
         version: 14.0.4
+      '@prisma/nextjs-monorepo-workaround-plugin':
+        specifier: 5.8.1
+        version: 5.8.1
       '@read-quill/database':
         specifier: workspace:*
         version: link:../../packages/database
@@ -1242,6 +1245,10 @@ packages:
     resolution: {integrity: sha512-Nk3rhTFZ1LYkFZJnpSvQcLPCaBWgJQfteHII6UEENOOkYlmP0k3FuswND54tzzEr4qs39wOdV9pbXKX9U2lv7A==}
     dependencies:
       '@prisma/debug': 5.8.0
+
+  /@prisma/nextjs-monorepo-workaround-plugin@5.8.1:
+    resolution: {integrity: sha512-0DhnWwI5I75ZGPpFq+q1i2tU080xR7GW1pzK2jh958Yeb7I8iR6hWsEN32nCIalh8m+IbKoc4W++qbWmWWNv2w==}
+    dev: true
 
   /@radix-ui/number@1.0.1:
     resolution: {integrity: sha512-T5gIdVO2mmPW3NNhjNgEP3cqMXjXL9UbO0BzWcXfvdBs+BohbQxvd/K5hSVKmn9/lbTdsQVKbUcP5WLCwvUbBg==}
