@@ -12,7 +12,7 @@
   ],
   "pipeline": {
     "build": {
-      "dependsOn": ["^build"],
+      "dependsOn": ["^db:generate", "^build"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
     },
     "db:migrate:deploy": {},
@@ -21,11 +21,11 @@
     "lint": {},
     "type-check": {},
     "dev": {
-      "cache": false,
-      "persistent": true
+      "dependsOn": ["^db:generate"],
+      "cache": false
     },
-    "generate": {
-      "dependsOn": ["^generate"]
+    "db:generate": {
+      "cache": false
     },
     "clean": {
       "cache": false
