@@ -1,12 +1,25 @@
 import { z } from 'zod';
 
 /* Create Book */
-export const createBookValidationSchemaBase = z.object({
-  name: z.string({ required_error: 'Name is required!' }),
-  author: z.string({ required_error: 'Author is required!' }),
-  language: z.string({ required_error: 'Language is required!' }),
-  pageCount: z.number({ required_error: 'Page count is required!' }).min(0, 'Page count must be positive!'),
-});
+export const createBookValidationSchemaBase = z
+  .object({
+    name: z.string({ required_error: 'Name is required!' }),
+    author: z.string({ required_error: 'Author is required!' }),
+    language: z.string({ required_error: 'Language is required!' }),
+    pageCount: z.number({ required_error: 'Page count is required!' }).min(0, 'Page count must be positive!'),
+    startedAt: z.string().optional(),
+    finishedAt: z.string().optional(),
+  })
+  .refine(
+    (book) => {
+      const { startedAt, finishedAt } = book;
+      if (startedAt && finishedAt) return new Date(startedAt) < new Date(finishedAt);
+
+      return true;
+    },
+    { message: 'Finished date must come after started date!' }
+  )
+  .innerType();
 
 export const createBookValidationSchemaForm = createBookValidationSchemaBase.extend({
   coverImage: z.custom<File>(),
@@ -17,12 +30,25 @@ export const createBookValidationSchemaAPI = createBookValidationSchemaBase.exte
 });
 
 /* Update Book */
-export const editBookValidationSchemaBase = z.object({
-  name: z.string().optional(),
-  author: z.string().optional(),
-  language: z.string().optional(),
-  pageCount: z.number().min(0, 'Page count must be positive!').optional(),
-});
+export const editBookValidationSchemaBase = z
+  .object({
+    name: z.string().optional(),
+    author: z.string().optional(),
+    language: z.string().optional(),
+    pageCount: z.number().min(0, 'Page count must be positive!').optional(),
+    startedAt: z.string().optional(),
+    finishedAt: z.string().optional(),
+  })
+  .refine(
+    (book) => {
+      const { startedAt, finishedAt } = book;
+      if (startedAt && finishedAt) return new Date(startedAt) < new Date(finishedAt);
+
+      return true;
+    },
+    { message: 'Finished date must come after started date!' }
+  )
+  .innerType();
 
 export const editBookValidationSchemaForm = editBookValidationSchemaBase.extend({
   coverImage: z.custom<File>().optional(),

@@ -2,29 +2,15 @@ import React from 'react';
 import type { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import {
-  Button,
-  DialogFooter,
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  Input,
-  BookIcon,
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-  FileInput,
-  cn,
-  LoadingIcon,
-} from '@read-quill/design-system';
+import { Button, DialogFooter, Form, BookIcon, cn, LoadingIcon } from '@read-quill/design-system';
 import { createBookValidationSchemaForm } from '@modules/books/validations/books.validations';
-import { BOOK_LANGUAGES } from '@modules/books/lib/book.constants';
+import BookFormsName from '@modules/books/components/forms/book-forms-name';
+import BookFormsAuthor from '@modules/books/components/forms/book-forms-author';
+import BookFormsCoverImage from '@modules/books/components/forms/book-forms-cover-image';
+import BookFormsLanguage from '@modules/books/components/forms/book-forms-language';
+import BookFormsPageCount from '@modules/books/components/forms/book-forms-page-count';
+import BookFormsStartedAt from '@modules/books/components/forms/book-forms-started-at';
+import BookFormsFinishedAt from '@modules/books/components/forms/book-forms-finished-at';
 
 export type UserBooksManagementCreateFormData = z.infer<typeof createBookValidationSchemaForm>;
 
@@ -45,111 +31,16 @@ const UserBooksManagementCreateForm: React.FC<UserBooksManagementCreateFormProps
 
   return (
     <Form {...form}>
-      <form className="flex flex-col gap-4" onSubmit={form.handleSubmit(onSubmit)}>
-        {/* Name */}
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Treasure Island" {...field} />
-              </FormControl>
-              <FormDescription>The name of the book.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {/* Author */}
-        <FormField
-          control={form.control}
-          name="author"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Author</FormLabel>
-              <FormControl>
-                <Input placeholder="Robert Louis Stevenson" {...field} />
-              </FormControl>
-              <FormDescription>The author of the book.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {/* Cover Image */}
-        <FormField
-          control={form.control}
-          name="coverImage"
-          render={({ field: { onChange, ...rest } }) => (
-            <FormItem>
-              <FormLabel>Cover Image</FormLabel>
-              <FormControl>
-                <FileInput
-                  onChange={(files) => {
-                    onChange(files[0]);
-                  }}
-                  {...rest}
-                />
-              </FormControl>
-              <FormDescription>The cover of the book.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {/* Language */}
-        <FormField
-          control={form.control}
-          name="language"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Language</FormLabel>
-              <Select defaultValue={field.value} onValueChange={field.onChange}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a language" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {BOOK_LANGUAGES.map((language) => {
-                    return (
-                      <SelectItem key={language} value={language}>
-                        {language}
-                      </SelectItem>
-                    );
-                  })}
-                </SelectContent>
-              </Select>
-              <FormDescription>The language the book is written in.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        {/* Page Count */}
-        <FormField
-          control={form.control}
-          name="pageCount"
-          render={({ field: { onChange, ...rest } }) => (
-            <FormItem>
-              <FormLabel>Page Count</FormLabel>
-              <FormControl>
-                <Input
-                  inputMode="numeric"
-                  onChange={(e) => {
-                    const value = Number(e.target.value);
-                    onChange(value);
-                  }}
-                  placeholder="225"
-                  type="number"
-                  {...rest}
-                />
-              </FormControl>
-              <FormDescription>The amount of pages the book has.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+      <form className="grid md:grid-cols-2 gap-4" onSubmit={form.handleSubmit(onSubmit)}>
+        <BookFormsName />
+        <BookFormsAuthor />
+        <BookFormsCoverImage />
+        <BookFormsLanguage />
+        <BookFormsPageCount />
+        <BookFormsStartedAt />
+        <BookFormsFinishedAt />
 
-        <DialogFooter>
+        <DialogFooter className="col-span-2">
           <Button
             aria-label="Create Book"
             className={cn('w-full', isFormLoading && 'cursor-not-allowed')}

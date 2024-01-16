@@ -36,12 +36,12 @@ const UserBookManagementEdit: React.FC = () => {
 
         const response = await fetch(url, { method: 'PATCH', body });
         if (!response.ok) {
-          throw new Error('Could not updated book review!');
+          throw new Error('Could not update book!');
         }
 
-        toast({ variant: 'success', content: `Book review updated successfully!` });
+        toast({ variant: 'success', content: `Book updated successfully!` });
       } catch (error) {
-        let errorMessage = 'Could not updated book review!';
+        let errorMessage = 'Could not update book!';
         if (error instanceof Error) errorMessage = error.message;
 
         toast({ variant: 'error', content: errorMessage });

@@ -47,7 +47,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     const json = await request.json();
 
-    const { name, author, coverImage, language, pageCount } = createBookValidationSchemaAPI.parse(json);
+    const { name, author, coverImage, language, pageCount, startedAt, finishedAt } =
+      createBookValidationSchemaAPI.parse(json);
 
     const book = await prisma.book.create({
       data: {
@@ -56,6 +57,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         language,
         pageCount,
         coverImage,
+        startedAt,
+        finishedAt,
         reader: {
           connect: {
             email,

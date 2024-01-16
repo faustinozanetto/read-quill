@@ -48,7 +48,19 @@ model Book {
   finishedAt  DateTime?
   isFavourite Boolean?
   review      String?
+  rating      Int?
 
   reader   User   @relation(fields: [readerId], references: [id], onDelete: Cascade)
   readerId String
+
+  annotations Annotation[]
+}
+
+model Annotation {
+  id      String @id @default(cuid())
+  content String
+  chapter String
+
+  book   Book?   @relation(fields: [bookId], references: [id])
+  bookId String?
 }

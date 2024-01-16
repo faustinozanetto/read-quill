@@ -22,3 +22,5 @@ export * from './book-icon';
 export * from './pencil-icon';
 export * from './heart-minus-icon';
 export * from './heart-plus-icon';
+export * from './flag-icon';
+export * from './flag-checkered-icon';

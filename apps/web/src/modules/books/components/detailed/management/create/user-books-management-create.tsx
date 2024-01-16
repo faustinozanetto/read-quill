@@ -13,9 +13,9 @@ import {
 import type { Book } from '@read-quill/database';
 import type { PutBlobResult } from '@vercel/blob';
 import { useRouter } from 'next/navigation';
+import { __URL__ } from '@modules/common/lib/common.constants';
 import UserBooksManagementCreateForm from './user-books-management-create-form';
 import type { UserBooksManagementCreateFormData } from './user-books-management-create-form';
-import { __URL__ } from '@modules/common/lib/common.constants';
 
 const UserBooksManagementCreate: React.FC = () => {
   const router = useRouter();
@@ -85,7 +85,7 @@ const UserBooksManagementCreate: React.FC = () => {
         </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent>
         <DialogHeader>
           <DialogTitle>Create Book</DialogTitle>
           <DialogDescription>Register a book you started reading here.</DialogDescription>

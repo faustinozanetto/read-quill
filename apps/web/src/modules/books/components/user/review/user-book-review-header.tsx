@@ -14,17 +14,14 @@ const UserBookReviewHeader: React.FC<UserBookReviewHeaderProps> = (props) => {
   const { data: session } = useSession();
   const { book, isLoading } = useBookStore();
 
-  const isBookOwner = session?.user && book && book.reader && book.reader.email === session.user.email;
+  const isBookOwner = Boolean(session?.user && book?.reader && book.reader.email === session.user.email);
 
   return (
     <div className="flex flex-col gap-2 md:flex-row md:justify-between md:gap-0">
       <h2 className="text-2xl font-bold">User Review</h2>
-      {/* Management */}
-      {isLoading ? (
-        <Skeleton className="h-10 w-32" />
-      ) : isBookOwner ? (
-        <UserBookReviewManagement readerWrittenReview={readerWrittenReview} />
-      ) : null}
+
+      {isLoading ? <Skeleton className="h-10 w-full md:w-36" /> : null}
+      {!isLoading && isBookOwner ? <UserBookReviewManagement readerWrittenReview={readerWrittenReview} /> : null}
     </div>
   );
 };

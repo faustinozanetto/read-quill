@@ -14,6 +14,8 @@ export * from './components/textarea';
 export * from './components/alert-dialog';
 export * from './components/badge';
 export * from './components/file-input';
+export * from './components/calendar';
+export * from './components/popover';
 
 // Hook Expors
 export * from './hooks/use-toast';

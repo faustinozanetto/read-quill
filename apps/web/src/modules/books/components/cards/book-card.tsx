@@ -23,7 +23,7 @@ const BookCard: React.FC<BookCardProps> = (props) => {
           src={book.coverImage}
           width={512}
         />
-        <span className="font-bold uppercase block">{book.name}</span>
+        <span className="font-bold uppercase block mt-1">{book.name}</span>
         <span className="font-medium text-sm block">{book.author}</span>
         <BookPagesBadge pageCount={book.pageCount} />
       </div>
