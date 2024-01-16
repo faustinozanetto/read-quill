@@ -4,6 +4,7 @@ import GoogleProvider from 'next-auth/providers/google';
 import { prisma } from '@read-quill/database';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { __PROD__, __URL__ } from '@modules/common/lib/common.constants';
+import type { Adapter } from 'next-auth/adapters';
 
 const COOKIES_PREFIX = 'readquill';
 
@@ -36,9 +37,8 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: 'jwt',
   },
-  // @ts-expect-error
-  adapter: PrismaAdapter(prisma),
-  secret: process.env.NEXTAUTH_SECRET,
+  adapter: PrismaAdapter(prisma) as Adapter,
+  secret: process.env.NEXTAUTH_SECRET!,
   pages: {
     signIn: '/sign-in',
   },

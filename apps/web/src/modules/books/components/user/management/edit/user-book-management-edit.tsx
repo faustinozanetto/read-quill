@@ -49,10 +49,10 @@ const UserBookManagementEdit: React.FC = () => {
         setDialogOpen(false);
       }
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       if (!book) return;
 
-      queryClient.invalidateQueries(['book-page', book.id]);
+      await queryClient.invalidateQueries(['book-page', book.id]);
     },
   });
 

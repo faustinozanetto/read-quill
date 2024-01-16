@@ -13,14 +13,14 @@ import {
   AlertDialogAction,
 } from '@read-quill/design-system';
 
-interface ManagementDeleteObjectProps extends ButtonProps {
+interface ManagementDeleteObjectProps extends Omit<ButtonProps, 'onClick' | 'variant'> {
   children: React.ReactNode;
   label: string;
   onDeleted: () => void;
 }
 
 const ManagementDeleteObject: React.FC<ManagementDeleteObjectProps> = (props) => {
-  const { children, label, onDeleted, onClick, variant, ...rest } = props;
+  const { children, label, onDeleted, ...rest } = props;
 
   return (
     <AlertDialog>

@@ -1,6 +1,15 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["**/.env"],
+  "globalEnv": [
+    "NEXT_PUBLIC_URL",
+    "NEXTAUTH_URL",
+    "NEXTAUTH_SECRET",
+    "AUTH_GOOGLE_CLIENT_ID",
+    "AUTH_GOOGLE_CLIENT_SECRET",
+    "BLOB_READ_WRITE_TOKEN",
+    "NODE_ENV"
+  ],
   "pipeline": {
     "build": {
       "dependsOn": ["^generate", "^build"],

@@ -50,8 +50,8 @@ const BookFavourite: React.FC<BookFavouriteProps> = (props) => {
         toast({ variant: 'error', content: errorMessage });
       }
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries(['book-page', book.id]);
+    onSuccess: async () => {
+      await queryClient.invalidateQueries(['book-page', book.id]);
     },
   });
 

@@ -36,7 +36,7 @@ const UserPage: React.FC<UserPageProps> = (props) => {
       setIsLoading(false);
       setUser(data);
     },
-    onError(err) {
+    onError() {
       setIsLoading(false);
     },
   });

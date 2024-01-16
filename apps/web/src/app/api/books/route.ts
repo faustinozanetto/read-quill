@@ -40,13 +40,9 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       return new NextResponse('Unauthorized', { status: 403 });
     }
 
-    const email = session.user?.email;
-    if (!email) {
-      return new NextResponse('Unauthorized', { status: 403 });
-    }
+    const email = session.user.email;
 
     const json = await request.json();
-
     const { name, author, coverImage, language, pageCount, startedAt, finishedAt } =
       createBookValidationSchemaAPI.parse(json);
 
@@ -89,13 +85,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
       return new NextResponse('Unauthorized', { status: 403 });
     }
 
-    const email = session.user?.email;
-    if (!email) {
-      return new NextResponse('Unauthorized', { status: 403 });
-    }
-
     const json = await request.json();
-
     const { bookId, ...updateData } = editBookValidationSchemaAPI.parse(json);
 
     const book = await prisma.book.update({
@@ -126,11 +116,6 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
     const session = await getServerSession(authOptions);
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
-    }
-
-    const email = session.user?.email;
-    if (!email) {
       return new NextResponse('Unauthorized', { status: 403 });
     }
 

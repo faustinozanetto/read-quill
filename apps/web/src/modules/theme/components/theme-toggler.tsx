@@ -4,15 +4,15 @@ import { useTheme } from 'next-theme-kit';
 import type { ButtonProps } from '@read-quill/design-system';
 import { Button } from '@read-quill/design-system';
 
-interface ThemeTogglerProps extends ButtonProps {
+interface ThemeTogglerProps extends Omit<ButtonProps, 'onClick'> {
   children?: React.ReactNode;
 }
 
 const ThemeToggler: React.FC<ThemeTogglerProps> = (props) => {
-  const { children, onClick, ...rest } = props;
+  const { children, ...rest } = props;
   const { theme, setTheme } = useTheme();
 
-  const handleThemeChange = () => {
+  const handleThemeChange = (): void => {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 

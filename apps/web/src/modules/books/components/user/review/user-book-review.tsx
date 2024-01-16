@@ -8,7 +8,7 @@ import UserBookReviewHeader from './user-book-review-header';
 const UserBookReview: React.FC = () => {
   const { book, isLoading } = useBookStore();
 
-  const readerWrittenReview = Boolean(book && book.review !== null);
+  const readerWrittenReview = Boolean(book?.review !== null);
 
   return (
     <div className="flex flex-col rounded-lg p-4 shadow border">

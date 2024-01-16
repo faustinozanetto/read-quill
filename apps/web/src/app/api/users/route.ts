@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 import { authOptions } from '@modules/auth/lib/auth.lib';
 
 // /api/user GET : Gets a user by a given userId
-export async function GET(request: NextRequest) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
     const session = await getServerSession(authOptions);
 

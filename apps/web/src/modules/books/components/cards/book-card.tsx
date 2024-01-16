@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import type { Book } from '@read-quill/database';
 import BookPagesBadge from '../common/book-pages-badge';
+import BookLanguageBadge from '../common/book-language-badge';
 
 interface BookCardProps {
   book: Book;
@@ -25,7 +26,8 @@ const BookCard: React.FC<BookCardProps> = (props) => {
         />
         <span className="font-bold uppercase block mt-1">{book.name}</span>
         <span className="font-medium text-sm block">{book.author}</span>
-        <BookPagesBadge pageCount={book.pageCount} />
+        <BookPagesBadge className="mr-2" pageCount={book.pageCount} />
+        <BookLanguageBadge language={book.language} />
       </div>
     </Link>
   );

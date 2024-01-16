@@ -15,13 +15,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       return new NextResponse('Unauthorized', { status: 403 });
     }
 
-    const email = session.user?.email;
-    if (!email) {
-      return new NextResponse('Unauthorized', { status: 403 });
-    }
-
     const json = await request.json();
-
     const { bookId, review } = bookReviewValidationSchemaAPI.parse(json);
 
     await prisma.book.update({
@@ -52,13 +46,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
       return new NextResponse('Unauthorized', { status: 403 });
     }
 
-    const email = session.user?.email;
-    if (!email) {
-      return new NextResponse('Unauthorized', { status: 403 });
-    }
-
     const json = await request.json();
-
     const { bookId, review } = bookReviewValidationSchemaAPI.parse(json);
 
     await prisma.book.update({
