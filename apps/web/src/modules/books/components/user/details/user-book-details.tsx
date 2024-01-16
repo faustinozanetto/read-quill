@@ -18,7 +18,7 @@ const UserBookDetails: React.FC = () => {
 
   if (isLoading || !book) return <UserBookDetailsPlaceholder />;
 
-  const isBookOwner = Boolean(book && session?.user.id === book.reader?.id);
+  const isBookOwner = Boolean(session?.user.id === book.reader?.id);
 
   return (
     <div className="flex w-full flex-col gap-2 rounded-lg p-4 shadow md:flex-row md:gap-4 border">
