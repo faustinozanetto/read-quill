@@ -33,6 +33,7 @@ module.exports = {
   rules: {
     'import/no-default-export': 'off',
     'import/no-unresolved': 'off',
+    'no-nested-ternary': 'off',
     'react/function-component-definition': 'off',
     '@typescript-eslint/no-misused-promises': 'off',
     '@typescript-eslint/no-unsafe-assignment': 'off',

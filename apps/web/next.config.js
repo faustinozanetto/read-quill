@@ -12,7 +12,7 @@ module.exports = {
     ],
   },
   webpack: (config, { isServer }) => {
-    if (isServer) {
+    if (isServer && process.env.NODE_ENV === 'production') {
       config.plugins = [...config.plugins, new PrismaPlugin()];
     }
 

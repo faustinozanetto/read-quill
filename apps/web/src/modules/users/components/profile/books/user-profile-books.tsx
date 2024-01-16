@@ -29,11 +29,11 @@ const UserProfileBooks: React.FC = () => {
   });
 
   return (
-    <div className="flex flex-col rounded-lg p-4 shadow border">
+    <div className="flex flex-col gap-2 rounded-lg p-4 shadow border">
       <UserProfileBooksHeader />
 
       {isLoading ? (
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3 mt-2">
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {Array.from({ length: 2 }).map((_, i) => (
             <BookCardPlaceholder key={`user-book-placeholder-${i}`} />
           ))}

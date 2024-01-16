@@ -4,7 +4,7 @@ import UserBookManagementDelete from './delete/user-book-management-delete';
 
 const UserBookManagement: React.FC = () => {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex justify-between md:justify-start sm:justify-end md:flex-col gap-2">
       <UserBookManagementEdit />
       <UserBookManagementDelete />
     </div>

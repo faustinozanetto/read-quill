@@ -6,14 +6,18 @@
     "name": "Faustino Zanetto",
     "email": "zanettofaustino@gmail.com"
   },
-  "exports": {
-    ".": "./src/client.ts"
-  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
   "scripts": {
     "db:migrate:deploy": "prisma migrate deploy",
     "db:migrate:dev": "prisma migrate dev",
     "db:push": "prisma db push",
     "db:seed": "tsx src/seed.ts",
+    "build": "tsup",
     "dev": "tsup --watch",
     "format": "prisma format",
     "db:generate": "prisma generate",

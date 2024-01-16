@@ -44,7 +44,7 @@ const UserBooksManagementCreate: React.FC = () => {
     return coverBlob;
   };
 
-  const handleCreateBook = async (data: UserBooksManagementCreateFormData) => {
+  const handleCreateBook = async (data: UserBooksManagementCreateFormData): Promise<void> => {
     try {
       // First upload cover book to vercel blob storage.
       const coverBlob = await handleUploadBookCover(data.coverImage);

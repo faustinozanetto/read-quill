@@ -1,18 +1,10 @@
 import { prisma } from '@read-quill/database';
-import { getServerSession } from 'next-auth/next';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { authOptions } from '@modules/auth/lib/auth.lib';
 
 // /api/user GET : Gets a user by a given userId
 export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
-    const session = await getServerSession(authOptions);
-
-    if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
-    }
-
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId');
 

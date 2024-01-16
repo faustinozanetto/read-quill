@@ -66,8 +66,7 @@ const BookFavourite: React.FC<BookFavouriteProps> = (props) => {
           disabled={isLoading}
           onClick={async () => mutateAsync()}
         >
-          {isLoading ? <LoadingIcon /> : null}
-          {!isLoading && book.isFavourite ? <HeartMinusIcon /> : <HeartPlusIcon />}
+          {isLoading ? <LoadingIcon /> : book.isFavourite ? <HeartMinusIcon /> : <HeartPlusIcon />}
         </TooltipTrigger>
         <TooltipContent side="bottom">
           <p>{label}</p>

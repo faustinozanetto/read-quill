@@ -3,9 +3,9 @@ import { cn } from '../..';
 import type { BaseIconProps } from './base-icon';
 import { iconVariants } from './base-icon';
 
-export type BookIconProps = BaseIconProps;
+export type UserIconProps = BaseIconProps;
 
-export const BookIcon = forwardRef<SVGSVGElement, BookIconProps>(({ className, size, ...props }, ref) => (
+export const UserIcon = forwardRef<SVGSVGElement, UserIconProps>(({ className, size, ...props }, ref) => (
   <svg
     className={cn(iconVariants({ size }), 'stroke-current', className)}
     fill="none"
@@ -18,10 +18,9 @@ export const BookIcon = forwardRef<SVGSVGElement, BookIconProps>(({ className, s
     {...props}
   >
     <path d="M0 0h24v24H0z" fill="none" stroke="none" />
-    <path d="M19 4v16h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12z" />
-    <path d="M19 16h-12a2 2 0 0 0 -2 2" />
-    <path d="M9 8h6" />
+    <circle cx="12" cy="7" r="4" />
+    <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
   </svg>
 ));
 
-BookIcon.displayName = 'BookIcon';
+UserIcon.displayName = 'UserIcon';
