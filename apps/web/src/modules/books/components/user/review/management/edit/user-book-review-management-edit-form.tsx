@@ -49,7 +49,7 @@ const UserBookReviewManagementEditForm: React.FC<UserBookReviewManagementEditFor
           name="review"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>Review</FormLabel>
               <FormControl>
                 <Textarea placeholder="It was a great book, but the end was not what i was expecting..." {...field} />
               </FormControl>

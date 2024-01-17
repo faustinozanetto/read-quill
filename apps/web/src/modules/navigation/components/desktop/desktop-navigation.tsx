@@ -13,7 +13,7 @@ const DesktopNavigation: React.FC = () => {
   const { data: session, status } = useSession();
 
   return (
-    <aside className="hidden md:block sticky inset-y-0 left-0 h-screen">
+    <aside className="hidden md:block sticky inset-y-0 left-0 h-screen z-[100]">
       <div className="bg-primary float-left flex h-full flex-col gap-2 rounded-r-lg p-4 shadow items-start">
         <MarketingLogo />
         <nav className="flex grow flex-col gap-2 mt-4 w-full">

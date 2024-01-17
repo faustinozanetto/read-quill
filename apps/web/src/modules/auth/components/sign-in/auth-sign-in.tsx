@@ -23,7 +23,7 @@ const AuthSignIn: React.FC = () => {
   const searchParams = useSearchParams();
   const { toast } = useToast();
 
-  const handleAuthSignIn = async (provider: BuiltInProviderType) => {
+  const handleAuthSignIn = async (provider: BuiltInProviderType): Promise<void> => {
     try {
       const next = searchParams.get('next') ?? '/dashboard';
 

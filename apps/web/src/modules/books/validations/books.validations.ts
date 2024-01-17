@@ -22,7 +22,7 @@ export const createBookValidationSchemaBase = z
   .innerType();
 
 export const createBookValidationSchemaForm = createBookValidationSchemaBase.extend({
-  coverImage: z.custom<File>(),
+  coverImage: z.custom<File>().array().nonempty({ message: 'Cover image is required!' }),
 });
 
 export const createBookValidationSchemaAPI = createBookValidationSchemaBase.extend({
@@ -69,12 +69,25 @@ export const bookReviewValidationSchemaForm = z.object({
   review: z.string({ required_error: 'Review is required!' }).max(2000, 'Review max characters is 2000!'),
 });
 
-/* Book Review */
+export const bookReviewValidationSchemaAPI = bookReviewValidationSchemaForm.extend({
+  bookId: z.string(),
+});
+
+/* Book Favourite */
 export const bookFavouriteValidationSchemaForm = z.object({
   bookId: z.string(),
   isFavourite: z.boolean({ required_error: 'Favourite is required!' }),
 });
 
-export const bookReviewValidationSchemaAPI = bookReviewValidationSchemaForm.extend({
+/* Book Annotation */
+export const createBookAnnotationValidationSchemaBase = z.object({
+  title: z.string({ required_error: 'Title is required!' }),
+  chapter: z.string({ required_error: 'Chapter is required!' }),
+  content: z
+    .string({ required_error: 'Content is required!' })
+    .max(500, { message: 'Annotation max lenght is 500 characters!' }),
+});
+
+export const createBookAnnotationValidationSchemaAPI = createBookAnnotationValidationSchemaBase.extend({
   bookId: z.string(),
 });

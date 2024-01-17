@@ -27,3 +27,4 @@ export * from './flag-checkered-icon';
 export * from './user-icon';
 export * from './manage-icon';
 export * from './log-out-icon';
+export * from './eye-icon';

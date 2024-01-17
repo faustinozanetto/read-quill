@@ -16,7 +16,8 @@
     "build": "tsup",
     "lint": "eslint src/",
     "dev": "tsup --watch",
-    "check-types": "tsc --noEmit"
+    "check-types": "tsc --noEmit",
+    "format": "prettier --write \"**/*.{ts,tsx}\""
   },
   "dependencies": {
     "@radix-ui/react-slot": "1.0.2",

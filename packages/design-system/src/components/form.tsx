@@ -1,18 +1,19 @@
 import * as React from 'react';
-import * as LabelPrimitive from '@radix-ui/react-label';
+import type * as LabelPrimitive from '@radix-ui/react-label';
 import { Slot } from '@radix-ui/react-slot';
-import { Controller, ControllerProps, FieldPath, FieldValues, FormProvider, useFormContext } from 'react-hook-form';
+import type { ControllerProps, FieldError, FieldPath, FieldValues } from 'react-hook-form';
+import { Controller, FormProvider, useFormContext } from 'react-hook-form';
 import { cn } from '..';
 import { Label } from './label';
 
 const Form = FormProvider;
 
-type FormFieldContextValue<
+interface FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
-> = {
+> {
   name: TName;
-};
+}
 
 const FormFieldContext = React.createContext<FormFieldContextValue>({} as FormFieldContextValue);
 
@@ -21,7 +22,7 @@ const FormField = <
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
 >({
   ...props
-}: ControllerProps<TFieldValues, TName>) => {
+}: ControllerProps<TFieldValues, TName>): React.JSX.Element => {
   return (
     <FormFieldContext.Provider value={{ name: props.name }}>
       <Controller {...props} />
@@ -29,7 +30,19 @@ const FormField = <
   );
 };
 
-const useFormField = () => {
+interface UseFormFieldReturn {
+  invalid: boolean;
+  isDirty: boolean;
+  isTouched: boolean;
+  error?: FieldError | undefined;
+  id: string;
+  name: string;
+  formItemId: string;
+  formDescriptionId: string;
+  formMessageId: string;
+}
+
+const useFormField = (): UseFormFieldReturn => {
   const fieldContext = React.useContext(FormFieldContext);
   const itemContext = React.useContext(FormItemContext);
   const { getFieldState, formState } = useFormContext();
@@ -52,9 +65,9 @@ const useFormField = () => {
   };
 };
 
-type FormItemContextValue = {
+interface FormItemContextValue {
   id: string;
-};
+}
 
 const FormItemContext = React.createContext<FormItemContextValue>({} as FormItemContextValue);
 
@@ -64,7 +77,7 @@ const FormItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
 
     return (
       <FormItemContext.Provider value={{ id }}>
-        <div ref={ref} className={cn('space-y-2', className)} {...props} />
+        <div className={cn('space-y-2', className)} ref={ref} {...props} />
       </FormItemContext.Provider>
     );
   }
@@ -77,7 +90,7 @@ const FormLabel = React.forwardRef<
 >(({ className, ...props }, ref) => {
   const { error, formItemId } = useFormField();
 
-  return <Label ref={ref} className={cn(error && 'text-destructive', className)} htmlFor={formItemId} {...props} />;
+  return <Label className={cn(error && 'text-destructive', className)} htmlFor={formItemId} ref={ref} {...props} />;
 });
 FormLabel.displayName = 'FormLabel';
 
@@ -87,10 +100,10 @@ const FormControl = React.forwardRef<React.ElementRef<typeof Slot>, React.Compon
 
     return (
       <Slot
-        ref={ref}
+        aria-describedby={!error ? formDescriptionId : `${formDescriptionId} ${formMessageId}`}
+        aria-invalid={Boolean(error)}
         id={formItemId}
-        aria-describedby={!error ? `${formDescriptionId}` : `${formDescriptionId} ${formMessageId}`}
-        aria-invalid={!!error}
+        ref={ref}
         {...props}
       />
     );
@@ -103,7 +116,7 @@ const FormDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttribu
     const { formDescriptionId } = useFormField();
 
     return (
-      <p ref={ref} id={formDescriptionId} className={cn('text-[0.8rem] text-muted-foreground', className)} {...props} />
+      <p className={cn('text-[0.8rem] text-muted-foreground', className)} id={formDescriptionId} ref={ref} {...props} />
     );
   }
 );
@@ -120,9 +133,9 @@ const FormMessage = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<
 
     return (
       <p
-        ref={ref}
-        id={formMessageId}
         className={cn('text-[0.8rem] font-medium text-destructive', className)}
+        id={formMessageId}
+        ref={ref}
         {...props}
       >
         {body}

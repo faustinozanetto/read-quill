@@ -12,7 +12,7 @@ interface UseToastReturn {
 export const useToast = (): UseToastReturn => {
   const { dispatch } = useToastContext();
 
-  const toast = (data: Omit<Toast, 'id'>, duration = 50000): void => {
+  const toast = (data: Omit<Toast, 'id'>, duration = 3000): void => {
     const toastId = Math.random().toString(12).substring(2, 10);
     dispatch({
       type: ToastActionType.ADD_TOAST,
