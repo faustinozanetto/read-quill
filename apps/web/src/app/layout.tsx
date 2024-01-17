@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     siteName: siteConfig.name,
     images: [
       {
-        url: `${siteConfig.url}/readquill-banner.png`,
+        url: `${siteConfig.url}/readquill-banner.webp`,
         width: 2000,
         height: 1500,
       },
@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     images: [
       {
-        url: `${siteConfig.url}/readquill-banner.png`,
+        url: `${siteConfig.url}/readquill-banner.webp`,
         width: 2000,
         height: 1500,
       },
