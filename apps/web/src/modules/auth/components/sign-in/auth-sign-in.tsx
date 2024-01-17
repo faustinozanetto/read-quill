@@ -4,6 +4,7 @@ import { signIn } from 'next-auth/react';
 import type { BuiltInProviderType } from 'next-auth/providers/index';
 import { Button, useToast, GithubIcon, GoogleIcon } from '@read-quill/design-system';
 import type { AuthSignInOption } from '@modules/auth/types/auth.types';
+import { useSearchParams } from 'next/navigation';
 
 export const AUTH_SIGN_IN_OPTIONS: AuthSignInOption[] = [
   {
@@ -19,11 +20,14 @@ export const AUTH_SIGN_IN_OPTIONS: AuthSignInOption[] = [
 ];
 
 const AuthSignIn: React.FC = () => {
+  const searchParams = useSearchParams();
   const { toast } = useToast();
 
   const handleAuthSignIn = async (provider: BuiltInProviderType) => {
     try {
-      await signIn(provider, { redirect: false, callbackUrl: '/dashboard' });
+      const next = searchParams.get('next') ?? '/dashboard';
+
+      await signIn(provider, { redirect: false, callbackUrl: next });
     } catch (error) {
       toast({ variant: 'error', content: 'An error occurred while signing in!' });
     }
