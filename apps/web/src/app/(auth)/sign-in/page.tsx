@@ -6,7 +6,8 @@ import AuthSignIn from '@modules/auth/components/sign-in/auth-sign-in';
 
 export const metadata: Metadata = {
   title: 'Sign In',
-  description: 'Sign in to your ReadQuill account to unleash the full potential.',
+  description:
+    'Unlock a world of literary wonders at ReadQuill. Sign in to track and review your favorite books, access personalized recommendations, and join a thriving community of book enthusiasts. Your next reading adventure awaits with ReadQuill seamless sign-in experience.',
 };
 
 export default function AuthSignInPage(): React.JSX.Element {

@@ -10,7 +10,7 @@ const UserBooksHeader: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-2 md:flex-row md:justify-between md:gap-0">
-      <h2 className="text-2xl font-bold">Books</h2>
+      <h1 className="text-2xl font-bold">Books</h1>
       {/* Management */}
       {status === 'loading' ? <Skeleton className="h-10 w-full md:w-32" /> : <UserBooksManagement />}
     </div>
