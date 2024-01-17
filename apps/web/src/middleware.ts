@@ -1,10 +1,10 @@
 import AppMiddleware from '@modules/middleware/app.middleware';
-import { NextRequest, NextFetchEvent } from 'next/server';
+import { NextRequest } from 'next/server';
 
 export const config = {
   matcher: ['/books', '/dashboard'],
 };
 
-export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
+export default async function middleware(req: NextRequest) {
   return AppMiddleware(req);
 }
