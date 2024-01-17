@@ -9,9 +9,7 @@ const MarketingLogoSimple: React.FC<MarketingLogoSimpleProps> = (props) => {
   return (
     <svg
       className={className}
-      data-background-color="#ffe9d1"
       id="tight-bounds"
-      preserveAspectRatio="xMidYMid meet"
       viewBox="0 0 95.481 95.481"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
@@ -34,7 +32,7 @@ const MarketingLogoSimple: React.FC<MarketingLogoSimpleProps> = (props) => {
                               <g>
                                 <path
                                   d="M28.644 95.481c-15.82 0-28.644-12.824-28.644-28.644v-38.193c0-15.82 12.824-28.644 28.644-28.644h38.193c15.82 0 28.644 12.824 28.644 28.644v38.193c0 15.82-12.824 28.644-28.644 28.644z"
-                                  data-fill-palette-color="accent"
+                                  className="fill-black dark:fill-white"
                                   fillRule="nonzero"
                                   fontFamily="none"
                                   fontSize="none"
@@ -58,9 +56,7 @@ const MarketingLogoSimple: React.FC<MarketingLogoSimpleProps> = (props) => {
                                 >
                                   <g>
                                     <svg
-                                      data-fill-palette-color="quaternary"
                                       enableBackground="new 0 0 16 16"
-                                      fill="#ffffff"
                                       height="50.127525"
                                       id="symbol-0"
                                       viewBox="0 2 16 14"
@@ -69,11 +65,10 @@ const MarketingLogoSimple: React.FC<MarketingLogoSimpleProps> = (props) => {
                                       xmlns="http://www.w3.org/2000/svg"
                                       y="0"
                                     >
-                                      <g data-fill-palette-color="quaternary" fill="#ffffff">
+                                      <g>
                                         <path
                                           d="M4 16c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4z m0-6c-1.103 0-2 0.897-2 2s0.897 2 2 2 2-0.897 2-2-0.897-2-2-2zM12 16c-2.206 0-4-1.794-4-4s1.794-4 4-4 4 1.794 4 4-1.794 4-4 4z m0-6c-1.103 0-2 0.897-2 2s0.897 2 2 2 2-0.897 2-2-0.897-2-2-2zM2 12h-2v-6c0.01-1.388 0.649-4 3-4v2c-0.928 0-1 1.987-1 2.007v5.993zM16 12h-2v-6c0-0.017-0.056-2-1-2v-2c2.373 0 3 2.617 3 4v6zM7 11h2v2h-2z"
-                                          data-fill-palette-color="quaternary"
-                                          fill="#ffffff"
+                                          className="fill-white dark:fill-black"
                                         />
                                       </g>
                                     </svg>

@@ -26,7 +26,7 @@ const UserBookReview: React.FC = () => {
         </p>
       ) : null}
 
-      {!isLoading && !readerWrittenReview ? <p>This reader has not written a review yet!</p> : null}
+      {!isLoading && !readerWrittenReview ? <p className="my-2">This reader has not written a review yet!</p> : null}
     </div>
   );
 };

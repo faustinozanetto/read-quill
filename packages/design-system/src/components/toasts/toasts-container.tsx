@@ -7,7 +7,7 @@ import { cn } from '../..';
 import { useToastContext } from '../../hooks/use-toast-context';
 import Toast from './toast';
 
-export const toastContainerVariants = cva('pointer-events-none fixed z-[999] flex flex-col', {
+export const toastContainerVariants = cva('pointer-events-none fixed z-[999] flex flex-col w-full', {
   variants: {
     position: {
       'top-left': 'top-0 left-0',
@@ -33,9 +33,11 @@ export const ToastsContainer: React.FC<ToastsContainerProps> = (props) => {
 
   return (
     <div className={cn(toastContainerVariants({ position }))}>
-      <ul className="max-w-xl">
+      <ul>
         <AnimatePresence initial={false}>
-          {state.toasts && state.toasts.map((toast) => <Toast key={toast.id} toast={toast} />)}
+          {state.toasts.map((toast) => (
+            <Toast key={toast.id} toast={toast} />
+          ))}
         </AnimatePresence>
       </ul>
     </div>
