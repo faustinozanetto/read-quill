@@ -23,9 +23,11 @@ const UserBookDetails: React.FC = () => {
   return (
     <div className="flex w-full flex-col gap-2 rounded-lg p-4 shadow md:flex-row md:gap-4 border">
       <UserBookCover coverUrl={book.coverImage} />
-      <div className="flex-1 flex-col relative">
-        <h1 className="text-xl font-bold md:text-2xl">{book.name}</h1>
-        <div className="absolute top-0 right-0">{isBookOwner ? <BookFavourite book={book} /> : null}</div>
+      <div className="flex-1 flex-col">
+        <div className="flex justify-between">
+          <h1 className="text-xl font-bold md:text-2xl">{book.name}</h1>
+          {isBookOwner ? <BookFavourite book={book} /> : null}
+        </div>
         <h2 className="md:text-lg">{book.author}</h2>
         <BookPagesBadge className="mr-2" pageCount={book.pageCount} />
         <BookLanguageBadge language={book.language} />

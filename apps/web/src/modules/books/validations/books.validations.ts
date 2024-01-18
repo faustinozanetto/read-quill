@@ -78,16 +78,3 @@ export const bookFavouriteValidationSchemaForm = z.object({
   bookId: z.string(),
   isFavourite: z.boolean({ required_error: 'Favourite is required!' }),
 });
-
-/* Book Annotation */
-export const createBookAnnotationValidationSchemaBase = z.object({
-  title: z.string({ required_error: 'Title is required!' }),
-  chapter: z.string({ required_error: 'Chapter is required!' }),
-  content: z
-    .string({ required_error: 'Content is required!' })
-    .max(500, { message: 'Annotation max lenght is 500 characters!' }),
-});
-
-export const createBookAnnotationValidationSchemaAPI = createBookAnnotationValidationSchemaBase.extend({
-  bookId: z.string(),
-});

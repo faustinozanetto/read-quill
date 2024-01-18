@@ -2,7 +2,7 @@ import React from 'react';
 import { useSession } from 'next-auth/react';
 import { Skeleton } from '@read-quill/design-system';
 import { useBookStore } from '@modules/books/state/book.slice';
-import UserBookAnnotationManagement from './management/user-book-annotations-management';
+import UserBookAnnotationsManagement from './management/user-book-annotations-management';
 
 const UserBookAnnotationsHeader: React.FC = () => {
   const { data: session } = useSession();
@@ -16,7 +16,7 @@ const UserBookAnnotationsHeader: React.FC = () => {
 
       {isLoading ? <Skeleton className="h-10 w-full md:w-36" /> : null}
 
-      {!isLoading && isBookOwner ? <UserBookAnnotationManagement /> : null}
+      {!isLoading && isBookOwner ? <UserBookAnnotationsManagement /> : null}
     </div>
   );
 };

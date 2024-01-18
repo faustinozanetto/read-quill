@@ -62,7 +62,7 @@ const BookFavourite: React.FC<BookFavouriteProps> = (props) => {
       <Tooltip>
         <TooltipTrigger
           aria-label={label}
-          className={buttonVariants({ size: 'icon' })}
+          className={buttonVariants({ size: 'icon', className: 'aspect-square' })}
           disabled={isLoading}
           onClick={async () => mutateAsync()}
         >

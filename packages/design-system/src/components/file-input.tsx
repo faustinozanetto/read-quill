@@ -45,7 +45,8 @@ export interface FileInputProps
   onChange: (files: File[]) => void;
 }
 
-const FileInput = React.forwardRef<HTMLInputElement, FileInputProps>(({ multiple, value = [], onChange, ...props }) => {
+const FileInput: React.FC<FileInputProps> = (props) => {
+  const { multiple, value = [], onChange, ...rest } = props;
   const hiddenFileInput = React.useRef<HTMLInputElement | null>(null);
 
   const [files, setFiles] = React.useState<File[]>(value instanceof Array ? value : [value]);
@@ -78,7 +79,7 @@ const FileInput = React.forwardRef<HTMLInputElement, FileInputProps>(({ multiple
         onChange={handleInputChange}
         ref={hiddenFileInput}
         type="file"
-        {...props}
+        {...rest}
       />
       <div className="flex flex-col gap-1 p-2 border border-dashed rounded-md">
         {files.length === 0 && <p className="text-sm">No files selected!</p>}
@@ -98,7 +99,6 @@ const FileInput = React.forwardRef<HTMLInputElement, FileInputProps>(({ multiple
       </div>
     </div>
   );
-});
-FileInput.displayName = 'FileInput';
+};
 
 export { FileInput };

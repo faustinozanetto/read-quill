@@ -13,7 +13,7 @@ const MobileNavigation: React.FC = () => {
   const { data: session, status } = useSession();
 
   return (
-    <div className="md:hidden bg-primary fixed inset-x-0 bottom-0 z-10 p-3 h-[64px]">
+    <div className="md:hidden bg-primary fixed inset-x-0 bottom-0 p-3 h-[64px] z-[100]">
       <div className="flex items-center justify-between gap-2">
         <MarketingLogoSimple />
         <nav className="flex items-center justify-center gap-2">

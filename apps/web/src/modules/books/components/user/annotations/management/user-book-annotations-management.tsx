@@ -1,12 +1,12 @@
 import React from 'react';
-import UserBookAnnotationManagementAdd from './add/user-book-annotations-management-add';
+import BookAnnotationManagementAdd from '@modules/annotations/components/management/add/book-annotation-management-add';
 
-const UserBookAnnotationManagement: React.FC = () => {
+const UserBookAnnotationsManagement: React.FC = () => {
   return (
     <div className="flex flex-col gap-2">
-      <UserBookAnnotationManagementAdd />
+      <BookAnnotationManagementAdd />
     </div>
   );
 };
 
-export default UserBookAnnotationManagement;
+export default UserBookAnnotationsManagement;

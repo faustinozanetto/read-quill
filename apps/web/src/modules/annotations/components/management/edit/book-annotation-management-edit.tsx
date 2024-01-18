@@ -14,34 +14,40 @@ import { useMutation } from '@tanstack/react-query';
 import { useBookStore } from '@modules/books/state/book.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import type { UserBookAnnotationManagementAddFormData } from './user-book-annotations-management-add-form';
-import UserBookAnnotationManagementAddForm from './user-book-annotations-management-add-form';
+import type { BookAnnotationManagementEditFormData } from './book-annotation-management-edit-form';
+import BookAnnotationManagementEditForm from './book-annotation-management-edit-form';
+import type { Annotation } from '@read-quill/database';
 
-const UserBookAnnotationManagementAdd: React.FC = () => {
-  const [dialogOpen, setDialogOpen] = useState(false);
+interface BookAnnotationManagementEditProps {
+  annotation: Annotation;
+}
+
+const BookAnnotationManagementEdit: React.FC<BookAnnotationManagementEditProps> = (props) => {
+  const { annotation } = props;
+
   const { toast } = useToast();
   const { queryClient } = useQueriesStore();
   const { book } = useBookStore();
 
-  const { mutateAsync } = useMutation({
-    mutationFn: async (data: UserBookAnnotationManagementAddFormData) => {
-      if (!book) return;
+  const [dialogOpen, setDialogOpen] = useState(false);
 
+  const { mutateAsync } = useMutation({
+    mutationFn: async (data: BookAnnotationManagementEditFormData) => {
       try {
         const url = new URL('/api/books/annotations', __URL__);
         const body = JSON.stringify({
-          bookId: book.id,
+          annotationId: annotation.id,
           ...data,
         });
 
-        const response = await fetch(url, { method: 'POST', body });
+        const response = await fetch(url, { method: 'PATCH', body });
         if (!response.ok) {
-          throw new Error('Could not add book annotation!');
+          throw new Error('Could not edit book annotation!');
         }
 
-        toast({ variant: 'success', content: `Book annotation added successfully!` });
+        toast({ variant: 'success', content: `Book annotation edited successfully!` });
       } catch (error) {
-        let errorMessage = 'Could not add book annotation!';
+        let errorMessage = 'Could not edit book annotation!';
         if (error instanceof Error) errorMessage = error.message;
 
         toast({ variant: 'error', content: errorMessage });
@@ -59,22 +65,21 @@ const UserBookAnnotationManagementAdd: React.FC = () => {
   return (
     <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
       <DialogTrigger asChild>
-        <Button aria-label="Add Annotation">
-          <EditIcon className="mr-2 stroke-current" />
-          Add Annotation
+        <Button aria-label="Edit Annotation" size="icon">
+          <EditIcon className="stroke-current" />
         </Button>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add Annotation</DialogTitle>
-          <DialogDescription>Add a annotation of the book.</DialogDescription>
+          <DialogTitle>Edit Annotation</DialogTitle>
+          <DialogDescription>Edit a annotation of the book.</DialogDescription>
         </DialogHeader>
 
-        <UserBookAnnotationManagementAddForm onSubmit={mutateAsync} />
+        <BookAnnotationManagementEditForm annotation={annotation} onSubmit={mutateAsync} />
       </DialogContent>
     </Dialog>
   );
 };
 
-export default UserBookAnnotationManagementAdd;
+export default BookAnnotationManagementEdit;

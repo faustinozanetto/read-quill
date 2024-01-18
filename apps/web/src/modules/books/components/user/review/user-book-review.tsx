@@ -11,14 +11,14 @@ const UserBookReview: React.FC = () => {
   const readerWrittenReview = Boolean(book?.review !== null);
 
   return (
-    <div className="flex flex-col rounded-lg p-4 shadow border">
+    <div className="flex flex-col rounded-lg p-4 gap-2 shadow border">
       <UserBookReviewHeader readerWrittenReview={readerWrittenReview} />
 
-      {isLoading ? <Skeleton className="h-16 w-full my-2" /> : null}
+      {isLoading ? <Skeleton className="h-16 w-full" /> : null}
 
       {!isLoading && book?.review ? (
         <p
-          className="my-2 text-balance
+          className="text-balance
         first-letter:text-6xl first-letter:font-bold first-letter:text-primary
         first-letter:mr-3 first-letter:float-left"
         >
@@ -26,7 +26,7 @@ const UserBookReview: React.FC = () => {
         </p>
       ) : null}
 
-      {!isLoading && !readerWrittenReview ? <p className="my-2">This reader has not written a review yet!</p> : null}
+      {!isLoading && !readerWrittenReview ? <p>This reader has not written a review yet!</p> : null}
     </div>
   );
 };
