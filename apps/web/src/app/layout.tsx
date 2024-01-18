@@ -5,10 +5,10 @@ import { Rubik } from 'next/font/google';
 import { headers } from 'next/headers';
 import { ToastsContainer } from '@read-quill/design-system';
 import { getSession } from '@modules/auth/lib/auth.lib';
-import Providers from './providers';
 import { Analytics } from '@vercel/analytics/react';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { siteConfig } from '@config/config';
+import Providers from './providers';
 
 const rubikFont = Rubik({
   variable: '--font-sans',
@@ -73,7 +73,7 @@ export const metadata: Metadata = {
   },
   manifest: `${siteConfig.url}/site.webmanifest`,
   icons: {
-    shortcut: 'favicon.ico',
+    shortcut: `${siteConfig.url}/favicon.ico`,
   },
 };
 
