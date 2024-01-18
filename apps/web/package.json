@@ -21,7 +21,7 @@
     "framer-motion": "10.18.0",
     "date-fns": "3.2.0",
     "@auth/prisma-adapter": "1.0.15",
-    "@vercel/analytics": "1.1.1",
+    "@vercel/analytics": "1.1.2",
     "next-auth": "4.24.5",
     "zustand": "4.4.7",
     "zod": "3.22.4",
