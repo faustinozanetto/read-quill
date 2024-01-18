@@ -1,11 +1,11 @@
 'use client';
 
 import React from 'react';
+import { useSession } from 'next-auth/react';
+import { UserIcon } from '@read-quill/design-system';
 import ThemeToggler from '@modules/theme/components/theme-toggler';
 import { NAVIGATION_LINKS } from '@modules/navigation/data/navigation-lib';
 import MarketingLogo from '@modules/marketing/components/logos/marketing-logo';
-import { useSession } from 'next-auth/react';
-import { UserIcon } from '@read-quill/design-system';
 import NavigationLink from '../navigation-link';
 import NavigationLogout from '../auth/navigation-logout';
 

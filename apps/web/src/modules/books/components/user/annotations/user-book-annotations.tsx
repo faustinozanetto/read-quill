@@ -1,13 +1,13 @@
 'use client';
 
 import React from 'react';
-import { useBookStore } from '@modules/books/state/book.slice';
 import { useQuery } from '@tanstack/react-query';
 import type { Annotation } from '@read-quill/database';
+import { useBookStore } from '@modules/books/state/book.slice';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import UserBookAnnotationsHeader from './user-book-annotations-header';
-import BookAnnotationCardPlaceholder from '../../../../annotations/components/cards/book-annotation-card-placeholder';
 import BookAnnotationsFeed from '@modules/annotations/components/feed/books-annotations-feed';
+import BookAnnotationCardPlaceholder from '../../../../annotations/components/cards/book-annotation-card-placeholder';
+import UserBookAnnotationsHeader from './user-book-annotations-header';
 
 const UserBookAnnotations: React.FC = () => {
   const { book } = useBookStore();

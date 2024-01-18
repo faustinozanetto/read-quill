@@ -1,7 +1,8 @@
 import { getToken } from 'next-auth/jwt';
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 
-export default async function AppMiddleware(req: NextRequest) {
+export default async function AppMiddleware(req: NextRequest): Promise<NextResponse> {
   const session = await getToken({
     req,
     cookieName: 'readquill.session-token',

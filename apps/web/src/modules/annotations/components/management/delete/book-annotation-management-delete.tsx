@@ -1,10 +1,10 @@
 import React from 'react';
 import { useToast, DeleteIcon } from '@read-quill/design-system';
+import { useMutation } from '@tanstack/react-query';
+import type { Annotation } from '@read-quill/database';
 import ManagementDeleteObject from '@modules/common/components/management/management-delete-object';
 import { useBookStore } from '@modules/books/state/book.slice';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import { useMutation } from '@tanstack/react-query';
-import { Annotation } from '@read-quill/database';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 
 interface BookAnnotationManagementDeleteProps {
@@ -47,7 +47,7 @@ const BookAnnotationManagementDelete: React.FC<BookAnnotationManagementDeletePro
   });
 
   return (
-    <ManagementDeleteObject label="Delete Annotation" size="icon" onDeleted={mutateAsync}>
+    <ManagementDeleteObject label="Delete Annotation" onDeleted={mutateAsync} size="icon">
       <DeleteIcon className="stroke-current" />
     </ManagementDeleteObject>
   );

@@ -12,8 +12,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@read-quill/design-system';
-import { BOOK_LANGUAGES } from '@modules/books/lib/book.constants';
 import { useFormContext } from 'react-hook-form';
+import { BOOK_LANGUAGES } from '@modules/books/lib/book.constants';
 
 const BookFormsLanguage: React.FC = () => {
   const form = useFormContext();

@@ -11,12 +11,12 @@ import {
   useToast,
 } from '@read-quill/design-system';
 import { useMutation } from '@tanstack/react-query';
+import type { Annotation } from '@read-quill/database';
 import { useBookStore } from '@modules/books/state/book.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { BookAnnotationManagementEditFormData } from './book-annotation-management-edit-form';
 import BookAnnotationManagementEditForm from './book-annotation-management-edit-form';
-import type { Annotation } from '@read-quill/database';
 
 interface BookAnnotationManagementEditProps {
   annotation: Annotation;

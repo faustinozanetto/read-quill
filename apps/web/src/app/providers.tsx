@@ -3,26 +3,24 @@
 import React from 'react';
 import { ToastsProvider } from '@read-quill/design-system';
 import { ThemeProvider } from 'next-theme-kit';
-import type { Session } from 'next-auth';
-import AuthProvider from '@modules/auth/context/auth-context';
+import { SessionProvider } from 'next-auth/react';
 import QueriesProvider from '@modules/queries/components/queries-provider';
 
 interface ProvidersProps {
   children: React.ReactNode;
-  session: Session;
 }
 
 const Providers: React.FC<ProvidersProps> = (props) => {
-  const { children, session } = props;
+  const { children } = props;
 
   return (
-    <QueriesProvider>
-      <ThemeProvider useLocalStorage useSystem={false}>
-        <ToastsProvider>
-          <AuthProvider session={session}>{children}</AuthProvider>
-        </ToastsProvider>
-      </ThemeProvider>
-    </QueriesProvider>
+    <SessionProvider>
+      <QueriesProvider>
+        <ThemeProvider useLocalStorage useSystem={false}>
+          <ToastsProvider>{children}</ToastsProvider>
+        </ThemeProvider>
+      </QueriesProvider>
+    </SessionProvider>
   );
 };
 

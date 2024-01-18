@@ -1,6 +1,6 @@
 import React from 'react';
+import type { Annotation } from '@read-quill/database';
 import BookAnnotationManagementEdit from './edit/book-annotation-management-edit';
-import { Annotation } from '@read-quill/database';
 import BookAnnotationManagementDelete from './delete/book-annotation-management-delete';
 
 interface BookAnnotationManagementProps {

@@ -3,22 +3,10 @@ import { getServerSession } from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
 import { prisma } from '@read-quill/database';
 import { PrismaAdapter } from '@auth/prisma-adapter';
-import { __PROD__, __URL__ } from '@modules/common/lib/common.constants';
 import type { Adapter } from 'next-auth/adapters';
+import { __PROD__, __URL__ } from '@modules/common/lib/common.constants';
 
 const COOKIES_PREFIX = 'readquill';
-
-export const getSession = async (cookie: string): Promise<Session> => {
-  const response = await fetch(`${__URL__}/api/auth/session`, {
-    headers: {
-      cookie,
-    },
-  });
-
-  const session = await response.json();
-
-  return Object.keys(session).length > 0 ? session : null;
-};
 
 export const getCurrentUser = async (): Promise<Session['user'] | null> => {
   const user = await getServerSession(authOptions);

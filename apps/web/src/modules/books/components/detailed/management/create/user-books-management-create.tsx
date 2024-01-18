@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Dialog,
   DialogTrigger,
@@ -11,44 +11,22 @@ import {
   useToast,
 } from '@read-quill/design-system';
 import type { Book } from '@read-quill/database';
-import type { PutBlobResult } from '@vercel/blob';
 import { useRouter } from 'next/navigation';
 import { __URL__ } from '@modules/common/lib/common.constants';
+import { useUploadBookCover } from '@modules/books/hooks/use-upload-book-cover';
 import UserBooksManagementCreateForm from './user-books-management-create-form';
 import type { UserBooksManagementCreateFormData } from './user-books-management-create-form';
 
 const UserBooksManagementCreate: React.FC = () => {
   const router = useRouter();
   const { toast } = useToast();
-
-  const [isBookCoverUploading, setIsBookCoverUploading] = useState(false);
-
-  const handleUploadBookCover = async (coverFile: File): Promise<PutBlobResult> => {
-    setIsBookCoverUploading(true);
-
-    const url = new URL('/api/books/upload', __URL__);
-    url.searchParams.set('filename', coverFile.name);
-
-    const response = await fetch(url, {
-      method: 'POST',
-      body: coverFile,
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to upload book cover!');
-    }
-
-    const coverBlob = (await response.json()) as PutBlobResult;
-    setIsBookCoverUploading(false);
-
-    return coverBlob;
-  };
+  const { uploadBookCover, isBookCoverUploading } = useUploadBookCover();
 
   const handleCreateBook = async (data: UserBooksManagementCreateFormData): Promise<void> => {
     try {
       // First upload cover book to vercel blob storage.
       const coverImage = data.coverImage[0];
-      const coverBlob = await handleUploadBookCover(coverImage);
+      const coverBlob = await uploadBookCover(coverImage);
 
       const url = new URL('/api/books', __URL__);
       const body = JSON.stringify({

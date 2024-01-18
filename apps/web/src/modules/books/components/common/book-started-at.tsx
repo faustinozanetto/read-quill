@@ -1,8 +1,9 @@
+import type { ComponentPropsWithoutRef } from 'react';
 import React from 'react';
 import type { Book } from '@read-quill/database';
 import { FlagIcon, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, cn } from '@read-quill/design-system';
 
-interface BookStartedAtProps extends React.ComponentPropsWithoutRef<typeof TooltipTrigger> {
+interface BookStartedAtProps extends ComponentPropsWithoutRef<typeof TooltipTrigger> {
   startedAt: NonNullable<Book['startedAt']>;
 }
 

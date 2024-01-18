@@ -3,11 +3,11 @@ import type { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Button, DialogFooter, Form, PencilIcon, cn, LoadingIcon } from '@read-quill/design-system';
+import type { Annotation } from '@read-quill/database';
 import { editBookAnnotationValidationSchemaBase } from '@modules/annotations/lib/annotations.validations';
 import AnnotationFormsTitle from '../../forms/annotation-forms-title';
 import AnnotationFormsChapter from '../../forms/annotation-forms-chapter';
 import AnnotationFormsContent from '../../forms/annotation-forms-content';
-import { Annotation } from '@read-quill/database';
 
 export type BookAnnotationManagementEditFormData = z.infer<typeof editBookAnnotationValidationSchemaBase>;
 

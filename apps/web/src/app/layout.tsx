@@ -2,9 +2,7 @@ import '@styles/global.css';
 
 import React from 'react';
 import { Rubik } from 'next/font/google';
-import { headers } from 'next/headers';
 import { ToastsContainer } from '@read-quill/design-system';
-import { getSession } from '@modules/auth/lib/auth.lib';
 import { Analytics } from '@vercel/analytics/react';
 import type { Metadata } from 'next';
 import { siteConfig } from '@config/config';
@@ -72,18 +70,32 @@ export const metadata: Metadata = {
     },
   },
   manifest: `${siteConfig.url}/site.webmanifest`,
-  icons: {
-    shortcut: `${siteConfig.url}/favicon.ico`,
-  },
+  icons: [
+    {
+      rel: 'apple-touch-icon',
+      sizes: '32x32',
+      url: '/favicons/apple-touch-icon.png',
+    },
+    {
+      rel: 'icon',
+      type: 'image/png',
+      sizes: '32x32',
+      url: '/favicons/favicon-32x32.png',
+    },
+    {
+      rel: 'icon',
+      type: 'image/png',
+      sizes: '16x16',
+      url: '/favicons/favicon-16x16.png',
+    },
+  ],
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }): Promise<JSX.Element> {
-  const session = await getSession(headers().get('cookie') ?? '');
-
+export default function RootLayout({ children }: { children: React.ReactNode }): JSX.Element {
   return (
     <html className={rubikFont.variable} lang="en" suppressHydrationWarning>
       <body className="bg-background font-sans subpixel-antialiased scroll-smooth">
-        <Providers session={session}>
+        <Providers>
           {children}
           <Analytics />
           <ToastsContainer />

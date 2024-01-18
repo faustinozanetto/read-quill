@@ -17,10 +17,11 @@ export type UserBookManagementEditFormData = z.infer<typeof editBookValidationSc
 
 interface UserBookManagementEditFormProps {
   onSubmit: (data: UserBookManagementEditFormData) => void;
+  isBookCoverUploading: boolean;
 }
 
 const UserBookManagementEditForm: React.FC<UserBookManagementEditFormProps> = (props) => {
-  const { onSubmit } = props;
+  const { onSubmit, isBookCoverUploading } = props;
 
   const { book } = useBookStore();
 
@@ -37,7 +38,7 @@ const UserBookManagementEditForm: React.FC<UserBookManagementEditFormProps> = (p
     },
   });
 
-  const isFormLoading = form.formState.isSubmitting;
+  const isFormLoading = isBookCoverUploading || form.formState.isSubmitting;
 
   return (
     <Form {...form}>

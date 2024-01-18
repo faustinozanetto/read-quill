@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { BOOK_MAX_RATING, BOOK_MIN_RATING } from '../lib/book.constants';
 
 /* Create Book */
 export const createBookValidationSchemaBase = z
@@ -51,7 +52,7 @@ export const editBookValidationSchemaBase = z
   .innerType();
 
 export const editBookValidationSchemaForm = editBookValidationSchemaBase.extend({
-  coverImage: z.custom<File>().optional(),
+  coverImage: z.custom<File>().array().default([]),
 });
 
 export const editBookValidationSchemaAPI = editBookValidationSchemaBase.extend({
@@ -77,4 +78,13 @@ export const bookReviewValidationSchemaAPI = bookReviewValidationSchemaForm.exte
 export const bookFavouriteValidationSchemaForm = z.object({
   bookId: z.string(),
   isFavourite: z.boolean({ required_error: 'Favourite is required!' }),
+});
+
+/* Book Rating */
+export const bookRatingValidationSchemaForm = z.object({
+  bookId: z.string(),
+  rating: z
+    .number({ required_error: 'Rating is required!' })
+    .min(BOOK_MIN_RATING, `Min rating is ${BOOK_MIN_RATING}!`)
+    .max(BOOK_MAX_RATING, `Max rating is ${BOOK_MAX_RATING}!`),
 });

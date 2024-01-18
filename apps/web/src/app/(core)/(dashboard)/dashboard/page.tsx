@@ -12,5 +12,5 @@ export default async function DashboardPage(): Promise<React.JSX.Element> {
   const user = await getCurrentUser();
   if (!user) return redirect('/sign-in');
 
-  return <div className="container my-4"></div>;
+  return <div className="container my-4" />;
 }

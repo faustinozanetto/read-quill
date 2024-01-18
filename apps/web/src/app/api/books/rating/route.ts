@@ -3,10 +3,10 @@ import { getServerSession } from 'next-auth';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { bookFavouriteValidationSchemaForm } from '@modules/books/validations/books.validations';
+import { bookRatingValidationSchemaForm } from '@modules/books/validations/books.validations';
 import { authOptions } from '@modules/auth/lib/auth.lib';
 
-// /api/books/favourite POST : sets book as favourite or not
+// /api/books/favourite POST : sets a book rating
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
     const session = await getServerSession(authOptions);
@@ -16,14 +16,14 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
 
     const json = await request.json();
-    const { bookId, isFavourite } = bookFavouriteValidationSchemaForm.parse(json);
+    const { bookId, rating } = bookRatingValidationSchemaForm.parse(json);
 
     await prisma.book.update({
       where: {
         id: bookId,
       },
       data: {
-        isFavourite,
+        rating,
       },
     });
 

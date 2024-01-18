@@ -1,14 +1,12 @@
 import React from 'react';
-import { useSession } from 'next-auth/react';
 import { Skeleton } from '@read-quill/design-system';
 import { useBookStore } from '@modules/books/state/book.slice';
+import { useIsBookOwner } from '@modules/books/hooks/use-is-book-owner';
 import UserBookAnnotationsManagement from './management/user-book-annotations-management';
 
 const UserBookAnnotationsHeader: React.FC = () => {
-  const { data: session } = useSession();
-  const { book, isLoading } = useBookStore();
-
-  const isBookOwner = Boolean(session?.user && book?.reader && book.reader.email === session.user.email);
+  const { isLoading } = useBookStore();
+  const { isBookOwner } = useIsBookOwner();
 
   return (
     <div className="flex flex-col gap-2 md:flex-row md:justify-between md:gap-0">

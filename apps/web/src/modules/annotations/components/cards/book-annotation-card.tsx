@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import type { Annotation } from '@read-quill/database';
 import { Badge, EyeIcon, Button, cn } from '@read-quill/design-system';
-import { useBookStore } from '@modules/books/state/book.slice';
-import { useSession } from 'next-auth/react';
+import { useIsBookOwner } from '@modules/books/hooks/use-is-book-owner';
 import BookAnnotationManagement from '../management/book-annotation-management';
 
 interface BookAnnotationCardProps {
@@ -11,11 +10,9 @@ interface BookAnnotationCardProps {
 
 const BookAnnotationCard: React.FC<BookAnnotationCardProps> = (props) => {
   const { annotation } = props;
-  const { book } = useBookStore();
-  const { data: session } = useSession();
-  const [revealContent, setRevealContent] = useState(false);
+  const { isBookOwner } = useIsBookOwner();
 
-  const isBookOwner = Boolean(book?.readerId === session?.user.id);
+  const [revealContent, setRevealContent] = useState(false);
 
   return (
     <div className="rounded-lg border transition-transform hover:scale-[101%] shadow flex flex-col">
