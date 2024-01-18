@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { authOptions } from '@modules/auth/lib/auth.lib';
 import {
   createBookAnnotationValidationSchemaAPI,
+  deleteBookAnnotationValidationSchema,
   editBookAnnotationValidationSchemaAPI,
 } from '@modules/annotations/lib/annotations.validations';
 
@@ -80,6 +81,34 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
         content,
         chapter,
         title,
+      },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    let errorMessage = 'An error occurred!';
+    if (error instanceof Error) errorMessage = error.message;
+    else if (error instanceof z.ZodError) errorMessage = error.issues[0].message;
+
+    return new NextResponse(errorMessage, { status: 500 });
+  }
+}
+
+// /api/books/annotations DELETE : deletes a book annotation
+export async function DELETE(request: NextRequest): Promise<NextResponse> {
+  try {
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      return new NextResponse('Unauthorized', { status: 403 });
+    }
+
+    const json = await request.json();
+    const { annotationId } = deleteBookAnnotationValidationSchema.parse(json);
+
+    await prisma.annotation.delete({
+      where: {
+        id: annotationId,
       },
     });
 

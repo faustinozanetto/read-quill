@@ -5,6 +5,6 @@ export const config = {
   matcher: ['/books', '/dashboard'],
 };
 
-export default async function middleware(req: NextRequest): Promise<NextResponse> {
+export default function middleware(req: NextRequest): Promise<NextResponse> {
   return AppMiddleware(req);
 }

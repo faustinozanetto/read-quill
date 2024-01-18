@@ -45,7 +45,7 @@ export interface FileInputProps
   onChange: (files: File[]) => void;
 }
 
-const FileInput: React.FC<FileInputProps> = (props) => {
+const FileInput = React.forwardRef<HTMLInputElement, FileInputProps>((props, _ref) => {
   const { multiple, value = [], onChange, ...rest } = props;
   const hiddenFileInput = React.useRef<HTMLInputElement | null>(null);
 
@@ -99,6 +99,8 @@ const FileInput: React.FC<FileInputProps> = (props) => {
       </div>
     </div>
   );
-};
+});
+
+FileInput.displayName = 'FileInput';
 
 export { FileInput };

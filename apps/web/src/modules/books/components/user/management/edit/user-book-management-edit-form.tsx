@@ -33,8 +33,8 @@ const UserBookManagementEditForm: React.FC<UserBookManagementEditFormProps> = (p
       author: book?.author,
       language: book?.language,
       pageCount: book?.pageCount,
-      startedAt: book?.startedAt?.toDateString() ?? undefined,
-      finishedAt: book?.finishedAt?.toDateString() ?? undefined,
+      startedAt: book?.startedAt ? new Date(book.startedAt).toDateString() : undefined,
+      finishedAt: book?.finishedAt ? new Date(book.finishedAt).toDateString() : undefined,
     },
   });
 

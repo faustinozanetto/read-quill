@@ -8,7 +8,7 @@ import { useUserBooksStore } from '@modules/books/state/user-books.slice';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import BookCardPlaceholder from '../cards/book-card-placeholder';
 import UserBooksHeader from './user-books-header';
-import UserBooksFeed from './user-books-feed';
+import UserBooksFeed from './feed/user-books-feed';
 
 const UserBooks: React.FC = () => {
   const { data: session } = useSession();
@@ -24,7 +24,7 @@ const UserBooks: React.FC = () => {
 
       const response = await fetch(url, { method: 'GET' });
       if (!response.ok) {
-        throw new Error('Failed to fetch user!');
+        throw new Error('Failed to fetch user books!');
       }
 
       const data = await response.json();

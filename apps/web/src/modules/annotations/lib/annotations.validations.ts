@@ -21,3 +21,7 @@ export const editBookAnnotationValidationSchemaBase = z.object({
 export const editBookAnnotationValidationSchemaAPI = editBookAnnotationValidationSchemaBase.extend({
   annotationId: z.string(),
 });
+
+export const deleteBookAnnotationValidationSchema = z.object({
+  annotationId: z.string(),
+});
