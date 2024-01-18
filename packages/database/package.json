@@ -27,16 +27,16 @@
     "studio": "prisma studio"
   },
   "dependencies": {
-    "@prisma/client": "^5.7.1"
+    "@prisma/client": "5.7.1"
   },
   "devDependencies": {
     "@read-quill/eslint-config": "*",
-    "eslint": "^8.56.0",
-    "prisma": "^5.7.1",
-    "rimraf": "^5.0.5",
+    "eslint": "8.56.0",
+    "prisma": "5.7.1",
+    "rimraf": "5.0.5",
     "@read-quill/typescript-config": "*",
-    "tsx": "^4.7.0",
+    "tsx": "4.7.0",
     "tsup": "8.0.1",
-    "typescript": "^5.3.3"
+    "typescript": "5.3.3"
   }
 }
