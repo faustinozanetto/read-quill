@@ -42,7 +42,7 @@
     "@read-quill/eslint-config": "workspace:*",
     "postcss": "8.4.33",
     "@read-quill/tailwind-config": "workspace:*",
-    "tailwindcss": "3.4.0",
+    "tailwindcss": "3.4.1",
     "@read-quill/typescript-config": "workspace:*",
     "typescript": "5.3.3"
   }
