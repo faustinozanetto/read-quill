@@ -53,6 +53,8 @@ const UserBooks: React.FC = () => {
         ) : null}
 
         {!isLoading && books.length > 0 && <UserBooksFeed books={books} />}
+
+        {!isLoading && books.length === 0 ? <p>This user has not read any books so far!</p> : null}
       </div>
     </div>
   );

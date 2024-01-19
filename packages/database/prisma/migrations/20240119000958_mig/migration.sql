@@ -37,19 +37,38 @@ CREATE TABLE "Book" (
     "pageCount" INTEGER NOT NULL,
     "startedAt" TIMESTAMP(3),
     "finishedAt" TIMESTAMP(3),
-    "isFavorite" BOOLEAN,
+    "isFavourite" BOOLEAN NOT NULL DEFAULT false,
+    "review" TEXT,
+    "rating" INTEGER,
     "readerId" TEXT NOT NULL,
-    "reviewId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Book_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "BookReview" (
+CREATE TABLE "Annotation" (
     "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "chapter" TEXT NOT NULL,
     "content" TEXT NOT NULL,
+    "bookId" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "BookReview_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Annotation_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "ReadRegistry" (
+    "id" TEXT NOT NULL,
+    "pagesRead" INTEGER NOT NULL,
+    "bookId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "ReadRegistry_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -62,7 +81,10 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Book" ADD CONSTRAINT "Book_readerId_fkey" FOREIGN KEY ("readerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Book" ADD CONSTRAINT "Book_readerId_fkey" FOREIGN KEY ("readerId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Book" ADD CONSTRAINT "Book_reviewId_fkey" FOREIGN KEY ("reviewId") REFERENCES "BookReview"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Annotation" ADD CONSTRAINT "Annotation_bookId_fkey" FOREIGN KEY ("bookId") REFERENCES "Book"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ReadRegistry" ADD CONSTRAINT "ReadRegistry_bookId_fkey" FOREIGN KEY ("bookId") REFERENCES "Book"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -46,14 +46,18 @@ model Book {
   pageCount   Int
   startedAt   DateTime?
   finishedAt  DateTime?
-  isFavourite Boolean?
+  isFavourite Boolean   @default(false)
   review      String?
   rating      Int?
 
   reader   User   @relation(fields: [readerId], references: [id], onDelete: Cascade)
   readerId String
 
-  annotations Annotation[]
+  annotations    Annotation[]
+  readRegistries ReadRegistry[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Annotation {
@@ -64,4 +68,18 @@ model Annotation {
 
   book   Book?   @relation(fields: [bookId], references: [id])
   bookId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ReadRegistry {
+  id        String @id @default(cuid())
+  pagesRead Int
+
+  book   Book   @relation(fields: [bookId], references: [id])
+  bookId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
