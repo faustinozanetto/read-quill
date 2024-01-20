@@ -17,7 +17,7 @@ const DashboardGreeting: React.FC = () => {
         </h1>
       )}
       <p className="mt-2">
-        This is your personal dashboard where you can manage your shortened URLs and see the performance and engagement.
+        Track progress, explore recommendations, and enjoy a personalized literary hub. Happy reading!
       </p>
     </div>
   );

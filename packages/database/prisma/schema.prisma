@@ -34,7 +34,19 @@ model User {
   image         String?
   accounts      Account[]
 
-  books Book[]
+  readTargets ReadTargets?
+  books       Book[]
+}
+
+model ReadTargets {
+  id String @id @default(cuid())
+
+  daily   Int @default(0)
+  weekly  Int @default(0)
+  monthly Int @default(0)
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
 }
 
 model Book {

@@ -29,3 +29,5 @@ export * from './manage-icon';
 export * from './log-out-icon';
 export * from './eye-icon';
 export * from './star-icon';
+export * from './exclamation-icon';
+export * from './search-icon';

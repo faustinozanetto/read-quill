@@ -16,6 +16,7 @@ export * from './components/badge';
 export * from './components/file-input';
 export * from './components/calendar';
 export * from './components/popover';
+export * from './components/command';
 
 // Hook Expors
 export * from './hooks/use-toast';

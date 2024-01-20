@@ -28,6 +28,17 @@ CREATE TABLE "User" (
 );
 
 -- CreateTable
+CREATE TABLE "ReadTargets" (
+    "id" TEXT NOT NULL,
+    "daily" INTEGER NOT NULL DEFAULT 0,
+    "weekly" INTEGER NOT NULL DEFAULT 0,
+    "monthly" INTEGER NOT NULL DEFAULT 0,
+    "userId" TEXT NOT NULL,
+
+    CONSTRAINT "ReadTargets_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Book" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -77,8 +88,14 @@ CREATE UNIQUE INDEX "Account_provider_providerAccountId_key" ON "Account"("provi
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "ReadTargets_userId_key" ON "ReadTargets"("userId");
+
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "ReadTargets" ADD CONSTRAINT "ReadTargets_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Book" ADD CONSTRAINT "Book_readerId_fkey" FOREIGN KEY ("readerId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
