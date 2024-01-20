@@ -9,38 +9,46 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DropdownMenuItem,
+  EditIcon,
   PlusIcon,
   useToast,
 } from '@read-quill/design-system';
 
-import DashboardReadRegistriesCreateForm, {
-  DashboardReadRegistriesCreateFormData,
-} from './dashboard-read-registries-create-form';
+import DashboardReadRegistryEditForm, { DashboardReadRegistryEditFormData } from './dashboard-read-registry-edit-form';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { useMutation } from '@tanstack/react-query';
+import { ReadRegistry } from '@read-quill/database';
+import { Row } from '@tanstack/react-table';
 
-const DashboardReadRegistriesCreate: React.FC = () => {
+interface DashboardReadRegistryEditProps {
+  row: Row<ReadRegistry>;
+}
+
+const DashboardReadRegistryEdit: React.FC<DashboardReadRegistryEditProps> = (props) => {
+  const { row } = props;
+
   const [dialogOpen, setDialogOpen] = useState(false);
   const { toast } = useToast();
   const { queryClient } = useQueriesStore();
 
   const { mutateAsync } = useMutation({
-    mutationFn: async (data: DashboardReadRegistriesCreateFormData) => {
+    mutationFn: async (data: DashboardReadRegistryEditFormData) => {
       try {
         const url = new URL('/api/dashboard/read-registries', __URL__);
         const body = JSON.stringify({
           ...data,
         });
 
-        const response = await fetch(url, { method: 'POST', body });
+        const response = await fetch(url, { method: 'PATCH', body });
         if (!response.ok) {
-          throw new Error('Could not create read registry!');
+          throw new Error('Could not edit read registry!');
         }
 
-        toast({ variant: 'success', content: 'Read registry created successfully!' });
+        toast({ variant: 'success', content: 'Read registry edited successfully!' });
       } catch (error) {
-        let errorMessage = 'Could not create read registry!';
+        let errorMessage = 'Could not edit read registry!';
         if (error instanceof Error) errorMessage = error.message;
 
         toast({ variant: 'error', content: errorMessage });
@@ -57,22 +65,22 @@ const DashboardReadRegistriesCreate: React.FC = () => {
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
-        <Button aria-label="Create Read Registry" className="w-full sm:ml-auto sm:w-fit">
-          <PlusIcon className="mr-2 stroke-current" />
-          Create Read Registry
-        </Button>
+        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+          <EditIcon className="mr-2 stroke-current" size="sm" />
+          Edit Registry
+        </DropdownMenuItem>
       </DialogTrigger>
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Create Read Registry</DialogTitle>
-          <DialogDescription>Register your read pages here.</DialogDescription>
+          <DialogTitle>Edit Read Registry</DialogTitle>
+          <DialogDescription>Edit your read pages here.</DialogDescription>
         </DialogHeader>
 
-        <DashboardReadRegistriesCreateForm onSubmit={mutateAsync} />
+        <DashboardReadRegistryEditForm initialData={row.original} onSubmit={mutateAsync} />
       </DialogContent>
     </Dialog>
   );
 };
 
-export default DashboardReadRegistriesCreate;
+export default DashboardReadRegistryEdit;

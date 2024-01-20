@@ -31,3 +31,4 @@ export * from './eye-icon';
 export * from './star-icon';
 export * from './exclamation-icon';
 export * from './search-icon';
+export * from './dots-horizontal-icon';

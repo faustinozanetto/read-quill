@@ -17,6 +17,9 @@ export * from './components/file-input';
 export * from './components/calendar';
 export * from './components/popover';
 export * from './components/command';
+export * from './components/table';
+export * from './components/data-table';
+export * from './components/dropdown';
 
 // Hook Expors
 export * from './hooks/use-toast';

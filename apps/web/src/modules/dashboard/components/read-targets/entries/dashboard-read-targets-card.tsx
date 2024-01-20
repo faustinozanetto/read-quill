@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { DashboardReadTargetsType } from '@modules/dashboard/types/dashboard.types';
 import { capitalize } from '@modules/common/lib/common.lib';
 import { useIsVisible } from '@modules/common/hooks/use-is-visible';
-import { Badge } from '@read-quill/design-system';
+import Fireworks from 'react-canvas-confetti/dist/presets/fireworks';
+import { TConductorInstance } from 'react-canvas-confetti/dist/types';
 
 interface DashboardReadTargetsCardProps {
   type: DashboardReadTargetsType;
@@ -25,6 +26,10 @@ const DashboardReadTargetsCard: React.FC<DashboardReadTargetsCardProps> = (props
   const strokeDasharray = 2 * Math.PI * radius;
   const strokeDashoffset = strokeDasharray - (strokeDasharray * animateValue) / 100;
 
+  const onInitConfetti = ({ conductor }: { conductor: TConductorInstance }) => {
+    conductor.shoot();
+  };
+
   useEffect(() => {
     if (isVisible) {
       setAnimateValue(targetPercentageValue);
@@ -37,10 +42,12 @@ const DashboardReadTargetsCard: React.FC<DashboardReadTargetsCardProps> = (props
         <h3 className="font-bold uppercase text-lg underline decoration-primary decoration-4 mb-2">
           {capitalize(type)}
         </h3>
-        <span className="font-bold">
+        <span className="font-bold text-end">
           {value}/{target} pages
         </span>
       </div>
+
+      {value >= target ? <Fireworks onInit={onInitConfetti} /> : null}
 
       <svg className="m-auto mt-4" width="128" height="128" xmlns="http://www.w3.org/2000/svg">
         <circle

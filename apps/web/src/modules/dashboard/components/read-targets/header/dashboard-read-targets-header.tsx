@@ -2,7 +2,7 @@ import React from 'react';
 import DashboardReadTargetsCreate from './create/dashboard-read-targets-create';
 import DashboardReadTargetsEdit from './edit/dashboard-read-targets-edit';
 import { ReadTargets } from '@read-quill/database';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Skeleton } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 
@@ -14,19 +14,9 @@ interface DashboardReadTargetsHeaderProps {
 const DashboardReadTargetsHeader: React.FC<DashboardReadTargetsHeaderProps> = (props) => {
   const { isLoading, targetReadTargets } = props;
 
-  const { data: readTargetsCreated } = useQuery<Boolean>(['dashboard-read-targets-created'], {
-    queryFn: async () => {
-      const url = new URL('/api/dashboard/read-targets/created', __URL__);
+  const queryClient = useQueryClient();
+  const readTargetsCreated = queryClient.getQueryData<Boolean>(['dashboard-read-targets-created']);
 
-      const response = await fetch(url, { method: 'GET' });
-      if (!response.ok) {
-        throw new Error('Failed to fetch book!');
-      }
-
-      const data = await response.json();
-      return data;
-    },
-  });
   return (
     <div className="flex flex-col gap-2 md:flex-row md:justify-between md:gap-0">
       <h2 className="text-2xl font-bold">Read Targets</h2>
