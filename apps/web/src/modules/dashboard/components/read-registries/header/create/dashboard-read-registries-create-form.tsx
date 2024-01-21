@@ -7,7 +7,7 @@ import { createReadRegistryValidationSchema } from '@modules/dashboard/validatio
 import DashboardReadRegistriesFormPagesRead from '@modules/dashboard/components/forms/read-registries/dashboard-read-registries-page-count';
 import DashboardReadRegistriesFormBook from '@modules/dashboard/components/forms/read-registries/dashboard-read-registries-book';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import { Book } from '@read-quill/database';
+import type { Book } from '@read-quill/database';
 import { useQueryClient } from '@tanstack/react-query';
 
 export type DashboardReadRegistriesCreateFormData = z.infer<typeof createReadRegistryValidationSchema>;

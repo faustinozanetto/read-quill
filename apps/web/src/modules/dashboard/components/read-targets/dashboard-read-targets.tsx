@@ -1,11 +1,11 @@
 'use client';
 
 import React from 'react';
-import DashboardReadTargetsEntries from './entries/dashboard-read-targets-entries';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import DashboardReadTargetsHeader from './header/dashboard-read-targets-header';
 import { useReadTargetsCreated } from '@modules/dashboard/hooks/use-read-targets-created';
 import { useReadTargets } from '@modules/dashboard/hooks/use-read-targets';
+import DashboardReadTargetsHeader from './header/dashboard-read-targets-header';
+import DashboardReadTargetsEntries from './entries/dashboard-read-targets-entries';
 
 const DashboardReadTargets: React.FC = () => {
   const { isLoading } = useReadTargetsCreated();

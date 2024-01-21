@@ -15,8 +15,8 @@ import {
 } from '@read-quill/design-system';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import { ReadRegistry } from '@read-quill/database';
-import { Row } from '@tanstack/react-table';
+import type { ReadRegistry } from '@read-quill/database';
+import type { Row } from '@tanstack/react-table';
 
 interface DashboardReadRegistryDeleteProps {
   row: Row<ReadRegistry>;
@@ -60,9 +60,13 @@ const DashboardReadRegistryDelete: React.FC<DashboardReadRegistryDeleteProps> = 
   });
 
   return (
-    <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+    <AlertDialog onOpenChange={setDialogOpen} open={dialogOpen}>
       <AlertDialogTrigger asChild>
-        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+        <DropdownMenuItem
+          onSelect={(e) => {
+            e.preventDefault();
+          }}
+        >
           <DeleteIcon className="mr-2 stroke-current" size="sm" />
           Delete Registry
         </DropdownMenuItem>
@@ -78,7 +82,13 @@ const DashboardReadRegistryDelete: React.FC<DashboardReadRegistryDeleteProps> = 
 
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={async () => await mutateAsync()}>Continue</AlertDialogAction>
+          <AlertDialogAction
+            onClick={async () => {
+              await mutateAsync();
+            }}
+          >
+            Continue
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

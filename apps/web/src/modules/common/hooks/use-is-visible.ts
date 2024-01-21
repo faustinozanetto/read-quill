@@ -1,33 +1,46 @@
-import { MutableRefObject, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 interface UseIsVisibleProps {
-  options?: IntersectionObserverInit;
+  root?: HTMLElement | null;
+  rootMargin?: string;
+  threshold?: number | number[];
 }
 
 interface UseIsVisibleReturn {
-  ref: MutableRefObject<null>;
+  targetRef: React.RefObject<HTMLDivElement>;
   isVisible: boolean;
 }
 
-export const useIsVisible = (props: UseIsVisibleProps = { options: { root: null } }): UseIsVisibleReturn => {
-  const { options = {} } = props;
+export const useIsVisible = (props: UseIsVisibleProps = {}): UseIsVisibleReturn => {
+  const { root = null, rootMargin = '0px', threshold = 0 } = props;
 
-  const ref = useRef(null);
+  const targetRef = useRef<HTMLDivElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 
-  const intersectionCallback = (entries: IntersectionObserverEntry[]) => {
-    const [entry] = entries;
-    setIsVisible(entry.isIntersecting);
-  };
-
   useEffect(() => {
-    const observer = new IntersectionObserver(intersectionCallback, options);
-    if (ref.current) observer.observe(ref.current);
+    const target = targetRef.current;
+
+    if (!target) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      {
+        root,
+        rootMargin,
+        threshold,
+      }
+    );
+
+    observer.observe(target);
 
     return () => {
-      if (ref.current) observer.unobserve(ref.current);
+      observer.disconnect();
     };
-  }, [ref]);
+  }, [root, rootMargin, threshold]);
 
-  return { ref, isVisible };
+  return { targetRef, isVisible };
 };

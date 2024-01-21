@@ -6,11 +6,12 @@ import {
 } from '@modules/dashboard/validations/dashboard.validations';
 import { prisma } from '@read-quill/database';
 import { getServerSession } from 'next-auth';
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 import { z } from 'zod';
 
 // /api/dashboard/read-registries GET : Gets the read registries
-export async function GET(request: NextRequest): Promise<NextResponse> {
+export async function GET(): Promise<NextResponse> {
   try {
     const session = await getServerSession(authOptions);
 

@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react';
 import {
-  Button,
   Dialog,
   DialogContent,
   DialogDescription,
@@ -11,16 +10,15 @@ import {
   DialogTrigger,
   DropdownMenuItem,
   EditIcon,
-  PlusIcon,
   useToast,
 } from '@read-quill/design-system';
-
-import DashboardReadRegistryEditForm, { DashboardReadRegistryEditFormData } from './dashboard-read-registry-edit-form';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { useMutation } from '@tanstack/react-query';
-import { ReadRegistry } from '@read-quill/database';
-import { Row } from '@tanstack/react-table';
+import type { ReadRegistry } from '@read-quill/database';
+import type { Row } from '@tanstack/react-table';
+import DashboardReadRegistryEditForm from './dashboard-read-registry-edit-form';
+import type { DashboardReadRegistryEditFormData } from './dashboard-read-registry-edit-form';
 
 interface DashboardReadRegistryEditProps {
   row: Row<ReadRegistry>;
@@ -63,9 +61,13 @@ const DashboardReadRegistryEdit: React.FC<DashboardReadRegistryEditProps> = (pro
   });
 
   return (
-    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+    <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
       <DialogTrigger asChild>
-        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+        <DropdownMenuItem
+          onSelect={(e) => {
+            e.preventDefault();
+          }}
+        >
           <EditIcon className="mr-2 stroke-current" size="sm" />
           Edit Registry
         </DropdownMenuItem>

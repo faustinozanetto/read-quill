@@ -10,13 +10,11 @@ import {
   PlusIcon,
   useToast,
 } from '@read-quill/design-system';
-
-import DashboardReadTargetsCreateForm, {
-  DashboardReadTargetsCreateFormData,
-} from './dashboard-read-targets-create-form';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { useMutation } from '@tanstack/react-query';
+import DashboardReadTargetsCreateForm from './dashboard-read-targets-create-form';
+import type { DashboardReadTargetsCreateFormData } from './dashboard-read-targets-create-form';
 
 const DashboardReadTargetsCreate: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -52,7 +50,7 @@ const DashboardReadTargetsCreate: React.FC = () => {
   });
 
   return (
-    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+    <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
       <DialogTrigger asChild>
         <Button aria-label="Create Read Targets" className="w-full sm:ml-auto sm:w-fit">
           <PlusIcon className="mr-2 stroke-current" />

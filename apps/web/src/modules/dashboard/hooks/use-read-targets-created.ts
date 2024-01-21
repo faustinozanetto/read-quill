@@ -7,7 +7,7 @@ interface UseReadTargetsCreatedReturn {
 }
 
 export const useReadTargetsCreated = (): UseReadTargetsCreatedReturn => {
-  const { data: readTargetsCreated, isLoading } = useQuery<Boolean>(['dashboard-read-targets-created'], {
+  const { data: readTargetsCreated, isLoading } = useQuery<boolean>(['dashboard-read-targets-created'], {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     queryFn: async () => {
@@ -18,8 +18,8 @@ export const useReadTargetsCreated = (): UseReadTargetsCreatedReturn => {
         throw new Error('Failed to fetch book!');
       }
 
-      const data = await response.json();
-      return data.created;
+      const { created } = await response.json();
+      return created;
     },
   });
 

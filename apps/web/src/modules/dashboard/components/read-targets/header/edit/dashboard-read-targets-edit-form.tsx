@@ -4,10 +4,10 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Button, DialogFooter, Form, cn, LoadingIcon, EditIcon } from '@read-quill/design-system';
 import { editReadTargetsValidationSchema } from '@modules/dashboard/validations/dashboard.validations';
+import type { ReadTargets } from '@read-quill/database';
 import DashboardReadTargetsFormDaily from '../../../forms/read-targets/dashboard-read-targets-form-daily';
 import DashboardReadTargetsFormWeekly from '../../../forms/read-targets/dashboard-read-targets-form-weekly';
 import DashboardReadTargetsFormMonthly from '../../../forms/read-targets/dashboard-read-targets-form-monthly';
-import { ReadTargets } from '@read-quill/database';
 
 export type DashboardReadTargetsEditFormData = z.infer<typeof editReadTargetsValidationSchema>;
 

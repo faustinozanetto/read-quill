@@ -2,9 +2,9 @@
 
 import React from 'react';
 import { __URL__ } from '@modules/common/lib/common.constants';
+import { useReadRegistries } from '@modules/dashboard/hooks/use-read-registries';
 import DashboardReadTargetsHeader from './header/dashboard-read-registries-header';
 import DashboardReadRegistriesTable from './table/dashboard-read-registries-table';
-import { useReadRegistries } from '@modules/dashboard/hooks/use-read-registries';
 
 const DashboardReadRegistries: React.FC = () => {
   const { readRegistries } = useReadRegistries();

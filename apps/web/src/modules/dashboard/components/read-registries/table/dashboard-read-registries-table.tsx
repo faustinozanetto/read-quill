@@ -10,17 +10,9 @@ import {
   TableCell,
   Button,
   Skeleton,
-  DotsHorizontalIcon,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-  Dialog,
 } from '@read-quill/design-system';
+import type { ColumnDef } from '@tanstack/react-table';
 import {
-  ColumnDef,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -28,7 +20,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { Book, ReadRegistry } from '@read-quill/database';
+import type { Book, ReadRegistry } from '@read-quill/database';
 import { useQueryClient } from '@tanstack/react-query';
 import DashboardReadRegistriesRowActions from './dashboard-read-registries-row-actions';
 
@@ -66,7 +58,7 @@ const DashboardReadRegistriesTable: React.FC<DashboardReadRegistriesTableProps> 
       cell: ({ row }) => {
         const bookId = row.getValue<string>('bookId');
 
-        const book = books.find((book) => book.id === bookId);
+        const book = books.find((b) => b.id === bookId);
         if (!book) return <Skeleton className="h-4 w-full" />;
 
         return <div>{book.name}</div>;
@@ -108,9 +100,9 @@ const DashboardReadRegistriesTable: React.FC<DashboardReadRegistriesTableProps> 
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
+            {table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
+                <TableRow data-state={row.getIsSelected() && 'selected'} key={row.id}>
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                   ))}
@@ -118,7 +110,7 @@ const DashboardReadRegistriesTable: React.FC<DashboardReadRegistriesTableProps> 
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell className="h-24 text-center" colSpan={columns.length}>
                   No results.
                 </TableCell>
               </TableRow>
@@ -133,14 +125,23 @@ const DashboardReadRegistriesTable: React.FC<DashboardReadRegistriesTableProps> 
         </div>
         <div className="space-x-2">
           <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
+            onClick={() => {
+              table.previousPage();
+            }}
+            size="sm"
+            variant="outline"
           >
             Previous
           </Button>
-          <Button variant="outline" size="sm" onClick={() => table.nextPage()} disabled={!table.getCanNextPage()}>
+          <Button
+            disabled={!table.getCanNextPage()}
+            onClick={() => {
+              table.nextPage();
+            }}
+            size="sm"
+            variant="outline"
+          >
             Next
           </Button>
         </div>

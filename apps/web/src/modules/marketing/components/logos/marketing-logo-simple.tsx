@@ -9,7 +9,6 @@ const MarketingLogoSimple: React.FC<MarketingLogoSimpleProps> = (props) => {
   return (
     <svg
       className={className}
-      id="tight-bounds"
       viewBox="0 0 95.481 95.481"
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"

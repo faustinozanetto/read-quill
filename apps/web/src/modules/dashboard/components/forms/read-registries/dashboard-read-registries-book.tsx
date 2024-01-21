@@ -20,7 +20,7 @@ import {
   ArrowsSortIcon,
 } from '@read-quill/design-system';
 import { useFormContext } from 'react-hook-form';
-import { Book } from '@read-quill/database';
+import type { Book } from '@read-quill/database';
 import { __URL__ } from '@modules/common/lib/common.constants';
 
 interface DashboardReadRegistriesFormBookProps {
@@ -43,9 +43,9 @@ const DashboardReadRegistriesFormBook: React.FC<DashboardReadRegistriesFormBookP
             <PopoverTrigger asChild>
               <FormControl>
                 <Button
-                  variant="outline"
-                  role="combobox"
                   className={cn('justify-between', !field.value && 'text-muted-foreground')}
+                  role="combobox"
+                  variant="outline"
                 >
                   {field.value ? books.find((book) => book.id === field.value)?.name : 'Select book'}
                   <ArrowsSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -54,16 +54,16 @@ const DashboardReadRegistriesFormBook: React.FC<DashboardReadRegistriesFormBookP
             </PopoverTrigger>
             <PopoverContent className="w-[200px] md:w-full p-0">
               <Command>
-                <CommandInput placeholder="Search book..." className="h-9" />
+                <CommandInput className="h-9" placeholder="Search book..." />
                 <CommandEmpty>No book found.</CommandEmpty>
                 <CommandGroup>
                   {books.map((book) => (
                     <CommandItem
-                      value={book.name}
                       key={book.name}
                       onSelect={() => {
                         form.setValue('bookId', book.id);
                       }}
+                      value={book.name}
                     >
                       {book.name}
                       <CheckIcon

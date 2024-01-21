@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     'Discover Your Library at ReadQuill. Dive into your personalized collection, explore your bookshelf, and revel in the joy of your literary journey. Your books, your stories, all in one place – welcome to the Books page at ReadQuill.',
 };
 
-export default async function BooksPage(): Promise<React.JSX.Element> {
+export default function BooksPage(): React.JSX.Element {
   return (
     <div className="container my-4">
       <UserBooks />

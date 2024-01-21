@@ -1,5 +1,5 @@
 import { __URL__ } from '@modules/common/lib/common.constants';
-import { Book } from '@read-quill/database';
+import type { Book } from '@read-quill/database';
 import { useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
 
@@ -23,8 +23,8 @@ export const useBooks = (): UseBooksReturn => {
         throw new Error('Failed to fetch user books!');
       }
 
-      const data = await response.json();
-      return data.books;
+      const { books } = await response.json();
+      return books;
     },
   });
   return { books: data ?? [], isLoading };

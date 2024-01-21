@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import DashboardReadTargetsCard from './dashboard-read-targets-card';
-import { ReadTargets } from '@read-quill/database';
+import type { ReadTargets } from '@read-quill/database';
 import { Skeleton } from '@read-quill/design-system';
 import { dashboardReadTargets } from '@modules/dashboard/types/dashboard.types';
+import DashboardReadTargetsCard from './dashboard-read-targets-card';
 
 interface DashboardReadTargetsEntriesProps {
   isLoading: boolean;
@@ -19,7 +19,7 @@ const DashboardReadTargetsEntries: React.FC<DashboardReadTargetsEntriesProps> = 
     <div className="grid gap-2 md:grid-cols-3 mt-2">
       {isLoading
         ? Array.from({ length: 3 }).map((_, i) => (
-            <Skeleton key={`dashboard-read-target-placeholder-${i}`} className="h-48 w-full" />
+            <Skeleton className="h-48 w-full" key={`dashboard-read-target-placeholder-${i}`} />
           ))
         : null}
 
@@ -28,8 +28,8 @@ const DashboardReadTargetsEntries: React.FC<DashboardReadTargetsEntriesProps> = 
             return (
               <DashboardReadTargetsCard
                 key={`dashboard-read-target-${type}`}
-                type={type}
                 target={targetReadTargets[type]}
+                type={type}
                 value={readTargets[type]}
               />
             );

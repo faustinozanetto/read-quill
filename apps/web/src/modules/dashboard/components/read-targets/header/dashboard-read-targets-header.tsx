@@ -1,10 +1,10 @@
 import React from 'react';
-import DashboardReadTargetsCreate from './create/dashboard-read-targets-create';
-import DashboardReadTargetsEdit from './edit/dashboard-read-targets-edit';
-import { ReadTargets } from '@read-quill/database';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import type { ReadTargets } from '@read-quill/database';
+import { useQueryClient } from '@tanstack/react-query';
 import { Skeleton } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
+import DashboardReadTargetsEdit from './edit/dashboard-read-targets-edit';
+import DashboardReadTargetsCreate from './create/dashboard-read-targets-create';
 
 interface DashboardReadTargetsHeaderProps {
   isLoading: boolean;
@@ -15,7 +15,7 @@ const DashboardReadTargetsHeader: React.FC<DashboardReadTargetsHeaderProps> = (p
   const { isLoading, targetReadTargets } = props;
 
   const queryClient = useQueryClient();
-  const readTargetsCreated = queryClient.getQueryData<Boolean>(['dashboard-read-targets-created']);
+  const readTargetsCreated = queryClient.getQueryData<boolean>(['dashboard-read-targets-created']);
 
   return (
     <div className="flex flex-col gap-2 md:flex-row md:justify-between md:gap-0">

@@ -1,5 +1,5 @@
 import { __URL__ } from '@modules/common/lib/common.constants';
-import { ReadRegistry } from '@read-quill/database';
+import type { ReadRegistry } from '@read-quill/database';
 import { useQuery } from '@tanstack/react-query';
 
 interface UseReadRegistriesReturn {
@@ -17,8 +17,8 @@ export const useReadRegistries = (): UseReadRegistriesReturn => {
         throw new Error('Failed to fetch user read registries!');
       }
 
-      const data = await response.json();
-      return data.readRegistries;
+      const { readRegistries } = await response.json();
+      return readRegistries;
     },
   });
   return { readRegistries: data ?? [], isLoading };

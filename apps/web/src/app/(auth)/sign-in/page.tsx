@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Button } from '@read-quill/design-system';
 import ThemeToggler from '@modules/theme/components/theme-toggler';
 import AuthSignIn from '@modules/auth/components/sign-in/auth-sign-in';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Sign In',
@@ -35,7 +36,9 @@ export default function AuthSignInPage(): React.JSX.Element {
       <div className="absolute right-4 top-4">
         <ThemeToggler size="icon" />
       </div>
-      <AuthSignIn />
+      <Suspense>
+        <AuthSignIn />
+      </Suspense>
     </div>
   );
 }

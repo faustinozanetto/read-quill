@@ -1,5 +1,5 @@
 import { __URL__ } from '@modules/common/lib/common.constants';
-import { ReadTargets } from '@read-quill/database';
+import type { ReadTargets } from '@read-quill/database';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 interface UseReadTargetsReturn {
@@ -28,7 +28,7 @@ export const useReadTargets = (): UseReadTargetsReturn => {
         throw new Error('Failed to fetch user read targets!');
       }
 
-      return await response.json();
+      return response.json();
     },
   });
   return { readTargets: data?.readTargets, targetReadTargets: data?.targetReadTargets, isLoading };

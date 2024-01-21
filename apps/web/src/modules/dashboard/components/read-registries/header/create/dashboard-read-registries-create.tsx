@@ -12,13 +12,11 @@ import {
   PlusIcon,
   useToast,
 } from '@read-quill/design-system';
-
-import DashboardReadRegistriesCreateForm, {
-  DashboardReadRegistriesCreateFormData,
-} from './dashboard-read-registries-create-form';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { useMutation } from '@tanstack/react-query';
+import DashboardReadRegistriesCreateForm from './dashboard-read-registries-create-form';
+import type { DashboardReadRegistriesCreateFormData } from './dashboard-read-registries-create-form';
 
 const DashboardReadRegistriesCreate: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -55,7 +53,7 @@ const DashboardReadRegistriesCreate: React.FC = () => {
   });
 
   return (
-    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+    <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
       <DialogTrigger asChild>
         <Button aria-label="Create Read Registry" className="w-full sm:ml-auto sm:w-fit">
           <PlusIcon className="mr-2 stroke-current" />

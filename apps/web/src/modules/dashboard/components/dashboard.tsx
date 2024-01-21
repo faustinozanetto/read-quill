@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
+import { useBooks } from '../hooks/use-books';
 import DashboardGreeting from './dashboard-greeting';
 import DashboardReadTargets from './read-targets/dashboard-read-targets';
 import DashboardReadRegistries from './read-registries/dashboard-read-registries';
-import { useBooks } from '../hooks/use-books';
 
 const Dashboard: React.FC = () => {
   useBooks();

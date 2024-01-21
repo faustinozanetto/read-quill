@@ -8,10 +8,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from '@read-quill/design-system';
+import type { Row } from '@tanstack/react-table';
+import type { ReadRegistry } from '@read-quill/database';
 import DashboardReadRegistryEdit from '../management/edit/dashboard-read-registry-edit';
 import DashboardReadRegistryDelete from '../management/delete/dashboard-read-registry-delete';
-import { Row } from '@tanstack/react-table';
-import { ReadRegistry } from '@read-quill/database';
 
 interface DashboardReadRegistriesRowActionsProps {
   row: Row<ReadRegistry>;
@@ -23,7 +23,7 @@ const DashboardReadRegistriesRowActions: React.FC<DashboardReadRegistriesRowActi
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-8 w-8 p-0">
+        <Button className="h-8 w-8 p-0" variant="ghost">
           <span className="sr-only">Open menu</span>
           <DotsHorizontalIcon className="h-4 w-4" />
         </Button>

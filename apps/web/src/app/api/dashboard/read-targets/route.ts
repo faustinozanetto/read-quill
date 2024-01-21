@@ -3,13 +3,15 @@ import {
   createReadTargetsValidationSchema,
   editReadTargetsValidationSchema,
 } from '@modules/dashboard/validations/dashboard.validations';
-import { ReadTargets, prisma } from '@read-quill/database';
+import type { ReadTargets } from '@read-quill/database';
+import { prisma } from '@read-quill/database';
 import { getServerSession } from 'next-auth';
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 import { z } from 'zod';
 
 // /api/dashboard/read-targets GET : Gets the read targets of the user
-export async function GET(request: NextRequest): Promise<NextResponse> {
+export async function GET(): Promise<NextResponse> {
   try {
     const session = await getServerSession(authOptions);
 
@@ -38,7 +40,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       select: { createdAt: true, pagesRead: true },
     });
 
-    let readTargets: Omit<ReadTargets, 'id' | 'userId'> = {
+    const readTargets: Omit<ReadTargets, 'id' | 'userId'> = {
       daily: 0,
       monthly: 0,
       weekly: 0,
@@ -93,7 +95,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const json = await request.json();
     const { daily, monthly, weekly } = createReadTargetsValidationSchema.parse(json);
 
-    const readTargets = await prisma.readTargets.create({
+    await prisma.readTargets.create({
       data: {
         daily,
         monthly,
