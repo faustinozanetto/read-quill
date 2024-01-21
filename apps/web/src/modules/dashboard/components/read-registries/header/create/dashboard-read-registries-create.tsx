@@ -12,9 +12,9 @@ import {
   PlusIcon,
   useToast,
 } from '@read-quill/design-system';
+import { useMutation } from '@tanstack/react-query';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
-import { useMutation } from '@tanstack/react-query';
 import DashboardReadRegistriesCreateForm from './dashboard-read-registries-create-form';
 import type { DashboardReadRegistriesCreateFormData } from './dashboard-read-registries-create-form';
 
@@ -49,6 +49,7 @@ const DashboardReadRegistriesCreate: React.FC = () => {
     onSuccess: async () => {
       await queryClient.invalidateQueries(['dashboard-read-targets']);
       await queryClient.invalidateQueries(['dashboard-read-registries']);
+      await queryClient.invalidateQueries(['dashboard-books-progress']);
     },
   });
 

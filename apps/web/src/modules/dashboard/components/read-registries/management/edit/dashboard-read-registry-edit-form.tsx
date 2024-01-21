@@ -3,10 +3,10 @@ import type { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Button, DialogFooter, Form, cn, LoadingIcon, EditIcon } from '@read-quill/design-system';
+import type { ReadRegistry } from '@read-quill/database';
 import { editReadRegistryValidationSchema } from '@modules/dashboard/validations/dashboard.validations';
 import DashboardReadRegistriesFormPagesRead from '@modules/dashboard/components/forms/read-registries/dashboard-read-registries-page-count';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import type { ReadRegistry } from '@read-quill/database';
 
 export type DashboardReadRegistryEditFormData = z.infer<typeof editReadRegistryValidationSchema>;
 

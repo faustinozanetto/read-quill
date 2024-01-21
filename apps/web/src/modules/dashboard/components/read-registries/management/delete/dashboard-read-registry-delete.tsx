@@ -14,9 +14,9 @@ import {
   DropdownMenuItem,
 } from '@read-quill/design-system';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { __URL__ } from '@modules/common/lib/common.constants';
 import type { ReadRegistry } from '@read-quill/database';
 import type { Row } from '@tanstack/react-table';
+import { __URL__ } from '@modules/common/lib/common.constants';
 
 interface DashboardReadRegistryDeleteProps {
   row: Row<ReadRegistry>;
@@ -56,6 +56,7 @@ const DashboardReadRegistryDelete: React.FC<DashboardReadRegistryDeleteProps> = 
     onSuccess: async () => {
       await queryClient.invalidateQueries(['dashboard-read-targets']);
       await queryClient.invalidateQueries(['dashboard-read-registries']);
+      await queryClient.invalidateQueries(['dashboard-books-progress']);
     },
   });
 

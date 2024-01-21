@@ -12,11 +12,11 @@ import {
   EditIcon,
   useToast,
 } from '@read-quill/design-system';
-import { __URL__ } from '@modules/common/lib/common.constants';
-import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { useMutation } from '@tanstack/react-query';
 import type { ReadRegistry } from '@read-quill/database';
 import type { Row } from '@tanstack/react-table';
+import { useQueriesStore } from '@modules/queries/state/queries.slice';
+import { __URL__ } from '@modules/common/lib/common.constants';
 import DashboardReadRegistryEditForm from './dashboard-read-registry-edit-form';
 import type { DashboardReadRegistryEditFormData } from './dashboard-read-registry-edit-form';
 
@@ -57,6 +57,7 @@ const DashboardReadRegistryEdit: React.FC<DashboardReadRegistryEditProps> = (pro
     onSuccess: async () => {
       await queryClient.invalidateQueries(['dashboard-read-targets']);
       await queryClient.invalidateQueries(['dashboard-read-registries']);
+      await queryClient.invalidateQueries(['dashboard-books-progress']);
     },
   });
 

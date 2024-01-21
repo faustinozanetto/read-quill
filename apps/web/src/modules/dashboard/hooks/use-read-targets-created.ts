@@ -1,5 +1,5 @@
-import { __URL__ } from '@modules/common/lib/common.constants';
 import { useQuery } from '@tanstack/react-query';
+import { __URL__ } from '@modules/common/lib/common.constants';
 
 interface UseReadTargetsCreatedReturn {
   readTargetsCreated: boolean;

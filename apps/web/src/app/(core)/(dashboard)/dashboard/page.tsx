@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Dashboard from '@modules/dashboard/components/dashboard';
+import { __URL__ } from '@modules/common/lib/common.constants';
 
 export const metadata: Metadata = {
   title: 'User Dashboard',

@@ -1,5 +1,4 @@
 import React from 'react';
-
 import Link from 'next/link';
 import { Button } from '@read-quill/design-system';
 
@@ -17,7 +16,7 @@ export default function NotFoundPage() {
           </p>
 
           <Button asChild>
-            <Link href="/" className="w-full">
+            <Link className="w-full" href="/">
               Go Home
             </Link>
           </Button>

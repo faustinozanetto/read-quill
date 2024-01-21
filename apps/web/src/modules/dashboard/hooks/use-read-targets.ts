@@ -1,6 +1,6 @@
-import { __URL__ } from '@modules/common/lib/common.constants';
 import type { ReadTargets } from '@read-quill/database';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { __URL__ } from '@modules/common/lib/common.constants';
 
 interface UseReadTargetsReturn {
   targetReadTargets?: Omit<ReadTargets, 'id' | 'userId'>;

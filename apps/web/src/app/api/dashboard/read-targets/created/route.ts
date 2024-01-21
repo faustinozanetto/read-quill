@@ -1,7 +1,7 @@
-import { authOptions } from '@modules/auth/lib/auth.lib';
 import { prisma } from '@read-quill/database';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
+import { authOptions } from '@modules/auth/lib/auth.lib';
 
 // /api/dashboard/read-targets GET : Gets wether a user created reader targets or not
 export async function GET(): Promise<NextResponse> {

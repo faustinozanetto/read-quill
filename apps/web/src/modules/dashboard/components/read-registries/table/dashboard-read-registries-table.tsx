@@ -1,153 +1,84 @@
 'use client';
 
-import React from 'react';
-import {
-  Table,
-  TableHeader,
-  TableRow,
-  TableHead,
-  TableBody,
-  TableCell,
-  Button,
-  Skeleton,
-} from '@read-quill/design-system';
-import type { ColumnDef } from '@tanstack/react-table';
-import {
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
-import type { Book, ReadRegistry } from '@read-quill/database';
-import { useQueryClient } from '@tanstack/react-query';
+import React, { useMemo, useState } from 'react';
+import { DataTableColumnHeader } from '@read-quill/design-system';
+import type { ColumnDef, ColumnFiltersState, SortingState, VisibilityState } from '@tanstack/react-table';
+import { getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
+import { DataTable } from '@read-quill/design-system/src';
+import { useReadRegistries } from '@modules/dashboard/hooks/use-read-registries';
+import type { DashboardReadRegistry } from '@modules/api/types/api.types';
 import DashboardReadRegistriesRowActions from './dashboard-read-registries-row-actions';
 
-interface DashboardReadRegistriesTableProps {
-  readRegistries: ReadRegistry[];
-}
+const DashboardReadRegistriesTable: React.FC = () => {
+  const { data, pagination, setPagination } = useReadRegistries();
 
-const DashboardReadRegistriesTable: React.FC<DashboardReadRegistriesTableProps> = (props) => {
-  const { readRegistries } = props;
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 
-  const queryClient = useQueryClient();
-  const books = queryClient.getQueryData<Book[]>(['dashboard-books']) ?? [];
+  const columns: ColumnDef<DashboardReadRegistry>[] = useMemo(
+    () => [
+      {
+        accessorKey: 'pagesRead',
+        header: ({ column }) => <DataTableColumnHeader column={column} title="Pages Read" />,
+        cell: ({ row }) => {
+          const value = row.getValue<number>('pagesRead');
 
-  const columns: ColumnDef<ReadRegistry>[] = [
-    {
-      accessorKey: 'pagesRead',
-      header: 'Pages Read',
-      cell: ({ row }) => <div className="font-medium">{row.getValue('pagesRead')}</div>,
-    },
-    {
-      accessorKey: 'createdAt',
-      header: 'Created At',
-      cell: ({ row }) => {
-        const value = new Date(row.getValue<string>('createdAt'));
-        const formatted = new Intl.DateTimeFormat('en-US', {
-          dateStyle: 'medium',
-        }).format(value);
-
-        return <div>{formatted}</div>;
+          return <div className="font-bold">{value}</div>;
+        },
       },
-    },
-    {
-      accessorKey: 'bookId',
-      header: 'Book',
-      cell: ({ row }) => {
-        const bookId = row.getValue<string>('bookId');
+      {
+        accessorKey: 'createdAt',
+        header: ({ column }) => <DataTableColumnHeader column={column} title="Created At" />,
+        cell: ({ row }) => {
+          const value = new Date(row.getValue<string>('createdAt'));
+          const formatted = new Intl.DateTimeFormat('en-US', {
+            dateStyle: 'medium',
+          }).format(value);
 
-        const book = books.find((b) => b.id === bookId);
-        if (!book) return <Skeleton className="h-4 w-full" />;
+          return <div>{formatted}</div>;
+        },
+      },
+      {
+        accessorKey: 'bookId',
+        header: 'Book',
+        cell: ({ row }) => {
+          const bookName = row.original.book.name;
 
-        return <div>{book.name}</div>;
+          return <div>{bookName}</div>;
+        },
       },
-    },
-    {
-      id: 'actions',
-      enableHiding: false,
-      cell: ({ row }) => {
-        return <DashboardReadRegistriesRowActions row={row} />;
+      {
+        id: 'actions',
+        enableHiding: false,
+        cell: ({ row }) => {
+          return <DashboardReadRegistriesRowActions row={row} />;
+        },
       },
-    },
-  ];
+    ],
+    []
+  );
 
   const table = useReactTable({
-    data: readRegistries,
+    data: data.readRegistries,
     columns,
+    state: {
+      pagination,
+      sorting,
+      columnFilters,
+      columnVisibility,
+    },
+    manualPagination: true,
+    onPaginationChange: setPagination,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
   });
 
-  return (
-    <div className="w-full">
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow data-state={row.getIsSelected() && 'selected'} key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell className="h-24 text-center" colSpan={columns.length}>
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length} row(s)
-          selected.
-        </div>
-        <div className="space-x-2">
-          <Button
-            disabled={!table.getCanPreviousPage()}
-            onClick={() => {
-              table.previousPage();
-            }}
-            size="sm"
-            variant="outline"
-          >
-            Previous
-          </Button>
-          <Button
-            disabled={!table.getCanNextPage()}
-            onClick={() => {
-              table.nextPage();
-            }}
-            size="sm"
-            variant="outline"
-          >
-            Next
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
+  return <DataTable table={table} />;
 };
 
 export default DashboardReadRegistriesTable;

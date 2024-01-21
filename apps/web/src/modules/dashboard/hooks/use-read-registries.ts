@@ -1,25 +1,48 @@
-import { __URL__ } from '@modules/common/lib/common.constants';
-import type { ReadRegistry } from '@read-quill/database';
+import type { Dispatch, SetStateAction} from 'react';
+import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import type { PaginationState } from '@tanstack/react-table';
+import { __URL__ } from '@modules/common/lib/common.constants';
+import type { DashboardReadRegistriesGETResponse } from '@modules/api/types/api.types';
 
 interface UseReadRegistriesReturn {
-  readRegistries: ReadRegistry[];
+  data: DashboardReadRegistriesGETResponse;
   isLoading: boolean;
+  pagination: PaginationState;
+  setPagination: Dispatch<SetStateAction<PaginationState>>;
 }
 
 export const useReadRegistries = (): UseReadRegistriesReturn => {
-  const { data, isLoading } = useQuery<ReadRegistry[]>(['dashboard-read-registries'], {
+  const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 6,
+  });
+
+  const pagination = useMemo(
+    () => ({
+      pageIndex,
+      pageSize,
+    }),
+    [pageIndex, pageSize]
+  );
+
+  const { data, isLoading } = useQuery<DashboardReadRegistriesGETResponse>(['dashboard-read-registries', pagination], {
+    initialData: { readRegistries: [], pageCount: 0 },
+    keepPreviousData: true,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
     queryFn: async () => {
       const url = new URL('/api/dashboard/read-registries', __URL__);
+      url.searchParams.set('pageIndex', String(pagination.pageIndex));
+      url.searchParams.set('pageSize', String(pagination.pageSize));
 
       const response = await fetch(url, { method: 'GET' });
       if (!response.ok) {
         throw new Error('Failed to fetch user read registries!');
       }
 
-      const { readRegistries } = await response.json();
-      return readRegistries;
+      return response.json();
     },
   });
-  return { readRegistries: data ?? [], isLoading };
+  return { data, isLoading, pagination, setPagination };
 };

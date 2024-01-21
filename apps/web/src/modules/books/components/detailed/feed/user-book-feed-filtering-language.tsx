@@ -1,7 +1,7 @@
-import { BOOK_LANGUAGES } from '@modules/books/lib/book.constants';
 import { Label, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@read-quill/design-system';
 import type { ComponentPropsWithoutRef } from 'react';
 import React from 'react';
+import { BOOK_LANGUAGES } from '@modules/books/lib/book.constants';
 
 interface UserBooksFeedFilteringLanguageProps {
   onValueChange: ComponentPropsWithoutRef<typeof Select>['onValueChange'];

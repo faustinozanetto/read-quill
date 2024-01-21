@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import type { DashboardReadTargetsType } from '@modules/dashboard/types/dashboard.types';
-import { capitalize } from '@modules/common/lib/common.lib';
-import { useIsVisible } from '@modules/common/hooks/use-is-visible';
+import React from 'react';
 import Fireworks from 'react-canvas-confetti/dist/presets/fireworks';
 import type { TConductorInstance } from 'react-canvas-confetti/dist/types';
+import type { DashboardReadTargetsType } from '@modules/dashboard/types/dashboard.types';
+import { capitalize } from '@modules/common/lib/common.lib';
+import { useCountUp } from '@modules/common/hooks/use-count-up';
 
 interface DashboardReadTargetsCardProps {
   type: DashboardReadTargetsType;
@@ -16,28 +16,25 @@ interface DashboardReadTargetsCardProps {
 const DashboardReadTargetsCard: React.FC<DashboardReadTargetsCardProps> = (props) => {
   const { type, value, target } = props;
 
-  const { targetRef, isVisible } = useIsVisible();
-  const [animateValue, setAnimateValue] = useState(0);
-
-  const targetPercentageValue = Math.min(100, Math.max(0, (value / target) * 100));
-
   const radius = 50;
   const strokeWidth = 16;
   const strokeDasharray = 2 * Math.PI * radius;
-  const strokeDashoffset = strokeDasharray - (strokeDasharray * animateValue) / 100;
+
+  const targetPercentageValue = Math.min(100, Math.max(0, (value / target) * 100));
+
+  const { count, ref } = useCountUp({
+    startValue: 0,
+    endValue: targetPercentageValue,
+    startOnInView: true,
+    duration: 2000,
+  });
 
   const onInitConfetti = ({ conductor }: { conductor: TConductorInstance }): void => {
     conductor.shoot();
   };
 
-  useEffect(() => {
-    if (isVisible) {
-      setAnimateValue(targetPercentageValue);
-    }
-  }, [isVisible, targetPercentageValue]);
-
   return (
-    <div className="rounded-lg border p-4 shadow" ref={targetRef}>
+    <div className="rounded-lg border p-4 shadow" ref={ref}>
       <div className="flex justify-between">
         <h3 className="font-bold uppercase text-lg underline decoration-primary decoration-4 mb-2">
           {capitalize(type)}
@@ -58,8 +55,7 @@ const DashboardReadTargetsCard: React.FC<DashboardReadTargetsCardProps> = (props
           strokeWidth={strokeWidth}
           style={{
             strokeDasharray,
-            strokeDashoffset,
-            transition: 'stroke-dashoffset 1s ease-in-out',
+            strokeDashoffset: strokeDasharray - (strokeDasharray * count) / 100,
           }}
         />
         <text
@@ -69,7 +65,7 @@ const DashboardReadTargetsCard: React.FC<DashboardReadTargetsCardProps> = (props
           x="50%"
           y="50%"
         >
-          {animateValue.toFixed(0)}%
+          {count.toFixed(0)}%
         </text>
       </svg>
     </div>

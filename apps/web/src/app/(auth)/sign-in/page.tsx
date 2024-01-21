@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import type { Metadata } from 'next';
 import { Button } from '@read-quill/design-system';
+import { Suspense } from 'react';
 import ThemeToggler from '@modules/theme/components/theme-toggler';
 import AuthSignIn from '@modules/auth/components/sign-in/auth-sign-in';
-import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'Sign In',

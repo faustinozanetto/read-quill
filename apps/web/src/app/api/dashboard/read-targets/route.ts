@@ -1,14 +1,14 @@
-import { authOptions } from '@modules/auth/lib/auth.lib';
-import {
-  createReadTargetsValidationSchema,
-  editReadTargetsValidationSchema,
-} from '@modules/dashboard/validations/dashboard.validations';
 import type { ReadTargets } from '@read-quill/database';
 import { prisma } from '@read-quill/database';
 import { getServerSession } from 'next-auth';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
+import {
+  createReadTargetsValidationSchema,
+  editReadTargetsValidationSchema,
+} from '@modules/dashboard/validations/dashboard.validations';
+import { authOptions } from '@modules/auth/lib/auth.lib';
 
 // /api/dashboard/read-targets GET : Gets the read targets of the user
 export async function GET(): Promise<NextResponse> {

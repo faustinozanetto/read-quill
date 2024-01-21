@@ -1,7 +1,7 @@
-import { __URL__ } from '@modules/common/lib/common.constants';
 import type { Book } from '@read-quill/database';
 import { useQuery } from '@tanstack/react-query';
 import { useSession } from 'next-auth/react';
+import { __URL__ } from '@modules/common/lib/common.constants';
 
 interface UseBooksReturn {
   books: Book[];
@@ -12,6 +12,8 @@ export const useBooks = (): UseBooksReturn => {
   const { data: session } = useSession();
 
   const { data, isLoading } = useQuery<Book[]>(['dashboard-books'], {
+    initialData: [],
+
     queryFn: async () => {
       if (!session) return [];
 
@@ -27,5 +29,5 @@ export const useBooks = (): UseBooksReturn => {
       return books;
     },
   });
-  return { books: data ?? [], isLoading };
+  return { books: data, isLoading };
 };

@@ -18,6 +18,8 @@ export * from './components/calendar';
 export * from './components/popover';
 export * from './components/command';
 export * from './components/table';
+export * from './components/data-table-column-header';
+export * from './components/data-table-view-options';
 export * from './components/data-table';
 export * from './components/dropdown';
 

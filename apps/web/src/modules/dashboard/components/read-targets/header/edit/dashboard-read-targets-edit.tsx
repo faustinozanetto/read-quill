@@ -10,10 +10,10 @@ import {
   EditIcon,
   useToast,
 } from '@read-quill/design-system';
-import { __URL__ } from '@modules/common/lib/common.constants';
-import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { useMutation } from '@tanstack/react-query';
 import type { ReadTargets } from '@read-quill/database';
+import { __URL__ } from '@modules/common/lib/common.constants';
+import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import DashboardReadTargetsEditForm from './dashboard-read-targets-edit-form';
 import type { DashboardReadTargetsEditFormData } from './dashboard-read-targets-edit-form';
 

@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 import type { ReadTargets } from '@read-quill/database';
 import { Skeleton } from '@read-quill/design-system';

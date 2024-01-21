@@ -10,9 +10,9 @@ import {
   PlusIcon,
   useToast,
 } from '@read-quill/design-system';
+import { useMutation } from '@tanstack/react-query';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
-import { useMutation } from '@tanstack/react-query';
 import DashboardReadTargetsCreateForm from './dashboard-read-targets-create-form';
 import type { DashboardReadTargetsCreateFormData } from './dashboard-read-targets-create-form';
 
