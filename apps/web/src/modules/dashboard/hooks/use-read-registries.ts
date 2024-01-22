@@ -1,5 +1,5 @@
-import type { Dispatch, SetStateAction} from 'react';
-import { useMemo, useState } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import type { PaginationState } from '@tanstack/react-table';
 import { __URL__ } from '@modules/common/lib/common.constants';
@@ -13,18 +13,10 @@ interface UseReadRegistriesReturn {
 }
 
 export const useReadRegistries = (): UseReadRegistriesReturn => {
-  const [{ pageIndex, pageSize }, setPagination] = useState<PaginationState>({
+  const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 6,
   });
-
-  const pagination = useMemo(
-    () => ({
-      pageIndex,
-      pageSize,
-    }),
-    [pageIndex, pageSize]
-  );
 
   const { data, isLoading } = useQuery<DashboardReadRegistriesGETResponse>(['dashboard-read-registries', pagination], {
     initialData: { readRegistries: [], pageCount: 0 },

@@ -14,7 +14,9 @@ interface DashboardBooksProgressCardProps {
 const DashboardBooksProgressCard: React.FC<DashboardBooksProgressCardProps> = (props) => {
   const { name, cover, progress } = props;
 
-  const { count, ref } = useCountUp({ startValue: 0, endValue: progress, startOnInView: true });
+  const clampedProgress = Math.max(0, Math.min(progress, 100));
+
+  const { count, ref } = useCountUp({ startValue: 0, endValue: clampedProgress, startOnInView: true });
 
   return (
     <div className="rounded-lg border shadow" ref={ref}>

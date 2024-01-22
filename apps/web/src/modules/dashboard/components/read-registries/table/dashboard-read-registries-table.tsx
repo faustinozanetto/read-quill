@@ -62,6 +62,7 @@ const DashboardReadRegistriesTable: React.FC = () => {
   const table = useReactTable({
     data: data.readRegistries,
     columns,
+    pageCount: data.pageCount,
     state: {
       pagination,
       sorting,
