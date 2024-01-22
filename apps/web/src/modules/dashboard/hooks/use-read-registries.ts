@@ -3,10 +3,10 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import type { PaginationState } from '@tanstack/react-table';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import type { DashboardReadRegistriesGETResponse } from '@modules/api/types/api.types';
+import type { DashboardReadRegistriesGetResponse } from '@modules/api/types/api.types';
 
 interface UseReadRegistriesReturn {
-  data: DashboardReadRegistriesGETResponse;
+  data: DashboardReadRegistriesGetResponse;
   isLoading: boolean;
   pagination: PaginationState;
   setPagination: Dispatch<SetStateAction<PaginationState>>;
@@ -18,7 +18,7 @@ export const useReadRegistries = (): UseReadRegistriesReturn => {
     pageSize: 6,
   });
 
-  const { data, isLoading } = useQuery<DashboardReadRegistriesGETResponse>(['dashboard-read-registries', pagination], {
+  const { data, isLoading } = useQuery<DashboardReadRegistriesGetResponse>(['dashboard-read-registries', pagination], {
     initialData: { readRegistries: [], pageCount: 0 },
     keepPreviousData: true,
     refetchOnWindowFocus: false,

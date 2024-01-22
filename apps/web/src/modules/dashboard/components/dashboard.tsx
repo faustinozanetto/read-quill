@@ -9,6 +9,7 @@ import DashboardGreeting from './dashboard-greeting';
 import DashboardReadTargets from './read-targets/dashboard-read-targets';
 import DashboardReadRegistries from './read-registries/dashboard-read-registries';
 import DashboardBooksProgress from './books-progress/dashboard-books-progress';
+import DashboardReadInsights from './read-insights/dashboard-read-insights';
 
 const Dashboard: React.FC = () => {
   const { data: session } = useSession();
@@ -38,6 +39,7 @@ const Dashboard: React.FC = () => {
       <DashboardReadTargets />
       <DashboardReadRegistries />
       <DashboardBooksProgress />
+      <DashboardReadInsights />
     </section>
   );
 };

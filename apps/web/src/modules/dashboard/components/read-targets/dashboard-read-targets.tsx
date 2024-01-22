@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { __URL__ } from '@modules/common/lib/common.constants';
 import { useReadTargetsCreated } from '@modules/dashboard/hooks/use-read-targets-created';
 import { useReadTargets } from '@modules/dashboard/hooks/use-read-targets';
 import DashboardReadTargetsHeader from './header/dashboard-read-targets-header';

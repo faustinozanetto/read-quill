@@ -1,8 +1,8 @@
 'use client';
 
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
-import { Table } from '@tanstack/react-table';
-
+import type { Table } from '@tanstack/react-table';
+import { Button, ChevronDownIcon } from '..';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -10,17 +10,16 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from './dropdown';
-import { Button, ChevronDownIcon } from '..';
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;
 }
 
-export function DataTableViewOptions<TData>({ table }: DataTableViewOptionsProps<TData>) {
+export function DataTableViewOptions<TData>({ table }: DataTableViewOptionsProps<TData>): React.JSX.Element {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="ml-auto">
+        <Button className="ml-auto" variant="outline">
           View
           <ChevronDownIcon className="ml-2" />
         </Button>
@@ -34,10 +33,12 @@ export function DataTableViewOptions<TData>({ table }: DataTableViewOptionsProps
           .map((column) => {
             return (
               <DropdownMenuCheckboxItem
-                key={column.id}
-                className="capitalize"
                 checked={column.getIsVisible()}
-                onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                className="capitalize"
+                key={column.id}
+                onCheckedChange={(value) => {
+                  column.toggleVisibility(Boolean(value));
+                }}
               >
                 {column.id}
               </DropdownMenuCheckboxItem>

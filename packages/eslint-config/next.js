@@ -33,6 +33,7 @@ module.exports = {
   rules: {
     'import/no-default-export': 'off',
     'import/no-unresolved': 'off',
+    'import/default': 'off',
     'no-nested-ternary': 'off',
     'react/function-component-definition': 'off',
     'react/no-unstable-nested-components': 'off',
