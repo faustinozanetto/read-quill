@@ -1,10 +1,9 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import type { ApexOptions } from 'apexcharts';
 import { useReadInsightsTrends } from '@modules/dashboard/hooks/use-read-insights-trends';
-import type { DashboardReadInsightsReadTrendsIntervalType } from '@modules/dashboard/types/dashboard.types';
 import { dashboardReadInsightsReadTrendsIntervals } from '@modules/dashboard/types/dashboard.types';
 import {
   DropdownMenu,
@@ -15,20 +14,21 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuCheckboxItem,
-} from '@read-quill/design-system/src';
+  Skeleton,
+} from '@read-quill/design-system';
 import { useTheme } from 'next-theme-kit';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 const DashboardReadInsightTrends: React.FC = () => {
-  const [interval, setInterval] = useState<DashboardReadInsightsReadTrendsIntervalType>('daily');
-
   const { theme } = useTheme();
-  const { data } = useReadInsightsTrends({ interval });
+  const { data, isFetching, interval, setInterval } = useReadInsightsTrends();
 
   const getWeekNumber = (date: Date): number => {
+    const MILLISECONDS_IN_A_DAY = 86400000;
+
     const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-    const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / 86400000;
+    const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / MILLISECONDS_IN_A_DAY;
     return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
   };
 
@@ -67,6 +67,12 @@ const DashboardReadInsightTrends: React.FC = () => {
       fontFamily: 'inherit',
       toolbar: {
         show: false,
+      },
+    },
+    plotOptions: {
+      bar: {
+        columnWidth: '40%',
+        borderRadius: 2,
       },
     },
     dataLabels: {
@@ -166,7 +172,14 @@ const DashboardReadInsightTrends: React.FC = () => {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <ReactApexChart height={250} options={options} series={series} type="bar" />
+
+      {isFetching ? <Skeleton className="h-48 w-full" /> : null}
+
+      {!isFetching && series[0].data.length > 0 ? (
+        <ReactApexChart height={250} options={options} series={series} type="bar" width="100%" />
+      ) : null}
+
+      {!isFetching && series[0].data.length === 0 ? <p>Not enough data to display read trends!</p> : null}
     </div>
   );
 };

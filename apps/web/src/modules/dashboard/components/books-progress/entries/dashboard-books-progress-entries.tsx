@@ -21,7 +21,7 @@ const DashboardBooksProgressEntries: React.FC<DashboardBooksProgressEntriesProps
           ))
         : null}
 
-      {!isLoading && booksProgressArray.length > 0
+      {!isLoading && booksProgressArray && booksProgressArray.length > 0
         ? booksProgressArray.map(([bookId, data]) => {
             return (
               <DashboardBooksProgressCard
@@ -34,6 +34,10 @@ const DashboardBooksProgressEntries: React.FC<DashboardBooksProgressEntriesProps
             );
           })
         : null}
+
+      {!isLoading && booksProgressArray && booksProgressArray.length === 0 ? (
+        <p>No books found to display read progress!</p>
+      ) : null}
     </div>
   );
 };

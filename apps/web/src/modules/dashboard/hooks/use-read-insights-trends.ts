@@ -1,21 +1,24 @@
 import { useQuery } from '@tanstack/react-query';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { DashboardReadInsightsTrendsGetResponse } from '@modules/api/types/api.types';
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import type { DashboardReadInsightsReadTrendsIntervalType } from '../types/dashboard.types';
 
 interface UseReadInsightsTrendsReturn {
   data: DashboardReadInsightsTrendsGetResponse;
-  isLoading: boolean;
+  isFetching: boolean;
+  interval: DashboardReadInsightsReadTrendsIntervalType;
+  setInterval: (interval: DashboardReadInsightsReadTrendsIntervalType) => void;
 }
 
-interface UseReadInsightsTrendsParams {
-  interval?: DashboardReadInsightsReadTrendsIntervalType;
-}
+export const useReadInsightsTrends = (): UseReadInsightsTrendsReturn => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
 
-export const useReadInsightsTrends = (params: UseReadInsightsTrendsParams = {}): UseReadInsightsTrendsReturn => {
-  const { interval = 'daily' } = params;
+  const interval = (searchParams.get('read-trends-interval') as DashboardReadInsightsReadTrendsIntervalType) ?? 'daily';
 
-  const { data, isLoading } = useQuery<DashboardReadInsightsTrendsGetResponse>(
+  const { data, isFetching } = useQuery<DashboardReadInsightsTrendsGetResponse>(
     ['dashboard-read-insights-trends', interval],
     {
       initialData: { trends: {} },
@@ -32,5 +35,12 @@ export const useReadInsightsTrends = (params: UseReadInsightsTrendsParams = {}):
       },
     }
   );
-  return { data, isLoading };
+
+  const setInterval = (newInterval: DashboardReadInsightsReadTrendsIntervalType): void => {
+    const params = new URLSearchParams(searchParams);
+    params.set('read-trends-interval', newInterval);
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
+  return { data, isFetching, interval, setInterval };
 };

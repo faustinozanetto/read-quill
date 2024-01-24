@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Dashboard from '@modules/dashboard/components/dashboard';
 import { __URL__ } from '@modules/common/lib/common.constants';
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'User Dashboard',
@@ -11,7 +12,9 @@ export const metadata: Metadata = {
 export default function DashboardPage(): React.JSX.Element {
   return (
     <div className="container my-4">
-      <Dashboard />
+      <Suspense>
+        <Dashboard />
+      </Suspense>
     </div>
   );
 }
