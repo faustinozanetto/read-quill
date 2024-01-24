@@ -16,8 +16,10 @@ const DashboardReadInsights: React.FC = () => {
         </p>
       </div>
 
-      <DashboardReadInsightTrends />
-      <DashboardReadTimeDistribution />
+      <div className="grid gap-2 lg:grid-cols-2">
+        <DashboardReadInsightTrends />
+        <DashboardReadTimeDistribution />
+      </div>
     </div>
   );
 };

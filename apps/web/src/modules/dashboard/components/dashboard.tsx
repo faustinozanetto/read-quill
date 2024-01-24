@@ -35,7 +35,7 @@ const Dashboard: React.FC = () => {
   });
 
   return (
-    <section className="mx-auto flex max-w-6xl flex-col gap-4">
+    <section className="mx-auto flex flex-col gap-4">
       <DashboardGreeting />
       <DashboardReadTargets />
       <DashboardReadRegistries />

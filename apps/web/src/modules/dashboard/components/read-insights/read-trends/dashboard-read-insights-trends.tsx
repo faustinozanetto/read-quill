@@ -49,83 +49,82 @@ const DashboardReadInsightTrends: React.FC = () => {
     });
   }, [data, interval]);
 
-  const options: ApexOptions = {
-    theme: {
-      mode: theme === 'dark' ? 'dark' : 'light',
-      palette: 'palette1',
-      monochrome: {
-        enabled: true,
-        color: '#f97316',
-        shadeTo: theme === 'dark' ? 'dark' : 'light',
-      },
-    },
-    chart: {
-      id: 'read-trends-chart',
-      type: 'bar',
-      selection: { enabled: false },
-      animations: { enabled: true },
-      fontFamily: 'inherit',
-      toolbar: {
-        show: false,
-      },
-    },
-    plotOptions: {
-      bar: {
-        columnWidth: '40%',
-        borderRadius: 2,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      lineCap: 'round',
-      curve: 'smooth',
-    },
-    markers: {
-      size: 0,
-    },
-    xaxis: {
-      axisTicks: {
-        show: false,
-      },
-      axisBorder: {
-        show: false,
-      },
-      labels: {
-        style: {
-          fontSize: '12px',
-          fontWeight: 500,
+  const options: ApexOptions = useMemo(
+    () => ({
+      theme: {
+        mode: theme === 'dark' ? 'dark' : 'light',
+        palette: 'palette1',
+        monochrome: {
+          enabled: true,
+          color: '#f97316',
+          shadeTo: theme === 'dark' ? 'dark' : 'light',
         },
       },
-      categories,
-      type: 'category',
-    },
-    yaxis: {
-      labels: {
-        style: {
-          fontSize: '12px',
-          fontWeight: 500,
+      chart: {
+        id: 'read-trends-chart',
+        type: 'bar',
+        selection: { enabled: false },
+        animations: { enabled: true },
+        fontFamily: 'inherit',
+        toolbar: {
+          show: false,
         },
       },
-    },
-    grid: {
-      show: true,
-      strokeDashArray: 5,
+      plotOptions: {
+        bar: {
+          columnWidth: '40%',
+          borderRadius: 2,
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        lineCap: 'round',
+        curve: 'smooth',
+      },
+      markers: {
+        size: 0,
+      },
       xaxis: {
-        lines: {
-          show: true,
+        axisTicks: {
+          show: false,
+        },
+        axisBorder: {
+          show: false,
+        },
+        labels: {
+          style: {
+            fontSize: '12px',
+            fontWeight: 500,
+          },
+        },
+        categories,
+        type: 'category',
+      },
+      yaxis: {
+        labels: {
+          style: {
+            fontSize: '12px',
+            fontWeight: 500,
+          },
         },
       },
-      padding: {
-        top: 5,
-        right: 20,
+      grid: {
+        show: true,
+        strokeDashArray: 5,
+        xaxis: {
+          lines: {
+            show: true,
+          },
+        },
       },
-    },
-    fill: {
-      opacity: 0.8,
-    },
-  };
+      fill: {
+        opacity: 0.8,
+      },
+    }),
+    [categories, theme]
+  );
 
   const series = useMemo(() => {
     const mappedData = Object.values(data.trends).map((trend) => {

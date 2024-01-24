@@ -87,10 +87,6 @@ const DashboardReadTimeDistribution: React.FC = () => {
             show: true,
           },
         },
-        padding: {
-          top: 5,
-          right: 5,
-        },
       },
     }),
     [theme]
