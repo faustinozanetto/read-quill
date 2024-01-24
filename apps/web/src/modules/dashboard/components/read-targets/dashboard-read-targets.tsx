@@ -4,7 +4,7 @@ import React from 'react';
 import { useReadTargetsCreated } from '@modules/dashboard/hooks/use-read-targets-created';
 import { useReadTargets } from '@modules/dashboard/hooks/use-read-targets';
 import DashboardReadTargetsHeader from './header/dashboard-read-targets-header';
-import DashboardReadTargetsEntries from './entries/dashboard-read-targets-entries';
+import DashboardReadTargetsFeed from './feed/dashboard-read-targets-feed';
 
 const DashboardReadTargets: React.FC = () => {
   const { isLoading } = useReadTargetsCreated();
@@ -14,13 +14,12 @@ const DashboardReadTargets: React.FC = () => {
     <div className="rounded-lg border p-4 shadow flex flex-col gap-2">
       <DashboardReadTargetsHeader isLoading={isLoading} targetReadTargets={targetReadTargets} />
 
-      <p>Visualize your daily, weekly, and monthly reading goals to shape your literary adventure.</p>
+      <p>
+        Set personalized daily, weekly, and monthly reading goals to cultivate a consistent reading habit. Monitor your
+        progress and celebrate achievements as you reach milestones.
+      </p>
 
-      <DashboardReadTargetsEntries
-        isLoading={isLoading}
-        readTargets={readTargets}
-        targetReadTargets={targetReadTargets}
-      />
+      <DashboardReadTargetsFeed isLoading={isLoading} readTargets={readTargets} targetReadTargets={targetReadTargets} />
     </div>
   );
 };

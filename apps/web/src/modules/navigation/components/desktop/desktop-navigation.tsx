@@ -28,7 +28,11 @@ const DesktopNavigation: React.FC = () => {
 
         {status === 'authenticated' ? (
           <>
-            <NavigationLink href={`/users/${session.user.id}`} icon={<UserIcon className="mr-2" />}>
+            <NavigationLink
+              className="w-full justify-start"
+              href={`/users/${session.user.id}`}
+              icon={<UserIcon className="mr-2" />}
+            >
               {session.user.name}
             </NavigationLink>
             <NavigationLogout className="w-full justify-start">Logout</NavigationLogout>

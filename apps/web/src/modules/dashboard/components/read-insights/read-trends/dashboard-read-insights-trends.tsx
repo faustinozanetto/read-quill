@@ -38,7 +38,7 @@ const DashboardReadInsightTrends: React.FC = () => {
 
       switch (interval) {
         case 'daily':
-          return parsedDate.toLocaleDateString('en-US', { dateStyle: 'medium' });
+          return parsedDate.toLocaleDateString('en-US', { dateStyle: 'short' });
         case 'weekly':
           return `Week ${getWeekNumber(parsedDate)}, ${parsedDate.getFullYear()}`;
         case 'monthly':

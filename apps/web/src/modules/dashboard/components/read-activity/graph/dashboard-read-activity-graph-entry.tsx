@@ -1,4 +1,4 @@
-import React, { memo, useCallback } from 'react';
+import React, { memo, useMemo } from 'react';
 import type { DashboardReadActivityEntry } from '@modules/dashboard/types/dashboard.types';
 
 interface DashboardReadActivityGraphEntryProps {
@@ -9,7 +9,7 @@ const DashboardReadActivityGraphEntry: React.FC<DashboardReadActivityGraphEntryP
   (props) => {
     const { activity } = props;
 
-    const generateStyles = useCallback<() => React.CSSProperties>(() => {
+    const styles: React.CSSProperties = useMemo(() => {
       const today = new Date();
       const activityDateIsToday = today.toISOString().split('T')[0] === activity.date;
 
@@ -20,7 +20,7 @@ const DashboardReadActivityGraphEntry: React.FC<DashboardReadActivityGraphEntryP
       return { backgroundColor: 'hsl(var(--foreground) / 0.05)' };
     }, [activity]);
 
-    return <td className="w-[16px] h-[16px] rounded-sm" style={generateStyles()} />;
+    return <td className="w-[16px] h-[16px] rounded-sm" style={styles} />;
   },
   (prev, next) => prev.activity === next.activity
 );

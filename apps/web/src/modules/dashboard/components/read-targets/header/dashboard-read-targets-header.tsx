@@ -18,7 +18,7 @@ const DashboardReadTargetsHeader: React.FC<DashboardReadTargetsHeaderProps> = (p
   const readTargetsCreated = queryClient.getQueryData<boolean>(['dashboard-read-targets-created']);
 
   return (
-    <div className="flex flex-col gap-2 md:flex-row md:justify-between md:gap-0">
+    <div className="flex flex-col gap-2 sm:flex-row sm:justify-between">
       <h2 className="text-2xl font-bold">Read Targets</h2>
       {isLoading ? <Skeleton className="h-10 w-full md:w-1/4" /> : null}
 

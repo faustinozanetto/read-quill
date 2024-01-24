@@ -1,19 +1,7 @@
 import React from 'react';
 import DashboardReadActivityHeader from './header/dashboard-read-activity-header';
-import DashboardReadActivityGraph from './dashboard-read-activity-graph';
-import DashboardReadActivityIndicators from './dashboard-read-activity-indicators';
-
-const ACTIVITY_THRESHOLDS = [0, 5, 10, 20, 50, 100];
-
-export const mapActivityToLevel = (activityValue: number): number => {
-  for (let i = ACTIVITY_THRESHOLDS.length - 1; i >= 0; i--) {
-    if (activityValue >= ACTIVITY_THRESHOLDS[i]) {
-      return i;
-    }
-  }
-
-  return 0;
-};
+import DashboardReadActivityGraph from './graph/dashboard-read-activity-graph';
+import DashboardReadActivityIndicators from './indicators/dashboard-read-activity-indicators';
 
 const DashboardReadActivity: React.FC = () => {
   return (

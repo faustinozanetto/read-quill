@@ -6,7 +6,11 @@ const DashboardReadRegistries: React.FC = () => {
   return (
     <div className="rounded-lg border p-4 shadow flex flex-col gap-2">
       <DashboardReadTargetsHeader />
-      <p>Visualize and reate read registries to track your progress with your books!</p>
+      <p>
+        Create detailed entries for each book you delve into, capturing essential details like progress, book covers,
+        and titles. Navigate through a curated table displaying your read registries, offering a comprehensive overview
+        of your reading history.{' '}
+      </p>
       <DashboardReadRegistriesTable />
     </div>
   );

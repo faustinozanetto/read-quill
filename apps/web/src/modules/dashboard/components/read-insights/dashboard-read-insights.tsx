@@ -9,7 +9,10 @@ const DashboardReadInsights: React.FC = () => {
     <div className="flex flex-col gap-2">
       <div className="rounded-lg border p-4 shadow flex flex-col gap-2">
         <DashboardReadInsightsHeader />
-        <p>Visualize your daily, weekly, and monthly reading goals to shape your literary adventure.</p>
+        <p>
+          Uncover deep insights into your reading habits with the Read Insights section. Gain a bird&apos;s-eye view of
+          your daily, weekly, and monthly reading trends.
+        </p>
       </div>
 
       <DashboardReadInsightTrends />

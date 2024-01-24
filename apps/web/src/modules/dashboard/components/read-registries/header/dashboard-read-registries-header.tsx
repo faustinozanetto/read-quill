@@ -3,7 +3,7 @@ import DashboardReadRegistriesCreate from './create/dashboard-read-registries-cr
 
 const DashboardReadRegistriesHeader: React.FC = () => {
   return (
-    <div className="flex flex-col gap-2 md:flex-row md:justify-between md:gap-0">
+    <div className="flex flex-col gap-2 sm:flex-row sm:justify-between">
       <h2 className="text-2xl font-bold">Read Registries</h2>
       <DashboardReadRegistriesCreate />
     </div>

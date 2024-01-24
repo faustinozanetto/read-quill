@@ -1,5 +1,6 @@
 import React from 'react';
 import { useReadActivityGraph } from '@modules/dashboard/hooks/read-activity/use-read-activity-graph';
+import DashboardReadActivityIndicator from './dashboard-read-activity-indicator';
 
 const DashboardReadActivityIndicators: React.FC = () => {
   const { ACTIVITY_THRESHOLDS } = useReadActivityGraph();
@@ -10,10 +11,9 @@ const DashboardReadActivityIndicators: React.FC = () => {
       {ACTIVITY_THRESHOLDS.map((threshold, i) => {
         const thresholdLevel = ACTIVITY_THRESHOLDS.length - i;
         return (
-          <div
-            className="h-[14px] w-[14px] rounded-sm"
-            key={threshold}
-            style={{ backgroundColor: `hsl(var(--primary) / ${(1 / thresholdLevel).toFixed(2)})` }}
+          <DashboardReadActivityIndicator
+            key={`activity-threshold-indicator-${threshold}`}
+            thresholdLevel={thresholdLevel}
           />
         );
       })}

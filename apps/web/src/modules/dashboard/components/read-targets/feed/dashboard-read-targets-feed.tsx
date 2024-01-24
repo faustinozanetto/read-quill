@@ -4,13 +4,13 @@ import { Skeleton } from '@read-quill/design-system';
 import { dashboardReadTargets } from '@modules/dashboard/types/dashboard.types';
 import DashboardReadTargetsCard from './dashboard-read-targets-card';
 
-interface DashboardReadTargetsEntriesProps {
+interface DashboardReadTargetsFeedProps {
   isLoading: boolean;
   targetReadTargets: Omit<ReadTargets, 'id' | 'userId'> | undefined;
   readTargets: Omit<ReadTargets, 'id' | 'userId'> | undefined;
 }
 
-const DashboardReadTargetsEntries: React.FC<DashboardReadTargetsEntriesProps> = (props) => {
+const DashboardReadTargetsFeed: React.FC<DashboardReadTargetsFeedProps> = (props) => {
   const { isLoading, readTargets, targetReadTargets } = props;
 
   return (
@@ -37,4 +37,4 @@ const DashboardReadTargetsEntries: React.FC<DashboardReadTargetsEntriesProps> = 
   );
 };
 
-export default DashboardReadTargetsEntries;
+export default DashboardReadTargetsFeed;

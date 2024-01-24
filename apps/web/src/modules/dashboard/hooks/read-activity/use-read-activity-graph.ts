@@ -7,16 +7,21 @@ interface UseReadActivityGraphReturn {
    * @returns The mapped activity level.
    */
   mapActivityToLevel: (activityValue: number) => number;
-  /**
-   * Calculates the start date for the read activity graph.
-   * @param daysBack - The number of days to go back from today.
-   * @returns The calculated start date.
-   */
-  calculateStartDate: (daysBack?: number) => Date;
   ACTIVITY_THRESHOLDS: number[];
+  startDate: Date;
+  daysPerRow: number;
 }
 
-export const useReadActivityGraph = (): UseReadActivityGraphReturn => {
+interface UseReadActivityGraphParams {
+  daysPerRow: number;
+  daysBack: number;
+}
+
+export const useReadActivityGraph = (
+  params: UseReadActivityGraphParams = { daysPerRow: 50, daysBack: 7 }
+): UseReadActivityGraphReturn => {
+  const { daysPerRow, daysBack } = params;
+
   const ACTIVITY_THRESHOLDS = useMemo(() => [0, 5, 10, 20, 50, 100], []);
 
   const mapActivityToLevel = useCallback(
@@ -32,13 +37,13 @@ export const useReadActivityGraph = (): UseReadActivityGraphReturn => {
     [ACTIVITY_THRESHOLDS]
   );
 
-  const calculateStartDate = useCallback((daysBack = 7) => {
+  const startDate = useMemo(() => {
     const today = new Date();
-    const startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
+    const date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
 
-    startDate.setDate(startDate.getDate() - daysBack);
-    return startDate;
-  }, []);
+    date.setDate(date.getDate() - daysBack);
+    return date;
+  }, [daysBack]);
 
-  return { mapActivityToLevel, calculateStartDate, ACTIVITY_THRESHOLDS };
+  return { mapActivityToLevel, startDate, ACTIVITY_THRESHOLDS, daysPerRow };
 };
