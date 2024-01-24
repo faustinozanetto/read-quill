@@ -143,34 +143,41 @@ const DashboardReadInsightTrends: React.FC = () => {
 
   return (
     <div className="rounded-lg border p-4 shadow flex flex-col gap-2">
-      <div className="flex justify-between">
-        <h3 className="text-xl font-bold">Read Trends</h3>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button className="ml-auto" variant="outline">
-              Interval
-              <ChevronDownIcon className="ml-2" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-[150px]">
-            <DropdownMenuLabel>Time Interval</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            {dashboardReadInsightsReadTrendsIntervals.map((trendInterval) => {
-              return (
-                <DropdownMenuCheckboxItem
-                  checked={interval === trendInterval}
-                  className="capitalize"
-                  key={trendInterval}
-                  onCheckedChange={() => {
-                    setInterval(trendInterval);
-                  }}
-                >
-                  {trendInterval}
-                </DropdownMenuCheckboxItem>
-              );
-            })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+      <div className="flex flex-col">
+        <div className="flex items-center justify-between mb-2">
+          <h3 className="text-xl font-bold">Read Trends</h3>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button className="ml-auto" variant="outline">
+                Interval
+                <ChevronDownIcon className="ml-2" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-[150px]">
+              <DropdownMenuLabel>Time Interval</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {dashboardReadInsightsReadTrendsIntervals.map((trendInterval) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    checked={interval === trendInterval}
+                    className="capitalize"
+                    key={trendInterval}
+                    onCheckedChange={() => {
+                      setInterval(trendInterval);
+                    }}
+                  >
+                    {trendInterval}
+                  </DropdownMenuCheckboxItem>
+                );
+              })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+        <p>
+          Dive into your reading habits with Read Trends, showcasing detailed bar charts for daily, weekly, and monthly
+          page consumption. Track your progress, set goals, and discover patterns to make the most of your reading
+          journey.
+        </p>
       </div>
 
       {isFetching ? <Skeleton className="h-48 w-full" /> : null}

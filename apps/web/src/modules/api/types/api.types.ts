@@ -17,6 +17,10 @@ export interface DashboardReadInsightsTrendsGetResponse {
   trends: Record<string, ReadRegistry[]>;
 }
 
+export interface DashboardReadInsightsTimeDistributionGetResponse {
+  timeDistribution: Record<string, number>;
+}
+
 export interface DashboardReadActivityGetResponse {
   readActivity: Record<string, number>;
 }

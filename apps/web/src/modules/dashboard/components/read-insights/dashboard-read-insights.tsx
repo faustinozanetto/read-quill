@@ -3,6 +3,7 @@
 import React from 'react';
 import DashboardReadInsightsHeader from './header/dashboard-read-insights-header';
 import DashboardReadInsightTrends from './read-trends/dashboard-read-insights-trends';
+import DashboardReadTimeDistribution from './read-time-distribution/dashboard-read-time-distribution';
 
 const DashboardReadInsights: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ const DashboardReadInsights: React.FC = () => {
       </div>
 
       <DashboardReadInsightTrends />
+      <DashboardReadTimeDistribution />
     </div>
   );
 };
