@@ -17,6 +17,17 @@ export interface DashboardReadInsightsTrendsGetResponse {
   trends: Record<string, ReadRegistry[]>;
 }
 
+export interface DashboardBooksProgressGetResponse {
+  booksProgress: {
+    id: string;
+    progress: number;
+    cover: string;
+    name: string;
+  }[];
+  pageCount: number;
+  hasMore: boolean;
+}
+
 export interface DashboardReadInsightsTimeDistributionGetResponse {
   timeDistribution: {
     date: string;

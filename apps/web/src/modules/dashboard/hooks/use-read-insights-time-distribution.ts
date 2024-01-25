@@ -14,6 +14,7 @@ export const useReadInsightsTimeDistribution = (): UseReadInsightsTimeDistributi
       initialData: { timeDistribution: [] },
       queryFn: async () => {
         const url = new URL('/api/dashboard/read-insights/time-distribution', __URL__);
+        url.searchParams.set('group-size', '45');
 
         const response = await fetch(url, { method: 'GET' });
         if (!response.ok) {

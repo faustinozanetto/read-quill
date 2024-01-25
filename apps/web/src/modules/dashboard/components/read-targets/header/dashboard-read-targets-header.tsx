@@ -7,12 +7,12 @@ import DashboardReadTargetsEdit from './edit/dashboard-read-targets-edit';
 import DashboardReadTargetsCreate from './create/dashboard-read-targets-create';
 
 interface DashboardReadTargetsHeaderProps {
-  isLoading: boolean;
+  isFetching: boolean;
   targetReadTargets: Omit<ReadTargets, 'id' | 'userId'> | undefined;
 }
 
 const DashboardReadTargetsHeader: React.FC<DashboardReadTargetsHeaderProps> = (props) => {
-  const { isLoading, targetReadTargets } = props;
+  const { isFetching, targetReadTargets } = props;
 
   const queryClient = useQueryClient();
   const readTargetsCreated = queryClient.getQueryData<boolean>(['dashboard-read-targets-created']);
@@ -20,13 +20,13 @@ const DashboardReadTargetsHeader: React.FC<DashboardReadTargetsHeaderProps> = (p
   return (
     <div className="flex flex-col gap-2 sm:flex-row sm:justify-between">
       <h2 className="text-2xl font-bold">Read Targets</h2>
-      {isLoading ? <Skeleton className="h-10 w-full md:w-1/4" /> : null}
+      {isFetching ? <Skeleton className="h-10 w-full md:w-1/4" /> : null}
 
-      {!isLoading && readTargetsCreated && targetReadTargets ? (
+      {!isFetching && readTargetsCreated && targetReadTargets ? (
         <DashboardReadTargetsEdit readTargets={targetReadTargets} />
       ) : null}
 
-      {!isLoading && !readTargetsCreated ? <DashboardReadTargetsCreate /> : null}
+      {!isFetching && !readTargetsCreated ? <DashboardReadTargetsCreate /> : null}
     </div>
   );
 };

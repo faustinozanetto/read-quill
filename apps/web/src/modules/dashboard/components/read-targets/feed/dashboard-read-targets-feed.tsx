@@ -5,23 +5,23 @@ import { dashboardReadTargets } from '@modules/dashboard/types/dashboard.types';
 import DashboardReadTargetsCard from './dashboard-read-targets-card';
 
 interface DashboardReadTargetsFeedProps {
-  isLoading: boolean;
+  isFetching: boolean;
   targetReadTargets: Omit<ReadTargets, 'id' | 'userId'> | undefined;
   readTargets: Omit<ReadTargets, 'id' | 'userId'> | undefined;
 }
 
 const DashboardReadTargetsFeed: React.FC<DashboardReadTargetsFeedProps> = (props) => {
-  const { isLoading, readTargets, targetReadTargets } = props;
+  const { isFetching, readTargets, targetReadTargets } = props;
 
   return (
     <div className="grid gap-2 md:grid-cols-3 mt-2">
-      {isLoading
+      {isFetching
         ? Array.from({ length: 3 }).map((_, i) => (
             <Skeleton className="h-48 w-full" key={`dashboard-read-target-placeholder-${i}`} />
           ))
         : null}
 
-      {readTargets && targetReadTargets
+      {!isFetching && readTargets && targetReadTargets
         ? dashboardReadTargets.map((type) => {
             return (
               <DashboardReadTargetsCard

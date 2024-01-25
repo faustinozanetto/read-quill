@@ -3,11 +3,11 @@ import { __URL__ } from '@modules/common/lib/common.constants';
 
 interface UseReadTargetsCreatedReturn {
   readTargetsCreated: boolean;
-  isLoading: boolean;
+  isFetching: boolean;
 }
 
 export const useReadTargetsCreated = (): UseReadTargetsCreatedReturn => {
-  const { data: readTargetsCreated, isLoading } = useQuery<boolean>(['dashboard-read-targets-created'], {
+  const { data: readTargetsCreated, isFetching } = useQuery<boolean>(['dashboard-read-targets-created'], {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     queryFn: async () => {
@@ -23,5 +23,5 @@ export const useReadTargetsCreated = (): UseReadTargetsCreatedReturn => {
     },
   });
 
-  return { readTargetsCreated: Boolean(readTargetsCreated), isLoading };
+  return { readTargetsCreated: Boolean(readTargetsCreated), isFetching };
 };

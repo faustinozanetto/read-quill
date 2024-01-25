@@ -1,25 +1,73 @@
 import { useQuery } from '@tanstack/react-query';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import type { DashboardBooksProgress } from '../types/dashboard.types';
+import { useCallback, useState } from 'react';
+import type { DashboardBooksProgressGetResponse } from '@modules/api/types/api.types';
 
 interface UseBooksProgressReturn {
-  booksProgress: DashboardBooksProgress;
-  isLoading: boolean;
+  data: DashboardBooksProgressGetResponse;
+  isFetching: boolean;
+  page: number;
+  nextPage: () => void;
+  previousPage: () => void;
+  getCanPreviousPage: () => boolean;
+  getCanNextPage: () => boolean;
 }
 
-export const useBooksProgress = (): UseBooksProgressReturn => {
-  const { data, isLoading } = useQuery<UseBooksProgressReturn['booksProgress']>(['dashboard-books-progress'], {
-    queryFn: async () => {
-      const url = new URL('/api/dashboard/books-progress', __URL__);
+interface UseBooksProgressParams {
+  pageSize: number;
+}
 
-      const response = await fetch(url, { method: 'GET' });
-      if (!response.ok) {
-        throw new Error('Failed to fetch user books progress!');
-      }
+const buildUrl = (page: number, pageSize: number): string => {
+  const url = new URL('/api/dashboard/books-progress', __URL__);
+  url.searchParams.set('pageIndex', String(page));
+  url.searchParams.set('pageSize', String(pageSize));
+  return url.toString();
+};
 
-      const { booksProgress } = await response.json();
-      return booksProgress;
-    },
-  });
-  return { booksProgress: data ?? {}, isLoading };
+export const useBooksProgress = (params: UseBooksProgressParams = { pageSize: 2 }): UseBooksProgressReturn => {
+  const { pageSize } = params;
+
+  const [page, setPage] = useState(0);
+
+  const { data, isFetching, isPreviousData } = useQuery<DashboardBooksProgressGetResponse>(
+    ['dashboard-books-progress', page],
+    {
+      keepPreviousData: true,
+      initialData: { booksProgress: [], hasMore: false, pageCount: 0 },
+      queryFn: async () => {
+        try {
+          const url = buildUrl(page, pageSize);
+          const response = await fetch(url, { method: 'GET' });
+
+          if (!response.ok) {
+            throw new Error('Failed to fetch user books progress!');
+          }
+
+          return response.json();
+        } catch (error) {
+          if (error instanceof Error) throw new Error(`Failed to fetch user books progress: ${error.message}`);
+        }
+      },
+    }
+  );
+
+  const previousPage = useCallback(() => {
+    setPage((old) => Math.max(old - 1, 0));
+  }, []);
+
+  const nextPage = useCallback(() => {
+    if (!isPreviousData && data.hasMore) {
+      setPage((old) => old + 1);
+    }
+  }, [data.hasMore, isPreviousData]);
+
+  const getCanPreviousPage = useCallback(() => {
+    return page !== 0;
+  }, [page]);
+
+  const getCanNextPage = useCallback(() => {
+    return !(isPreviousData || !data?.hasMore);
+  }, [data?.hasMore, isPreviousData]);
+
+  return { data, isFetching, page, getCanPreviousPage, getCanNextPage, previousPage, nextPage };
 };
