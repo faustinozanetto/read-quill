@@ -1,96 +1,12 @@
 'use client';
 
-import React, { useMemo } from 'react';
-import dynamic from 'next/dynamic';
-import type { ApexOptions } from 'apexcharts';
+import React from 'react';
 import { Skeleton } from '@read-quill/design-system';
-import { useTheme } from 'next-theme-kit';
 import { useReadInsightsTimeDistribution } from '@modules/dashboard/hooks/use-read-insights-time-distribution';
-
-const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
+import DashboardReadTimeDistributionChart from './dashboard-read-time-distribution-chart';
 
 const DashboardReadTimeDistribution: React.FC = () => {
-  const { theme } = useTheme();
-  const { data, isFetching } = useReadInsightsTimeDistribution();
-
-  const formattedData = useMemo(() => {
-    return data.timeDistribution.map((entry) => ({
-      x: entry.date,
-      y: entry.pagesRead,
-    }));
-  }, [data]);
-
-  const series = useMemo<ApexOptions['series']>(
-    () => [
-      {
-        name: 'Pages Read',
-        type: 'area',
-        data: formattedData,
-      },
-    ],
-    [formattedData]
-  );
-
-  const options: ApexOptions = useMemo(
-    () => ({
-      theme: {
-        mode: theme === 'dark' ? 'dark' : 'light',
-        palette: 'palette1',
-        monochrome: {
-          enabled: true,
-          color: '#f97316',
-          shadeTo: theme === 'dark' ? 'dark' : 'light',
-        },
-      },
-      chart: {
-        id: 'read-time-distribution-chart',
-        type: 'line',
-        selection: { enabled: false },
-        animations: { enabled: true },
-        fontFamily: 'inherit',
-        toolbar: {
-          show: false,
-        },
-      },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        lineCap: 'round',
-        curve: 'smooth',
-      },
-      markers: {
-        size: 0,
-      },
-      xaxis: {
-        axisTicks: {
-          show: false,
-        },
-        axisBorder: {
-          show: false,
-        },
-        labels: {
-          style: {
-            fontSize: '12px',
-            fontWeight: 500,
-          },
-        },
-      },
-      yaxis: {
-        show: true,
-      },
-      grid: {
-        show: true,
-        strokeDashArray: 5,
-        xaxis: {
-          lines: {
-            show: true,
-          },
-        },
-      },
-    }),
-    [theme]
-  );
+  const { data, isFetching, isLoading } = useReadInsightsTimeDistribution();
 
   return (
     <div className="rounded-lg border p-4 shadow flex flex-col gap-2">
@@ -100,13 +16,13 @@ const DashboardReadTimeDistribution: React.FC = () => {
         throughout the day. Uncover peak reading hours and gain insights to enhance your daily reading routine.
       </p>
 
-      {isFetching ? <Skeleton className="h-48 w-full" /> : null}
+      {isFetching || isLoading ? <Skeleton className="h-48 w-full" /> : null}
 
-      {!isFetching && formattedData.length > 0 ? (
-        <ReactApexChart height={350} options={options} series={series} type="line" width="100%" />
+      {data.timeDistribution.length > 0 ? (
+        <DashboardReadTimeDistributionChart timeDistribution={data.timeDistribution} />
       ) : null}
 
-      {!isFetching && formattedData.length === 0 ? <p>Not enough data to display read trends!</p> : null}
+      {!isFetching && data.timeDistribution.length === 0 ? <p>Not enough data to display read trends!</p> : null}
     </div>
   );
 };

@@ -5,10 +5,11 @@ import type { DashboardReadInsightsTimeDistributionGetResponse } from '@modules/
 interface UseReadInsightsTimeDistributionReturn {
   data: DashboardReadInsightsTimeDistributionGetResponse;
   isFetching: boolean;
+  isLoading: boolean;
 }
 
 export const useReadInsightsTimeDistribution = (): UseReadInsightsTimeDistributionReturn => {
-  const { data, isFetching } = useQuery<DashboardReadInsightsTimeDistributionGetResponse>(
+  const { data, isFetching, isLoading } = useQuery<DashboardReadInsightsTimeDistributionGetResponse>(
     ['dashboard-read-time-distribution'],
     {
       initialData: { timeDistribution: [] },
@@ -26,5 +27,5 @@ export const useReadInsightsTimeDistribution = (): UseReadInsightsTimeDistributi
     }
   );
 
-  return { data, isFetching };
+  return { data, isFetching, isLoading };
 };

@@ -1,11 +1,11 @@
-import type { ReadTargets } from '@read-quill/database';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { __URL__ } from '@modules/common/lib/common.constants';
+import type { DashboardReadTargetsGetResponse } from '@modules/api/types/api.types';
 
 interface UseReadTargetsReturn {
-  targetReadTargets?: Omit<ReadTargets, 'id' | 'userId'>;
-  readTargets?: Omit<ReadTargets, 'id' | 'userId'>;
+  data?: DashboardReadTargetsGetResponse;
   isLoading: boolean;
+  isFetching: boolean;
 }
 
 export const useReadTargets = (): UseReadTargetsReturn => {
@@ -13,10 +13,7 @@ export const useReadTargets = (): UseReadTargetsReturn => {
 
   const readTargetsCreated = queryClient.getQueryData(['dashboard-read-targets-created']);
 
-  const { data, isLoading } = useQuery<{
-    targetReadTargets: Omit<ReadTargets, 'id' | 'userId'>;
-    readTargets: Omit<ReadTargets, 'id' | 'userId'>;
-  }>(['dashboard-read-targets'], {
+  const { data, isLoading, isFetching } = useQuery<DashboardReadTargetsGetResponse>(['dashboard-read-targets'], {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     enabled: Boolean(readTargetsCreated),
@@ -31,5 +28,5 @@ export const useReadTargets = (): UseReadTargetsReturn => {
       return response.json();
     },
   });
-  return { readTargets: data?.readTargets, targetReadTargets: data?.targetReadTargets, isLoading };
+  return { data, isLoading, isFetching };
 };

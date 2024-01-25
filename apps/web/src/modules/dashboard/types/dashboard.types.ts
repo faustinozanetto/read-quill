@@ -1,5 +1,5 @@
-export const dashboardReadTargets = ['daily', 'weekly', 'monthly'] as const;
-export type DashboardReadTargetsType = (typeof dashboardReadTargets)[number];
+export const DASHBOARD_READ_TARGETS = ['daily', 'weekly', 'monthly'] as const;
+export type DashboardReadTargetsType = (typeof DASHBOARD_READ_TARGETS)[number];
 
 export const dashboardReadInsightsReadTrendsIntervals = ['daily', 'weekly', 'monthly'] as const;
 export type DashboardReadInsightsReadTrendsIntervalType = (typeof dashboardReadInsightsReadTrendsIntervals)[number];

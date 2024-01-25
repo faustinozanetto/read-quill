@@ -1,0 +1,57 @@
+'use client';
+
+import React from 'react';
+import {
+  dashboardReadInsightsReadTrendsIntervals,
+  type DashboardReadInsightsReadTrendsIntervalType,
+} from '@modules/dashboard/types/dashboard.types';
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  Button,
+  ChevronDownIcon,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuCheckboxItem,
+} from '@read-quill/design-system';
+
+interface DashboardReadInsightTrendsIntervalSelectProps {
+  interval: DashboardReadInsightsReadTrendsIntervalType;
+  setInterval: (interval: DashboardReadInsightsReadTrendsIntervalType) => void;
+}
+
+const DashboardReadInsightTrendsIntervalSelect: React.FC<DashboardReadInsightTrendsIntervalSelectProps> = (props) => {
+  const { setInterval, interval } = props;
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button className="ml-auto" variant="outline">
+          Interval
+          <ChevronDownIcon className="ml-2" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-[150px]">
+        <DropdownMenuLabel>Time Interval</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        {dashboardReadInsightsReadTrendsIntervals.map((trendInterval) => {
+          return (
+            <DropdownMenuCheckboxItem
+              checked={interval === trendInterval}
+              className="capitalize"
+              key={trendInterval}
+              onCheckedChange={() => {
+                setInterval(trendInterval);
+              }}
+            >
+              {trendInterval}
+            </DropdownMenuCheckboxItem>
+          );
+        })}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+};
+
+export default DashboardReadInsightTrendsIntervalSelect;

@@ -1,4 +1,4 @@
-import type { ReadRegistry } from '@read-quill/database';
+import type { ReadRegistry, ReadTargets } from '@read-quill/database';
 
 export type DashboardReadRegistry = ReadRegistry & {
   book: {
@@ -8,13 +8,21 @@ export type DashboardReadRegistry = ReadRegistry & {
   };
 };
 
+export interface DashboardReadTargetsGetResponse {
+  targetReadTargets: Pick<ReadTargets, 'daily' | 'weekly' | 'monthly'>;
+  readTargets: Pick<ReadTargets, 'daily' | 'weekly' | 'monthly'>;
+}
+
 export interface DashboardReadRegistriesGetResponse {
   readRegistries: DashboardReadRegistry[];
   pageCount: number;
 }
 
 export interface DashboardReadInsightsTrendsGetResponse {
-  trends: Record<string, ReadRegistry[]>;
+  trends: {
+    date: string;
+    registries: ReadRegistry[];
+  }[];
 }
 
 export interface DashboardBooksProgressGetResponse {

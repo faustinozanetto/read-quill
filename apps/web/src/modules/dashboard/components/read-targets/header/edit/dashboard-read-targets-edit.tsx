@@ -11,18 +11,18 @@ import {
   useToast,
 } from '@read-quill/design-system';
 import { useMutation } from '@tanstack/react-query';
-import type { ReadTargets } from '@read-quill/database';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
+import type { DashboardReadTargetsGetResponse } from '@modules/api/types/api.types';
 import DashboardReadTargetsEditForm from './dashboard-read-targets-edit-form';
 import type { DashboardReadTargetsEditFormData } from './dashboard-read-targets-edit-form';
 
 interface DashboardReadTargetsEditProps {
-  readTargets: Omit<ReadTargets, 'id' | 'userId'>;
+  targetReadTargets: DashboardReadTargetsGetResponse['targetReadTargets'];
 }
 
 const DashboardReadTargetsEdit: React.FC<DashboardReadTargetsEditProps> = (props) => {
-  const { readTargets } = props;
+  const { targetReadTargets } = props;
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const { toast } = useToast();
@@ -71,7 +71,7 @@ const DashboardReadTargetsEdit: React.FC<DashboardReadTargetsEditProps> = (props
           <DialogDescription>Edit your read targets here.</DialogDescription>
         </DialogHeader>
 
-        <DashboardReadTargetsEditForm initialData={readTargets} onSubmit={mutateAsync} />
+        <DashboardReadTargetsEditForm initialData={targetReadTargets} onSubmit={mutateAsync} />
       </DialogContent>
     </Dialog>
   );

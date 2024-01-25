@@ -3,8 +3,9 @@ import { __URL__ } from '@modules/common/lib/common.constants';
 import { useCallback, useState } from 'react';
 import type { DashboardBooksProgressGetResponse } from '@modules/api/types/api.types';
 
-interface UseBooksProgressReturn {
+export interface UseBooksProgressReturn {
   data: DashboardBooksProgressGetResponse;
+  isLoading: boolean;
   isFetching: boolean;
   page: number;
   nextPage: () => void;
@@ -24,16 +25,16 @@ const buildUrl = (page: number, pageSize: number): string => {
   return url.toString();
 };
 
-export const useBooksProgress = (params: UseBooksProgressParams = { pageSize: 2 }): UseBooksProgressReturn => {
+export const useBooksProgress = (params: UseBooksProgressParams = { pageSize: 3 }): UseBooksProgressReturn => {
   const { pageSize } = params;
 
   const [page, setPage] = useState(0);
 
-  const { data, isFetching, isPreviousData } = useQuery<DashboardBooksProgressGetResponse>(
+  const { data, isLoading, isFetching, isPreviousData } = useQuery<DashboardBooksProgressGetResponse>(
     ['dashboard-books-progress', page],
     {
-      keepPreviousData: true,
       initialData: { booksProgress: [], hasMore: false, pageCount: 0 },
+      keepPreviousData: true,
       queryFn: async () => {
         try {
           const url = buildUrl(page, pageSize);
@@ -69,5 +70,5 @@ export const useBooksProgress = (params: UseBooksProgressParams = { pageSize: 2 
     return !(isPreviousData || !data?.hasMore);
   }, [data?.hasMore, isPreviousData]);
 
-  return { data, isFetching, page, getCanPreviousPage, getCanNextPage, previousPage, nextPage };
+  return { data, isLoading, isFetching, page, getCanPreviousPage, getCanNextPage, previousPage, nextPage };
 };

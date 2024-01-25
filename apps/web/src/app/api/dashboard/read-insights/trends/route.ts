@@ -7,14 +7,10 @@ import { authOptions } from '@modules/auth/lib/auth.lib';
 import type { DashboardReadInsightsReadTrendsIntervalType } from '@modules/dashboard/types/dashboard.types';
 import type { DashboardReadInsightsTrendsGetResponse } from '@modules/api/types/api.types';
 
-const sortTrendsByDate = (trends: Record<string, ReadRegistry[]>): Record<string, ReadRegistry[]> => {
-  const sortedTrends: Record<string, ReadRegistry[]> = {};
-
-  Object.keys(trends)
+const sortTrendsByDate = (trends: Record<string, ReadRegistry[]>): { date: string; registries: ReadRegistry[] }[] => {
+  const sortedTrends: { date: string; registries: ReadRegistry[] }[] = Object.keys(trends)
     .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
-    .forEach((key) => {
-      sortedTrends[key] = trends[key];
-    });
+    .map((key) => ({ date: key, registries: trends[key] }));
 
   return sortedTrends;
 };

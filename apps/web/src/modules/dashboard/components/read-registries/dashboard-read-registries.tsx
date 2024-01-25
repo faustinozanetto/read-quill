@@ -9,7 +9,7 @@ const DashboardReadRegistries: React.FC = () => {
       <p>
         Create detailed entries for each book you delve into, capturing essential details like progress, book covers,
         and titles. Navigate through a curated table displaying your read registries, offering a comprehensive overview
-        of your reading history.{' '}
+        of your reading history.
       </p>
       <DashboardReadRegistriesTable />
     </div>

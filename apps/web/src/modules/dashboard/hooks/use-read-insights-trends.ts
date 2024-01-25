@@ -7,6 +7,7 @@ import type { DashboardReadInsightsReadTrendsIntervalType } from '../types/dashb
 interface UseReadInsightsTrendsReturn {
   data: DashboardReadInsightsTrendsGetResponse;
   isFetching: boolean;
+  isLoading: boolean;
   interval: DashboardReadInsightsReadTrendsIntervalType;
   setInterval: (interval: DashboardReadInsightsReadTrendsIntervalType) => void;
 }
@@ -18,10 +19,10 @@ export const useReadInsightsTrends = (): UseReadInsightsTrendsReturn => {
 
   const interval = (searchParams.get('read-trends-interval') as DashboardReadInsightsReadTrendsIntervalType) ?? 'daily';
 
-  const { data, isFetching } = useQuery<DashboardReadInsightsTrendsGetResponse>(
+  const { data, isLoading, isFetching } = useQuery<DashboardReadInsightsTrendsGetResponse>(
     ['dashboard-read-insights-trends', interval],
     {
-      initialData: { trends: {} },
+      initialData: { trends: [] },
       queryFn: async () => {
         const url = new URL('/api/dashboard/read-insights/trends', __URL__);
         url.searchParams.set('interval', interval);
@@ -42,5 +43,5 @@ export const useReadInsightsTrends = (): UseReadInsightsTrendsReturn => {
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
-  return { data, isFetching, interval, setInterval };
+  return { data, isLoading, isFetching, interval, setInterval };
 };

@@ -1,13 +1,18 @@
 'use client';
 
 import React from 'react';
-import { useReadActivity } from '@modules/dashboard/hooks//read-activity/use-read-activity';
 import type { DashboardReadActivityEntry } from '@modules/dashboard/types/dashboard.types';
 import { useReadActivityGraph } from '@modules/dashboard/hooks/read-activity/use-read-activity-graph';
+import type { DashboardReadActivityGetResponse } from '@modules/api/types/api.types';
 import DashboardReadActivityGraphEntry from './dashboard-read-activity-graph-entry';
 
-const DashboardReadActivityGraph: React.FC = () => {
-  const { data } = useReadActivity();
+interface DashboardReadActivityGraphProps {
+  readActivity: DashboardReadActivityGetResponse['readActivity'];
+}
+
+const DashboardReadActivityGraph: React.FC<DashboardReadActivityGraphProps> = (props) => {
+  const { readActivity } = props;
+
   const { mapActivityToLevel, startDate, daysPerRow } = useReadActivityGraph({ daysPerRow: 50, daysBack: 140 });
 
   const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -28,7 +33,7 @@ const DashboardReadActivityGraph: React.FC = () => {
                 const formattedDate = currentDate.toISOString().split('T')[0];
 
                 // Calculate activity level
-                const activityValue = data.readActivity[formattedDate] ?? 0;
+                const activityValue = readActivity[formattedDate] ?? 0;
 
                 const activity: DashboardReadActivityEntry = {
                   date: formattedDate,

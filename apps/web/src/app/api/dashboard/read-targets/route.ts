@@ -1,4 +1,3 @@
-import type { ReadTargets } from '@read-quill/database';
 import { prisma } from '@read-quill/database';
 import { getServerSession } from 'next-auth';
 import type { NextRequest } from 'next/server';
@@ -9,9 +8,10 @@ import {
   editReadTargetsValidationSchema,
 } from '@modules/dashboard/validations/dashboard.validations';
 import { authOptions } from '@modules/auth/lib/auth.lib';
+import type { DashboardReadTargetsGetResponse } from '@modules/api/types/api.types';
 
 // /api/dashboard/read-targets GET : Gets the read targets of the user
-export async function GET(): Promise<NextResponse> {
+export async function GET(): Promise<NextResponse<DashboardReadTargetsGetResponse | { message: string }>> {
   try {
     const session = await getServerSession(authOptions);
 
@@ -28,7 +28,7 @@ export async function GET(): Promise<NextResponse> {
     }
 
     // The target read targets that are stored in db.
-    const targetReadTargets: Omit<ReadTargets, 'id' | 'userId'> = {
+    const targetReadTargets = {
       daily: userReadTargets.daily,
       monthly: userReadTargets.monthly,
       weekly: userReadTargets.weekly,
@@ -40,7 +40,7 @@ export async function GET(): Promise<NextResponse> {
       select: { createdAt: true, pagesRead: true },
     });
 
-    const readTargets: Omit<ReadTargets, 'id' | 'userId'> = {
+    const readTargets = {
       daily: 0,
       monthly: 0,
       weekly: 0,

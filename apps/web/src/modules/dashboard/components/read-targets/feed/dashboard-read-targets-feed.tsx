@@ -1,38 +1,28 @@
 import React from 'react';
-import type { ReadTargets } from '@read-quill/database';
-import { Skeleton } from '@read-quill/design-system';
-import { dashboardReadTargets } from '@modules/dashboard/types/dashboard.types';
+import { DASHBOARD_READ_TARGETS } from '@modules/dashboard/types/dashboard.types';
+import type { DashboardReadTargetsGetResponse } from '@modules/api/types/api.types';
 import DashboardReadTargetsCard from './dashboard-read-targets-card';
 
 interface DashboardReadTargetsFeedProps {
-  isFetching: boolean;
-  targetReadTargets: Omit<ReadTargets, 'id' | 'userId'> | undefined;
-  readTargets: Omit<ReadTargets, 'id' | 'userId'> | undefined;
+  data: DashboardReadTargetsGetResponse;
 }
 
 const DashboardReadTargetsFeed: React.FC<DashboardReadTargetsFeedProps> = (props) => {
-  const { isFetching, readTargets, targetReadTargets } = props;
+  const { data } = props;
+  const { readTargets, targetReadTargets } = data;
 
   return (
     <div className="grid gap-2 md:grid-cols-3 mt-2">
-      {isFetching
-        ? Array.from({ length: 3 }).map((_, i) => (
-            <Skeleton className="h-48 w-full" key={`dashboard-read-target-placeholder-${i}`} />
-          ))
-        : null}
-
-      {!isFetching && readTargets && targetReadTargets
-        ? dashboardReadTargets.map((type) => {
-            return (
-              <DashboardReadTargetsCard
-                key={`dashboard-read-target-${type}`}
-                target={targetReadTargets[type]}
-                type={type}
-                value={readTargets[type]}
-              />
-            );
-          })
-        : null}
+      {DASHBOARD_READ_TARGETS.map((type) => {
+        return (
+          <DashboardReadTargetsCard
+            key={`dashboard-read-target-${type}`}
+            target={targetReadTargets[type]}
+            type={type}
+            value={readTargets[type]}
+          />
+        );
+      })}
     </div>
   );
 };

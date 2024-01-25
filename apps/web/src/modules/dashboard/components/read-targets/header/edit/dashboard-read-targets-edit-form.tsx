@@ -3,8 +3,8 @@ import type { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Button, DialogFooter, Form, cn, LoadingIcon, EditIcon } from '@read-quill/design-system';
-import type { ReadTargets } from '@read-quill/database';
 import { editReadTargetsValidationSchema } from '@modules/dashboard/validations/dashboard.validations';
+import type { DashboardReadTargetsGetResponse } from '@modules/api/types/api.types';
 import DashboardReadTargetsFormDaily from '../../../forms/read-targets/dashboard-read-targets-form-daily';
 import DashboardReadTargetsFormWeekly from '../../../forms/read-targets/dashboard-read-targets-form-weekly';
 import DashboardReadTargetsFormMonthly from '../../../forms/read-targets/dashboard-read-targets-form-monthly';
@@ -12,7 +12,7 @@ import DashboardReadTargetsFormMonthly from '../../../forms/read-targets/dashboa
 export type DashboardReadTargetsEditFormData = z.infer<typeof editReadTargetsValidationSchema>;
 
 interface DashboardReadTargetsEditFormProps {
-  initialData: Omit<ReadTargets, 'id' | 'userId'>;
+  initialData: DashboardReadTargetsGetResponse['targetReadTargets'];
   onSubmit: (data: DashboardReadTargetsEditFormData) => void;
 }
 

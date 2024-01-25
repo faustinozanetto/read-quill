@@ -1,9 +1,15 @@
 import React from 'react';
+import { useReadActivity } from '@modules/dashboard/hooks/read-activity/use-read-activity';
+import { Skeleton } from '@read-quill/design-system';
 import DashboardReadActivityHeader from './header/dashboard-read-activity-header';
 import DashboardReadActivityGraph from './graph/dashboard-read-activity-graph';
 import DashboardReadActivityIndicators from './indicators/dashboard-read-activity-indicators';
 
 const DashboardReadActivity: React.FC = () => {
+  const { data, isFetching, isLoading } = useReadActivity();
+
+  const readActivityArray = Object.entries(data.readActivity);
+
   return (
     <div className="rounded-lg border p-4 shadow flex flex-col gap-2 overflow-hidden">
       <DashboardReadActivityHeader />
@@ -13,10 +19,16 @@ const DashboardReadActivity: React.FC = () => {
         easy to see patterns over time.
       </p>
 
-      <div className="flex flex-col gap-2">
-        <DashboardReadActivityGraph />
-        <DashboardReadActivityIndicators />
-      </div>
+      {isFetching || isLoading ? <Skeleton className="h-48 w-full" /> : null}
+
+      {readActivityArray.length > 0 ? (
+        <div className="flex flex-col gap-2">
+          <DashboardReadActivityGraph readActivity={data.readActivity} />
+          <DashboardReadActivityIndicators />
+        </div>
+      ) : null}
+
+      {!isFetching && readActivityArray.length === 0 ? <p>Not enough data to display read activity!</p> : null}
     </div>
   );
 };

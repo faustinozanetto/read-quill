@@ -5,10 +5,11 @@ import type { DashboardReadActivityGetResponse } from '@modules/api/types/api.ty
 interface UseReadActivityReturn {
   data: DashboardReadActivityGetResponse;
   isFetching: boolean;
+  isLoading: boolean;
 }
 
 export const useReadActivity = (): UseReadActivityReturn => {
-  const { data, isFetching } = useQuery<DashboardReadActivityGetResponse>(['dashboard-read-activity'], {
+  const { data, isFetching, isLoading } = useQuery<DashboardReadActivityGetResponse>(['dashboard-read-activity'], {
     initialData: { readActivity: {} },
     queryFn: async () => {
       const url = new URL('/api/dashboard/read-activity', __URL__);
@@ -22,5 +23,5 @@ export const useReadActivity = (): UseReadActivityReturn => {
     },
   });
 
-  return { data, isFetching };
+  return { data, isFetching, isLoading };
 };
