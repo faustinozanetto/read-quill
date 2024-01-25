@@ -18,7 +18,10 @@ export interface DashboardReadInsightsTrendsGetResponse {
 }
 
 export interface DashboardReadInsightsTimeDistributionGetResponse {
-  timeDistribution: Record<string, number>;
+  timeDistribution: {
+    date: string;
+    pagesRead: number;
+  }[];
 }
 
 export interface DashboardReadActivityGetResponse {

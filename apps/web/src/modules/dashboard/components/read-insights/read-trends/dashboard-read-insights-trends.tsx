@@ -20,17 +20,17 @@ import { useTheme } from 'next-theme-kit';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
+const getWeekNumber = (date: Date): number => {
+  const MILLISECONDS_IN_A_DAY = 86400000;
+
+  const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+  const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / MILLISECONDS_IN_A_DAY;
+  return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+};
+
 const DashboardReadInsightTrends: React.FC = () => {
   const { theme } = useTheme();
   const { data, isFetching, interval, setInterval } = useReadInsightsTrends();
-
-  const getWeekNumber = (date: Date): number => {
-    const MILLISECONDS_IN_A_DAY = 86400000;
-
-    const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
-    const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / MILLISECONDS_IN_A_DAY;
-    return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
-  };
 
   const categories = useMemo(() => {
     return Object.keys(data.trends).map((date) => {
@@ -42,7 +42,7 @@ const DashboardReadInsightTrends: React.FC = () => {
         case 'weekly':
           return `Week ${getWeekNumber(parsedDate)}, ${parsedDate.getFullYear()}`;
         case 'monthly':
-          return parsedDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+          return parsedDate.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
         default:
           return '';
       }
@@ -182,7 +182,7 @@ const DashboardReadInsightTrends: React.FC = () => {
       {isFetching ? <Skeleton className="h-48 w-full" /> : null}
 
       {!isFetching && series[0].data.length > 0 ? (
-        <ReactApexChart height={250} options={options} series={series} type="bar" width="100%" />
+        <ReactApexChart height={350} options={options} series={series} type="bar" width="100%" />
       ) : null}
 
       {!isFetching && series[0].data.length === 0 ? <p>Not enough data to display read trends!</p> : null}

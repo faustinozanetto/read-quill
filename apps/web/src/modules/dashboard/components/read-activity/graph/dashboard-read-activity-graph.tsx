@@ -8,7 +8,7 @@ import DashboardReadActivityGraphEntry from './dashboard-read-activity-graph-ent
 
 const DashboardReadActivityGraph: React.FC = () => {
   const { data } = useReadActivity();
-  const { mapActivityToLevel, startDate, daysPerRow } = useReadActivityGraph({ daysPerRow: 50, daysBack: 7 });
+  const { mapActivityToLevel, startDate, daysPerRow } = useReadActivityGraph({ daysPerRow: 50, daysBack: 140 });
 
   const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 

@@ -78,7 +78,7 @@ model Annotation {
   chapter String
   content String
 
-  book   Book?   @relation(fields: [bookId], references: [id])
+  book   Book?   @relation(fields: [bookId], references: [id], onDelete: Cascade)
   bookId String?
 
   createdAt DateTime @default(now())
@@ -89,7 +89,7 @@ model ReadRegistry {
   id        String @id @default(cuid())
   pagesRead Int
 
-  book   Book   @relation(fields: [bookId], references: [id])
+  book   Book   @relation(fields: [bookId], references: [id], onDelete: Cascade)
   bookId String
 
   createdAt DateTime @default(now())

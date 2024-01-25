@@ -7,6 +7,18 @@ import { authOptions } from '@modules/auth/lib/auth.lib';
 import type { DashboardReadInsightsReadTrendsIntervalType } from '@modules/dashboard/types/dashboard.types';
 import type { DashboardReadInsightsTrendsGetResponse } from '@modules/api/types/api.types';
 
+const sortTrendsByDate = (trends: Record<string, ReadRegistry[]>): Record<string, ReadRegistry[]> => {
+  const sortedTrends: Record<string, ReadRegistry[]> = {};
+
+  Object.keys(trends)
+    .sort((a, b) => new Date(a).getTime() - new Date(b).getTime())
+    .forEach((key) => {
+      sortedTrends[key] = trends[key];
+    });
+
+  return sortedTrends;
+};
+
 // /api/dashboard/read-insights/trends GET : Gets the read trends of the user
 export async function GET(request: NextRequest): Promise<NextResponse<DashboardReadInsightsTrendsGetResponse>> {
   try {
@@ -23,19 +35,21 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardR
       where: { book: { readerId: session.user.id } },
     });
 
-    const trends = readRegistries.reduce<Record<string, ReadRegistry[]>>((acc, trend) => {
-      // Adjust the following logic based on your date structure
-      const trendDate = new Date(trend.createdAt);
-      const groupKey = calculateGroupKey(trendDate, interval);
+    const trends = sortTrendsByDate(
+      readRegistries.reduce<Record<string, ReadRegistry[]>>((acc, trend) => {
+        // Adjust the following logic based on your date structure
+        const trendDate = new Date(trend.createdAt);
+        const groupKey = calculateGroupKey(trendDate, interval);
 
-      if (!acc[groupKey]) {
-        acc[groupKey] = [trend];
-      } else {
-        acc[groupKey].push(trend);
-      }
+        if (!acc[groupKey]) {
+          acc[groupKey] = [trend];
+        } else {
+          acc[groupKey].push(trend);
+        }
 
-      return acc;
-    }, {});
+        return acc;
+      }, {})
+    );
 
     return NextResponse.json({ trends });
   } catch (error) {

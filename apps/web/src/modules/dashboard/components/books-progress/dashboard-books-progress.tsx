@@ -19,11 +19,13 @@ const DashboardBooksProgress: React.FC = () => {
         conquered on your reading adventure.
       </p>
 
-      {isLoading
-        ? Array.from({ length: 3 }).map((_, i) => (
+      {isLoading ? (
+        <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3 mt-2">
+          {Array.from({ length: 3 }).map((_, i) => (
             <Skeleton className="h-48 w-full" key={`dashboard-books-progress-placeholder-${i}`} />
-          ))
-        : null}
+          ))}
+        </div>
+      ) : null}
 
       <DashboardBooksProgressEntries booksProgress={booksProgressArray} isLoading={isLoading} />
 

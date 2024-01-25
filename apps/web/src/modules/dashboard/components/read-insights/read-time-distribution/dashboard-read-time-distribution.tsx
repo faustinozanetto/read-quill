@@ -14,9 +14,9 @@ const DashboardReadTimeDistribution: React.FC = () => {
   const { data, isFetching } = useReadInsightsTimeDistribution();
 
   const formattedData = useMemo(() => {
-    return Object.entries(data.timeDistribution).map((entry) => ({
-      x: entry[0],
-      y: entry[1],
+    return data.timeDistribution.map((entry) => ({
+      x: entry.date,
+      y: entry.pagesRead,
     }));
   }, [data]);
 
@@ -103,7 +103,7 @@ const DashboardReadTimeDistribution: React.FC = () => {
       {isFetching ? <Skeleton className="h-48 w-full" /> : null}
 
       {!isFetching && formattedData.length > 0 ? (
-        <ReactApexChart height={250} options={options} series={series} type="line" width="100%" />
+        <ReactApexChart height={350} options={options} series={series} type="line" width="100%" />
       ) : null}
 
       {!isFetching && formattedData.length === 0 ? <p>Not enough data to display read trends!</p> : null}

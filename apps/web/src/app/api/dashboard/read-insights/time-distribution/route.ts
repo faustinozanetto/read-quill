@@ -1,11 +1,14 @@
 import { prisma } from '@read-quill/database';
 import { getServerSession } from 'next-auth';
+import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { authOptions } from '@modules/auth/lib/auth.lib';
 import type { DashboardReadInsightsTimeDistributionGetResponse } from '@modules/api/types/api.types';
 
 // /api/dashboard/read-insights/time-distribution GET : Gets the read time distribution of the user.
-export async function GET(): Promise<NextResponse<DashboardReadInsightsTimeDistributionGetResponse>> {
+export async function GET(
+  request: NextRequest
+): Promise<NextResponse<DashboardReadInsightsTimeDistributionGetResponse>> {
   try {
     const session = await getServerSession(authOptions);
 
@@ -13,13 +16,19 @@ export async function GET(): Promise<NextResponse<DashboardReadInsightsTimeDistr
       return new NextResponse('Unauthorized', { status: 403 });
     }
 
+    const { searchParams } = new URL(request.url);
+    const groupSize = Number.parseInt(searchParams.get('group-size') ?? '30');
+
     const readRegistries = await prisma.readRegistry.findMany({
       where: { book: { readerId: session.user.id } },
     });
 
     const timeDistribution = readRegistries.reduce<Record<string, number>>((acc, registry) => {
       const registryDate = new Date(registry.createdAt);
-      const key = registryDate.toISOString().split('T')[1].split(':').slice(0, 2).join(':');
+      const roundedDate = new Date(
+        Math.round(registryDate.getTime() / (groupSize * 60 * 1000)) * (groupSize * 60 * 1000)
+      );
+      const key = `${roundedDate.getHours()}:${roundedDate.getMinutes()}`;
 
       if (!acc[key]) {
         acc[key] = registry.pagesRead;
@@ -30,16 +39,25 @@ export async function GET(): Promise<NextResponse<DashboardReadInsightsTimeDistr
       return acc;
     }, {});
 
-    // Sort the timeDistribution object by hour
-    const sortedTimeDistribution = Object.fromEntries(
-      Object.entries(timeDistribution).sort((a, b) => {
-        const aDate = new Date(`1970-01-01T${a[0]}:00Z`);
-        const bDate = new Date(`1970-01-01T${b[0]}:00Z`);
-        return aDate.getTime() - bDate.getTime();
-      })
-    );
+    // Convert timeDistribution to an array of objects
+    const timeDistributionArray = Object.entries(timeDistribution).map(([time, pagesRead]) => ({
+      date: time,
+      pagesRead,
+    }));
 
-    return NextResponse.json({ timeDistribution: sortedTimeDistribution });
+    // Sort the timeDistributionArray by time
+    const sortedTimeDistributionArray = timeDistributionArray.sort((a, b) => {
+      const [aHour, aMinute] = a.date.split(':').map(Number);
+      const [bHour, bMinute] = b.date.split(':').map(Number);
+
+      if (aHour === bHour) {
+        return aMinute - bMinute;
+      }
+
+      return aHour - bHour;
+    });
+
+    return NextResponse.json({ timeDistribution: sortedTimeDistributionArray });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;

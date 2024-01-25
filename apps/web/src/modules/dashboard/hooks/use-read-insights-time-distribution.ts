@@ -11,7 +11,7 @@ export const useReadInsightsTimeDistribution = (): UseReadInsightsTimeDistributi
   const { data, isFetching } = useQuery<DashboardReadInsightsTimeDistributionGetResponse>(
     ['dashboard-read-time-distribution'],
     {
-      initialData: { timeDistribution: {} },
+      initialData: { timeDistribution: [] },
       queryFn: async () => {
         const url = new URL('/api/dashboard/read-insights/time-distribution', __URL__);
 

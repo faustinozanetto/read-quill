@@ -16,7 +16,7 @@ const DashboardReadInsights: React.FC = () => {
         </p>
       </div>
 
-      <div className="grid gap-2 lg:grid-cols-2">
+      <div className="grid gap-2 xl:grid-cols-2">
         <DashboardReadInsightTrends />
         <DashboardReadTimeDistribution />
       </div>
