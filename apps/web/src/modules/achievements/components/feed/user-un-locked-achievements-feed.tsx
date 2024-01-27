@@ -1,19 +1,19 @@
 import React from 'react';
 import type { UserAchievementWithAchievement } from '@modules/achievements/types/achievements.types';
-import AchievementCard from '../cards/user-achievement-card';
+import UnLockedAchievementCard from '../cards/un-lockeed/user-un-locked-achievement-card';
 
-interface UserAchievementsFeedProps {
+interface UserUnLockedAchievementsFeedProps {
   userAchievements: UserAchievementWithAchievement[];
 }
 
-const UserAchievementsFeed: React.FC<UserAchievementsFeedProps> = (props) => {
+const UserUnLockedAchievementsFeed: React.FC<UserUnLockedAchievementsFeedProps> = (props) => {
   const { userAchievements } = props;
 
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       {userAchievements.map((userAchievement) => {
         return (
-          <AchievementCard
+          <UnLockedAchievementCard
             key={`user-achievement-${userAchievement.achievementId}`}
             userAchievement={userAchievement}
           />
@@ -23,4 +23,4 @@ const UserAchievementsFeed: React.FC<UserAchievementsFeedProps> = (props) => {
   );
 };
 
-export default UserAchievementsFeed;
+export default UserUnLockedAchievementsFeed;

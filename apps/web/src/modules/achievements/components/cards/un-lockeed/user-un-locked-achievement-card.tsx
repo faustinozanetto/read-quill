@@ -2,7 +2,7 @@ import React from 'react';
 import { Badge, CalendarIcon, ThropyIcon } from '@read-quill/design-system';
 import type { UserAchievementWithAchievement } from '@modules/achievements/types/achievements.types';
 
-interface UserAchievementCardProps {
+interface UserUnLockedAchievementCardProps {
   userAchievement: UserAchievementWithAchievement;
 }
 
@@ -11,7 +11,7 @@ const displayCriterias: Record<string, string> = {
   booksRead: 'Books Read',
 };
 
-const UserAchievementCard: React.FC<UserAchievementCardProps> = (props) => {
+const UserUnLockedAchievementCard: React.FC<UserUnLockedAchievementCardProps> = (props) => {
   const { userAchievement } = props;
 
   const { achievement, unlockedAt } = userAchievement;
@@ -41,4 +41,4 @@ const UserAchievementCard: React.FC<UserAchievementCardProps> = (props) => {
   );
 };
 
-export default UserAchievementCard;
+export default UserUnLockedAchievementCard;

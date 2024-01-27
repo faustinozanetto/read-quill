@@ -1,5 +1,12 @@
-import type { UserAchievementWithAchievement } from '@modules/achievements/types/achievements.types';
+import type {
+  AchievementWithProgress,
+  UserAchievementWithAchievement,
+} from '@modules/achievements/types/achievements.types';
 
 export interface AchievementsUnLockedGetResponse {
-  userAchievements: UserAchievementWithAchievement[];
+  unLockedAchievements: UserAchievementWithAchievement[];
+}
+
+export interface AchievementsLockedGetResponse {
+  lockedAchievements: AchievementWithProgress[];
 }

@@ -3,7 +3,7 @@ import type { Book } from '@read-quill/database';
 import type { Filter, Sort } from '@modules/common/hooks/use-filter';
 import useFilter from '@modules/common/hooks/use-filter';
 import BooksFeed from '../../feed/books-feed';
-import UserBooksFeedFiltering from './user-books-feed-filtering';
+import UserBooksFeedFiltering from './filtering/user-books-feed-filtering';
 
 interface UserBooksFeedProps {
   books: Book[];

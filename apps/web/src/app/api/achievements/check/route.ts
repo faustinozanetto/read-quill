@@ -7,16 +7,14 @@ import { authOptions } from '@modules/auth/lib/auth.lib';
 // /api/achievements/check POST : Checks if the user met the requirements for unlocking achievements.
 export async function POST(): Promise<NextResponse> {
   try {
-    // Retrieve user session
     const session = await getServerSession(authOptions);
 
-    // Check if user is authenticated
     if (!session) {
       return new NextResponse('Unauthorized', { status: 403 });
     }
 
     // Fetch database achievements
-    const databaseAchievements = await prisma.achievement.findMany();
+    const achievements = await prisma.achievement.findMany();
 
     // Fetch user-specific data
     const readRegistries = await prisma.readRegistry.findMany({ where: { book: { readerId: session.user.id } } });
@@ -36,7 +34,7 @@ export async function POST(): Promise<NextResponse> {
     };
 
     // Identify completed achievements
-    const completedAchievements: string[] = databaseAchievements
+    const completedAchievements: string[] = achievements
       .filter((achievement) => {
         const criteriaObject = achievement.criteria as Prisma.JsonObject;
 
@@ -71,7 +69,7 @@ export async function POST(): Promise<NextResponse> {
       await Promise.all(unlockPromises);
     }
 
-    return NextResponse.json({ userAchievements: completedAchievements });
+    return NextResponse.json({ success: true });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;

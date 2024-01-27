@@ -9,8 +9,6 @@ interface UseReadTargetsCreatedReturn {
 
 export const useReadTargetsCreated = (): UseReadTargetsCreatedReturn => {
   const { data, isFetching } = useQuery<DashboardReadTargetsCreatedGetResponse>(['dashboard-read-targets-created'], {
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
     initialData: { created: false },
     queryFn: async () => {
       const url = new URL('/api/dashboard/read-targets/created', __URL__);

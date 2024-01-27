@@ -1,7 +1,7 @@
 import React from 'react';
 import { Skeleton } from '@read-quill/design-system';
 
-const UserAchievementCardPlaceholder: React.FC = () => {
+const UserUnLockedAchievementCardPlaceholder: React.FC = () => {
   return (
     <div className="rounded-lg border p-2.5 shadow flex flex-col items-center justify-start text-center gap-2">
       <Skeleton className="h-14 w-14" />
@@ -15,4 +15,4 @@ const UserAchievementCardPlaceholder: React.FC = () => {
   );
 };
 
-export default UserAchievementCardPlaceholder;
+export default UserUnLockedAchievementCardPlaceholder;

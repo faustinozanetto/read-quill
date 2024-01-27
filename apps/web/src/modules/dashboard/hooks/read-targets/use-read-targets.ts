@@ -19,8 +19,6 @@ export const useReadTargets = (): UseReadTargetsReturn => {
   ]);
 
   const { data, isLoading, isFetching } = useQuery<DashboardReadTargetsGetResponse>(['dashboard-read-targets'], {
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
     enabled: readTargetsCreated?.created,
     queryFn: async () => {
       const url = new URL('/api/dashboard/read-targets', __URL__);

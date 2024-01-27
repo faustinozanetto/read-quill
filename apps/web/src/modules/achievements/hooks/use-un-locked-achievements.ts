@@ -10,7 +10,7 @@ export interface UseUnLockedAchievementsReturn {
 
 export const useUnLockedAchievements = (): UseUnLockedAchievementsReturn => {
   const { data, isLoading, isFetching } = useQuery<AchievementsUnLockedGetResponse>(['achivements-un-locked'], {
-    initialData: { userAchievements: [] },
+    initialData: { unLockedAchievements: [] },
     queryFn: async () => {
       try {
         const url = new URL('/api/achievements/un-locked', __URL__);

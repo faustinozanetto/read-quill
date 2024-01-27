@@ -18,7 +18,7 @@ export async function GET(): Promise<NextResponse<AchievementsUnLockedGetRespons
       include: { achievement: true },
     });
 
-    return NextResponse.json({ userAchievements });
+    return NextResponse.json({ unLockedAchievements: userAchievements });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
