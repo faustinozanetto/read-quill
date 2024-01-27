@@ -57,7 +57,7 @@ export const useCountUp = ({
     const observer = new IntersectionObserver(handleIntersection, {
       root: null,
       rootMargin: '0px',
-      threshold: 0.5, // Adjust as needed based on when you want the animation to start
+      threshold: 0.25, // Adjust as needed based on when you want the animation to start
     });
 
     if (startOnInView && countRef.current) {

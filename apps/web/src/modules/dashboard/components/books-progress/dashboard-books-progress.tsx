@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { Skeleton } from '@read-quill/design-system';
 import { useBooksProgress } from '@modules/dashboard/hooks/use-books-progress';

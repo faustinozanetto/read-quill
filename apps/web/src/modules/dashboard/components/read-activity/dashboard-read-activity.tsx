@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { Skeleton } from '@read-quill/design-system';
 import { useReadActivity } from '@modules/dashboard/hooks/read-activity/use-read-activity';
