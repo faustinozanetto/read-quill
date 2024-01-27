@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { __URL__ } from '@modules/common/lib/common.constants';
-import type { DashboardReadInsightsTrendsGetResponse } from '@modules/api/types/api.types';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import { __URL__ } from '@modules/common/lib/common.constants';
+import type { DashboardReadInsightsTrendsGetResponse } from '@modules/api/types/dashboard-api.types';
 import type { DashboardReadInsightsReadTrendsIntervalType } from '../types/dashboard.types';
 
 interface UseReadInsightsTrendsReturn {

@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { authOptions } from '@modules/auth/lib/auth.lib';
-import type { DashboardReadInsightsTimeDistributionGetResponse } from '@modules/api/types/api.types';
+import type { DashboardReadInsightsTimeDistributionGetResponse } from '@modules/api/types/dashboard-api.types';
 
 // /api/dashboard/read-insights/time-distribution GET : Gets the read time distribution of the user.
 export async function GET(

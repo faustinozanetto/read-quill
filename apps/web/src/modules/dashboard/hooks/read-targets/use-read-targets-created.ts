@@ -1,15 +1,17 @@
 import { useQuery } from '@tanstack/react-query';
 import { __URL__ } from '@modules/common/lib/common.constants';
+import type { DashboardReadTargetsCreatedGetResponse } from '@modules/api/types/dashboard-api.types';
 
 interface UseReadTargetsCreatedReturn {
-  readTargetsCreated: boolean;
+  data: DashboardReadTargetsCreatedGetResponse;
   isFetching: boolean;
 }
 
 export const useReadTargetsCreated = (): UseReadTargetsCreatedReturn => {
-  const { data: readTargetsCreated, isFetching } = useQuery<boolean>(['dashboard-read-targets-created'], {
+  const { data, isFetching } = useQuery<DashboardReadTargetsCreatedGetResponse>(['dashboard-read-targets-created'], {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
+    initialData: { created: false },
     queryFn: async () => {
       const url = new URL('/api/dashboard/read-targets/created', __URL__);
 
@@ -18,10 +20,9 @@ export const useReadTargetsCreated = (): UseReadTargetsCreatedReturn => {
         throw new Error('Failed to fetch book!');
       }
 
-      const { created } = await response.json();
-      return created;
+      return response.json();
     },
   });
 
-  return { readTargetsCreated: Boolean(readTargetsCreated), isFetching };
+  return { data, isFetching };
 };

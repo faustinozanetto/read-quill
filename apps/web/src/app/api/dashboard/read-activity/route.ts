@@ -2,7 +2,7 @@ import { prisma } from '@read-quill/database';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import { authOptions } from '@modules/auth/lib/auth.lib';
-import type { DashboardReadActivityGetResponse } from '@modules/api/types/api.types';
+import type { DashboardReadActivityGetResponse } from '@modules/api/types/dashboard-api.types';
 
 // /api/dashboard/read-activity GET : Gets the user read activity
 export async function GET(): Promise<NextResponse<DashboardReadActivityGetResponse>> {

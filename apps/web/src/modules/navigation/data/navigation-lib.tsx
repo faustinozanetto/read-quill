@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookIcon } from '@read-quill/design-system';
+import { BookIcon, MedalIcon } from '@read-quill/design-system';
 import type { NavigationLinkProps } from '../components/navigation-link';
 
 export const NAVIGATION_LINKS: Omit<NavigationLinkProps, 'isCompact'>[] = [
@@ -25,5 +25,10 @@ export const NAVIGATION_LINKS: Omit<NavigationLinkProps, 'isCompact'>[] = [
     href: '/books',
     children: 'Books',
     icon: <BookIcon className="stroke-current" />,
+  },
+  {
+    href: '/achievements',
+    children: 'Achievements',
+    icon: <MedalIcon className="stroke-current" />,
   },
 ];

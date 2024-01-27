@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { authOptions } from '@modules/auth/lib/auth.lib';
-import type { DashboardBooksProgressGetResponse } from '@modules/api/types/api.types';
+import type { DashboardBooksProgressGetResponse } from '@modules/api/types/dashboard-api.types';
 
 // /api/dashboard/books-progress GET : Gets the reading progress of the user books
 export async function GET(request: NextRequest): Promise<NextResponse<DashboardBooksProgressGetResponse>> {

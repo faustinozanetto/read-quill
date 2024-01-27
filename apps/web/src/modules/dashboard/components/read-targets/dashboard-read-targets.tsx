@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import { useReadTargetsCreated } from '@modules/dashboard/hooks/use-read-targets-created';
-import { useReadTargets } from '@modules/dashboard/hooks/use-read-targets';
 import { Skeleton } from '@read-quill/design-system';
+import { useReadTargetsCreated } from '@modules/dashboard/hooks/read-targets/use-read-targets-created';
+import { useReadTargets } from '@modules/dashboard/hooks/read-targets/use-read-targets';
 import DashboardReadTargetsHeader from './header/dashboard-read-targets-header';
 import DashboardReadTargetsFeed from './feed/dashboard-read-targets-feed';
 
@@ -28,9 +28,9 @@ const DashboardReadTargets: React.FC = () => {
         </div>
       ) : null}
 
-      {data ? <DashboardReadTargetsFeed data={data} /> : null}
+      {!(isFetching || isLoading) && data ? <DashboardReadTargetsFeed data={data} /> : null}
 
-      {!isFetching && !data ? <p>Not enough data to display read targets!</p> : null}
+      {!(isFetching || isLoading) && !data ? <p>Not enough data to display read targets!</p> : null}
     </div>
   );
 };

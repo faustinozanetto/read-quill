@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import type { DashboardReadActivityGetResponse } from '@modules/api/types/api.types';
+import type { DashboardReadActivityGetResponse } from '@modules/api/types/dashboard-api.types';
 
 interface UseReadActivityReturn {
   data: DashboardReadActivityGetResponse;

@@ -2,10 +2,6 @@
 
 import React from 'react';
 import {
-  dashboardReadInsightsReadTrendsIntervals,
-  type DashboardReadInsightsReadTrendsIntervalType,
-} from '@modules/dashboard/types/dashboard.types';
-import {
   DropdownMenu,
   DropdownMenuTrigger,
   Button,
@@ -15,6 +11,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuCheckboxItem,
 } from '@read-quill/design-system';
+import {
+  dashboardReadInsightsReadTrendsIntervals,
+  type DashboardReadInsightsReadTrendsIntervalType,
+} from '@modules/dashboard/types/dashboard.types';
 
 interface DashboardReadInsightTrendsIntervalSelectProps {
   interval: DashboardReadInsightsReadTrendsIntervalType;

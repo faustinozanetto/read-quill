@@ -4,7 +4,7 @@ import React, { useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import type { ApexOptions } from 'apexcharts';
 import { useTheme } from 'next-theme-kit';
-import type { DashboardReadInsightsTimeDistributionGetResponse } from '@modules/api/types/api.types';
+import type { DashboardReadInsightsTimeDistributionGetResponse } from '@modules/api/types/dashboard-api.types';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 

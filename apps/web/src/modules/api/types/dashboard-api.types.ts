@@ -13,6 +13,10 @@ export interface DashboardReadTargetsGetResponse {
   readTargets: Pick<ReadTargets, 'daily' | 'weekly' | 'monthly'>;
 }
 
+export interface DashboardReadTargetsCreatedGetResponse {
+  created: boolean;
+}
+
 export interface DashboardReadRegistriesGetResponse {
   readRegistries: DashboardReadRegistry[];
   pageCount: number;

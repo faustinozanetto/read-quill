@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { __URL__ } from '@modules/common/lib/common.constants';
 import { useCallback, useState } from 'react';
-import type { DashboardBooksProgressGetResponse } from '@modules/api/types/api.types';
+import { __URL__ } from '@modules/common/lib/common.constants';
+import type { DashboardBooksProgressGetResponse } from '@modules/api/types/dashboard-api.types';
 
 export interface UseBooksProgressReturn {
   data: DashboardBooksProgressGetResponse;

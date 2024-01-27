@@ -18,11 +18,13 @@ const DashboardReadTimeDistribution: React.FC = () => {
 
       {isFetching || isLoading ? <Skeleton className="h-48 w-full" /> : null}
 
-      {data.timeDistribution.length > 0 ? (
+      {!(isFetching || isLoading) && data.timeDistribution.length > 0 ? (
         <DashboardReadTimeDistributionChart timeDistribution={data.timeDistribution} />
       ) : null}
 
-      {!isFetching && data.timeDistribution.length === 0 ? <p>Not enough data to display read trends!</p> : null}
+      {!(isFetching || isLoading) && data.timeDistribution.length === 0 ? (
+        <p>Not enough data to display read trends!</p>
+      ) : null}
     </div>
   );
 };

@@ -2,9 +2,10 @@ import { prisma } from '@read-quill/database';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import { authOptions } from '@modules/auth/lib/auth.lib';
+import type { DashboardReadTargetsCreatedGetResponse } from '@modules/api/types/dashboard-api.types';
 
 // /api/dashboard/read-targets GET : Gets wether a user created reader targets or not
-export async function GET(): Promise<NextResponse> {
+export async function GET(): Promise<NextResponse<DashboardReadTargetsCreatedGetResponse>> {
   try {
     const session = await getServerSession(authOptions);
 

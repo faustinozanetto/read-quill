@@ -35,3 +35,5 @@ export * from './exclamation-icon';
 export * from './search-icon';
 export * from './dots-horizontal-icon';
 export * from './eye-none-icon';
+export * from './medal-icon';
+export * from './thropy-icon';

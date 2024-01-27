@@ -13,7 +13,7 @@ import {
 import { useMutation } from '@tanstack/react-query';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
-import type { DashboardReadTargetsGetResponse } from '@modules/api/types/api.types';
+import type { DashboardReadTargetsGetResponse } from '@modules/api/types/dashboard-api.types';
 import DashboardReadTargetsEditForm from './dashboard-read-targets-edit-form';
 import type { DashboardReadTargetsEditFormData } from './dashboard-read-targets-edit-form';
 

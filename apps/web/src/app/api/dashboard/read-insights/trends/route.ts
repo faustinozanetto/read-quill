@@ -5,7 +5,7 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { authOptions } from '@modules/auth/lib/auth.lib';
 import type { DashboardReadInsightsReadTrendsIntervalType } from '@modules/dashboard/types/dashboard.types';
-import type { DashboardReadInsightsTrendsGetResponse } from '@modules/api/types/api.types';
+import type { DashboardReadInsightsTrendsGetResponse } from '@modules/api/types/dashboard-api.types';
 
 const sortTrendsByDate = (trends: Record<string, ReadRegistry[]>): { date: string; registries: ReadRegistry[] }[] => {
   const sortedTrends: { date: string; registries: ReadRegistry[] }[] = Object.keys(trends)

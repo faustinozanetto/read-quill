@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import { useReadInsightsTrends } from '@modules/dashboard/hooks/use-read-insights-trends';
 import { Skeleton } from '@read-quill/design-system';
+import { useReadInsightsTrends } from '@modules/dashboard/hooks/use-read-insights-trends';
 import DashboardReadInsightTrendsIntervalSelect from './dashboard-read-insights-trends-interval-select';
 import DashboardReadInsightTrendsChart from './dashboard-read-insights-trends-chart';
 
@@ -25,9 +25,11 @@ const DashboardReadInsightTrends: React.FC = () => {
 
       {isFetching || isLoading ? <Skeleton className="h-48 w-full" /> : null}
 
-      {data.trends.length > 0 ? <DashboardReadInsightTrendsChart interval={interval} trends={data.trends} /> : null}
+      {!(isFetching || isLoading) && data.trends.length > 0 ? (
+        <DashboardReadInsightTrendsChart interval={interval} trends={data.trends} />
+      ) : null}
 
-      {!isFetching && data.trends.length === 0 ? <p>Not enough data to display read trends!</p> : null}
+      {!(isFetching || isLoading) && data.trends.length === 0 ? <p>Not enough data to display read trends!</p> : null}
     </div>
   );
 };

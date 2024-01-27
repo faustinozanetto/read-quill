@@ -3,9 +3,9 @@
 import React, { useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import type { ApexOptions } from 'apexcharts';
-import type { DashboardReadInsightsReadTrendsIntervalType } from '@modules/dashboard/types/dashboard.types';
 import { useTheme } from 'next-theme-kit';
-import type { DashboardReadInsightsTrendsGetResponse } from '@modules/api/types/api.types';
+import type { DashboardReadInsightsReadTrendsIntervalType } from '@modules/dashboard/types/dashboard.types';
+import type { DashboardReadInsightsTrendsGetResponse } from '@modules/api/types/dashboard-api.types';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 

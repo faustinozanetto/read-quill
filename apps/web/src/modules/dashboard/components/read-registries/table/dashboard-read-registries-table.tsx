@@ -6,7 +6,7 @@ import type { ColumnDef, ColumnFiltersState, SortingState, VisibilityState } fro
 import { getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import { DataTable } from '@read-quill/design-system/src';
 import { useReadRegistries } from '@modules/dashboard/hooks/use-read-registries';
-import type { DashboardReadRegistry } from '@modules/api/types/api.types';
+import type { DashboardReadRegistry } from '@modules/api/types/dashboard-api.types';
 import DashboardReadRegistriesRowActions from './dashboard-read-registries-row-actions';
 
 const DashboardReadRegistriesTable: React.FC = () => {

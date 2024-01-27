@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import Dashboard from '@modules/dashboard/components/dashboard';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: 'User Dashboard',

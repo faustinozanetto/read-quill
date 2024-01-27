@@ -1,9 +1,9 @@
 'use client';
 
 import React from 'react';
-import type { UseBooksProgressReturn } from '@modules/dashboard/hooks/use-books-progress';
 import { Button } from '@read-quill/design-system';
-import type { DashboardBooksProgressGetResponse } from '@modules/api/types/api.types';
+import type { UseBooksProgressReturn } from '@modules/dashboard/hooks/use-books-progress';
+import type { DashboardBooksProgressGetResponse } from '@modules/api/types/dashboard-api.types';
 
 interface DashboardBooksProgressFeedProps {
   pageCount: DashboardBooksProgressGetResponse['pageCount'];

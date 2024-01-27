@@ -8,7 +8,7 @@ import {
   editReadTargetsValidationSchema,
 } from '@modules/dashboard/validations/dashboard.validations';
 import { authOptions } from '@modules/auth/lib/auth.lib';
-import type { DashboardReadTargetsGetResponse } from '@modules/api/types/api.types';
+import type { DashboardReadTargetsGetResponse } from '@modules/api/types/dashboard-api.types';
 
 // /api/dashboard/read-targets GET : Gets the read targets of the user
 export async function GET(): Promise<NextResponse<DashboardReadTargetsGetResponse | { message: string }>> {

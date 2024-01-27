@@ -3,7 +3,7 @@
 import React from 'react';
 import type { DashboardReadActivityEntry } from '@modules/dashboard/types/dashboard.types';
 import { useReadActivityGraph } from '@modules/dashboard/hooks/read-activity/use-read-activity-graph';
-import type { DashboardReadActivityGetResponse } from '@modules/api/types/api.types';
+import type { DashboardReadActivityGetResponse } from '@modules/api/types/dashboard-api.types';
 import DashboardReadActivityGraphEntry from './dashboard-read-activity-graph-entry';
 
 interface DashboardReadActivityGraphProps {

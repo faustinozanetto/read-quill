@@ -1,6 +1,6 @@
 import React from 'react';
-import { useBooksProgress } from '@modules/dashboard/hooks/use-books-progress';
 import { Skeleton } from '@read-quill/design-system';
+import { useBooksProgress } from '@modules/dashboard/hooks/use-books-progress';
 import DashboardBooksProgressHeader from './header/dashboard-books-progress-header';
 import DashboardBooksProgressFeed from './feed/dashboard-books-progress-feed';
 import DashboardBooksProgressFeedPagination from './feed/dashboard-books-progress-feed-pagination';
@@ -23,7 +23,7 @@ const DashboardBooksProgress: React.FC = () => {
           ))}
         </div>
       ) : null}
-      {data.booksProgress.length > 0 ? (
+      {!(isFetching || isLoading) && data.booksProgress.length > 0 ? (
         <div className="flex flex-col gap-2">
           <DashboardBooksProgressFeed booksProgress={data.booksProgress} />
           <DashboardBooksProgressFeedPagination
@@ -36,7 +36,9 @@ const DashboardBooksProgress: React.FC = () => {
           />
         </div>
       ) : null}
-      {!isFetching && data.booksProgress.length === 0 ? <p>Not enough data to display books progress!</p> : null}
+      {!(isFetching || isLoading) && data.booksProgress.length === 0 ? (
+        <p>Not enough data to display books progress!</p>
+      ) : null}
     </div>
   );
 };

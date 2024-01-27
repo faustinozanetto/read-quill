@@ -1,5 +1,5 @@
 import React from 'react';
-import type { DashboardBooksProgressGetResponse } from '@modules/api/types/api.types';
+import type { DashboardBooksProgressGetResponse } from '@modules/api/types/dashboard-api.types';
 import DashboardBooksProgressCard from './dashboard-books-progress-card';
 
 interface DashboardBooksProgressFeedProps {

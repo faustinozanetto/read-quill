@@ -1,6 +1,6 @@
 import React from 'react';
 import { DASHBOARD_READ_TARGETS } from '@modules/dashboard/types/dashboard.types';
-import type { DashboardReadTargetsGetResponse } from '@modules/api/types/api.types';
+import type { DashboardReadTargetsGetResponse } from '@modules/api/types/dashboard-api.types';
 import DashboardReadTargetsCard from './dashboard-read-targets-card';
 
 interface DashboardReadTargetsFeedProps {

@@ -34,8 +34,9 @@ model User {
   image         String?
   accounts      Account[]
 
-  readTargets ReadTargets?
-  books       Book[]
+  readTargets  ReadTargets?
+  books        Book[]
+  achievements UserAchievement[]
 }
 
 model ReadTargets {
@@ -91,6 +92,27 @@ model ReadRegistry {
 
   book   Book   @relation(fields: [bookId], references: [id], onDelete: Cascade)
   bookId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserAchievement {
+  userId        String
+  achievementId String
+  unlockedAt    DateTime?
+
+  user        User        @relation(fields: [userId], references: [id])
+  achievement Achievement @relation(fields: [achievementId], references: [id])
+
+  @@id([userId, achievementId])
+}
+
+model Achievement {
+  id         String            @id @default(cuid())
+  name       String
+  criteria   Json // JSON field to store badge criteria
+  unlockedBy UserAchievement[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

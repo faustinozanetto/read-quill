@@ -1,6 +1,9 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import type { DashboardReadTargetsGetResponse } from '@modules/api/types/api.types';
+import type {
+  DashboardReadTargetsCreatedGetResponse,
+  DashboardReadTargetsGetResponse,
+} from '@modules/api/types/dashboard-api.types';
 
 interface UseReadTargetsReturn {
   data?: DashboardReadTargetsGetResponse;
@@ -11,12 +14,14 @@ interface UseReadTargetsReturn {
 export const useReadTargets = (): UseReadTargetsReturn => {
   const queryClient = useQueryClient();
 
-  const readTargetsCreated = queryClient.getQueryData(['dashboard-read-targets-created']);
+  const readTargetsCreated = queryClient.getQueryData<DashboardReadTargetsCreatedGetResponse>([
+    'dashboard-read-targets-created',
+  ]);
 
   const { data, isLoading, isFetching } = useQuery<DashboardReadTargetsGetResponse>(['dashboard-read-targets'], {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
-    enabled: Boolean(readTargetsCreated),
+    enabled: readTargetsCreated?.created,
     queryFn: async () => {
       const url = new URL('/api/dashboard/read-targets', __URL__);
 

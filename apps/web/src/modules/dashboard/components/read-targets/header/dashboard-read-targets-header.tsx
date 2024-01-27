@@ -2,7 +2,7 @@ import React from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { Skeleton } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import type { DashboardReadTargetsGetResponse } from '@modules/api/types/api.types';
+import type { DashboardReadTargetsGetResponse } from '@modules/api/types/dashboard-api.types';
 import DashboardReadTargetsEdit from './edit/dashboard-read-targets-edit';
 import DashboardReadTargetsCreate from './create/dashboard-read-targets-create';
 

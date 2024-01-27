@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import type { PaginationState } from '@tanstack/react-table';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import type { DashboardReadRegistriesGetResponse } from '@modules/api/types/api.types';
+import type { DashboardReadRegistriesGetResponse } from '@modules/api/types/dashboard-api.types';
 
 interface UseReadRegistriesReturn {
   data: DashboardReadRegistriesGetResponse;
