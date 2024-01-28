@@ -2,6 +2,40 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
+import { ChartIcon, MedalIcon, TargetIcon } from '@read-quill/design-system/src';
+import HomeFeaturesCard from './home-features-card';
+import HomeFeaturesMoreCard from './home-features-more-card';
+
+const HOME_FEATURES: React.ComponentPropsWithoutRef<typeof HomeFeaturesCard>[] = [
+  {
+    content: 'Set daily, weekly, and monthly reading goals that match your pace and preferences.',
+    title: 'Personalized Reading Targets',
+    icon: <TargetIcon className="w-12 h-12" />,
+  },
+  {
+    content: 'Celebrate reading milestones and unlock rewards with achievements and badges.',
+    title: 'Achievements and Badges',
+    icon: <MedalIcon className="w-12 h-12" />,
+  },
+  {
+    content: 'Gain valuable insights into your reading habits through charts and statistics.',
+    title: 'Reading Insights',
+    icon: <ChartIcon className="w-12 h-12" />,
+  },
+  {
+    content: 'Monitor your reading progress and visualize accomplishments effortlessly.',
+    title: 'Progress Tracking',
+    icon: <ChartIcon className="w-12 h-12" />,
+  },
+];
+
+const HOME_MORE_FEATUES: React.ComponentPropsWithoutRef<typeof HomeFeaturesMoreCard>[] = [
+  {
+    title: 'Reading Challenges',
+  },
+  { title: 'Book Reviews' },
+  { title: 'Annotations' },
+];
 
 const HomeFeatures: React.FC = () => {
   return (
@@ -23,6 +57,16 @@ const HomeFeatures: React.FC = () => {
             reading targets to collaborative annotation tools, our platform offers a suite of capabilities tailored for
             avid readers.
           </p>
+        </div>
+        <div className="grid gap-4 mt-4 sm:grid-cols-2 lg:grid-cols-3 mb-6">
+          {HOME_FEATURES.map((feature, index) => (
+            <HomeFeaturesCard key={`feature-${index}`} {...feature} />
+          ))}
+        </div>
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          {HOME_MORE_FEATUES.map((feature, index) => (
+            <HomeFeaturesMoreCard key={`feature-more-${index}`} {...feature} />
+          ))}
         </div>
       </div>
     </section>

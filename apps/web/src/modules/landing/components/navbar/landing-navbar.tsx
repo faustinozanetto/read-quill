@@ -11,7 +11,7 @@ const LandingNavbar: React.FC = () => {
           <MarketingLogo />
         </Link>
 
-        <ThemeToggler size="icon" />
+        <ThemeToggler size="icon" variant="ghost" />
       </div>
     </div>
   );
