@@ -22,6 +22,7 @@ export * from './components/data-table-column-header';
 export * from './components/data-table-view-options';
 export * from './components/data-table';
 export * from './components/dropdown';
+export * from './components/accordion';
 
 // Hook Expors
 export * from './hooks/use-toast';

@@ -6,6 +6,7 @@ import { UserIcon } from '@read-quill/design-system';
 import ThemeToggler from '@modules/theme/components/theme-toggler';
 import { NAVIGATION_LINKS } from '@modules/navigation/data/navigation-lib';
 import MarketingLogoSimple from '@modules/marketing/components/logos/marketing-logo-simple';
+import Link from 'next/link';
 import NavigationLink from '../navigation-link';
 import NavigationLogout from '../auth/navigation-logout';
 
@@ -15,7 +16,9 @@ const MobileNavigation: React.FC = () => {
   return (
     <div className="md:hidden bg-primary fixed inset-x-0 bottom-0 p-3 h-[64px] z-[100]">
       <div className="flex items-center justify-between gap-2">
-        <MarketingLogoSimple />
+        <Link href="/">
+          <MarketingLogoSimple />
+        </Link>
         <nav className="flex items-center justify-center gap-2">
           {NAVIGATION_LINKS.map((link) => {
             return <NavigationLink href={link.href} icon={link.icon} key={link.href} size="icon" />;

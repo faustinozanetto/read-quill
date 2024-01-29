@@ -4,6 +4,7 @@ import HomeStats from '@modules/landing/components/sections/stats/home-stats';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { LandingStatsGetResponse } from '@modules/api/types/landing-api.types';
 import HomeFeatures from '@modules/landing/components/sections/features/home-features';
+import HomeFaq from '@modules/landing/components/sections/faq/home-faq';
 
 export default async function Page(): Promise<React.JSX.Element> {
   const url = new URL('/api/landing/stats', __URL__);
@@ -18,6 +19,7 @@ export default async function Page(): Promise<React.JSX.Element> {
       <HomeHero />
       <HomeStats stats={data} />
       <HomeFeatures />
+      <HomeFaq />
     </div>
   );
 }

@@ -6,6 +6,7 @@ import { UserIcon } from '@read-quill/design-system';
 import ThemeToggler from '@modules/theme/components/theme-toggler';
 import { NAVIGATION_LINKS } from '@modules/navigation/data/navigation-lib';
 import MarketingLogo from '@modules/marketing/components/logos/marketing-logo';
+import Link from 'next/link';
 import NavigationLink from '../navigation-link';
 import NavigationLogout from '../auth/navigation-logout';
 
@@ -15,7 +16,9 @@ const DesktopNavigation: React.FC = () => {
   return (
     <aside className="hidden md:block sticky inset-y-0 left-0 h-screen z-[100]">
       <div className="bg-primary float-left flex h-full flex-col gap-2 rounded-r-lg p-4 shadow items-start">
-        <MarketingLogo />
+        <Link href="/">
+          <MarketingLogo />
+        </Link>
         <nav className="flex grow flex-col gap-2 mt-4 w-full">
           {NAVIGATION_LINKS.map((link) => {
             return <NavigationLink className="w-full justify-start gap-2" key={link.href} {...link} />;

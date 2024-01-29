@@ -39,3 +39,4 @@ export * from './medal-icon';
 export * from './thropy-icon';
 export * from './target-icon';
 export * from './chart-icon';
+export * from './question-icon';

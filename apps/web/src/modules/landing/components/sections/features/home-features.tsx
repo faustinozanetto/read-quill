@@ -39,9 +39,9 @@ const HOME_MORE_FEATUES: React.ComponentPropsWithoutRef<typeof HomeFeaturesMoreC
 
 const HomeFeatures: React.FC = () => {
   return (
-    <section className="w-full" id="stats">
-      <div className="mx-auto w-full max-w-screen-2xl px-4 py-10 md:px-20 md:py-24">
-        <div className="mx-auto max-w-2xl text-center">
+    <section className="w-full" id="features">
+      <div className="mx-auto w-full max-w-screen-2xl px-4 py-10 md:px-20 md:py-24 relative">
+        <div className="relative mx-auto max-w-2xl text-center z-20 backdrop-blur-xl">
           <motion.h2
             className="font-display text-4xl font-extrabold sm:text-5xl"
             initial={{ opacity: 0, translateX: 20 }}
@@ -58,12 +58,13 @@ const HomeFeatures: React.FC = () => {
             avid readers.
           </p>
         </div>
-        <div className="grid gap-4 mt-4 sm:grid-cols-2 lg:grid-cols-3 mb-6">
+
+        <div className="grid gap-4 mt-4 sm:grid-cols-2 xl:grid-cols-4 mb-6 z-20 relative">
           {HOME_FEATURES.map((feature, index) => (
             <HomeFeaturesCard key={`feature-${index}`} {...feature} />
           ))}
         </div>
-        <div className="flex flex-wrap items-center justify-center gap-4">
+        <div className="flex flex-wrap items-center justify-center gap-4 z-20 relative">
           {HOME_MORE_FEATUES.map((feature, index) => (
             <HomeFeaturesMoreCard key={`feature-more-${index}`} {...feature} />
           ))}
