@@ -1,7 +1,7 @@
-import MarketingLogo from '@modules/marketing/components/logos/marketing-logo';
-import ThemeToggler from '@modules/theme/components/theme-toggler';
 import Link from 'next/link';
 import React from 'react';
+import MarketingLogo from '@modules/marketing/components/logos/marketing-logo';
+import ThemeToggler from '@modules/theme/components/theme-toggler';
 
 const LandingNavbar: React.FC = () => {
   return (

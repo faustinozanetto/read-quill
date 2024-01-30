@@ -24,6 +24,12 @@ export interface Sort<TData> {
   property: keyof TData;
 }
 
+interface UseFilterReturn<TData> {
+  filteredData: TData[];
+  updateSort: (newSort: Sort<TData>) => void;
+  updateFilter: (filter: Filter<TData>) => void;
+}
+
 /**
  * The `useFilter` hook is used to filter and sort a data set.
  *
@@ -31,7 +37,11 @@ export interface Sort<TData> {
  * @param filters - The filters to apply to the data.
  * @param sort - The sort to apply to the data.
  */
-const useFilter = <TData>(data: TData[], initialFilters: Filter<TData>[], initialSort: Sort<TData>) => {
+const useFilter = <TData>(
+  data: TData[],
+  initialFilters: Filter<TData>[],
+  initialSort: Sort<TData>
+): UseFilterReturn<TData> => {
   const [filters, setFilters] = useState<Filter<TData>[]>(initialFilters);
   const [sort, setSort] = useState<Sort<TData>>(initialSort);
 
@@ -60,7 +70,7 @@ const useFilter = <TData>(data: TData[], initialFilters: Filter<TData>[], initia
       return 0;
     });
     return sortedData;
-  }, [data, initialFilters, initialSort, filters, sort]);
+  }, [data, filters, sort]);
 
   const updateSort = useCallback((newSort: Sort<TData>) => {
     setSort(newSort);

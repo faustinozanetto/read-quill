@@ -12,10 +12,10 @@ const HomeHero: React.FC = () => {
         <div className="rounded-fulls h-[40rem] w-[60rem] origin-top-left -translate-x-[15rem] -rotate-12 bg-gradient-to-tl from-orange-300 via-yellow-100 to-orange-200 blur-3xl dark:from-orange-500/50 dark:via-yellow-600/50 dark:to-orange-400/40 " />
       </div>
       <div className="mx-auto my-6 max-w-[85rem] px-4 sm:px-6 md:my-14 lg:my-20 lg:px-8">
-        <div className="relative z-10 grid gap-4 md:grid-cols-2 md:items-center md:gap-8 xl:gap-20">
+        <div className="relative z-10 grid gap-4 lg:grid-cols-2 lg:items-center md:gap-8 lg:gap-16">
           <div>
             <motion.h1
-              className="leading-2 block text-4xl font-extrabold sm:text-5xl md:text-6xl lg:text-7xl"
+              className="leading-2 block text-4xl font-extrabold sm:text-5xl md:text-6xl"
               initial={{ opacity: 0, translateY: -20 }}
               transition={{ delay: 0.15, duration: 0.35 }}
               viewport={{ once: true }}
@@ -24,10 +24,10 @@ const HomeHero: React.FC = () => {
               <span className="hover:-translate-y-2 pointer-events-auto inline-block transition-transform duration-500">
                 Elevate
               </span>{' '}
-              Your <span className="text-primary underline decoration-8">Reading</span> with Read Quill
+              Your <span className="text-primary underline decoration-8">Reading</span> with <br /> Read Quill
             </motion.h1>
             <motion.p
-              className="mt-3 md:text-lg max-w-xl md:mx-auto"
+              className="mt-3 md:text-lg max-w-xl"
               initial={{ opacity: 0, translateY: -20 }}
               transition={{ delay: 0.25, duration: 0.35 }}
               viewport={{ once: true }}
@@ -55,7 +55,6 @@ const HomeHero: React.FC = () => {
           </div>
 
           <motion.div
-            className="ml-4"
             initial={{ opacity: 0, translateX: 20 }}
             transition={{ delay: 0.35, duration: 0.35 }}
             viewport={{ once: true }}
@@ -64,11 +63,11 @@ const HomeHero: React.FC = () => {
             <Image
               alt="Home Hero Illustration"
               className="w-full rounded"
-              height={500}
+              height={1500}
               priority
-              src="images/home-hero.svg"
+              src="/images/home-hero-background.png"
               title="Hero Picture"
-              width={500}
+              width={1500}
             />
           </motion.div>
         </div>

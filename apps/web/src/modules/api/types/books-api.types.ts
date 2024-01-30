@@ -5,3 +5,10 @@ export interface UserBooksGetResponse {
   hasMore: boolean;
   pageCount: number;
 }
+
+export interface BooksNamesGetResponse {
+  booksNames: {
+    id: string;
+    name: string;
+  }[];
+}

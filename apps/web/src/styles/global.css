@@ -83,7 +83,7 @@
       transform: translateZ(0) translate(0);
     }
     100%{
-      transform: translateZ(0) translate(calc(-50% - 18px));
+      transform: translateZ(0) translate(-50%);
     }
   }
 }

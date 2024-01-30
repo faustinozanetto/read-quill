@@ -18,7 +18,7 @@ export const DotsHorizontalIcon = forwardRef<SVGSVGElement, DotsHorizontalIconPr
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
-      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M0 0h24v24H0z" fill="none" stroke="none" />
       <circle cx="5" cy="12" r="1" />
       <circle cx="12" cy="12" r="1" />
       <circle cx="19" cy="12" r="1" />

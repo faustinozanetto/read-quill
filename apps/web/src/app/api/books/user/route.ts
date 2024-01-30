@@ -1,9 +1,9 @@
-import type { UserBooksGetResponse } from '@modules/api/types/books-api.types';
-import { authOptions } from '@modules/auth/lib/auth.lib';
 import { prisma } from '@read-quill/database';
 import { getServerSession } from 'next-auth';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+import { authOptions } from '@modules/auth/lib/auth.lib';
+import type { UserBooksGetResponse } from '@modules/api/types/books-api.types';
 
 // /api/books/user GET : Gets the books of the user
 export async function GET(request: NextRequest): Promise<NextResponse<UserBooksGetResponse>> {

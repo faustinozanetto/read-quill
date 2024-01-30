@@ -4,8 +4,8 @@ import React from 'react';
 import BooksFeed from '@modules/books/components/feed/books-feed';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import BookCardPlaceholder from '@modules/books/components/cards/book-card-placeholder';
-import UserProfileBooksHeader from './user-profile-books-header';
 import { useUserBooks } from '@modules/books/hooks/use-user-books';
+import UserProfileBooksHeader from './user-profile-books-header';
 
 const UserProfileBooks: React.FC = () => {
   const { data, isFetching, isLoading } = useUserBooks({ pageSize: 6 });

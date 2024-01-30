@@ -35,8 +35,8 @@ void (async () => {
             pagesRead: faker.number.int({ min: 5, max: 35 }),
             bookId: book.id,
             createdAt: faker.date.between({
-              from: book.startedAt!,
-              to: book.finishedAt!,
+              from: book.startedAt ?? new Date(),
+              to: book.finishedAt ?? new Date(),
             }),
           };
         });
@@ -57,7 +57,6 @@ void (async () => {
       })
     );
   } catch (error) {
-    console.error(error);
     process.exit(1);
   } finally {
     await prisma.$disconnect();

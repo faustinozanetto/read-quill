@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import type { Table as TableType } from '@tanstack/react-table';
 import { flexRender } from '@tanstack/react-table';
 import { DataTableViewOptions, Table, TableHeader, TableRow, TableHead, TableBody, TableCell, Button } from '..';
@@ -8,7 +9,7 @@ interface DataTableProps<TData> {
   table: TableType<TData>;
 }
 
-export function DataTable<TData>({ table }: DataTableProps<TData>) {
+export function DataTable<TData>({ table }: DataTableProps<TData>): React.JSX.Element {
   return (
     <div className="flex flex-col gap-2 w-full">
       <DataTableViewOptions table={table} />

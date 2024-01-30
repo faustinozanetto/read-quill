@@ -3,10 +3,10 @@
 import React from 'react';
 import { useSession } from 'next-auth/react';
 import { UserIcon } from '@read-quill/design-system';
+import Link from 'next/link';
 import ThemeToggler from '@modules/theme/components/theme-toggler';
 import { NAVIGATION_LINKS } from '@modules/navigation/data/navigation-lib';
 import MarketingLogoSimple from '@modules/marketing/components/logos/marketing-logo-simple';
-import Link from 'next/link';
 import NavigationLink from '../navigation-link';
 import NavigationLogout from '../auth/navigation-logout';
 

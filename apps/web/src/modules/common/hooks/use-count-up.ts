@@ -12,6 +12,7 @@ interface UseCountUpScrollProps {
 interface UseCountUpReturn {
   count: number;
   ref: RefObject<HTMLDivElement>;
+  isVisible: boolean;
 }
 
 const easeOutQuad = (t: number): number => t * (2 - t);
@@ -24,7 +25,7 @@ export const useCountUp = ({
   easingFunction = easeOutQuad,
 }: UseCountUpScrollProps): UseCountUpReturn => {
   const [count, setCount] = useState(startValue);
-  const [_isVisible, setIsVisible] = useState(startOnInView);
+  const [isVisible, setIsVisible] = useState(startOnInView);
 
   const countRef = useRef<HTMLDivElement>(null);
 
@@ -70,7 +71,7 @@ export const useCountUp = ({
       cancelAnimationFrame(animationFrameId);
       observer.disconnect();
     };
-  }, [startValue, endValue, duration, startOnInView]);
+  }, [startValue, endValue, duration, startOnInView, easingFunction]);
 
-  return { count, ref: countRef };
+  return { count, ref: countRef, isVisible };
 };

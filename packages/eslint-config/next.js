@@ -35,6 +35,7 @@ module.exports = {
     'import/no-unresolved': 'off',
     'import/default': 'off',
     'no-nested-ternary': 'off',
+    'react/no-array-index-key': 'off',
     'react/function-component-definition': 'off',
     'react/no-unstable-nested-components': 'off',
     '@typescript-eslint/no-misused-promises': 'off',

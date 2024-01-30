@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Button } from '@read-quill/design-system';
 
-export default function NotFoundPage() {
+export default function NotFoundPage(): React.JSX.Element {
   return (
     <div className="mx-4 flex w-full flex-col items-center md:mx-0">
       <div className="my-6 w-full rounded-lg border p-4 px-4 shadow-lg sm:px-6 md:my-14 md:max-w-lg md:p-6 lg:my-20">

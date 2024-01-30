@@ -71,10 +71,7 @@ const HomeTestimonials: React.FC = () => {
         <div className="relative overflow-hidden max-w-screen-xl mx-auto before:absolute before:top-0 before:left-0 before:h-full before:w-full before:z-[1] before:bg-gradient-to-r before:from-primary before:via-transparent before:to-primary flex-col gap-4 flex items-center before:pointer-events-none testimonials-items">
           {chunks.map((chunk, index) => (
             <div
-              className={cn(
-                'flex w-max gap-6',
-                index % 2 === 0 ? 'animate-home-testimonials-1' : 'animate-home-testimonials-2'
-              )}
+              className={cn('w-max flex space-x-6 animate-home-testimonials-1', index % 2 !== 0 && 'direction-reverse')}
               key={`testimonial-chunk-${index}`}
             >
               {chunk.map((testimonial) => (

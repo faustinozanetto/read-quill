@@ -47,6 +47,7 @@
     "postcss": "8.4.33",
     "@read-quill/tailwind-config": "workspace:*",
     "tailwindcss": "3.4.1",
+    "tailwindcss-animate": "1.0.7",
     "@read-quill/typescript-config": "workspace:*",
     "typescript": "5.3.3"
   }

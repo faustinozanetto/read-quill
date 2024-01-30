@@ -1,6 +1,6 @@
-import type { LandingStatsGetResponse } from '@modules/api/types/landing-api.types';
 import { prisma } from '@read-quill/database';
 import { NextResponse } from 'next/server';
+import type { LandingStatsGetResponse } from '@modules/api/types/landing-api.types';
 
 // /api/landing/stats GET : Gets the stats for the landing page
 export async function GET(): Promise<NextResponse<LandingStatsGetResponse>> {

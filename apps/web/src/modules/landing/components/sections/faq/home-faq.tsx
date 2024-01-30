@@ -65,7 +65,7 @@ const HomeFaq: React.FC = () => {
           {HOME_FAQ_QUESTIONS.map((question, index) => {
             const key = `faq-question-${index}`;
             return (
-              <AccordionItem className="border bg-secondary rounded-lg shadow" key={key} value={key}>
+              <AccordionItem className="border bg-secondary/50 rounded-lg shadow" key={key} value={key}>
                 <AccordionTrigger className="text-base text-start p-4 hover:no-underline">
                   <span className="mr-auto">{question.title}</span>
                 </AccordionTrigger>

@@ -1,6 +1,12 @@
 import { siteConfig } from '@config/config';
 
-export default function robots() {
+export default function robots(): {
+  rules: {
+    userAgent: string;
+  }[];
+  sitemap: string;
+  host: string;
+} {
   return {
     rules: [
       {

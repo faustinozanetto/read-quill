@@ -14,10 +14,10 @@ const HomeStatsCard: React.FC<HomeStatsCardProps> = (props) => {
 
   return (
     <div
-      className="border shadow rounded-lg p-4 flex flex-col items-center justify-center text-center bg-card"
+      className="border shadow rounded-lg p-4 flex flex-col items-center justify-center text-center bg-card ease-in-out group hover:scale-[102%]"
       ref={ref}
     >
-      {icon}
+      <div className="group-hover:rotate-12">{icon}</div>
       <h3 className="text-lg font-semibold mt-2">{title}</h3>
       <span className="text-primary text-3xl font-extrabold md:text-4xl">{count}</span>
     </div>

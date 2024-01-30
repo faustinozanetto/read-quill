@@ -3,12 +3,11 @@ import type { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Button, DialogFooter, Form, PlusIcon, cn, LoadingIcon } from '@read-quill/design-system';
-import type { Book } from '@read-quill/database';
-import { useQueryClient } from '@tanstack/react-query';
 import { createReadRegistryValidationSchema } from '@modules/dashboard/validations/dashboard.validations';
 import DashboardReadRegistriesFormPagesRead from '@modules/dashboard/components/forms/read-registries/dashboard-read-registries-page-count';
 import DashboardReadRegistriesFormBook from '@modules/dashboard/components/forms/read-registries/dashboard-read-registries-book';
 import { __URL__ } from '@modules/common/lib/common.constants';
+import { useBooksNames } from '@modules/dashboard/hooks/use-books-names';
 
 export type DashboardReadRegistriesCreateFormData = z.infer<typeof createReadRegistryValidationSchema>;
 
@@ -19,21 +18,20 @@ interface DashboardReadRegistriesCreateFormProps {
 const DashboardReadRegistriesCreateForm: React.FC<DashboardReadRegistriesCreateFormProps> = (props) => {
   const { onSubmit } = props;
 
-  const queryClient = useQueryClient();
+  const { data } = useBooksNames();
 
   const form = useForm<DashboardReadRegistriesCreateFormData>({
     resolver: zodResolver(createReadRegistryValidationSchema),
     mode: 'onBlur',
   });
 
-  const books = queryClient.getQueryData<Book[]>(['dashboard-books']) ?? [];
   const isFormLoading = form.formState.isSubmitting;
 
   return (
     <Form {...form}>
       <form className="flex flex-col gap-2" onSubmit={form.handleSubmit(onSubmit)}>
         <DashboardReadRegistriesFormPagesRead />
-        <DashboardReadRegistriesFormBook books={books} />
+        <DashboardReadRegistriesFormBook booksNames={data.booksNames} />
 
         <DialogFooter className="col-span-2">
           <Button

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
+import { cookies } from 'next/headers';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import Achievements from '@modules/achievements/components/achievements';
-import { cookies } from 'next/headers';
 
 export const metadata: Metadata = {
   title: 'User Achievements',

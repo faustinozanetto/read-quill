@@ -20,15 +20,14 @@ import {
   ArrowsSortIcon,
 } from '@read-quill/design-system';
 import { useFormContext } from 'react-hook-form';
-import type { Book } from '@read-quill/database';
-import { __URL__ } from '@modules/common/lib/common.constants';
+import type { BooksNamesGetResponse } from '@modules/api/types/books-api.types';
 
 interface DashboardReadRegistriesFormBookProps {
-  books: Book[];
+  booksNames: BooksNamesGetResponse['booksNames'];
 }
 
 const DashboardReadRegistriesFormBook: React.FC<DashboardReadRegistriesFormBookProps> = (props) => {
-  const { books } = props;
+  const { booksNames } = props;
 
   const form = useFormContext();
 
@@ -47,7 +46,7 @@ const DashboardReadRegistriesFormBook: React.FC<DashboardReadRegistriesFormBookP
                   role="combobox"
                   variant="outline"
                 >
-                  {field.value ? books.find((book) => book.id === field.value)?.name : 'Select book'}
+                  {field.value ? booksNames.find((book) => book.id === field.value)?.name : 'Select book'}
                   <ArrowsSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </FormControl>
@@ -57,7 +56,7 @@ const DashboardReadRegistriesFormBook: React.FC<DashboardReadRegistriesFormBookP
                 <CommandInput className="h-9" placeholder="Search book..." />
                 <CommandEmpty>No book found.</CommandEmpty>
                 <CommandGroup>
-                  {books.map((book) => (
+                  {booksNames.map((book) => (
                     <CommandItem
                       key={book.name}
                       onSelect={() => {
