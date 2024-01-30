@@ -6,18 +6,24 @@ const DashboardReadActivityIndicators: React.FC = () => {
   const { ACTIVITY_THRESHOLDS } = useReadActivityGraph();
 
   return (
-    <div className="w-max ml-auto items-center justify-end flex gap-2 text-xs">
-      <span>Less</span>
-      {ACTIVITY_THRESHOLDS.map((threshold, i) => {
-        const thresholdLevel = ACTIVITY_THRESHOLDS.length - i;
-        return (
-          <DashboardReadActivityIndicator
-            key={`activity-threshold-indicator-${threshold}`}
-            thresholdLevel={thresholdLevel}
-          />
-        );
-      })}
-      <span>More</span>
+    <div className="w-full justify-between flex text-xs">
+      <div className="flex gap-2 items-center">
+        <span>Today</span>
+        <div className="h-[14px] w-[14px] rounded-sm bg-destructive" />
+      </div>
+      <div className="flex gap-2 items-center">
+        <span>Less</span>
+        {ACTIVITY_THRESHOLDS.map((threshold, i) => {
+          const thresholdLevel = ACTIVITY_THRESHOLDS.length - i;
+          return (
+            <DashboardReadActivityIndicator
+              key={`activity-threshold-indicator-${threshold}`}
+              thresholdLevel={thresholdLevel}
+            />
+          );
+        })}
+        <span>More</span>
+      </div>
     </div>
   );
 };

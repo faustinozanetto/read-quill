@@ -6,6 +6,7 @@ import { NextResponse } from 'next/server';
 import { authOptions } from '@modules/auth/lib/auth.lib';
 import type { DashboardReadInsightsReadTrendsIntervalType } from '@modules/dashboard/types/dashboard.types';
 import type { DashboardReadInsightsTrendsGetResponse } from '@modules/api/types/dashboard-api.types';
+import { startOfMonth, sub } from 'date-fns';
 
 const sortTrendsByDate = (trends: Record<string, ReadRegistry[]>): { date: string; registries: ReadRegistry[] }[] => {
   const sortedTrends: { date: string; registries: ReadRegistry[] }[] = Object.keys(trends)
@@ -28,7 +29,12 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardR
     const interval = (searchParams.get('interval') ?? 'daily') as DashboardReadInsightsReadTrendsIntervalType;
 
     const readRegistries = await prisma.readRegistry.findMany({
-      where: { book: { readerId: session.user.id } },
+      where: {
+        book: { readerId: session.user.id },
+        createdAt: {
+          gte: startOfMonth(sub(new Date(), { weeks: 2 })),
+        },
+      },
     });
 
     const trends = sortTrendsByDate(

@@ -23,7 +23,7 @@ const BookAnnotationCard: React.FC<BookAnnotationCardProps> = (props) => {
         </div>
         {isBookOwner ? <BookAnnotationManagement annotation={annotation} /> : null}
       </div>
-      <div className="relative px-4 pb-2">
+      <div className="relative px-4 pb-2 grow">
         <p className={cn('line-clamp-4', !revealContent && 'blur-sm')}>{annotation.content}</p>
         {!revealContent ? (
           <>

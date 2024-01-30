@@ -51,6 +51,7 @@ const DashboardReadTimeDistributionChart: React.FC<DashboardReadTimeDistribution
         selection: { enabled: false },
         animations: { enabled: true },
         fontFamily: 'inherit',
+
         toolbar: {
           show: false,
         },
@@ -95,7 +96,12 @@ const DashboardReadTimeDistributionChart: React.FC<DashboardReadTimeDistribution
     [theme]
   );
 
-  return <ReactApexChart height={350} options={options} series={series} type="line" width="100%" />;
+  return (
+    <div>
+      <ReactApexChart height={350} options={options} series={series} type="line" width="100%" />
+      <p className="text-sm">Data is shown in intervals of 45 minutes in the timespan of a day.</p>
+    </div>
+  );
 };
 
 export default DashboardReadTimeDistributionChart;

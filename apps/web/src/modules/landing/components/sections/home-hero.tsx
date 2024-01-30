@@ -63,11 +63,11 @@ const HomeHero: React.FC = () => {
             <Image
               alt="Home Hero Illustration"
               className="w-full rounded"
-              height={1500}
+              height={2000}
               priority
               src="/images/home-hero-background.png"
               title="Hero Picture"
-              width={1500}
+              width={2000}
             />
           </motion.div>
         </div>
