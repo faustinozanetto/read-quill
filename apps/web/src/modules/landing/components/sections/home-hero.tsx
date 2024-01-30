@@ -8,8 +8,8 @@ import { SignInIcon, buttonVariants, cn } from '@read-quill/design-system';
 const HomeHero: React.FC = () => {
   return (
     <section className="relative w-full overflow-hidden" id="hero">
-      <div aria-hidden="true" className="animate-hero-background absolute inset-0 left-1/2 -translate-x-1/2 transform">
-        <div className="rounded-fulls h-[50rem] w-[90rem] origin-top-left -translate-x-[15rem] -rotate-12 bg-gradient-to-tl from-orange-300 via-yellow-100 to-orange-200 blur-3xl dark:from-orange-500/50 dark:via-yellow-600/50 dark:to-orange-400/40 " />
+      <div aria-hidden="true" className="absolute inset-0 left-1/2 -translate-x-1/2 transform">
+        <div className="rounded-fulls h-[40rem] w-[60rem] origin-top-left -translate-x-[15rem] -rotate-12 bg-gradient-to-tl from-orange-300 via-yellow-100 to-orange-200 blur-3xl dark:from-orange-500/50 dark:via-yellow-600/50 dark:to-orange-400/40 " />
       </div>
       <div className="mx-auto my-6 max-w-[85rem] px-4 sm:px-6 md:my-14 lg:my-20 lg:px-8">
         <div className="relative z-10 grid gap-4 md:grid-cols-2 md:items-center md:gap-8 xl:gap-20">

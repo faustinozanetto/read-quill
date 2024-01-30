@@ -49,8 +49,7 @@ const HomeFeatures: React.FC = () => {
             viewport={{ once: true }}
             whileInView={{ opacity: 1, translateX: 0 }}
           >
-            These are just <span className="text-primary">some</span>
-            <br /> of our features
+            These are just <br /> <span className="text-primary">some</span> of our features
           </motion.h2>
           <p className="mt-4 sm:text-lg">
             Explore a spectrum of features within Read Quill that empower your reading experience. From personalized

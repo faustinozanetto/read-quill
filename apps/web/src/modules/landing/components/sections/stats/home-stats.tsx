@@ -3,8 +3,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import type { LandingStatType, LandingStatsGetResponse } from '@modules/api/types/landing-api.types';
-import { HOME_STATS } from '@modules/landing/lib/home.lib';
+import { BookIcon, CheckIcon, PencilIcon, UserIcon } from '@read-quill/design-system';
+import type { HomeStatsCardProps } from './home-stats-card';
 import HomeStatsCard from './home-stats-card';
+
+const HOME_STATS: Record<LandingStatType, Omit<HomeStatsCardProps, 'value'>> = {
+  activeUsers: { title: 'Active Users', icon: <UserIcon className="w-10 h-10" /> },
+  booksRegistered: { title: 'Books Registered', icon: <BookIcon className="w-10 h-10" /> },
+  pagesRead: { title: 'Pages Read', icon: <CheckIcon className="w-10 h-10" /> },
+  annotationsCreated: { title: 'Annotations Created', icon: <PencilIcon className="w-10 h-10" /> },
+};
 
 interface HomeStatsProps {
   stats: LandingStatsGetResponse;
@@ -14,7 +22,7 @@ const HomeStats: React.FC<HomeStatsProps> = (props) => {
   const { stats } = props;
 
   return (
-    <section className="bg-primary/70 w-full" id="stats">
+    <section className="bg-primary w-full" id="stats">
       <div className="mx-auto w-full max-w-screen-2xl px-4 py-10 md:px-20 md:py-24">
         <motion.h2
           className="mb-4 text-start text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl"
@@ -49,7 +57,7 @@ const HomeStats: React.FC<HomeStatsProps> = (props) => {
                 viewport={{ once: true }}
                 whileInView={{ opacity: 1, translateY: 0 }}
               >
-                <HomeStatsCard title={statData.title} value={statValue} />
+                <HomeStatsCard icon={statData.icon} title={statData.title} value={statValue} />
               </motion.div>
             );
           })}

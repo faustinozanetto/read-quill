@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent, QuestionIcon } from '@read-quill/design-system';
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@read-quill/design-system';
 
 const HOME_FAQ_QUESTIONS: { title: string; content: string }[] = [
   {
@@ -35,8 +35,8 @@ const HOME_FAQ_QUESTIONS: { title: string; content: string }[] = [
 const HomeFaq: React.FC = () => {
   return (
     <section className="w-full" id="faq">
-      <div className="bg-primary/70">
-        <div className="mx-auto w-full max-w-5xl px-4 py-10 md:px-20 md:py-20">
+      <div className="bg-primary">
+        <div className="mx-auto w-full max-w-5xl px-4 pt-10 md:px-20 md:pt-20 pb-10">
           <motion.h2
             className="mb-4 text-start text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl"
             initial={{ opacity: 0, translateY: -20 }}
@@ -61,15 +61,12 @@ const HomeFaq: React.FC = () => {
       </div>
 
       <div className="mx-auto w-full max-w-5xl px-4 py-10 md:px-20">
-        <Accordion type="multiple">
+        <Accordion className="space-y-4" type="single">
           {HOME_FAQ_QUESTIONS.map((question, index) => {
             const key = `faq-question-${index}`;
             return (
-              <AccordionItem className="border-b-0" key={key} value={key}>
-                <AccordionTrigger className="flex text-base gap-2 items-center justify-start py-1.5 mb-2 hover:no-underline">
-                  <div className="bg-primary shadow p-1.5 border rounded-lg">
-                    <QuestionIcon size="lg" />
-                  </div>
+              <AccordionItem className="border bg-secondary rounded-lg shadow" key={key} value={key}>
+                <AccordionTrigger className="text-base text-start p-4 hover:no-underline">
                   <span className="mr-auto">{question.title}</span>
                 </AccordionTrigger>
                 <AccordionContent className="text-base ml-4">{question.content}</AccordionContent>
