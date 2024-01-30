@@ -64,6 +64,7 @@ const DashboardReadInsightTrendsChart: React.FC<DashboardReadInsightTrendsChartP
         toolbar: {
           show: false,
         },
+        background: 'transparent',
       },
       plotOptions: {
         bar: {

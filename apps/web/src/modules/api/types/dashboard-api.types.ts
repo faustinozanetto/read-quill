@@ -50,3 +50,7 @@ export interface DashboardReadInsightsTimeDistributionGetResponse {
 export interface DashboardReadActivityGetResponse {
   readActivity: Record<string, number>;
 }
+
+export interface DashboardBooksRatingsGetResponse {
+  booksRatings: Record<number, number>;
+}

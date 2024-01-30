@@ -9,9 +9,10 @@ import {
   deleteBookAnnotationValidationSchema,
   editBookAnnotationValidationSchemaAPI,
 } from '@modules/annotations/lib/annotations.validations';
+import type { BookAnnotationPostResponse, BookAnnotationsGetResponse } from '@modules/api/types/books-api.types';
 
 // /api/books/annotations GET : Gets the book annotations by a given bookId
-export async function GET(request: NextRequest): Promise<NextResponse> {
+export async function GET(request: NextRequest): Promise<NextResponse<BookAnnotationsGetResponse>> {
   try {
     const { searchParams } = new URL(request.url);
     const bookId = searchParams.get('bookId');
@@ -31,7 +32,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 }
 
 // /api/books/annotations POST : creates a book annotation
-export async function POST(request: NextRequest): Promise<NextResponse> {
+export async function POST(request: NextRequest): Promise<NextResponse<BookAnnotationPostResponse>> {
   try {
     const session = await getServerSession(authOptions);
 

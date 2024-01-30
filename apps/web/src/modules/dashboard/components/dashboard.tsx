@@ -6,6 +6,7 @@ import DashboardReadRegistries from './read-registries/dashboard-read-registries
 import DashboardBooksProgress from './books-progress/dashboard-books-progress';
 import DashboardReadInsights from './read-insights/dashboard-read-insights';
 import DashboardReadActivity from './read-activity/dashboard-read-activity';
+import DashboardBooksRatings from './books-ratings/dashboard-books-ratings';
 
 const Dashboard: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ const Dashboard: React.FC = () => {
       <DashboardBooksProgress />
       <DashboardReadInsights />
       <DashboardReadActivity />
+      <DashboardBooksRatings />
     </section>
   );
 };

@@ -1,4 +1,4 @@
-import type { Book } from '@read-quill/database';
+import type { Annotation, Book } from '@read-quill/database';
 
 export interface UserBooksGetResponse {
   books: Book[];
@@ -11,4 +11,12 @@ export interface BooksNamesGetResponse {
     id: string;
     name: string;
   }[];
+}
+
+export interface BookAnnotationsGetResponse {
+  annotations: Annotation[];
+}
+
+export interface BookAnnotationPostResponse {
+  success: boolean;
 }

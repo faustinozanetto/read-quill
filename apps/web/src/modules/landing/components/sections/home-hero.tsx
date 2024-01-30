@@ -44,7 +44,7 @@ const HomeHero: React.FC = () => {
               viewport={{ once: true }}
               whileInView={{ opacity: 1, translateX: 0 }}
             >
-              <Link className={cn(buttonVariants({ className: 'w-full md:h-12' }))} href="/">
+              <Link className={cn(buttonVariants({ className: 'w-full md:h-12' }))} href="#features" scroll>
                 Learn More
               </Link>
               <Link className={cn(buttonVariants({ variant: 'outline', className: 'w-full md:h-12' }))} href="/sign-in">
