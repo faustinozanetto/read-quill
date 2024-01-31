@@ -2,14 +2,14 @@
 
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import type { Table } from '@tanstack/react-table';
-import { Button, ChevronDownIcon } from '..';
+import { AdjustmentsIcon, Button } from '../..';
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-} from './dropdown';
+} from '../dropdown';
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;
@@ -19,9 +19,9 @@ export function DataTableViewOptions<TData>({ table }: DataTableViewOptionsProps
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="ml-auto" variant="outline">
+        <Button className="ml-auto h-8" size="sm" variant="outline">
+          <AdjustmentsIcon className="mr-2 h-4 w-4" />
           View
-          <ChevronDownIcon className="ml-2" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[150px]">

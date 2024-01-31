@@ -12,10 +12,16 @@ interface UseReadRegistriesReturn {
   setPagination: Dispatch<SetStateAction<PaginationState>>;
 }
 
-export const useReadRegistries = (): UseReadRegistriesReturn => {
+interface UseReadRegistriesParams {
+  pageSize: number;
+}
+
+export const useReadRegistries = (params: UseReadRegistriesParams = { pageSize: 4 }): UseReadRegistriesReturn => {
+  const { pageSize } = params;
+
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 6,
+    pageSize,
   });
 
   const { data, isLoading } = useQuery<DashboardReadRegistriesGetResponse>(['dashboard-read-registries', pagination], {

@@ -80,6 +80,9 @@ const DashboardReadTimeDistributionChart: React.FC<DashboardReadTimeDistribution
       yaxis: {
         show: true,
       },
+      fill: {
+        opacity: 0.65,
+      },
       grid: {
         show: true,
         strokeDashArray: 5,

@@ -8,8 +8,17 @@ import DashboardBooksProgressFeed from './feed/dashboard-books-progress-feed';
 import DashboardBooksProgressFeedPagination from './feed/dashboard-books-progress-feed-pagination';
 
 const DashboardBooksProgress: React.FC = () => {
-  const { data, isLoading, isFetching, page, getCanPreviousPage, getCanNextPage, previousPage, nextPage } =
-    useBooksProgress();
+  const {
+    data,
+    isLoading,
+    isFetching,
+    page,
+    getCanPreviousPage,
+    getCanNextPage,
+    previousPage,
+    nextPage,
+    setPageIndex,
+  } = useBooksProgress();
 
   return (
     <div className="rounded-lg border p-4 shadow flex flex-col gap-2">
@@ -19,10 +28,13 @@ const DashboardBooksProgress: React.FC = () => {
         conquered on your reading adventure.
       </p>
       {isFetching || isLoading ? (
-        <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3 mt-2">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <Skeleton className="h-48 w-full" key={`dashboard-books-progress-placeholder-${i}`} />
-          ))}
+        <div className="space-y-2">
+          <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3 mt-2">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <Skeleton className="h-48 w-full" key={`dashboard-books-progress-placeholder-${i}`} />
+            ))}
+          </div>
+          <Skeleton className="h-12 w-full" />
         </div>
       ) : null}
       {!(isFetching || isLoading) && data.booksProgress.length > 0 ? (
@@ -35,6 +47,7 @@ const DashboardBooksProgress: React.FC = () => {
             page={page}
             pageCount={data.pageCount}
             previousPage={previousPage}
+            setPageIndex={setPageIndex}
           />
         </div>
       ) : null}

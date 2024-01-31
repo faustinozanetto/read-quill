@@ -11,7 +11,7 @@ import {
   ArrowUpIcon,
   EyeNoneIcon,
   ArrowsSortIcon,
-} from '..';
+} from '../..';
 
 interface DataTableColumnHeaderProps<TData, TValue> extends React.HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>;

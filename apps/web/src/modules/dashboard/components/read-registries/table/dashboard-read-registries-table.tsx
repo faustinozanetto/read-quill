@@ -4,7 +4,7 @@ import React, { useMemo, useState } from 'react';
 import { DataTableColumnHeader } from '@read-quill/design-system';
 import type { ColumnDef, ColumnFiltersState, SortingState, VisibilityState } from '@tanstack/react-table';
 import { getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
-import { DataTable } from '@read-quill/design-system/src';
+import { DataTable, DataTablePagination } from '@read-quill/design-system/src';
 import { useReadRegistries } from '@modules/dashboard/hooks/use-read-registries';
 import type { DashboardReadRegistry } from '@modules/api/types/dashboard-api.types';
 import DashboardReadRegistriesRowActions from './dashboard-read-registries-row-actions';
@@ -79,7 +79,12 @@ const DashboardReadRegistriesTable: React.FC = () => {
     onColumnVisibilityChange: setColumnVisibility,
   });
 
-  return <DataTable table={table} />;
+  return (
+    <div className="space-y-2">
+      <DataTable table={table} />
+      <DataTablePagination pageSizes={[4, 8, 10, 16, 20]} table={table} />
+    </div>
+  );
 };
 
 export default DashboardReadRegistriesTable;

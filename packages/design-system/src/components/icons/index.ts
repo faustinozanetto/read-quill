@@ -40,3 +40,8 @@ export * from './thropy-icon';
 export * from './target-icon';
 export * from './chart-icon';
 export * from './question-icon';
+export * from './adjustments-icon';
+export * from './arrow-double-left-icon';
+export * from './arrow-double-right-icon';
+export * from './chevrons-left-icon';
+export * from './chevrons-right-icon';

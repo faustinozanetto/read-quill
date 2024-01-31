@@ -12,6 +12,7 @@ export interface UseBooksProgressReturn {
   previousPage: () => void;
   getCanPreviousPage: () => boolean;
   getCanNextPage: () => boolean;
+  setPageIndex: (index: number) => void;
 }
 
 interface UseBooksProgressParams {
@@ -62,6 +63,13 @@ export const useBooksProgress = (params: UseBooksProgressParams = { pageSize: 3 
     }
   }, [data.hasMore, isPreviousData]);
 
+  const setPageIndex = useCallback(
+    (index: number) => {
+      if (index >= 0 && index <= data.pageCount) setPage(index);
+    },
+    [data.pageCount]
+  );
+
   const getCanPreviousPage = useCallback(() => {
     return page !== 0;
   }, [page]);
@@ -70,5 +78,15 @@ export const useBooksProgress = (params: UseBooksProgressParams = { pageSize: 3 
     return !(isPreviousData || !data?.hasMore);
   }, [data?.hasMore, isPreviousData]);
 
-  return { data, isLoading, isFetching, page, getCanPreviousPage, getCanNextPage, previousPage, nextPage };
+  return {
+    data,
+    isLoading,
+    isFetching,
+    page,
+    getCanPreviousPage,
+    getCanNextPage,
+    previousPage,
+    nextPage,
+    setPageIndex,
+  };
 };

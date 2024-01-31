@@ -9,11 +9,16 @@ import HomeCta from '@modules/landing/components/sections/cta/home-cta';
 import HomeTestimonials from '@modules/landing/components/sections/testimonials/home-testimonials';
 
 export default async function Page(): Promise<React.JSX.Element> {
-  const url = new URL('/api/landing/stats', __URL__);
-  const response = await fetch(url, { method: 'GET' });
   let data: LandingStatsGetResponse = { activeUsers: 0, annotationsCreated: 0, booksRegistered: 0, pagesRead: 0 };
-  if (response.ok) {
-    data = await response.json();
+
+  try {
+    const url = new URL('/api/landing/stats', __URL__);
+    const response = await fetch(url, { method: 'GET' });
+    if (response.ok) {
+      data = await response.json();
+    }
+  } catch (err) {
+    /* empty */
   }
 
   return (

@@ -3,7 +3,7 @@
 import React from 'react';
 import type { Table as TableType } from '@tanstack/react-table';
 import { flexRender } from '@tanstack/react-table';
-import { DataTableViewOptions, Table, TableHeader, TableRow, TableHead, TableBody, TableCell, Button } from '..';
+import { DataTableViewOptions, Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '../..';
 
 interface DataTableProps<TData> {
   table: TableType<TData>;
@@ -46,34 +46,6 @@ export function DataTable<TData>({ table }: DataTableProps<TData>): React.JSX.El
             )}
           </TableBody>
         </Table>
-      </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of {table.getFilteredRowModel().rows.length} row(s)
-          selected.
-        </div>
-        <div className="space-x-2">
-          <Button
-            disabled={!table.getCanPreviousPage()}
-            onClick={() => {
-              table.previousPage();
-            }}
-            size="sm"
-            variant="outline"
-          >
-            Previous
-          </Button>
-          <Button
-            disabled={!table.getCanNextPage()}
-            onClick={() => {
-              table.nextPage();
-            }}
-            size="sm"
-            variant="outline"
-          >
-            Next
-          </Button>
-        </div>
       </div>
     </div>
   );
