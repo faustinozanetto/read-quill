@@ -21,7 +21,7 @@ async function createDirectoryIfNotExists(directoryPath: string): Promise<void> 
 async function handleFileUpload(file: Blob): Promise<string> {
   const buffer = Buffer.from(await file.arrayBuffer());
   const relativeUploadDir = `/uploads/${format(Date.now(), 'dd-MM-y')}`;
-  const uploadDir = join(process.cwd(), 'public', relativeUploadDir);
+  const uploadDir = join('public', relativeUploadDir);
 
   await createDirectoryIfNotExists(uploadDir);
 

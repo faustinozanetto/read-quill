@@ -24,6 +24,7 @@
     "date-fns": "3.3.1",
     "@auth/prisma-adapter": "1.0.17",
     "@vercel/analytics": "1.1.2",
+    "@supabase/supabase-js": "2.39.3",
     "next-auth": "4.24.5",
     "zustand": "4.5.0",
     "zod": "3.22.4",
