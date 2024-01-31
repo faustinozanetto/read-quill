@@ -3,7 +3,7 @@ import { stat, mkdir, writeFile } from 'node:fs/promises';
 import { format } from 'date-fns';
 import { NextResponse } from 'next/server';
 import mime from 'mime';
-import { BooksUploadPostResponse } from '@modules/api/types/books-api.types';
+import type { BooksUploadPostResponse } from '@modules/api/types/books-api.types';
 
 async function createDirectoryIfNotExists(directoryPath: string): Promise<void> {
   try {
@@ -19,7 +19,7 @@ async function createDirectoryIfNotExists(directoryPath: string): Promise<void> 
 
 async function handleFileUpload(file: Blob): Promise<string> {
   const buffer = Buffer.from(await file.arrayBuffer());
-  const relativeUploadDir = `/uploads/${format(Date.now(), 'dd-MM-Y')}`;
+  const relativeUploadDir = `/uploads/${format(Date.now(), 'dd-MM-y')}`;
   const uploadDir = join(process.cwd(), 'public', relativeUploadDir);
 
   await createDirectoryIfNotExists(uploadDir);
