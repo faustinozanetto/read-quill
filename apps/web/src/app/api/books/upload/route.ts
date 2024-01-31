@@ -9,7 +9,8 @@ async function createDirectoryIfNotExists(directoryPath: string): Promise<void> 
   try {
     await stat(directoryPath);
   } catch (error: unknown) {
-    if ((error as { code?: string }).code === 'ENOENT') {
+    // @ts-expect-error Dont know error type
+    if (error.code === 'ENOENT') {
       await mkdir(directoryPath, { recursive: true });
     } else {
       throw new Error('Something went wrong.');
