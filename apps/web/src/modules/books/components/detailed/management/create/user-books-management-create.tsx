@@ -26,14 +26,14 @@ const UserBooksManagementCreate: React.FC = () => {
     try {
       // First upload cover book to vercel blob storage.
       const coverImage = data.coverImage[0];
-      const coverBlob = await uploadBookCover(coverImage);
+      const coverFile = await uploadBookCover(coverImage);
 
       const url = new URL('/api/books', __URL__);
       const body = JSON.stringify({
         name: data.name,
         author: data.author,
         language: data.language,
-        coverImage: coverBlob.url,
+        coverImage: coverFile.fileUrl,
         pageCount: data.pageCount,
       });
 

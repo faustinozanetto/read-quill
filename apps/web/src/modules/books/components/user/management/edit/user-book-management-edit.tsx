@@ -11,11 +11,11 @@ import {
   EditIcon,
 } from '@read-quill/design-system';
 import { useMutation } from '@tanstack/react-query';
-import type { PutBlobResult } from '@vercel/blob';
 import { useBookStore } from '@modules/books/state/book.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useUploadBookCover } from '@modules/books/hooks/use-upload-book-cover';
+import type { BooksUploadPostResponse } from '@modules/api/types/books-api.types';
 import type { UserBookManagementEditFormData } from './user-book-management-edit-form';
 import UserBookManagementEditForm from './user-book-management-edit-form';
 
@@ -35,14 +35,14 @@ const UserBookManagementEdit: React.FC = () => {
         const { coverImage, ...rest } = data;
 
         // Handle cover image updated, then upload.
-        let coverBlob: PutBlobResult | null = null;
-        if (coverImage.length > 0) coverBlob = await uploadBookCover(coverImage[0]);
+        let coverFile: BooksUploadPostResponse | null = null;
+        if (coverImage.length > 0) coverFile = await uploadBookCover(coverImage[0]);
 
         const url = new URL('/api/books', __URL__);
         const body = JSON.stringify({
           bookId: book.id,
           ...rest,
-          coverImage: coverBlob?.url,
+          coverImage: coverFile?.fileUrl,
         });
 
         const response = await fetch(url, { method: 'PATCH', body });

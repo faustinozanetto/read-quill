@@ -20,3 +20,7 @@ export interface BookAnnotationsGetResponse {
 export interface BookAnnotationPostResponse {
   success: boolean;
 }
+
+export interface BooksUploadPostResponse {
+  fileUrl: string;
+}
