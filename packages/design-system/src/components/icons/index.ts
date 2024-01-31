@@ -45,3 +45,4 @@ export * from './arrow-double-left-icon';
 export * from './arrow-double-right-icon';
 export * from './chevrons-left-icon';
 export * from './chevrons-right-icon';
+export * from './file-icon';

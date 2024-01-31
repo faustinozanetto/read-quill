@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useMemo } from 'react';
-import { Button, DeleteIcon } from '..';
+import { Button, DeleteIcon, FileIcon } from '..';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tooltip';
 
 interface FileInputEntryProps {
@@ -71,6 +71,7 @@ const FileInput = React.forwardRef<HTMLInputElement, FileInputProps>((props, _re
   return (
     <div className="flex flex-col gap-2">
       <Button onClick={handleChooseFile} type="button">
+        <FileIcon className="mr-2" />
         Choose File{multiple ? 's' : null}
       </Button>
       <input

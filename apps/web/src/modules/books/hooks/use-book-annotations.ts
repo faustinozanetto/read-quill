@@ -15,7 +15,8 @@ export const useBookAnnotations = (): UseBookAnnotationsReturn => {
   const { data, isFetching, isLoading } = useQuery<BookAnnotationsGetResponse>(['book-annotations', book?.id], {
     initialData: { annotations: [] },
     queryFn: async () => {
-      if (!book) return;
+      if (!book) return { annotations: [] };
+
       const url = new URL('/api/books/annotations', __URL__);
       url.searchParams.set('bookId', book.id);
 
