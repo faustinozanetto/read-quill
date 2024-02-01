@@ -1,18 +1,17 @@
+import type { DefinedUseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { DashboardBooksProgressGetResponse } from '@modules/api/types/dashboard-api.types';
 
-export interface UseBooksProgressReturn {
-  data: DashboardBooksProgressGetResponse;
-  isLoading: boolean;
-  isFetching: boolean;
+export interface UseBooksProgressReturn
+  extends Pick<DefinedUseQueryResult<DashboardBooksProgressGetResponse>, 'data' | 'isLoading' | 'isFetching'> {
   page: number;
+  setPageIndex: (index: number) => void;
   nextPage: () => void;
   previousPage: () => void;
   getCanPreviousPage: () => boolean;
   getCanNextPage: () => boolean;
-  setPageIndex: (index: number) => void;
 }
 
 interface UseBooksProgressParams {
@@ -52,7 +51,6 @@ export const useBooksProgress = (params: UseBooksProgressParams = { pageSize: 3 
       },
     }
   );
-
   const previousPage = useCallback(() => {
     setPage((old) => Math.max(old - 1, 0));
   }, []);

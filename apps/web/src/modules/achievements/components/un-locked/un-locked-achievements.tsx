@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { ExclamationIcon } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useUnLockedAchievements } from '@modules/achievements/hooks/use-un-locked-achievements';
 import UserUnLockedAchievementsFeed from '../feed/user-un-locked-achievements-feed';
@@ -34,7 +35,12 @@ const UnLockedAchievements: React.FC = () => {
         )}
 
         {!(isFetching || isLoading) && data.unLockedAchievements.length === 0 ? (
-          <p>User did not unlock any achievements so far!</p>
+          <div className="flex items-center justify-center gap-2">
+            <div className="bg-primary p-2 rounded-lg border">
+              <ExclamationIcon />
+            </div>
+            <p>The achievement board is ready for your story. Start your reading adventure and unlock achievements.</p>
+          </div>
         ) : null}
       </div>
     </div>

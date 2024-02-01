@@ -3,10 +3,10 @@ import { prisma } from '@read-quill/database';
 import { getServerSession } from 'next-auth';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+import { startOfMonth, sub } from 'date-fns';
 import { authOptions } from '@modules/auth/lib/auth.lib';
 import type { DashboardReadInsightsReadTrendsIntervalType } from '@modules/dashboard/types/dashboard.types';
 import type { DashboardReadInsightsTrendsGetResponse } from '@modules/api/types/dashboard-api.types';
-import { startOfMonth, sub } from 'date-fns';
 
 const sortTrendsByDate = (trends: Record<string, ReadRegistry[]>): { date: string; registries: ReadRegistry[] }[] => {
   const sortedTrends: { date: string; registries: ReadRegistry[] }[] = Object.keys(trends)

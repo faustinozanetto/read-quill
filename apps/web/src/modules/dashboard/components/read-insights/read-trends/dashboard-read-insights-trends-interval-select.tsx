@@ -27,9 +27,9 @@ const DashboardReadInsightTrendsIntervalSelect: React.FC<DashboardReadInsightTre
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button className="ml-auto" variant="outline">
+        <Button className="ml-auto h-8" size="sm" variant="outline">
           Interval
-          <ChevronDownIcon className="ml-2" />
+          <ChevronDownIcon className="ml-2 h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[150px]">

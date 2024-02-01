@@ -10,7 +10,7 @@ interface DataTablePaginationProps<TData> {
 
 export function DataTablePagination<TData>({ table, pageSizes }: DataTablePaginationProps<TData>): React.JSX.Element {
   return (
-    <div className="flex items-center space-x-6 lg:space-x-8 justify-end">
+    <div className="flex justify-end flex-col items-end sm:items-center sm:flex-row gap-4">
       <div className="flex items-center space-x-2">
         <p className="text-sm font-medium">Rows per page</p>
         <Select
@@ -31,58 +31,60 @@ export function DataTablePagination<TData>({ table, pageSizes }: DataTablePagina
           </SelectContent>
         </Select>
       </div>
-      <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-        Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
-      </div>
-      <div className="flex items-center space-x-2">
-        <Button
-          aria-label="Goto First Page"
-          className="h-8 w-8 p-0"
-          disabled={!table.getCanPreviousPage()}
-          onClick={() => {
-            table.setPageIndex(0);
-          }}
-          variant="outline"
-        >
-          <span className="sr-only">Go to first page</span>
-          <ChevronsLeftIcon className="h-4 w-4" />
-        </Button>
-        <Button
-          aria-label="Goto Previous Page"
-          className="h-8 w-8 p-0"
-          disabled={!table.getCanPreviousPage()}
-          onClick={() => {
-            table.previousPage();
-          }}
-          variant="outline"
-        >
-          <span className="sr-only">Go to previous page</span>
-          <ChevronLeftIcon className="h-4 w-4" />
-        </Button>
-        <Button
-          aria-label="Goto Next Page"
-          className="h-8 w-8 p-0"
-          disabled={!table.getCanNextPage()}
-          onClick={() => {
-            table.nextPage();
-          }}
-          variant="outline"
-        >
-          <span className="sr-only">Go to next page</span>
-          <ChevronRightIcon className="h-4 w-4" />
-        </Button>
-        <Button
-          aria-label="Goto Last Page"
-          className="h-8 w-8 p-0"
-          disabled={!table.getCanNextPage()}
-          onClick={() => {
-            table.setPageIndex(table.getPageCount() - 1);
-          }}
-          variant="outline"
-        >
-          <span className="sr-only">Go to last page</span>
-          <ChevronsRightIcon className="h-4 w-4" />
-        </Button>
+      <div className="flex gap-2 items-center">
+        <div className="flex w-[100px] items-center justify-center text-sm font-medium">
+          Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+        </div>
+        <div className="flex items-center space-x-2">
+          <Button
+            aria-label="Goto First Page"
+            className="h-8 w-8 p-0"
+            disabled={!table.getCanPreviousPage()}
+            onClick={() => {
+              table.setPageIndex(0);
+            }}
+            variant="outline"
+          >
+            <span className="sr-only">Go to first page</span>
+            <ChevronsLeftIcon className="h-4 w-4" />
+          </Button>
+          <Button
+            aria-label="Goto Previous Page"
+            className="h-8 w-8 p-0"
+            disabled={!table.getCanPreviousPage()}
+            onClick={() => {
+              table.previousPage();
+            }}
+            variant="outline"
+          >
+            <span className="sr-only">Go to previous page</span>
+            <ChevronLeftIcon className="h-4 w-4" />
+          </Button>
+          <Button
+            aria-label="Goto Next Page"
+            className="h-8 w-8 p-0"
+            disabled={!table.getCanNextPage()}
+            onClick={() => {
+              table.nextPage();
+            }}
+            variant="outline"
+          >
+            <span className="sr-only">Go to next page</span>
+            <ChevronRightIcon className="h-4 w-4" />
+          </Button>
+          <Button
+            aria-label="Goto Last Page"
+            className="h-8 w-8 p-0"
+            disabled={!table.getCanNextPage()}
+            onClick={() => {
+              table.setPageIndex(table.getPageCount() - 1);
+            }}
+            variant="outline"
+          >
+            <span className="sr-only">Go to last page</span>
+            <ChevronsRightIcon className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
     </div>
   );

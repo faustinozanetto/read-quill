@@ -3,6 +3,7 @@
 import React from 'react';
 import { Skeleton } from '@read-quill/design-system';
 import { useReadInsightsTrends } from '@modules/dashboard/hooks/use-read-insights-trends';
+import DashboardNoDataMessage from '../../common/dashboard-no-data-message';
 import DashboardReadInsightTrendsIntervalSelect from './dashboard-read-insights-trends-interval-select';
 import DashboardReadInsightTrendsChart from './dashboard-read-insights-trends-chart';
 
@@ -29,7 +30,11 @@ const DashboardReadInsightTrends: React.FC = () => {
         <DashboardReadInsightTrendsChart interval={interval} trends={data.trends} />
       ) : null}
 
-      {!(isFetching || isLoading) && data.trends.length === 0 ? <p>Not enough data to display read trends!</p> : null}
+      {!(isFetching || isLoading) && data.trends.length === 0 ? (
+        <DashboardNoDataMessage>
+          <p>Start logging your readings to discover trends over time.</p>
+        </DashboardNoDataMessage>
+      ) : null}
     </div>
   );
 };

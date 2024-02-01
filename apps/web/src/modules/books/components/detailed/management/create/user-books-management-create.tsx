@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Dialog,
   DialogTrigger,
@@ -11,7 +11,7 @@ import {
   useToast,
 } from '@read-quill/design-system';
 import type { Book } from '@read-quill/database';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useUploadBookCover } from '@modules/books/hooks/use-upload-book-cover';
 import UserBooksManagementCreateForm from './user-books-management-create-form';
@@ -21,6 +21,11 @@ const UserBooksManagementCreate: React.FC = () => {
   const router = useRouter();
   const { toast } = useToast();
   const { uploadBookCover, isBookCoverUploading } = useUploadBookCover();
+  const searchParams = useSearchParams();
+
+  const addBookModalParam = searchParams.get('add-book-modal') === 'true';
+
+  const [dialogOpen, setDialogOpen] = useState(addBookModalParam);
 
   const handleCreateBook = async (data: UserBooksManagementCreateFormData): Promise<void> => {
     try {
@@ -56,7 +61,7 @@ const UserBooksManagementCreate: React.FC = () => {
   };
 
   return (
-    <Dialog>
+    <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
       <DialogTrigger asChild>
         <Button aria-label="Create Book">
           <PlusIcon className="mr-2 stroke-current" />

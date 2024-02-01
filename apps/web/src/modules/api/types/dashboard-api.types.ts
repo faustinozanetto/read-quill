@@ -52,5 +52,8 @@ export interface DashboardReadActivityGetResponse {
 }
 
 export interface DashboardBooksRatingsGetResponse {
-  booksRatings: Record<number, number>;
+  booksRatings: {
+    rating: number;
+    count: number;
+  }[];
 }

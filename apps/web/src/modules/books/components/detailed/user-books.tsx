@@ -38,7 +38,12 @@ const UserBooks: React.FC = () => {
           </>
         ) : null}
 
-        {!(isFetching || isLoading) && data.books.length === 0 ? <p>This user has not read any books so far!</p> : null}
+        {!(isFetching || isLoading) && data.books.length === 0 ? (
+          <p>
+            Let&apos;s build your book collection! Click the{' '}
+            <span className="text-primary font-bold underline">Create Book</span> button to get started.
+          </p>
+        ) : null}
       </div>
     </div>
   );

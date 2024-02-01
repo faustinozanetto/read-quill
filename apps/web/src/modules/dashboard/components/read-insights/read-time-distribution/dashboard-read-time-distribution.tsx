@@ -3,6 +3,7 @@
 import React from 'react';
 import { Skeleton } from '@read-quill/design-system';
 import { useReadInsightsTimeDistribution } from '@modules/dashboard/hooks/use-read-insights-time-distribution';
+import DashboardNoDataMessage from '../../common/dashboard-no-data-message';
 import DashboardReadTimeDistributionChart from './dashboard-read-time-distribution-chart';
 
 const DashboardReadTimeDistribution: React.FC = () => {
@@ -23,7 +24,9 @@ const DashboardReadTimeDistribution: React.FC = () => {
       ) : null}
 
       {!(isFetching || isLoading) && data.timeDistribution.length === 0 ? (
-        <p>Not enough data to display read trends!</p>
+        <DashboardNoDataMessage>
+          <p>Log your reading sessions to discover how your time is distributed.</p>
+        </DashboardNoDataMessage>
       ) : null}
     </div>
   );

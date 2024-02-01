@@ -1,12 +1,12 @@
+import type { DefinedUseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { DashboardReadInsightsTimeDistributionGetResponse } from '@modules/api/types/dashboard-api.types';
 
-interface UseReadInsightsTimeDistributionReturn {
-  data: DashboardReadInsightsTimeDistributionGetResponse;
-  isFetching: boolean;
-  isLoading: boolean;
-}
+type UseReadInsightsTimeDistributionReturn = Pick<
+  DefinedUseQueryResult<DashboardReadInsightsTimeDistributionGetResponse>,
+  'data' | 'isLoading' | 'isFetching'
+>;
 
 export const useReadInsightsTimeDistribution = (): UseReadInsightsTimeDistributionReturn => {
   const { data, isFetching, isLoading } = useQuery<DashboardReadInsightsTimeDistributionGetResponse>(

@@ -1,8 +1,10 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { Skeleton } from '@read-quill/design-system';
 import { useBooksProgress } from '@modules/dashboard/hooks/use-books-progress';
+import DashboardNoDataMessage from '../common/dashboard-no-data-message';
 import DashboardBooksProgressHeader from './header/dashboard-books-progress-header';
 import DashboardBooksProgressFeed from './feed/dashboard-books-progress-feed';
 import DashboardBooksProgressFeedPagination from './feed/dashboard-books-progress-feed-pagination';
@@ -30,7 +32,7 @@ const DashboardBooksProgress: React.FC = () => {
       {isFetching || isLoading ? (
         <div className="space-y-2">
           <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3 mt-2">
-            {Array.from({ length: 4 }).map((_, i) => (
+            {Array.from({ length: 3 }).map((_, i) => (
               <Skeleton className="h-48 w-full" key={`dashboard-books-progress-placeholder-${i}`} />
             ))}
           </div>
@@ -52,7 +54,14 @@ const DashboardBooksProgress: React.FC = () => {
         </div>
       ) : null}
       {!(isFetching || isLoading) && data.booksProgress.length === 0 ? (
-        <p>Not enough data to display books progress!</p>
+        <DashboardNoDataMessage>
+          <p>
+            Start by adding your first book to track progress{' '}
+            <Link className="font-bold text-primary underline" href="/books?add-book-modal=true">
+              Here
+            </Link>
+          </p>
+        </DashboardNoDataMessage>
       ) : null}
     </div>
   );

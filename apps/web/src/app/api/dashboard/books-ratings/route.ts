@@ -1,8 +1,8 @@
-import type { DashboardBooksRatingsGetResponse } from '@modules/api/types/dashboard-api.types';
-import { authOptions } from '@modules/auth/lib/auth.lib';
 import { prisma } from '@read-quill/database';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
+import { authOptions } from '@modules/auth/lib/auth.lib';
+import type { DashboardBooksRatingsGetResponse } from '@modules/api/types/dashboard-api.types';
 
 // /api/dashboard/books-ratings GET : Gets all the books ratings
 export async function GET(): Promise<NextResponse<DashboardBooksRatingsGetResponse>> {
@@ -15,7 +15,7 @@ export async function GET(): Promise<NextResponse<DashboardBooksRatingsGetRespon
 
     const books = await prisma.book.findMany({ where: { readerId: session.user.id }, select: { rating: true } });
 
-    const booksRatings = books.reduce<DashboardBooksRatingsGetResponse['booksRatings']>((acc, curr) => {
+    const booksRatings = books.reduce<Record<number, number>>((acc, curr) => {
       const rating = curr.rating ?? 0;
 
       if (!acc[rating]) acc[rating] = 1;
@@ -24,7 +24,14 @@ export async function GET(): Promise<NextResponse<DashboardBooksRatingsGetRespon
       return acc;
     }, {});
 
-    return NextResponse.json({ booksRatings });
+    const mappedRatings = Object.entries(booksRatings).map((rating) => {
+      return {
+        rating: Number.parseInt(rating[0]),
+        count: rating[1],
+      };
+    });
+
+    return NextResponse.json({ booksRatings: mappedRatings });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;

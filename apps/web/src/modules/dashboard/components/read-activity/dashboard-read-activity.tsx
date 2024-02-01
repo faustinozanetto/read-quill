@@ -3,6 +3,7 @@
 import React from 'react';
 import { Skeleton } from '@read-quill/design-system';
 import { useReadActivity } from '@modules/dashboard/hooks/read-activity/use-read-activity';
+import DashboardNoDataMessage from '../common/dashboard-no-data-message';
 import DashboardReadActivityHeader from './header/dashboard-read-activity-header';
 import DashboardReadActivityGraph from './graph/dashboard-read-activity-graph';
 import DashboardReadActivityIndicators from './indicators/dashboard-read-activity-indicators';
@@ -31,7 +32,9 @@ const DashboardReadActivity: React.FC = () => {
       ) : null}
 
       {!(isFetching || isLoading) && readActivityArray.length === 0 ? (
-        <p>Not enough data to display read activity!</p>
+        <DashboardNoDataMessage>
+          <p>Your reading journey begins here. Log your activity to see the graph.</p>
+        </DashboardNoDataMessage>
       ) : null}
     </div>
   );

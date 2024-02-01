@@ -1,12 +1,12 @@
+import type { DefinedUseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { DashboardBooksRatingsGetResponse } from '@modules/api/types/dashboard-api.types';
 
-interface UseBooksRatingsReturn {
-  data: DashboardBooksRatingsGetResponse;
-  isFetching: boolean;
-  isLoading: boolean;
-}
+type UseBooksRatingsReturn = Pick<
+  DefinedUseQueryResult<DashboardBooksRatingsGetResponse>,
+  'data' | 'isLoading' | 'isFetching'
+>;
 
 export const useBooksRatings = (): UseBooksRatingsReturn => {
   const { data, isFetching, isLoading } = useQuery<DashboardBooksRatingsGetResponse>(['dashboard-books-ratings'], {

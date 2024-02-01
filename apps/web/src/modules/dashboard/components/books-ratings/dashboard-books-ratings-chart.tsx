@@ -17,7 +17,7 @@ const DashboardBooksRatingsChart: React.FC<DashboardBooksRatingsChartProps> = (p
   const { theme } = useTheme();
 
   const series = useMemo<ApexOptions['series']>(() => {
-    return Object.values(booksRatings);
+    return booksRatings.map((rating) => rating.count);
   }, [booksRatings]);
 
   const options: ApexOptions = useMemo(
@@ -48,7 +48,7 @@ const DashboardBooksRatingsChart: React.FC<DashboardBooksRatingsChartProps> = (p
       fill: {
         opacity: 0.8,
       },
-      labels: Object.keys(booksRatings).map((rating) => `${rating} Star`),
+      labels: booksRatings.map((rating) => `${rating.rating} Star`),
     }),
     [theme, booksRatings]
   );
