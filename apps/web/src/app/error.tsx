@@ -1,9 +1,15 @@
 'use client';
 
 import { Button } from '@read-quill/design-system';
+import * as Sentry from '@sentry/nextjs';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
-export default function Error({ error }: { error: Error }): React.JSX.Element {
+export default function GlobalError({ error }: { error: Error & { digest?: string } }): React.JSX.Element {
+  useEffect(() => {
+    Sentry.captureException(error);
+  }, [error]);
+
   return (
     <div className="mx-4 flex w-full flex-col items-center md:mx-0">
       <div className="my-6 w-full rounded-lg border p-4 px-4 shadow-lg sm:px-6 md:my-14 md:max-w-lg md:p-6 lg:my-20">
