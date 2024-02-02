@@ -9,15 +9,11 @@ import {
   TooltipTrigger,
 } from '@read-quill/design-system';
 import type { UserAchievementWithAchievement } from '@modules/achievements/types/achievements.types';
+import { ACHIEVEMENT_DISPLAY_CRITERIAS } from '@modules/achievements/lib/achievement.constants';
 
 interface UserUnLockedAchievementCardProps {
   userAchievement: UserAchievementWithAchievement;
 }
-
-const displayCriterias: Record<string, string> = {
-  pagesRead: 'Pages Read',
-  booksRead: 'Books Read',
-};
 
 const UserUnLockedAchievementCard: React.FC<UserUnLockedAchievementCardProps> = (props) => {
   const { userAchievement } = props;
@@ -47,7 +43,7 @@ const UserUnLockedAchievementCard: React.FC<UserUnLockedAchievementCardProps> = 
         <ul className="flex gap-1.5 my-auto justify-between items-center">
           {Object.entries(achievement.criteria).map(([criteriaName, criteriaValue]) => (
             <Badge key={criteriaName}>
-              {displayCriterias[criteriaName] || criteriaName} {criteriaValue}
+              {ACHIEVEMENT_DISPLAY_CRITERIAS[criteriaName] || criteriaName} {criteriaValue}
             </Badge>
           ))}
         </ul>

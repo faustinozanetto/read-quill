@@ -20,7 +20,7 @@ const DashboardBooksProgress: React.FC = () => {
     previousPage,
     nextPage,
     setPageIndex,
-  } = useBooksProgress();
+  } = useBooksProgress({ pageSize: 4 });
 
   return (
     <div className="rounded-lg border p-4 shadow flex flex-col gap-2">
@@ -31,8 +31,8 @@ const DashboardBooksProgress: React.FC = () => {
       </p>
       {isFetching || isLoading ? (
         <div className="space-y-2">
-          <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3 mt-2">
-            {Array.from({ length: 3 }).map((_, i) => (
+          <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-4 mt-2">
+            {Array.from({ length: 4 }).map((_, i) => (
               <Skeleton className="h-48 w-full" key={`dashboard-books-progress-placeholder-${i}`} />
             ))}
           </div>

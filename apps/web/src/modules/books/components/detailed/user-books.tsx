@@ -8,8 +8,17 @@ import UserBooksFeed from './feed/user-books-feed';
 import UserBooksFeedPagination from './feed/user-books-feed-pagination';
 
 const UserBooks: React.FC = () => {
-  const { data, isLoading, isFetching, getCanNextPage, getCanPreviousPage, nextPage, previousPage, page } =
-    useUserBooks({ pageSize: 4 });
+  const {
+    data,
+    isLoading,
+    isFetching,
+    page,
+    getCanNextPage,
+    getCanPreviousPage,
+    nextPage,
+    previousPage,
+    setPageIndex,
+  } = useUserBooks({ pageSize: 4 });
 
   return (
     <div className="flex rounded-lg p-4 shadow border">
@@ -34,6 +43,7 @@ const UserBooks: React.FC = () => {
               page={page}
               pageCount={data.pageCount}
               previousPage={previousPage}
+              setPageIndex={setPageIndex}
             />
           </>
         ) : null}

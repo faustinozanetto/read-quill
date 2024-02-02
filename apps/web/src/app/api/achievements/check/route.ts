@@ -3,6 +3,7 @@ import { prisma } from '@read-quill/database';
 import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import { authOptions } from '@modules/auth/lib/auth.lib';
+import { calculateCriterias } from '@modules/achievements/lib/achievement-criterias.lib';
 
 // /api/achievements/check POST : Checks if the user met the requirements for unlocking achievements.
 export async function POST(): Promise<NextResponse> {
@@ -17,21 +18,13 @@ export async function POST(): Promise<NextResponse> {
     const achievements = await prisma.achievement.findMany();
 
     // Fetch user-specific data
-    const readRegistries = await prisma.readRegistry.findMany({ where: { book: { readerId: session.user.id } } });
+    const readRegistries = await prisma.readRegistry.findMany({
+      where: { book: { readerId: session.user.id } },
+      orderBy: { createdAt: 'asc' },
+    });
     const books = await prisma.book.findMany({ where: { readerId: session.user.id } });
 
-    // Calculate pages read for each book
-    const booksPagesRead = readRegistries.reduce<Record<string, number>>((acc, curr) => {
-      const key = curr.bookId;
-      acc[key] = (acc[key] || 0) + curr.pagesRead;
-      return acc;
-    }, {});
-
-    // Calculate criteria conditions
-    const criteriaConditions: Record<string, number> = {
-      pagesRead: readRegistries.reduce((acc, curr) => acc + curr.pagesRead, 0),
-      booksRead: books.reduce((acc, curr) => (booksPagesRead[curr.id] >= curr.pageCount ? acc + 1 : acc), 0),
-    };
+    const criteriaConditions = calculateCriterias(books, readRegistries);
 
     // Identify completed achievements
     const completedAchievements: string[] = achievements

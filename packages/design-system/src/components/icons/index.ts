@@ -46,3 +46,5 @@ export * from './arrow-double-right-icon';
 export * from './chevrons-left-icon';
 export * from './chevrons-right-icon';
 export * from './file-icon';
+export * from './sort-asc-icon';
+export * from './sort-desc-icon';

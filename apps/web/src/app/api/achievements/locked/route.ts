@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
 import { authOptions } from '@modules/auth/lib/auth.lib';
 import type { AchievementsLockedGetResponse } from '@modules/api/types/achievements-api.types';
+import { calculateCriterias } from '@modules/achievements/lib/achievement-criterias.lib';
 
 // /api/achievements/locked GET : Gets the locked achievements of a user.
 export async function GET(): Promise<NextResponse<AchievementsLockedGetResponse>> {
@@ -32,18 +33,8 @@ export async function GET(): Promise<NextResponse<AchievementsLockedGetResponse>
     const readRegistries = await prisma.readRegistry.findMany({ where: { book: { readerId: session.user.id } } });
     const books = await prisma.book.findMany({ where: { readerId: session.user.id } });
 
-    // Calculate pages read for each book
-    const booksPagesRead = readRegistries.reduce<Record<string, number>>((acc, curr) => {
-      const key = curr.bookId;
-      acc[key] = (acc[key] || 0) + curr.pagesRead;
-      return acc;
-    }, {});
-
     // Calculate criteria conditions
-    const criteriaConditions: Record<string, number> = {
-      pagesRead: readRegistries.reduce((acc, curr) => acc + curr.pagesRead, 0),
-      booksRead: books.reduce((acc, curr) => (booksPagesRead[curr.id] >= curr.pageCount ? acc + 1 : acc), 0),
-    };
+    const criteriaConditions = calculateCriterias(books, readRegistries);
 
     // Calculate percentage of completion for each locked achievement
     const achievementsWithProgress = lockedAchievements.map((lockedAchievement) => {

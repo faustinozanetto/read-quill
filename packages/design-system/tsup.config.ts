@@ -13,7 +13,7 @@ export default defineConfig((options: Options) => ({
   format: ['esm', 'cjs'],
   sourcemap: true,
   clean: true,
-  entry: ['src/index.tsx'],
+  entry: ['src/index.ts'],
   outDir: 'dist',
   ...options,
 }));

@@ -59,6 +59,26 @@ void (async () => {
         name: 'Bookworm Extraordinaire',
         criteria: { pagesRead: 3000, booksRead: 18 },
       },
+      {
+        name: 'Consistent Reader',
+        criteria: { readDaysStreak: 5 },
+      },
+      {
+        name: 'Dedicated Reader',
+        criteria: { readDaysStreak: 10 },
+      },
+      {
+        name: 'Streak Master',
+        criteria: { readDaysStreak: 15 },
+      },
+      {
+        name: 'Daily Devotee',
+        criteria: { readDaysStreak: 20 },
+      },
+      {
+        name: 'Unbroken Chain',
+        criteria: { readDaysStreak: 30 },
+      },
     ];
 
     await prisma.achievement.createMany({ data: achievementsData });

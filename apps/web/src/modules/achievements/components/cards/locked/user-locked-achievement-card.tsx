@@ -1,15 +1,11 @@
 import React from 'react';
 import { Badge, ThropyIcon } from '@read-quill/design-system';
 import type { AchievementWithProgress } from '@modules/achievements/types/achievements.types';
+import { ACHIEVEMENT_DISPLAY_CRITERIAS } from '@modules/achievements/lib/achievement.constants';
 
 interface UserLockedAchievementCardProps {
   userAchievement: AchievementWithProgress;
 }
-
-const displayCriterias: Record<string, string> = {
-  pagesRead: 'Pages Read',
-  booksRead: 'Books Read',
-};
 
 const UserLockedAchievementCard: React.FC<UserLockedAchievementCardProps> = (props) => {
   const { userAchievement } = props;
@@ -25,7 +21,7 @@ const UserLockedAchievementCard: React.FC<UserLockedAchievementCardProps> = (pro
         <ul className="flex gap-1.5 my-auto justify-between items-center">
           {Object.entries(userAchievement.criteria).map(([criteriaName, criteriaValue]) => (
             <Badge key={criteriaName}>
-              {displayCriterias[criteriaName] || criteriaName} {criteriaValue}
+              {ACHIEVEMENT_DISPLAY_CRITERIAS[criteriaName] || criteriaName} {criteriaValue}
             </Badge>
           ))}
         </ul>

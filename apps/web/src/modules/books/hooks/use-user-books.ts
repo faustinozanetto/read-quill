@@ -1,13 +1,13 @@
+import type { DefinedUseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { UserBooksGetResponse } from '@modules/api/types/books-api.types';
 
-export interface UseUserBooksReturn {
-  data: UserBooksGetResponse;
-  isLoading: boolean;
-  isFetching: boolean;
+export interface UseUserBooksReturn
+  extends Pick<DefinedUseQueryResult<UserBooksGetResponse>, 'data' | 'isLoading' | 'isFetching'> {
   page: number;
+  setPageIndex: (index: number) => void;
   nextPage: () => void;
   previousPage: () => void;
   getCanPreviousPage: () => boolean;
@@ -58,6 +58,13 @@ export const useUserBooks = (params: UseUserBooksParams = { pageSize: 3 }): UseU
     }
   }, [data.hasMore, isPreviousData]);
 
+  const setPageIndex = useCallback(
+    (index: number) => {
+      if (index >= 0 && index <= data.pageCount) setPage(index);
+    },
+    [data.pageCount]
+  );
+
   const getCanPreviousPage = useCallback(() => {
     return page !== 0;
   }, [page]);
@@ -66,5 +73,15 @@ export const useUserBooks = (params: UseUserBooksParams = { pageSize: 3 }): UseU
     return !(isPreviousData || !data?.hasMore);
   }, [data?.hasMore, isPreviousData]);
 
-  return { data, isLoading, isFetching, page, getCanPreviousPage, getCanNextPage, previousPage, nextPage };
+  return {
+    data,
+    isLoading,
+    isFetching,
+    page,
+    getCanPreviousPage,
+    getCanNextPage,
+    previousPage,
+    nextPage,
+    setPageIndex,
+  };
 };

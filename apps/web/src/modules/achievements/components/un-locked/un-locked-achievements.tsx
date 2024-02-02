@@ -4,7 +4,7 @@ import React from 'react';
 import { ExclamationIcon } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useUnLockedAchievements } from '@modules/achievements/hooks/use-un-locked-achievements';
-import UserUnLockedAchievementsFeed from '../feed/user-un-locked-achievements-feed';
+import UserUnLockedAchievementsFeed from '../feed/un-locked/user-un-locked-achievements-feed';
 import UserUnLockedAchievementCardPlaceholder from '../cards/un-lockeed/user-un-locked-achievement-card-placeholder';
 
 const UnLockedAchievements: React.FC = () => {

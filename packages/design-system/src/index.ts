@@ -24,6 +24,10 @@ export * from './components/data-table/data-table-pagination';
 export * from './components/data-table/data-table-view-options';
 export * from './components/dropdown';
 export * from './components/accordion';
+export * from './components/sheet';
+export * from './components/collapsible';
+export * from './components/toggle';
+export * from './components/toggle-group';
 
 // Hook Expors
 export * from './hooks/use-toast';

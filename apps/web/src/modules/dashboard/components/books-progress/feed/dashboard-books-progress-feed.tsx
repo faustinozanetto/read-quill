@@ -10,7 +10,7 @@ const DashboardBooksProgressFeed: React.FC<DashboardBooksProgressFeedProps> = (p
   const { booksProgress } = props;
 
   return (
-    <div className="grid gap-2 md:grid-cols-2 lg:grid-cols-3 mt-2">
+    <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-4 mt-2">
       {booksProgress.map((bookProgress) => {
         return (
           <DashboardBooksProgressCard
