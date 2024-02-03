@@ -28,7 +28,7 @@ export interface Sort<TData> {
   property: NestedKeyOf<TData, keyof TData>;
 }
 
-interface UseFilterReturn<TData> {
+export interface UseFilterReturn<TData> {
   filteredData: TData[];
   sort: Sort<TData>;
   filters: Record<NestedKeyOf<TData, keyof TData>, Filter<TData>>;
@@ -122,7 +122,8 @@ const useFilter = <TData>(
 
   const resetFilters = useCallback(() => {
     setFilters(constructFiltersRecordFromArray(initialFilters));
-  }, [initialFilters]);
+    setSort(initialSort);
+  }, [initialFilters, initialSort]);
 
   return { filters, sort, filteredData, updateSort, updateFilter, updateFilterValue, resetFilters };
 };

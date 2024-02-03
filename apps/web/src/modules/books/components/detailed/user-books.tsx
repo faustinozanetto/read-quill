@@ -2,10 +2,10 @@
 
 import React from 'react';
 import { useUserBooks } from '@modules/books/hooks/use-user-books';
+import PaginationControls from '@modules/common/components/pagination/pagination-controls';
 import BookCardPlaceholder from '../cards/book-card-placeholder';
 import UserBooksHeader from './user-books-header';
 import UserBooksFeed from './feed/user-books-feed';
-import UserBooksFeedPagination from './feed/user-books-feed-pagination';
 
 const UserBooks: React.FC = () => {
   const {
@@ -36,7 +36,7 @@ const UserBooks: React.FC = () => {
         {!(isFetching || isLoading) && data.books.length > 0 ? (
           <>
             <UserBooksFeed books={data.books} />
-            <UserBooksFeedPagination
+            <PaginationControls
               getCanNextPage={getCanNextPage}
               getCanPreviousPage={getCanPreviousPage}
               nextPage={nextPage}

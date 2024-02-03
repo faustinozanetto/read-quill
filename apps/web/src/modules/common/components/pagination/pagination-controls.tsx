@@ -8,17 +8,18 @@ import {
   ChevronsLeftIcon,
   ChevronsRightIcon,
 } from '@read-quill/design-system';
-import type { UseBooksProgressReturn } from '@modules/dashboard/hooks/use-books-progress';
-import type { DashboardBooksProgressGetResponse } from '@modules/api/types/dashboard-api.types';
 
-type DashboardBooksProgressFeedProps = Pick<
-  UseBooksProgressReturn,
-  'setPageIndex' | 'getCanNextPage' | 'getCanPreviousPage' | 'nextPage' | 'previousPage' | 'page'
-> & {
-  pageCount: DashboardBooksProgressGetResponse['pageCount'];
-};
+interface PaginationControlsProps {
+  page: number;
+  getCanPreviousPage: () => boolean;
+  getCanNextPage: () => boolean;
+  previousPage: () => void;
+  nextPage: () => void;
+  setPageIndex: (index: number) => void;
+  pageCount: number;
+}
 
-const DashboardBooksProgressFeedPagination: React.FC<DashboardBooksProgressFeedProps> = (props) => {
+const PaginationControls: React.FC<PaginationControlsProps> = (props) => {
   const { pageCount, page, getCanPreviousPage, getCanNextPage, nextPage, previousPage, setPageIndex } = props;
 
   return (
@@ -80,4 +81,4 @@ const DashboardBooksProgressFeedPagination: React.FC<DashboardBooksProgressFeedP
   );
 };
 
-export default DashboardBooksProgressFeedPagination;
+export default PaginationControls;

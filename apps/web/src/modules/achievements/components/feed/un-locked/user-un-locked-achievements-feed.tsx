@@ -16,14 +16,11 @@ import {
   SheetTitle,
   buttonVariants,
   SortAscIcon,
-  Button,
 } from '@read-quill/design-system';
 import { compareAsc } from 'date-fns';
 import type { Prisma } from '@read-quill/database';
 import UnLockedAchievementCard from '../../cards/un-lockeed/user-un-locked-achievement-card';
-import UserUnLockedAchievementsFilteringName from './filtering/user-un-locked-achievements-filtering-name';
-import UserUnLockedAchievementsSorting from './filtering/user-un-locked-achievements-sorting';
-import UserUnLockedAchievementsFilteringCriterias from './filtering/user-un-locked-achievements-filtering-criterias';
+import UserUnLockedAchievementsFiltering from './filtering/user-un-locked-achievements-filtering';
 
 interface UserUnLockedAchievementsFeedProps {
   userAchievements: UserAchievementWithAchievement[];
@@ -83,44 +80,45 @@ const UserUnLockedAchievementsFeed: React.FC<UserUnLockedAchievementsFeedProps> 
   return (
     <div className="flex flex-col gap-2">
       <Sheet>
-        <SheetTrigger className={buttonVariants({ className: 'ml-auto' })}>
+        <SheetTrigger className={buttonVariants({ className: 'flex lg:hidden ml-auto' })}>
           <SortAscIcon className="mr-2" /> Filters & Sort
         </SheetTrigger>
         <SheetContent className="w-[300px] flex flex-col">
           <SheetHeader className="mb-2">
             <SheetTitle>Filtering & Sorting</SheetTitle>
           </SheetHeader>
-          <div className="space-y-2">
-            <UserUnLockedAchievementsSorting
-              onSortByChanged={handleSortByChange}
-              sortAscending={sort.ascending}
-              sortBy={sort.property}
-            />
-            <UserUnLockedAchievementsFilteringName
-              filterName={filters['achievement.name'].value as string}
-              onFilterNameChange={handleFilterNameChange}
-            />
-            <UserUnLockedAchievementsFilteringCriterias
-              filterCriterias={filters['achievement.criteria'].value as string[]}
-              onFilterCriteriasChange={handleFilterCriteriasChange}
-            />
-          </div>
-
-          <div className="mt-auto ml-auto">
-            <Button onClick={resetFilters}>Reset Filters</Button>
-          </div>
+          <UserUnLockedAchievementsFiltering
+            filters={filters}
+            handleFilterCriteriasChange={handleFilterCriteriasChange}
+            handleFilterNameChange={handleFilterNameChange}
+            handleSortByChange={handleSortByChange}
+            resetFilters={resetFilters}
+            sort={sort}
+          />
         </SheetContent>
       </Sheet>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {filteredData.map((userAchievement) => {
-          return (
-            <UnLockedAchievementCard
-              key={`user-achievement-${userAchievement.achievementId}`}
-              userAchievement={userAchievement}
-            />
-          );
-        })}
+      <div className="flex gap-4">
+        <div className="hidden lg:block w-[250px]">
+          <UserUnLockedAchievementsFiltering
+            filters={filters}
+            handleFilterCriteriasChange={handleFilterCriteriasChange}
+            handleFilterNameChange={handleFilterNameChange}
+            handleSortByChange={handleSortByChange}
+            resetFilters={resetFilters}
+            sort={sort}
+          />
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 grow">
+          {filteredData.map((userAchievement) => {
+            return (
+              <UnLockedAchievementCard
+                key={`user-achievement-${userAchievement.achievementId}`}
+                userAchievement={userAchievement}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );

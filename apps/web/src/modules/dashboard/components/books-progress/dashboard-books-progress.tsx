@@ -4,10 +4,10 @@ import React from 'react';
 import Link from 'next/link';
 import { Skeleton } from '@read-quill/design-system';
 import { useBooksProgress } from '@modules/dashboard/hooks/use-books-progress';
+import PaginationControls from '@modules/common/components/pagination/pagination-controls';
 import DashboardNoDataMessage from '../common/dashboard-no-data-message';
 import DashboardBooksProgressHeader from './header/dashboard-books-progress-header';
 import DashboardBooksProgressFeed from './feed/dashboard-books-progress-feed';
-import DashboardBooksProgressFeedPagination from './feed/dashboard-books-progress-feed-pagination';
 
 const DashboardBooksProgress: React.FC = () => {
   const {
@@ -42,7 +42,7 @@ const DashboardBooksProgress: React.FC = () => {
       {!(isFetching || isLoading) && data.booksProgress.length > 0 ? (
         <div className="flex flex-col gap-2">
           <DashboardBooksProgressFeed booksProgress={data.booksProgress} />
-          <DashboardBooksProgressFeedPagination
+          <PaginationControls
             getCanNextPage={getCanNextPage}
             getCanPreviousPage={getCanPreviousPage}
             nextPage={nextPage}
