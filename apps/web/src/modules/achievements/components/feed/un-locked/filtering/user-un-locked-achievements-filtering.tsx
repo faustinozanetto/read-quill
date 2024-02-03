@@ -1,12 +1,12 @@
 import React from 'react';
+import { Button } from '@read-quill/design-system';
+import { ResetIcon } from '@read-quill/design-system/src/components/icons';
 import type { UserAchievementWithAchievement } from '@modules/achievements/types/achievements.types';
 import type { NestedKeyOf, UseFilterReturn } from '@modules/common/hooks/use-filter';
-import { Button } from '@read-quill/design-system';
 import UserUnLockedAchievementsFilteringCriterias from './user-un-locked-achievements-filtering-criterias';
 import UserUnLockedAchievementsFilteringName from './user-un-locked-achievements-filtering-name';
 import UserUnLockedAchievementsSorting from './user-un-locked-achievements-sorting';
 import UserUnLockedAchievementsFilteringUnlockedBefore from './user-un-locked-achievements-filtering-unlocked-before';
-import { ResetIcon } from '@read-quill/design-system/src/components/icons';
 
 interface UserUnLockedAchievementsFilteringProps {
   /**
@@ -80,7 +80,7 @@ const UserUnLockedAchievementsFiltering: React.FC<UserUnLockedAchievementsFilter
           onFilterUnlockedBeforeChange={handleFilterUnlockedBeforeChange}
         />
       </div>
-      <Button aria-label="Reset Filters" className="ml-auto" onClick={resetFilters} variant="destructive" size="sm">
+      <Button aria-label="Reset Filters" className="ml-auto" onClick={resetFilters} size="sm" variant="destructive">
         <ResetIcon className="mr-2" />
         Reset Filters
       </Button>

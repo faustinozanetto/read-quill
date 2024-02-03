@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Book } from '@read-quill/database';
+import { compareAsc } from 'date-fns';
 import type {
   Filter,
   Sort,
@@ -7,7 +8,6 @@ import type {
   UseFilterSortingFunctions,
 } from '@modules/common/hooks/use-filter';
 import useFilter from '@modules/common/hooks/use-filter';
-import { compareAsc } from 'date-fns';
 import BooksFeed from '../../feed/books-feed';
 import UserBooksFeedFiltering from './filtering/user-books-feed-filtering';
 

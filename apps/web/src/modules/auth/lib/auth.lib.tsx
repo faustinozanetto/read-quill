@@ -5,6 +5,8 @@ import { prisma } from '@read-quill/database';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import type { Adapter } from 'next-auth/adapters';
 import { __PROD__, __URL__ } from '@modules/common/lib/common.constants';
+import { sendEmail } from '@modules/emails/lib/resend.lib';
+import WelcomeEmail from '@modules/emails/components/templates/welcome-email';
 
 const COOKIES_PREFIX = 'readquill';
 
@@ -36,6 +38,20 @@ export const authOptions: NextAuthOptions = {
       if (token.sub) session.user.id = token.sub;
 
       return session;
+    },
+  },
+
+  events: {
+    async signIn(message) {
+      // if (!message.isNewUser) return;
+
+      const email = message.user.email!;
+
+      await sendEmail({
+        subject: 'Welcome to Read Quill!',
+        email,
+        template: <WelcomeEmail userFirstname={message.user.name!} />,
+      });
     },
   },
 
