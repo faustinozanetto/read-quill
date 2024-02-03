@@ -25,12 +25,12 @@ const UserBooksFeed: React.FC<UserBooksFeedProps> = (props) => {
 
   const initialSort: Sort<Book> = { property: 'createdAt', ascending: false };
 
-  const filteringFunctinons: UseFilterFilteringFunctions<Book> = {
+  const filterFunctions: UseFilterFilteringFunctions<Book> = {
     name: (item, value) => item.name.toLowerCase().includes((value as string).toLowerCase()),
     language: (item, value) => item.language.toLowerCase().includes((value as string).toLowerCase()),
   };
 
-  const sortingFunctions: UseFilterSortingFunctions<Book> = {
+  const sortFunctions: UseFilterSortingFunctions<Book> = {
     name: (a, b) => a.name.localeCompare(b.name),
     createdAt: (a, b, ascending) => {
       const aDate = a.createdAt ? new Date(a.createdAt) : new Date();
@@ -41,13 +41,13 @@ const UserBooksFeed: React.FC<UserBooksFeedProps> = (props) => {
     },
   };
 
-  const { filteredData, updateFilterValue } = useFilter<Book>(
-    books,
+  const { filteredData, updateFilterValue } = useFilter<Book>({
+    data: books,
     initialFilters,
     initialSort,
-    filteringFunctinons,
-    sortingFunctions
-  );
+    filterFunctions,
+    sortFunctions,
+  });
 
   const handleFilterNameChange = (value: string): void => {
     updateFilterValue('name', value);

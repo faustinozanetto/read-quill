@@ -19,8 +19,20 @@ const SORT_BY: Record<string, string> = {
 };
 
 interface UserUnLockedAchievementsSortingProps {
+  /**
+   * Sort by property.
+   */
   sortBy: NestedKeyOf<UserAchievementWithAchievement>;
+  /**
+   * Sort asc or desc.
+   */
   sortAscending: boolean;
+  /**
+   * Callback function when sort by changes.
+   * @param value - Sort by property value.
+   * @param ascending - Sort asc or desc.
+   * @returns Void.
+   */
   onSortByChanged: (value: NestedKeyOf<UserAchievementWithAchievement>, ascending: boolean) => void;
 }
 
