@@ -1,12 +1,13 @@
 import React from 'react';
-import { Button } from '@read-quill/design-system';
-import { ResetIcon } from '@read-quill/design-system/src/components/icons';
 import type { UserAchievementWithAchievement } from '@modules/achievements/types/achievements.types';
 import type { NestedKeyOf, UseFilterReturn } from '@modules/common/hooks/use-filter';
-import UserUnLockedAchievementsFilteringCriterias from './user-un-locked-achievements-filtering-criterias';
-import UserUnLockedAchievementsFilteringName from './user-un-locked-achievements-filtering-name';
-import UserUnLockedAchievementsSorting from './user-un-locked-achievements-sorting';
-import UserUnLockedAchievementsFilteringUnlockedBefore from './user-un-locked-achievements-filtering-unlocked-before';
+import AchievementsFilteringCriterias from '../../filtering/achievements-filtering-criterias';
+import AchievementsFilteringName from '../../filtering/achievements-filtering-name';
+import AchievementsSorting from '../../filtering/achievements-sorting';
+import AchievementsFilteringUnlockedBefore from '../../filtering/achievements-filtering-unlocked-before';
+import AchievementsFiltering from '../../filtering/achievements-filtering';
+import { SelectItem } from '@read-quill/design-system';
+import { UN_LOCKED_ACHIEVEMENT_SORT_BY } from '@modules/achievements/lib/achievement.constants';
 
 interface UserUnLockedAchievementsFilteringProps {
   /**
@@ -60,31 +61,31 @@ const UserUnLockedAchievementsFiltering: React.FC<UserUnLockedAchievementsFilter
   } = props;
 
   return (
-    <div className="flex flex-col justify-between h-full mb-[64px]">
+    <AchievementsFiltering resetFilters={resetFilters}>
       <div className="flex flex-col gap-2">
-        <UserUnLockedAchievementsSorting
-          onSortByChanged={handleSortByChange}
-          sortAscending={sort.ascending}
-          sortBy={sort.property}
-        />
-        <UserUnLockedAchievementsFilteringName
+        <AchievementsSorting onSortByChanged={handleSortByChange} sortAscending={sort.ascending} sortBy={sort.property}>
+          {Object.entries(UN_LOCKED_ACHIEVEMENT_SORT_BY).map((achievementSortBy) => {
+            return (
+              <SelectItem key={achievementSortBy[0]} value={achievementSortBy[0]}>
+                {achievementSortBy[1]}
+              </SelectItem>
+            );
+          })}
+        </AchievementsSorting>
+        <AchievementsFilteringName
           filterName={filters['achievement.name'].value as string}
           onFilterNameChange={handleFilterNameChange}
         />
-        <UserUnLockedAchievementsFilteringCriterias
+        <AchievementsFilteringCriterias
           filterCriterias={filters['achievement.criteria'].value as string[]}
           onFilterCriteriasChange={handleFilterCriteriasChange}
         />
-        <UserUnLockedAchievementsFilteringUnlockedBefore
+        <AchievementsFilteringUnlockedBefore
           filterUnlockedBefore={filters.unlockedAt.value as string}
           onFilterUnlockedBeforeChange={handleFilterUnlockedBeforeChange}
         />
       </div>
-      <Button aria-label="Reset Filters" className="ml-auto" onClick={resetFilters} size="sm" variant="destructive">
-        <ResetIcon className="mr-2" />
-        Reset Filters
-      </Button>
-    </div>
+    </AchievementsFiltering>
   );
 };
 

@@ -32,12 +32,11 @@ const UserBooksFeed: React.FC<UserBooksFeedProps> = (props) => {
 
   const sortFunctions: UseFilterSortingFunctions<Book> = {
     name: (a, b) => a.name.localeCompare(b.name),
-    createdAt: (a, b, ascending) => {
+    createdAt: (a, b) => {
       const aDate = a.createdAt ? new Date(a.createdAt) : new Date();
       const bDate = b.createdAt ? new Date(b.createdAt) : new Date();
 
-      const order = ascending ? 1 : -1;
-      return compareAsc(aDate, bDate) * order;
+      return compareAsc(aDate, bDate);
     },
   };
 

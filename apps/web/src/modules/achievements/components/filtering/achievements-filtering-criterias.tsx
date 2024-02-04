@@ -1,16 +1,14 @@
 import React from 'react';
 import { ToggleGroup, ToggleGroupItem } from '@read-quill/design-system';
 import { ACHIEVEMENT_DISPLAY_CRITERIAS } from '@modules/achievements/lib/achievement.constants';
-import UserUnLockedAchievementsFilterSection from './user-un-locked-achievements-filter-section';
+import UserUnLockedAchievementsFilterSection from './achievements-filter-section';
 
-interface UserUnLockedAchievementsFilteringCriteriasProps {
+interface AchievementsFilteringCriteriasProps {
   filterCriterias: string[];
   onFilterCriteriasChange: (value: string[]) => void;
 }
 
-const UserUnLockedAchievementsFilteringCriterias: React.FC<UserUnLockedAchievementsFilteringCriteriasProps> = (
-  props
-) => {
+const AchievementsFilteringCriterias: React.FC<AchievementsFilteringCriteriasProps> = (props) => {
   const { filterCriterias, onFilterCriteriasChange } = props;
 
   const handleChange = (value: string[]): void => {
@@ -43,4 +41,4 @@ const UserUnLockedAchievementsFilteringCriterias: React.FC<UserUnLockedAchieveme
   );
 };
 
-export default UserUnLockedAchievementsFilteringCriterias;
+export default AchievementsFilteringCriterias;

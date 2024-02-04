@@ -28,6 +28,7 @@ export * from './components/sheet';
 export * from './components/collapsible';
 export * from './components/toggle';
 export * from './components/toggle-group';
+export * from './components/slider';
 
 // Hook Expors
 export * from './hooks/use-toast';

@@ -1,20 +1,18 @@
 import React from 'react';
 import { Popover, PopoverTrigger, Button, cn, CalendarIcon, PopoverContent, Calendar } from '@read-quill/design-system';
 import { format } from 'date-fns';
-import UserUnLockedAchievementsFilterSection from './user-un-locked-achievements-filter-section';
+import AchievementsFilterSection from './achievements-filter-section';
 
-interface UserUnLockedAchievementsFilteringUnlockedBeforeProps {
+interface AchievementsFilteringUnlockedBeforeProps {
   filterUnlockedBefore: string;
   onFilterUnlockedBeforeChange: (value: string) => void;
 }
 
-const UserUnLockedAchievementsFilteringUnlockedBefore: React.FC<
-  UserUnLockedAchievementsFilteringUnlockedBeforeProps
-> = (props) => {
+const AchievementsFilteringUnlockedBefore: React.FC<AchievementsFilteringUnlockedBeforeProps> = (props) => {
   const { filterUnlockedBefore, onFilterUnlockedBeforeChange } = props;
 
   return (
-    <UserUnLockedAchievementsFilterSection title="Unlocked Before">
+    <AchievementsFilterSection title="Unlocked Before">
       <Popover>
         <PopoverTrigger asChild>
           <Button
@@ -37,8 +35,8 @@ const UserUnLockedAchievementsFilteringUnlockedBefore: React.FC<
           />
         </PopoverContent>
       </Popover>
-    </UserUnLockedAchievementsFilterSection>
+    </AchievementsFilterSection>
   );
 };
 
-export default UserUnLockedAchievementsFilteringUnlockedBefore;
+export default AchievementsFilteringUnlockedBefore;

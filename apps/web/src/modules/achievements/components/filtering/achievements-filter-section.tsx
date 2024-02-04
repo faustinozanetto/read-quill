@@ -8,12 +8,12 @@ import {
 } from '@read-quill/design-system';
 import React, { useState } from 'react';
 
-interface UserUnLockedAchievementsFilterSectionProps {
+interface AchievementsFilterSectionProps {
   title: string;
   children: React.JSX.Element;
 }
 
-const UserUnLockedAchievementsFilterSection: React.FC<UserUnLockedAchievementsFilterSectionProps> = (props) => {
+const AchievementsFilterSection: React.FC<AchievementsFilterSectionProps> = (props) => {
   const { title, children } = props;
 
   const [isOpen, setIsOpen] = useState(false);
@@ -34,4 +34,4 @@ const UserUnLockedAchievementsFilterSection: React.FC<UserUnLockedAchievementsFi
   );
 };
 
-export default UserUnLockedAchievementsFilterSection;
+export default AchievementsFilterSection;

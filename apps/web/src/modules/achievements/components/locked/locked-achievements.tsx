@@ -4,7 +4,7 @@ import React from 'react';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useLockedAchievements } from '@modules/achievements/hooks/use-locked-achievements';
 import UserUnLockedAchievementCardPlaceholder from '../cards/un-lockeed/user-un-locked-achievement-card-placeholder';
-import UserLockedAchievementsFeed from '../feed/user-locked-achievements-feed';
+import UserLockedAchievementsFeed from '../feed/locked/user-locked-achievements-feed';
 
 const LockedAchievements: React.FC = () => {
   const { data, isFetching, isLoading } = useLockedAchievements();

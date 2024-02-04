@@ -18,7 +18,7 @@ const UserBooks: React.FC = () => {
     nextPage,
     previousPage,
     setPageIndex,
-  } = useUserBooks({ pageSize: 4 });
+  } = useUserBooks({ pageSize: 8 });
 
   return (
     <div className="flex rounded-lg p-4 shadow border">
@@ -26,8 +26,13 @@ const UserBooks: React.FC = () => {
         <UserBooksHeader />
 
         {isFetching || isLoading ? (
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {Array.from({ length: 2 }).map((_, i) => (
+          <div
+            className="grid gap-4"
+            style={{
+              gridTemplateColumns: 'repeat(auto-fill, minmax(275px, 1fr))',
+            }}
+          >
+            {Array.from({ length: 8 }).map((_, i) => (
               <BookCardPlaceholder key={`user-book-placeholder-${i}`} />
             ))}
           </div>

@@ -100,9 +100,7 @@ export type UseFilterFilteringFunctions<TData> = Partial<
 /**
  * Utility type for the sorting functions.
  */
-export type UseFilterSortingFunctions<TData> = Partial<
-  Record<NestedKeyOf<TData>, (a: TData, b: TData, ascending: boolean) => number>
->;
+export type UseFilterSortingFunctions<TData> = Partial<Record<NestedKeyOf<TData>, (a: TData, b: TData) => number>>;
 
 /**
  * Function responsible for creating the filters record from an array of filters.
@@ -153,7 +151,7 @@ const useFilter = <TData>(params: UseFilterParams<TData>): UseFilterReturn<TData
       const key = sort.property;
 
       if (key in sortFunctions) {
-        return sortFunctions[key]!(a, b, sort.ascending) * (sort.ascending ? 1 : -1);
+        return sortFunctions[key]!(a, b) * (sort.ascending ? 1 : -1);
       }
 
       return 0;

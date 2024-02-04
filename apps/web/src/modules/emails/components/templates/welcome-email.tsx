@@ -5,10 +5,10 @@ interface WelcomeEmailProps {
   userFirstname: string;
 }
 
-const baseUrl = 'http://localhost:3000';
+const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://readquill.vercel.app';
 
 export const WelcomeEmail: React.FC<WelcomeEmailProps> = (props) => {
-  const { userFirstname = 'Alan' } = props;
+  const { userFirstname = 'John' } = props;
 
   return (
     <Tailwind

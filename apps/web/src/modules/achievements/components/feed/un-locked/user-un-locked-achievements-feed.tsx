@@ -1,13 +1,4 @@
 import React from 'react';
-import {
-  Sheet,
-  SheetTrigger,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  buttonVariants,
-  SortAscIcon,
-} from '@read-quill/design-system';
 import { compareAsc, isBefore } from 'date-fns';
 import type { Prisma } from '@read-quill/database';
 import type { UserAchievementWithAchievement } from '@modules/achievements/types/achievements.types';
@@ -20,7 +11,8 @@ import type {
 } from '@modules/common/hooks/use-filter';
 import useFilter from '@modules/common/hooks/use-filter';
 import UnLockedAchievementCard from '../../cards/un-lockeed/user-un-locked-achievement-card';
-import UserUnLockedAchievementsFiltering from './filtering/user-un-locked-achievements-filtering';
+import AchievementsFeed from '../achievements-feed';
+import UserUnLockedAchievementsFiltering from './user-un-locked-achievements-filtering';
 
 interface UserUnLockedAchievementsFeedProps {
   userAchievements: UserAchievementWithAchievement[];
@@ -53,12 +45,11 @@ const UserUnLockedAchievementsFeed: React.FC<UserUnLockedAchievementsFeedProps> 
 
   const sortFunctions: UseFilterSortingFunctions<UserAchievementWithAchievement> = {
     'achievement.name': (a, b) => a.achievement.name.localeCompare(b.achievement.name),
-    unlockedAt: (a, b, ascending) => {
+    unlockedAt: (a, b) => {
       const aDate = a.unlockedAt ? new Date(a.unlockedAt) : new Date();
       const bDate = b.unlockedAt ? new Date(b.unlockedAt) : new Date();
 
-      const order = ascending ? 1 : -1;
-      return compareAsc(aDate, bDate) * order;
+      return compareAsc(aDate, bDate);
     },
   };
 
@@ -88,15 +79,9 @@ const UserUnLockedAchievementsFeed: React.FC<UserUnLockedAchievementsFeedProps> 
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      <Sheet>
-        <SheetTrigger className={buttonVariants({ className: 'flex lg:hidden ml-auto' })}>
-          <SortAscIcon className="mr-2" /> Filters & Sort
-        </SheetTrigger>
-        <SheetContent className="w-[300px] flex flex-col">
-          <SheetHeader className="mb-2">
-            <SheetTitle>Filtering & Sorting</SheetTitle>
-          </SheetHeader>
+    <AchievementsFeed
+      onRenderFilters={() => {
+        return (
           <UserUnLockedAchievementsFiltering
             filters={filters}
             handleFilterCriteriasChange={handleFilterCriteriasChange}
@@ -106,33 +91,20 @@ const UserUnLockedAchievementsFeed: React.FC<UserUnLockedAchievementsFeedProps> 
             resetFilters={resetFilters}
             sort={sort}
           />
-        </SheetContent>
-      </Sheet>
-
-      <div className="flex gap-4">
-        <div className="hidden lg:block w-[250px]">
-          <UserUnLockedAchievementsFiltering
-            filters={filters}
-            handleFilterCriteriasChange={handleFilterCriteriasChange}
-            handleFilterNameChange={handleFilterNameChange}
-            handleFilterUnlockedBeforeChange={handleUlockedBeforeChange}
-            handleSortByChange={handleSortByChange}
-            resetFilters={resetFilters}
-            sort={sort}
-          />
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 items-start grow">
-          {filteredData.map((userAchievement) => {
-            return (
-              <UnLockedAchievementCard
-                key={`user-achievement-${userAchievement.achievementId}`}
-                userAchievement={userAchievement}
-              />
-            );
-          })}
-        </div>
+        );
+      }}
+    >
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 items-start grow">
+        {filteredData.map((userAchievement) => {
+          return (
+            <UnLockedAchievementCard
+              key={`unlocked-achievement-${userAchievement.achievementId}`}
+              userAchievement={userAchievement}
+            />
+          );
+        })}
       </div>
-    </div>
+    </AchievementsFeed>
   );
 };
 

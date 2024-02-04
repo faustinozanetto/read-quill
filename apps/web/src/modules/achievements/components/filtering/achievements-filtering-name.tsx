@@ -1,13 +1,13 @@
 import React from 'react';
 import { Input, SearchIcon } from '@read-quill/design-system';
-import UserUnLockedAchievementsFilterSection from './user-un-locked-achievements-filter-section';
+import AchievementsFilterSection from './achievements-filter-section';
 
-interface UserUnLockedAchievementsFilteringNameProps {
+interface AchievementsFilteringNameProps {
   filterName: string;
   onFilterNameChange: (value: string) => void;
 }
 
-const UserUnLockedAchievementsFilteringName: React.FC<UserUnLockedAchievementsFilteringNameProps> = (props) => {
+const AchievementsFilteringName: React.FC<AchievementsFilteringNameProps> = (props) => {
   const { filterName, onFilterNameChange } = props;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -15,7 +15,7 @@ const UserUnLockedAchievementsFilteringName: React.FC<UserUnLockedAchievementsFi
   };
 
   return (
-    <UserUnLockedAchievementsFilterSection title="Name">
+    <AchievementsFilterSection title="Name">
       <div className="relative">
         <SearchIcon className="absolute top-2.5 left-2.5 opacity-80" size="sm" />
         <Input
@@ -26,8 +26,8 @@ const UserUnLockedAchievementsFilteringName: React.FC<UserUnLockedAchievementsFi
           value={filterName}
         />
       </div>
-    </UserUnLockedAchievementsFilterSection>
+    </AchievementsFilterSection>
   );
 };
 
-export default UserUnLockedAchievementsFilteringName;
+export default AchievementsFilteringName;
