@@ -4,8 +4,13 @@ import React from 'react';
 import { ExclamationIcon } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useUnLockedAchievements } from '@modules/achievements/hooks/use-un-locked-achievements';
-import UserUnLockedAchievementsFeed from '../feed/un-locked/user-un-locked-achievements-feed';
+import { FilterProvider } from '@modules/common/components/filter/filter-provider';
+import {
+  UN_LOCKED_ACHIEVEMENTS_INITIAL_FILTERS,
+  UN_LOCKED_ACHIEVEMENTS_INITIAL_SORT,
+} from '@modules/achievements/lib/achievements-filtering.lib';
 import UserUnLockedAchievementCardPlaceholder from '../cards/un-lockeed/user-un-locked-achievement-card-placeholder';
+import UserUnLockedAchievementsFeed from '../feed/un-locked/user-un-locked-achievements-feed';
 
 const UnLockedAchievements: React.FC = () => {
   const { data, isFetching, isLoading } = useUnLockedAchievements();
@@ -21,9 +26,9 @@ const UnLockedAchievements: React.FC = () => {
         </p>
       </div>
 
-      <div className="rounded-lg border p-4 shadow">
+      <div className="rounded-lg border shadow">
         {isFetching || isLoading ? (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {Array.from({ length: 4 }).map((_, i) => (
               <UserUnLockedAchievementCardPlaceholder key={`user-achievement-placeholder-${i}`} />
             ))}
@@ -31,7 +36,14 @@ const UnLockedAchievements: React.FC = () => {
         ) : null}
 
         {!(isFetching || isLoading) && data.unLockedAchievements.length > 0 && (
-          <UserUnLockedAchievementsFeed userAchievements={data.unLockedAchievements} />
+          <FilterProvider
+            initialState={{
+              initialFilters: UN_LOCKED_ACHIEVEMENTS_INITIAL_FILTERS,
+              initialSort: UN_LOCKED_ACHIEVEMENTS_INITIAL_SORT,
+            }}
+          >
+            <UserUnLockedAchievementsFeed userAchievements={data.unLockedAchievements} />
+          </FilterProvider>
         )}
 
         {!(isFetching || isLoading) && data.unLockedAchievements.length === 0 ? (

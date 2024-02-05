@@ -1,6 +1,7 @@
 import type { DefinedUseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
+import { useToast } from '@read-quill/design-system/src';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { UserBooksGetResponse } from '@modules/api/types/books-api.types';
 
@@ -27,6 +28,9 @@ const buildUrl = (page: number, pageSize: number): string => {
 
 export const useUserBooks = (params: UseUserBooksParams = { pageSize: 3 }): UseUserBooksReturn => {
   const { pageSize } = params;
+
+  const { toast } = useToast();
+
   const [page, setPage] = useState(0);
 
   const { data, isLoading, isFetching, isPreviousData } = useQuery<UserBooksGetResponse>(['user-books', page], {
@@ -43,7 +47,7 @@ export const useUserBooks = (params: UseUserBooksParams = { pageSize: 3 }): UseU
 
         return response.json();
       } catch (error) {
-        if (error instanceof Error) throw new Error(`Failed to fetch user books: ${error.message}`);
+        toast({ variant: 'error', content: 'Failed to fetch user books!' });
       }
     },
   });

@@ -3,8 +3,13 @@
 import React from 'react';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useLockedAchievements } from '@modules/achievements/hooks/use-locked-achievements';
-import UserUnLockedAchievementCardPlaceholder from '../cards/un-lockeed/user-un-locked-achievement-card-placeholder';
+import { FilterProvider } from '@modules/common/components/filter/filter-provider';
+import {
+  LOCKED_ACHIEVEMENTS_INITIAL_FILTERS,
+  LOCKED_ACHIEVEMENTS_INITIAL_SORT,
+} from '@modules/achievements/lib/achievements-filtering.lib';
 import UserLockedAchievementsFeed from '../feed/locked/user-locked-achievements-feed';
+import UserUnLockedAchievementCardPlaceholder from '../cards/un-lockeed/user-un-locked-achievement-card-placeholder';
 
 const LockedAchievements: React.FC = () => {
   const { data, isFetching, isLoading } = useLockedAchievements();
@@ -20,9 +25,9 @@ const LockedAchievements: React.FC = () => {
         </p>
       </div>
 
-      <div className="rounded-lg border p-4 shadow">
+      <div className="rounded-lg border shadow">
         {isFetching || isLoading ? (
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="grid gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {Array.from({ length: 4 }).map((_, i) => (
               <UserUnLockedAchievementCardPlaceholder key={`user-achievement-placeholder-${i}`} />
             ))}
@@ -30,7 +35,14 @@ const LockedAchievements: React.FC = () => {
         ) : null}
 
         {!(isFetching || isLoading) && data.lockedAchievements.length > 0 && (
-          <UserLockedAchievementsFeed userAchievements={data.lockedAchievements} />
+          <FilterProvider
+            initialState={{
+              initialFilters: LOCKED_ACHIEVEMENTS_INITIAL_FILTERS,
+              initialSort: LOCKED_ACHIEVEMENTS_INITIAL_SORT,
+            }}
+          >
+            <UserLockedAchievementsFeed userAchievements={data.lockedAchievements} />
+          </FilterProvider>
         )}
 
         {!(isFetching || isLoading) && data.lockedAchievements.length === 0 ? (

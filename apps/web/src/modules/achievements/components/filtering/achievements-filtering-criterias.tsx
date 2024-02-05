@@ -1,22 +1,24 @@
 import React from 'react';
 import { ToggleGroup, ToggleGroupItem } from '@read-quill/design-system';
 import { ACHIEVEMENT_DISPLAY_CRITERIAS } from '@modules/achievements/lib/achievement.constants';
+import type { UseFilterActionsReturn } from '@modules/common/hooks/use-filter-actions';
 import UserUnLockedAchievementsFilterSection from './achievements-filter-section';
 
 interface AchievementsFilteringCriteriasProps {
   filterCriterias: string[];
   onFilterCriteriasChange: (value: string[]) => void;
+  onResetFilter: UseFilterActionsReturn<unknown>['resetFilter'];
 }
 
 const AchievementsFilteringCriterias: React.FC<AchievementsFilteringCriteriasProps> = (props) => {
-  const { filterCriterias, onFilterCriteriasChange } = props;
+  const { filterCriterias, onFilterCriteriasChange, onResetFilter } = props;
 
   const handleChange = (value: string[]): void => {
     onFilterCriteriasChange(value);
   };
 
   return (
-    <UserUnLockedAchievementsFilterSection title="Criterias">
+    <UserUnLockedAchievementsFilterSection onResetFilter={onResetFilter} title="Criterias">
       <ToggleGroup
         className="flex-wrap"
         onValueChange={handleChange}
@@ -26,12 +28,7 @@ const AchievementsFilteringCriterias: React.FC<AchievementsFilteringCriteriasPro
       >
         {Object.entries(ACHIEVEMENT_DISPLAY_CRITERIAS).map((criteria) => {
           return (
-            <ToggleGroupItem
-              className="data-[state=on]:bg-primary data-[state=on]:text-background text-xs"
-              key={criteria[0]}
-              size="sm"
-              value={criteria[0]}
-            >
+            <ToggleGroupItem className="text-xs" key={criteria[0]} size="sm" value={criteria[0]}>
               {criteria[1]}
             </ToggleGroupItem>
           );

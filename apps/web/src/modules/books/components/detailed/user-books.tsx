@@ -3,6 +3,8 @@
 import React from 'react';
 import { useUserBooks } from '@modules/books/hooks/use-user-books';
 import PaginationControls from '@modules/common/components/pagination/pagination-controls';
+import { BOOKS_INITIAL_FILTERS, BOOKS_INITIAL_SORT } from '@modules/books/lib/book-filtering.lib';
+import { FilterProvider } from '@modules/common/components/filter/filter-provider';
 import BookCardPlaceholder from '../cards/book-card-placeholder';
 import UserBooksHeader from './user-books-header';
 import UserBooksFeed from './feed/user-books-feed';
@@ -39,7 +41,12 @@ const UserBooks: React.FC = () => {
         ) : null}
 
         {!(isFetching || isLoading) && data.books.length > 0 ? (
-          <>
+          <FilterProvider
+            initialState={{
+              initialFilters: BOOKS_INITIAL_FILTERS,
+              initialSort: BOOKS_INITIAL_SORT,
+            }}
+          >
             <UserBooksFeed books={data.books} />
             <PaginationControls
               getCanNextPage={getCanNextPage}
@@ -50,7 +57,7 @@ const UserBooks: React.FC = () => {
               previousPage={previousPage}
               setPageIndex={setPageIndex}
             />
-          </>
+          </FilterProvider>
         ) : null}
 
         {!(isFetching || isLoading) && data.books.length === 0 ? (

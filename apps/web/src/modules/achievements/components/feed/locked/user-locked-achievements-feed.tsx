@@ -1,14 +1,8 @@
 import React from 'react';
 import type { Prisma } from '@read-quill/database';
 import type { AchievementWithProgress } from '@modules/achievements/types/achievements.types';
-import type {
-  Filter,
-  NestedKeyOf,
-  Sort,
-  UseFilterFilteringFunctions,
-  UseFilterSortingFunctions,
-} from '@modules/common/hooks/use-filter';
-import useFilter from '@modules/common/hooks/use-filter';
+import type { UseFilterFilteringFunctions, UseFilterSortingFunctions } from '@modules/common/hooks/use-filter-data';
+import { useFilterData } from '@modules/common/hooks/use-filter-data';
 import AchievementsFeed from '../achievements-feed';
 import UserLockedAchievementCard from '../../cards/locked/user-locked-achievement-card';
 import UserLockedAchievementsFiltering from './user-locked-achievements-filtering';
@@ -19,14 +13,6 @@ interface UserLockedAchievementsFeedProps {
 
 const UserLockedAchievementsFeed: React.FC<UserLockedAchievementsFeedProps> = (props) => {
   const { userAchievements } = props;
-
-  const initialFilters: Filter<AchievementWithProgress>[] = [
-    { property: 'name', value: '', shouldEnable: (value) => value !== '' },
-    { property: 'criteria', value: [], shouldEnable: (value) => (value as string[]).length > 0 },
-    { property: 'completionPercentage', value: 0, shouldEnable: (value) => (value as number) !== 0 },
-  ];
-
-  const initialSort: Sort<AchievementWithProgress> = { property: 'completionPercentage', ascending: false };
 
   const filterFunctions: UseFilterFilteringFunctions<AchievementWithProgress> = {
     name: (item, value) => item.name.toLowerCase().includes((value as string).toLowerCase()),
@@ -47,48 +33,19 @@ const UserLockedAchievementsFeed: React.FC<UserLockedAchievementsFeedProps> = (p
     },
   };
 
-  const { filteredData, sort, filters, updateSort, updateFilterValue, resetFilters } =
-    useFilter<AchievementWithProgress>({
-      data: userAchievements,
-      initialFilters,
-      initialSort,
-      filterFunctions,
-      sortFunctions,
-    });
-
-  const handleFilterNameChange = (value: string): void => {
-    updateFilterValue('name', value);
-  };
-
-  const handleSortByChange = (value: NestedKeyOf<AchievementWithProgress>, ascending: boolean): void => {
-    updateSort({ property: value, ascending });
-  };
-
-  const handleFilterCriteriasChange = (value: string[]): void => {
-    updateFilterValue('criteria', value);
-  };
-
-  const handleFilterCompletionChange = (value: number): void => {
-    updateFilterValue('completionPercentage', value);
-  };
+  const { filteredData, sort, filters } = useFilterData<AchievementWithProgress>({
+    data: userAchievements,
+    filterFunctions,
+    sortFunctions,
+  });
 
   return (
     <AchievementsFeed
       onRenderFilters={() => {
-        return (
-          <UserLockedAchievementsFiltering
-            filters={filters}
-            handleFilterCompletionChange={handleFilterCompletionChange}
-            handleFilterCriteriasChange={handleFilterCriteriasChange}
-            handleFilterNameChange={handleFilterNameChange}
-            handleSortByChange={handleSortByChange}
-            resetFilters={resetFilters}
-            sort={sort}
-          />
-        );
+        return <UserLockedAchievementsFiltering filters={filters} sort={sort} />;
       }}
     >
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 items-start grow">
+      <div className="grid gap-4 p-4 sm:grid-cols-2 xl:grid-cols-3 grow h-fit">
         {filteredData.map((userAchievement) => {
           return (
             <UserLockedAchievementCard

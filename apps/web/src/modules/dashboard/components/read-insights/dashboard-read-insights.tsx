@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import DashboardReadInsightsHeader from './header/dashboard-read-insights-header';
 import DashboardReadInsightTrends from './read-trends/dashboard-read-insights-trends';
 import DashboardReadTimeDistribution from './read-time-distribution/dashboard-read-time-distribution';
@@ -17,7 +17,9 @@ const DashboardReadInsights: React.FC = () => {
       </div>
 
       <div className="grid gap-2 xl:grid-cols-2">
-        <DashboardReadInsightTrends />
+        <Suspense>
+          <DashboardReadInsightTrends />
+        </Suspense>
         <DashboardReadTimeDistribution />
       </div>
     </div>

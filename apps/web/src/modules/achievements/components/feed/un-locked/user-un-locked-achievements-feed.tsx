@@ -2,14 +2,8 @@ import React from 'react';
 import { compareAsc, isBefore } from 'date-fns';
 import type { Prisma } from '@read-quill/database';
 import type { UserAchievementWithAchievement } from '@modules/achievements/types/achievements.types';
-import type {
-  Filter,
-  NestedKeyOf,
-  Sort,
-  UseFilterFilteringFunctions,
-  UseFilterSortingFunctions,
-} from '@modules/common/hooks/use-filter';
-import useFilter from '@modules/common/hooks/use-filter';
+import type { UseFilterFilteringFunctions, UseFilterSortingFunctions } from '@modules/common/hooks/use-filter-data';
+import { useFilterData } from '@modules/common/hooks/use-filter-data';
 import UnLockedAchievementCard from '../../cards/un-lockeed/user-un-locked-achievement-card';
 import AchievementsFeed from '../achievements-feed';
 import UserUnLockedAchievementsFiltering from './user-un-locked-achievements-filtering';
@@ -20,14 +14,6 @@ interface UserUnLockedAchievementsFeedProps {
 
 const UserUnLockedAchievementsFeed: React.FC<UserUnLockedAchievementsFeedProps> = (props) => {
   const { userAchievements } = props;
-
-  const initialFilters: Filter<UserAchievementWithAchievement>[] = [
-    { property: 'achievement.name', value: '', shouldEnable: (value) => value !== '' },
-    { property: 'achievement.criteria', value: [], shouldEnable: (value) => (value as string[]).length > 0 },
-    { property: 'unlockedAt', value: '', shouldEnable: (value) => value !== '' },
-  ];
-
-  const initialSort: Sort<UserAchievementWithAchievement> = { property: 'unlockedAt', ascending: false };
 
   const filterFunctions: UseFilterFilteringFunctions<UserAchievementWithAchievement> = {
     'achievement.name': (item, value) => item.achievement.name.toLowerCase().includes((value as string).toLowerCase()),
@@ -53,48 +39,19 @@ const UserUnLockedAchievementsFeed: React.FC<UserUnLockedAchievementsFeedProps> 
     },
   };
 
-  const { filteredData, sort, filters, updateSort, updateFilterValue, resetFilters } =
-    useFilter<UserAchievementWithAchievement>({
-      data: userAchievements,
-      initialFilters,
-      initialSort,
-      filterFunctions,
-      sortFunctions,
-    });
-
-  const handleFilterNameChange = (value: string): void => {
-    updateFilterValue('achievement.name', value);
-  };
-
-  const handleSortByChange = (value: NestedKeyOf<UserAchievementWithAchievement>, ascending: boolean): void => {
-    updateSort({ property: value, ascending });
-  };
-
-  const handleFilterCriteriasChange = (value: string[]): void => {
-    updateFilterValue('achievement.criteria', value);
-  };
-
-  const handleUlockedBeforeChange = (value: string): void => {
-    updateFilterValue('unlockedAt', value);
-  };
+  const { filteredData, sort, filters } = useFilterData<UserAchievementWithAchievement>({
+    data: userAchievements,
+    filterFunctions,
+    sortFunctions,
+  });
 
   return (
     <AchievementsFeed
       onRenderFilters={() => {
-        return (
-          <UserUnLockedAchievementsFiltering
-            filters={filters}
-            handleFilterCriteriasChange={handleFilterCriteriasChange}
-            handleFilterNameChange={handleFilterNameChange}
-            handleFilterUnlockedBeforeChange={handleUlockedBeforeChange}
-            handleSortByChange={handleSortByChange}
-            resetFilters={resetFilters}
-            sort={sort}
-          />
-        );
+        return <UserUnLockedAchievementsFiltering filters={filters} sort={sort} />;
       }}
     >
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 items-start grow">
+      <div className="grid gap-4 p-4 sm:grid-cols-2 xl:grid-cols-3 grow h-fit">
         {filteredData.map((userAchievement) => {
           return (
             <UnLockedAchievementCard

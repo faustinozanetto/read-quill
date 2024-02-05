@@ -1,6 +1,7 @@
 import type { DefinedUseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
+import { useToast } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { DashboardBooksProgressGetResponse } from '@modules/api/types/dashboard-api.types';
 
@@ -28,6 +29,8 @@ const buildUrl = (page: number, pageSize: number): string => {
 export const useBooksProgress = (params: UseBooksProgressParams = { pageSize: 3 }): UseBooksProgressReturn => {
   const { pageSize } = params;
 
+  const { toast } = useToast();
+
   const [page, setPage] = useState(0);
 
   const { data, isLoading, isFetching, isPreviousData } = useQuery<DashboardBooksProgressGetResponse>(
@@ -46,7 +49,7 @@ export const useBooksProgress = (params: UseBooksProgressParams = { pageSize: 3 
 
           return response.json();
         } catch (error) {
-          if (error instanceof Error) throw new Error(`Failed to fetch user books progress: ${error.message}`);
+          toast({ variant: 'error', content: 'Failed to fetch books progress!' });
         }
       },
     }

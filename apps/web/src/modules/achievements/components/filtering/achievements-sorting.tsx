@@ -8,7 +8,8 @@ import {
   SortAscIcon,
   SortDescIcon,
 } from '@read-quill/design-system';
-import type { NestedKeyOf } from '@modules/common/hooks/use-filter';
+import type { NestedKeyOf } from '@modules/common/hooks/use-filter-data';
+import type { UseFilterActionsReturn } from '@modules/common/hooks/use-filter-actions';
 import AchievementsFilterSection from './achievements-filter-section';
 
 interface AchievementsSortingProps<TData> {
@@ -28,10 +29,11 @@ interface AchievementsSortingProps<TData> {
    * @returns Void.
    */
   onSortByChanged: (value: NestedKeyOf<TData>, ascending: boolean) => void;
+  onResetFilter: UseFilterActionsReturn<unknown>['resetFilter'];
 }
 
 const AchievementsSorting = <TData,>(props: AchievementsSortingProps<TData>): React.JSX.Element => {
-  const { sortBy, children, sortAscending: initialSortAscending, onSortByChanged } = props;
+  const { sortBy, children, sortAscending: initialSortAscending, onSortByChanged, onResetFilter } = props;
 
   const [sortValue, setSortValue] = useState<NestedKeyOf<TData>>(sortBy);
   const [sortAscending, setSortAscending] = useState(initialSortAscending);
@@ -41,7 +43,7 @@ const AchievementsSorting = <TData,>(props: AchievementsSortingProps<TData>): Re
   }, [sortValue, sortAscending]);
 
   return (
-    <AchievementsFilterSection title="Sort By">
+    <AchievementsFilterSection onResetFilter={onResetFilter} title="Sort By">
       <div className="flex gap-2 items-center">
         <Select
           onValueChange={(value) => {

@@ -1,6 +1,7 @@
 import type { DefinedUseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+import { useToast } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { DashboardReadInsightsTrendsGetResponse } from '@modules/api/types/dashboard-api.types';
 import type { DashboardReadInsightsReadTrendsIntervalType } from '../types/dashboard.types';
@@ -12,6 +13,7 @@ interface UseReadInsightsTrendsReturn
 }
 
 export const useReadInsightsTrends = (): UseReadInsightsTrendsReturn => {
+  const { toast } = useToast();
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
@@ -23,15 +25,19 @@ export const useReadInsightsTrends = (): UseReadInsightsTrendsReturn => {
     {
       initialData: { trends: [] },
       queryFn: async () => {
-        const url = new URL('/api/dashboard/read-insights/trends', __URL__);
-        url.searchParams.set('interval', interval);
+        try {
+          const url = new URL('/api/dashboard/read-insights/trends', __URL__);
+          url.searchParams.set('interval', interval);
 
-        const response = await fetch(url, { method: 'GET' });
-        if (!response.ok) {
-          throw new Error('Failed to fetch user read insights trends!');
+          const response = await fetch(url, { method: 'GET' });
+          if (!response.ok) {
+            throw new Error('Failed to fetch user read insights trends!');
+          }
+
+          return response.json();
+        } catch (error) {
+          toast({ variant: 'error', content: 'Failed to fetch read trends!' });
         }
-
-        return response.json();
       },
     }
   );

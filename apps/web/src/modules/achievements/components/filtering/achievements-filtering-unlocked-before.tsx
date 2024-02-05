@@ -1,18 +1,20 @@
 import React from 'react';
 import { Popover, PopoverTrigger, Button, cn, CalendarIcon, PopoverContent, Calendar } from '@read-quill/design-system';
 import { format } from 'date-fns';
+import type { UseFilterActionsReturn } from '@modules/common/hooks/use-filter-actions';
 import AchievementsFilterSection from './achievements-filter-section';
 
 interface AchievementsFilteringUnlockedBeforeProps {
   filterUnlockedBefore: string;
   onFilterUnlockedBeforeChange: (value: string) => void;
+  onResetFilter: UseFilterActionsReturn<unknown>['resetFilter'];
 }
 
 const AchievementsFilteringUnlockedBefore: React.FC<AchievementsFilteringUnlockedBeforeProps> = (props) => {
-  const { filterUnlockedBefore, onFilterUnlockedBeforeChange } = props;
+  const { onResetFilter, filterUnlockedBefore, onFilterUnlockedBeforeChange } = props;
 
   return (
-    <AchievementsFilterSection title="Unlocked Before">
+    <AchievementsFilterSection onResetFilter={onResetFilter} title="Unlocked Before">
       <Popover>
         <PopoverTrigger asChild>
           <Button

@@ -18,9 +18,9 @@ const AchievementsFeed: React.FC<AchievementsFeedProps> = (props) => {
   const { children, onRenderFilters } = props;
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col">
       <Sheet>
-        <SheetTrigger className={buttonVariants({ className: 'flex lg:hidden ml-auto' })}>
+        <SheetTrigger className={buttonVariants({ className: 'flex lg:hidden ml-auto mt-4 mr-4' })}>
           <SortAscIcon className="mr-2" /> Filters & Sort
         </SheetTrigger>
         <SheetContent className="w-[300px] flex flex-col">
@@ -31,8 +31,8 @@ const AchievementsFeed: React.FC<AchievementsFeedProps> = (props) => {
         </SheetContent>
       </Sheet>
 
-      <div className="flex gap-4">
-        <div className="hidden lg:block w-[200px]">{onRenderFilters()}</div>
+      <div className="flex">
+        <div className="hidden lg:block w-[240px] p-4 border-r">{onRenderFilters()}</div>
         {children}
       </div>
     </div>

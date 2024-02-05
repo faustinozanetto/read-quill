@@ -1,13 +1,11 @@
 import React from 'react';
 import type { Book } from '@read-quill/database';
 import { compareAsc } from 'date-fns';
-import type {
-  Filter,
-  Sort,
-  UseFilterFilteringFunctions,
-  UseFilterSortingFunctions,
-} from '@modules/common/hooks/use-filter';
-import useFilter from '@modules/common/hooks/use-filter';
+import {
+  useFilterData,
+  type UseFilterFilteringFunctions,
+  type UseFilterSortingFunctions,
+} from '@modules/common/hooks/use-filter-data';
 import BooksFeed from '../../feed/books-feed';
 import UserBooksFeedFiltering from './filtering/user-books-feed-filtering';
 
@@ -17,13 +15,6 @@ interface UserBooksFeedProps {
 
 const UserBooksFeed: React.FC<UserBooksFeedProps> = (props) => {
   const { books } = props;
-
-  const initialFilters: Filter<Book>[] = [
-    { property: 'name', value: '', shouldEnable: (value) => value !== '' },
-    { property: 'language', value: '', shouldEnable: (value) => value !== 'All' },
-  ];
-
-  const initialSort: Sort<Book> = { property: 'createdAt', ascending: false };
 
   const filterFunctions: UseFilterFilteringFunctions<Book> = {
     name: (item, value) => item.name.toLowerCase().includes((value as string).toLowerCase()),
@@ -40,28 +31,15 @@ const UserBooksFeed: React.FC<UserBooksFeedProps> = (props) => {
     },
   };
 
-  const { filteredData, updateFilterValue } = useFilter<Book>({
+  const { filteredData } = useFilterData<Book>({
     data: books,
-    initialFilters,
-    initialSort,
     filterFunctions,
     sortFunctions,
   });
 
-  const handleFilterNameChange = (value: string): void => {
-    updateFilterValue('name', value);
-  };
-
-  const handleFilterLanguageChange = (value: string): void => {
-    updateFilterValue('language', value);
-  };
-
   return (
     <div className="flex w-full flex-col gap-2">
-      <UserBooksFeedFiltering
-        onFilterLanguageChange={handleFilterLanguageChange}
-        onFilterNameChange={handleFilterNameChange}
-      />
+      <UserBooksFeedFiltering />
       <BooksFeed books={filteredData} />
     </div>
   );

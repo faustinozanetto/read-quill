@@ -1,14 +1,17 @@
+import type { DefinedUseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
+import { useToast } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { AchievementsUnLockedGetResponse } from '@modules/api/types/achievements-api.types';
 
-export interface UseUnLockedAchievementsReturn {
-  data: AchievementsUnLockedGetResponse;
-  isLoading: boolean;
-  isFetching: boolean;
-}
+export type UseUnLockedAchievementsReturn = Pick<
+  DefinedUseQueryResult<AchievementsUnLockedGetResponse>,
+  'data' | 'isLoading' | 'isFetching'
+>;
 
 export const useUnLockedAchievements = (): UseUnLockedAchievementsReturn => {
+  const { toast } = useToast();
+
   const { data, isLoading, isFetching } = useQuery<AchievementsUnLockedGetResponse>(['achivements-un-locked'], {
     initialData: { unLockedAchievements: [] },
     queryFn: async () => {
@@ -22,7 +25,7 @@ export const useUnLockedAchievements = (): UseUnLockedAchievementsReturn => {
 
         return response.json();
       } catch (error) {
-        if (error instanceof Error) throw new Error(`Failed to fetch user unlocked achievements: ${error.message}`);
+        toast({ variant: 'error', content: 'Failed to fetch unlocked achievements!' });
       }
     },
   });

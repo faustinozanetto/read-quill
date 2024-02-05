@@ -1,19 +1,24 @@
 import React from 'react';
+import type { Book } from '@read-quill/database';
+import { useFilterActions } from '@modules/common/hooks/use-filter-actions';
 import UserBooksFeedFilteringLanguage from './user-book-feed-filtering-language';
 import UserBooksFeedFilteringName from './user-book-feed-filtering-name';
 
-interface UserBooksFeedFilteringProps {
-  onFilterLanguageChange: (value: string) => void;
-  onFilterNameChange: (value: string) => void;
-}
+const UserBooksFeedFiltering: React.FC = () => {
+  const { updateFilterValue } = useFilterActions<Book>();
 
-const UserBooksFeedFiltering: React.FC<UserBooksFeedFilteringProps> = (props) => {
-  const { onFilterLanguageChange, onFilterNameChange } = props;
+  const handleFilterNameChange = (value: string): void => {
+    updateFilterValue('name', value);
+  };
+
+  const handleFilterLanguageChange = (value: string): void => {
+    updateFilterValue('language', value);
+  };
 
   return (
     <div className="grid gap-4 rounded-lg border shadow p-4 md:grid-cols-2">
-      <UserBooksFeedFilteringLanguage onValueChange={onFilterLanguageChange} />
-      <UserBooksFeedFilteringName onValueChange={onFilterNameChange} />
+      <UserBooksFeedFilteringLanguage onValueChange={handleFilterLanguageChange} />
+      <UserBooksFeedFilteringName onValueChange={handleFilterNameChange} />
     </div>
   );
 };

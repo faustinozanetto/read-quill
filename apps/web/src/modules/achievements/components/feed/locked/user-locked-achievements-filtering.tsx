@@ -1,8 +1,9 @@
 import React from 'react';
-import type { AchievementWithProgress } from '@modules/achievements/types/achievements.types';
-import type { NestedKeyOf, UseFilterReturn } from '@modules/common/hooks/use-filter';
 import { SelectItem } from '@read-quill/design-system';
+import type { AchievementWithProgress } from '@modules/achievements/types/achievements.types';
+import type { NestedKeyOf, UseFilterReturn } from '@modules/common/hooks/use-filter-data';
 import { LOCKED_ACHIEVEMENT_SORT_BY } from '@modules/achievements/lib/achievement.constants';
+import { useFilterActions } from '@modules/common/hooks/use-filter-actions';
 import AchievementsFilteringCriterias from '../../filtering/achievements-filtering-criterias';
 import AchievementsFilteringName from '../../filtering/achievements-filtering-name';
 import AchievementsSorting from '../../filtering/achievements-sorting';
@@ -11,31 +12,6 @@ import AchievementsFilteringCompletion from '../../filtering/achievement-filteri
 
 interface UserLockedAchievementsFilteringProps {
   /**
-   * Callback function when filter name changes.
-   * @param value - Name value.
-   * @returns Void.
-   */
-  handleFilterNameChange: (value: string) => void;
-  /**
-   * Callback function when filter criterias changes.
-   * @param value - Criterias value.
-   * @returns Void.
-   */
-  handleFilterCriteriasChange: (value: string[]) => void;
-  /**
-   * Callback function when filter completion changes.
-   * @param value - Completion value.
-   * @returns Void.
-   */
-  handleFilterCompletionChange: (value: number) => void;
-  /**
-   * Callback function when sort by changes.
-   * @param value - Sort by property.
-   * @param ascending - Sort asc or desc.
-   * @returns Void
-   */
-  handleSortByChange: (value: NestedKeyOf<AchievementWithProgress>, ascending: boolean) => void;
-  /**
    * Filter sort data.
    */
   sort: UseFilterReturn<AchievementWithProgress>['sort'];
@@ -43,27 +19,39 @@ interface UserLockedAchievementsFilteringProps {
    * Filter filters data.
    */
   filters: UseFilterReturn<AchievementWithProgress>['filters'];
-  /**
-   * Function for reseting the filters and sort state.
-   */
-  resetFilters: UseFilterReturn<AchievementWithProgress>['resetFilters'];
 }
 
 const UserLockedAchievementsFiltering: React.FC<UserLockedAchievementsFilteringProps> = (props) => {
-  const {
-    handleFilterNameChange,
-    handleFilterCriteriasChange,
-    handleFilterCompletionChange,
-    handleSortByChange,
-    resetFilters,
-    sort,
-    filters,
-  } = props;
+  const { sort, filters } = props;
+
+  const { updateFilterValue, updateSort, resetFilter, resetFilters, resetSort } =
+    useFilterActions<AchievementWithProgress>();
+
+  const handleFilterNameChange = (value: string): void => {
+    updateFilterValue('name', value);
+  };
+
+  const handleFilterCriteriasChange = (value: string[]): void => {
+    updateFilterValue('criteria', value);
+  };
+
+  const handleSortByChange = (value: NestedKeyOf<AchievementWithProgress>, ascending: boolean): void => {
+    updateSort({ property: value, ascending });
+  };
+
+  const handleFilterCompletionChange = (value: number): void => {
+    updateFilterValue('completionPercentage', value);
+  };
 
   return (
-    <AchievementsFiltering resetFilters={resetFilters}>
+    <AchievementsFiltering onResetFilters={resetFilters}>
       <div className="flex flex-col gap-2">
-        <AchievementsSorting onSortByChanged={handleSortByChange} sortAscending={sort.ascending} sortBy={sort.property}>
+        <AchievementsSorting
+          onResetFilter={resetSort}
+          onSortByChanged={handleSortByChange}
+          sortAscending={sort.ascending}
+          sortBy={sort.property}
+        >
           {Object.entries(LOCKED_ACHIEVEMENT_SORT_BY).map((achievementSortBy) => {
             return (
               <SelectItem key={achievementSortBy[0]} value={achievementSortBy[0]}>
@@ -75,14 +63,17 @@ const UserLockedAchievementsFiltering: React.FC<UserLockedAchievementsFilteringP
         <AchievementsFilteringName
           filterName={filters.name.value as string}
           onFilterNameChange={handleFilterNameChange}
+          onResetFilter={() => { resetFilter('name'); }}
         />
         <AchievementsFilteringCriterias
           filterCriterias={filters.criteria.value as string[]}
           onFilterCriteriasChange={handleFilterCriteriasChange}
+          onResetFilter={() => { resetFilter('criteria'); }}
         />
         <AchievementsFilteringCompletion
           filterCompletion={filters.completionPercentage.value as number}
           onFilterCompletionChange={handleFilterCompletionChange}
+          onResetFilter={() => { resetFilter('completionPercentage'); }}
         />
       </div>
     </AchievementsFiltering>

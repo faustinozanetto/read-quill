@@ -6,7 +6,7 @@ import { PrismaAdapter } from '@auth/prisma-adapter';
 import type { Adapter } from 'next-auth/adapters';
 import { __PROD__, __URL__ } from '@modules/common/lib/common.constants';
 import { sendEmail } from '@modules/emails/lib/resend.lib';
-import WelcomeEmail from '@modules/emails/components/templates/welcome-email';
+import { WelcomeEmail } from '@modules/emails/components/templates/welcome-email';
 
 const COOKIES_PREFIX = 'readquill';
 
