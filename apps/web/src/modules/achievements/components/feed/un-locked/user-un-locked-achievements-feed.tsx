@@ -4,8 +4,8 @@ import type { Prisma } from '@read-quill/database';
 import type { UserAchievementWithAchievement } from '@modules/achievements/types/achievements.types';
 import type { UseFilterFilteringFunctions, UseFilterSortingFunctions } from '@modules/common/hooks/use-filter-data';
 import { useFilterData } from '@modules/common/hooks/use-filter-data';
+import FiltersShell from '@modules/common/components/filter/filters-shell';
 import UnLockedAchievementCard from '../../cards/un-lockeed/user-un-locked-achievement-card';
-import AchievementsFeed from '../achievements-feed';
 import UserUnLockedAchievementsFiltering from './user-un-locked-achievements-filtering';
 
 interface UserUnLockedAchievementsFeedProps {
@@ -46,7 +46,7 @@ const UserUnLockedAchievementsFeed: React.FC<UserUnLockedAchievementsFeedProps> 
   });
 
   return (
-    <AchievementsFeed
+    <FiltersShell
       onRenderFilters={() => {
         return <UserUnLockedAchievementsFiltering filters={filters} sort={sort} />;
       }}
@@ -61,7 +61,7 @@ const UserUnLockedAchievementsFeed: React.FC<UserUnLockedAchievementsFeedProps> 
           );
         })}
       </div>
-    </AchievementsFeed>
+    </FiltersShell>
   );
 };
 

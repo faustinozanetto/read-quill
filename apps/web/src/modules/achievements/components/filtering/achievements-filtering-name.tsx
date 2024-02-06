@@ -1,7 +1,7 @@
 import React from 'react';
 import { Input, SearchIcon } from '@read-quill/design-system';
 import type { UseFilterActionsReturn } from '@modules/common/hooks/use-filter-actions';
-import AchievementsFilterSection from './achievements-filter-section';
+import FilterSection from '@modules/common/components/filter/filter-section';
 
 interface AchievementsFilteringNameProps {
   filterName: string;
@@ -17,7 +17,7 @@ const AchievementsFilteringName: React.FC<AchievementsFilteringNameProps> = (pro
   };
 
   return (
-    <AchievementsFilterSection onResetFilter={onResetFilter} title="Name">
+    <FilterSection onResetFilter={onResetFilter} title="Name">
       <div className="relative">
         <SearchIcon className="absolute top-2.5 left-2.5 opacity-80" size="sm" />
         <Input
@@ -28,7 +28,7 @@ const AchievementsFilteringName: React.FC<AchievementsFilteringNameProps> = (pro
           value={filterName}
         />
       </div>
-    </AchievementsFilterSection>
+    </FilterSection>
   );
 };
 

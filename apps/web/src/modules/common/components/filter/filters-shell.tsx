@@ -9,12 +9,12 @@ import {
   SortAscIcon,
 } from '@read-quill/design-system';
 
-interface AchievementsFeedProps {
+interface FiltersShellProps {
   children: React.JSX.Element;
   onRenderFilters: () => React.JSX.Element;
 }
 
-const AchievementsFeed: React.FC<AchievementsFeedProps> = (props) => {
+const FiltersShell: React.FC<FiltersShellProps> = (props) => {
   const { children, onRenderFilters } = props;
 
   return (
@@ -39,4 +39,4 @@ const AchievementsFeed: React.FC<AchievementsFeedProps> = (props) => {
   );
 };
 
-export default AchievementsFeed;
+export default FiltersShell;

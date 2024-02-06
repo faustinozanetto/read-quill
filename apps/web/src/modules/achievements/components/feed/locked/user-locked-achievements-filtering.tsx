@@ -4,9 +4,9 @@ import type { AchievementWithProgress } from '@modules/achievements/types/achiev
 import type { NestedKeyOf, UseFilterReturn } from '@modules/common/hooks/use-filter-data';
 import { LOCKED_ACHIEVEMENT_SORT_BY } from '@modules/achievements/lib/achievement.constants';
 import { useFilterActions } from '@modules/common/hooks/use-filter-actions';
+import FiltersSortBy from '@modules/common/components/filter/filters-sort-by';
 import AchievementsFilteringCriterias from '../../filtering/achievements-filtering-criterias';
 import AchievementsFilteringName from '../../filtering/achievements-filtering-name';
-import AchievementsSorting from '../../filtering/achievements-sorting';
 import AchievementsFiltering from '../../filtering/achievements-filtering';
 import AchievementsFilteringCompletion from '../../filtering/achievement-filtering-completion';
 
@@ -46,7 +46,7 @@ const UserLockedAchievementsFiltering: React.FC<UserLockedAchievementsFilteringP
   return (
     <AchievementsFiltering onResetFilters={resetFilters}>
       <div className="flex flex-col gap-2">
-        <AchievementsSorting
+        <FiltersSortBy
           onResetFilter={resetSort}
           onSortByChanged={handleSortByChange}
           sortAscending={sort.ascending}
@@ -59,21 +59,27 @@ const UserLockedAchievementsFiltering: React.FC<UserLockedAchievementsFilteringP
               </SelectItem>
             );
           })}
-        </AchievementsSorting>
+        </FiltersSortBy>
         <AchievementsFilteringName
           filterName={filters.name.value as string}
           onFilterNameChange={handleFilterNameChange}
-          onResetFilter={() => { resetFilter('name'); }}
+          onResetFilter={() => {
+            resetFilter('name');
+          }}
         />
         <AchievementsFilteringCriterias
           filterCriterias={filters.criteria.value as string[]}
           onFilterCriteriasChange={handleFilterCriteriasChange}
-          onResetFilter={() => { resetFilter('criteria'); }}
+          onResetFilter={() => {
+            resetFilter('criteria');
+          }}
         />
         <AchievementsFilteringCompletion
           filterCompletion={filters.completionPercentage.value as number}
           onFilterCompletionChange={handleFilterCompletionChange}
-          onResetFilter={() => { resetFilter('completionPercentage'); }}
+          onResetFilter={() => {
+            resetFilter('completionPercentage');
+          }}
         />
       </div>
     </AchievementsFiltering>

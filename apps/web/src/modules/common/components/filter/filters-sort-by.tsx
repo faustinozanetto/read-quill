@@ -10,9 +10,9 @@ import {
 } from '@read-quill/design-system';
 import type { NestedKeyOf } from '@modules/common/hooks/use-filter-data';
 import type { UseFilterActionsReturn } from '@modules/common/hooks/use-filter-actions';
-import AchievementsFilterSection from './achievements-filter-section';
+import FilterSection from '@modules/common/components/filter/filter-section';
 
-interface AchievementsSortingProps<TData> {
+interface FiltersSortByProps<TData> {
   children: React.ReactNode;
   /**
    * Sort by property.
@@ -32,7 +32,7 @@ interface AchievementsSortingProps<TData> {
   onResetFilter: UseFilterActionsReturn<unknown>['resetFilter'];
 }
 
-const AchievementsSorting = <TData,>(props: AchievementsSortingProps<TData>): React.JSX.Element => {
+const FiltersSortBy = <TData,>(props: FiltersSortByProps<TData>): React.JSX.Element => {
   const { sortBy, children, sortAscending: initialSortAscending, onSortByChanged, onResetFilter } = props;
 
   const [sortValue, setSortValue] = useState<NestedKeyOf<TData>>(sortBy);
@@ -43,7 +43,7 @@ const AchievementsSorting = <TData,>(props: AchievementsSortingProps<TData>): Re
   }, [sortValue, sortAscending]);
 
   return (
-    <AchievementsFilterSection onResetFilter={onResetFilter} title="Sort By">
+    <FilterSection onResetFilter={onResetFilter} title="Sort By">
       <div className="flex gap-2 items-center">
         <Select
           onValueChange={(value) => {
@@ -66,8 +66,8 @@ const AchievementsSorting = <TData,>(props: AchievementsSortingProps<TData>): Re
           {sortAscending ? <SortAscIcon /> : <SortDescIcon />}
         </Button>
       </div>
-    </AchievementsFilterSection>
+    </FilterSection>
   );
 };
 
-export default AchievementsSorting;
+export default FiltersSortBy;

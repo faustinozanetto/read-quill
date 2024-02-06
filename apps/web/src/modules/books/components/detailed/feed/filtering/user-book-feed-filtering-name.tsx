@@ -1,26 +1,35 @@
 import React from 'react';
-import { Label, Input, SearchIcon } from '@read-quill/design-system';
+import { Input, SearchIcon } from '@read-quill/design-system';
+import type { UseFilterActionsReturn } from '@modules/common/hooks/use-filter-actions';
+import FilterSection from '@modules/common/components/filter/filter-section';
 
-interface UserBooksFeedFilteringNameProps {
-  onValueChange: (value: string) => void;
+interface UserBookFilteringNameProps {
+  filterName: string;
+  onFilterNameChange: (value: string) => void;
+  onResetFilter: UseFilterActionsReturn<unknown>['resetFilter'];
 }
 
-const UserBooksFeedFilteringName: React.FC<UserBooksFeedFilteringNameProps> = (props) => {
-  const { onValueChange } = props;
+const UserBookFilteringName: React.FC<UserBookFilteringNameProps> = (props) => {
+  const { filterName, onFilterNameChange, onResetFilter } = props;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    onValueChange(event.target.value);
+    onFilterNameChange(event.target.value);
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      <Label htmlFor="filter-name">Name</Label>
+    <FilterSection onResetFilter={onResetFilter} title="Name">
       <div className="relative">
         <SearchIcon className="absolute top-2.5 left-2.5 opacity-80" size="sm" />
-        <Input className="pl-8" id="filter-name" onChange={handleChange} placeholder="Treasure Island" />
+        <Input
+          className="pl-8"
+          id="filter-name"
+          onChange={handleChange}
+          placeholder="Novice Reader"
+          value={filterName}
+        />
       </div>
-    </div>
+    </FilterSection>
   );
 };
 
-export default UserBooksFeedFilteringName;
+export default UserBookFilteringName;

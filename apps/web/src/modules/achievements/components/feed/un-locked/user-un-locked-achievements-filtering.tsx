@@ -4,9 +4,9 @@ import type { UserAchievementWithAchievement } from '@modules/achievements/types
 import type { NestedKeyOf, UseFilterReturn } from '@modules/common/hooks/use-filter-data';
 import { UN_LOCKED_ACHIEVEMENT_SORT_BY } from '@modules/achievements/lib/achievement.constants';
 import { useFilterActions } from '@modules/common/hooks/use-filter-actions';
+import FiltersSortBy from '@modules/common/components/filter/filters-sort-by';
 import AchievementsFilteringCriterias from '../../filtering/achievements-filtering-criterias';
 import AchievementsFilteringName from '../../filtering/achievements-filtering-name';
-import AchievementsSorting from '../../filtering/achievements-sorting';
 import AchievementsFilteringUnlockedBefore from '../../filtering/achievements-filtering-unlocked-before';
 import AchievementsFiltering from '../../filtering/achievements-filtering';
 
@@ -46,7 +46,7 @@ const UserUnLockedAchievementsFiltering: React.FC<UserUnLockedAchievementsFilter
   return (
     <AchievementsFiltering onResetFilters={resetFilters}>
       <div className="flex flex-col gap-2">
-        <AchievementsSorting
+        <FiltersSortBy
           onResetFilter={resetSort}
           onSortByChanged={handleSortByChange}
           sortAscending={sort.ascending}
@@ -59,21 +59,27 @@ const UserUnLockedAchievementsFiltering: React.FC<UserUnLockedAchievementsFilter
               </SelectItem>
             );
           })}
-        </AchievementsSorting>
+        </FiltersSortBy>
         <AchievementsFilteringName
           filterName={filters['achievement.name'].value as string}
           onFilterNameChange={handleFilterNameChange}
-          onResetFilter={() => { resetFilter('achievement.name'); }}
+          onResetFilter={() => {
+            resetFilter('achievement.name');
+          }}
         />
         <AchievementsFilteringCriterias
           filterCriterias={filters['achievement.criteria'].value as string[]}
           onFilterCriteriasChange={handleFilterCriteriasChange}
-          onResetFilter={() => { resetFilter('achievement.criteria'); }}
+          onResetFilter={() => {
+            resetFilter('achievement.criteria');
+          }}
         />
         <AchievementsFilteringUnlockedBefore
           filterUnlockedBefore={filters.unlockedAt.value as string}
           onFilterUnlockedBeforeChange={handleUnlockedBeforeChange}
-          onResetFilter={() => { resetFilter('unlockedAt'); }}
+          onResetFilter={() => {
+            resetFilter('unlockedAt');
+          }}
         />
       </div>
     </AchievementsFiltering>

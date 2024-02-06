@@ -2,7 +2,7 @@ import React from 'react';
 import { Popover, PopoverTrigger, Button, cn, CalendarIcon, PopoverContent, Calendar } from '@read-quill/design-system';
 import { format } from 'date-fns';
 import type { UseFilterActionsReturn } from '@modules/common/hooks/use-filter-actions';
-import AchievementsFilterSection from './achievements-filter-section';
+import FilterSection from '@modules/common/components/filter/filter-section';
 
 interface AchievementsFilteringUnlockedBeforeProps {
   filterUnlockedBefore: string;
@@ -14,7 +14,7 @@ const AchievementsFilteringUnlockedBefore: React.FC<AchievementsFilteringUnlocke
   const { onResetFilter, filterUnlockedBefore, onFilterUnlockedBeforeChange } = props;
 
   return (
-    <AchievementsFilterSection onResetFilter={onResetFilter} title="Unlocked Before">
+    <FilterSection onResetFilter={onResetFilter} title="Unlocked Before">
       <Popover>
         <PopoverTrigger asChild>
           <Button
@@ -37,7 +37,7 @@ const AchievementsFilteringUnlockedBefore: React.FC<AchievementsFilteringUnlocke
           />
         </PopoverContent>
       </Popover>
-    </AchievementsFilterSection>
+    </FilterSection>
   );
 };
 

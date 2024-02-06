@@ -9,7 +9,7 @@ import {
   ChevronsRightIcon,
 } from '@read-quill/design-system';
 
-interface PaginationControlsProps {
+export interface PaginationControlsProps {
   page: number;
   getCanPreviousPage: () => boolean;
   getCanNextPage: () => boolean;

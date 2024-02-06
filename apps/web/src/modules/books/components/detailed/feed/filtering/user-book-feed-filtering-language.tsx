@@ -1,23 +1,30 @@
-import { Label, Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@read-quill/design-system';
-import type { ComponentPropsWithoutRef } from 'react';
 import React from 'react';
+import { Select, SelectContent, SelectTrigger, SelectValue, SelectItem } from '@read-quill/design-system';
+import type { UseFilterActionsReturn } from '@modules/common/hooks/use-filter-actions';
+import FilterSection from '@modules/common/components/filter/filter-section';
 import { BOOK_LANGUAGES } from '@modules/books/lib/book.constants';
 
-interface UserBooksFeedFilteringLanguageProps {
-  onValueChange: ComponentPropsWithoutRef<typeof Select>['onValueChange'];
+interface UserBookFilteringLanguageProps {
+  filterLanguage: string;
+  onFilterLanguageChange: (value: string) => void;
+  onResetFilter: UseFilterActionsReturn<unknown>['resetFilter'];
 }
 
-const UserBooksFeedFilteringLanguage: React.FC<UserBooksFeedFilteringLanguageProps> = (props) => {
-  const { onValueChange } = props;
+const UserBookFilteringLanguage: React.FC<UserBookFilteringLanguageProps> = (props) => {
+  const { filterLanguage, onFilterLanguageChange, onResetFilter } = props;
 
   const languages = ['All', ...BOOK_LANGUAGES];
 
   return (
-    <div className="flex flex-col gap-2">
-      <Label>Language</Label>
-      <Select defaultValue={languages[0]} onValueChange={onValueChange}>
-        <SelectTrigger>
-          <SelectValue placeholder="Book language" />
+    <FilterSection onResetFilter={onResetFilter} title="Language">
+      <Select
+        onValueChange={(value) => {
+          onFilterLanguageChange(value);
+        }}
+        value={filterLanguage}
+      >
+        <SelectTrigger className="grow">
+          <SelectValue placeholder="English" />
         </SelectTrigger>
         <SelectContent>
           {languages.map((language) => {
@@ -29,8 +36,8 @@ const UserBooksFeedFilteringLanguage: React.FC<UserBooksFeedFilteringLanguagePro
           })}
         </SelectContent>
       </Select>
-    </div>
+    </FilterSection>
   );
 };
 
-export default UserBooksFeedFilteringLanguage;
+export default UserBookFilteringLanguage;

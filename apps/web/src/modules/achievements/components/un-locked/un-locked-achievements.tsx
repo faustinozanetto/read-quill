@@ -47,7 +47,7 @@ const UnLockedAchievements: React.FC = () => {
         )}
 
         {!(isFetching || isLoading) && data.unLockedAchievements.length === 0 ? (
-          <div className="flex items-center justify-center gap-2">
+          <div className="flex items-center justify-center gap-2 p-4">
             <div className="bg-primary p-2 rounded-lg border">
               <ExclamationIcon />
             </div>

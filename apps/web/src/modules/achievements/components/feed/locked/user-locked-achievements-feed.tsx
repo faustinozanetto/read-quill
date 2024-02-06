@@ -3,7 +3,7 @@ import type { Prisma } from '@read-quill/database';
 import type { AchievementWithProgress } from '@modules/achievements/types/achievements.types';
 import type { UseFilterFilteringFunctions, UseFilterSortingFunctions } from '@modules/common/hooks/use-filter-data';
 import { useFilterData } from '@modules/common/hooks/use-filter-data';
-import AchievementsFeed from '../achievements-feed';
+import FiltersShell from '@modules/common/components/filter/filters-shell';
 import UserLockedAchievementCard from '../../cards/locked/user-locked-achievement-card';
 import UserLockedAchievementsFiltering from './user-locked-achievements-filtering';
 
@@ -40,7 +40,7 @@ const UserLockedAchievementsFeed: React.FC<UserLockedAchievementsFeedProps> = (p
   });
 
   return (
-    <AchievementsFeed
+    <FiltersShell
       onRenderFilters={() => {
         return <UserLockedAchievementsFiltering filters={filters} sort={sort} />;
       }}
@@ -55,7 +55,7 @@ const UserLockedAchievementsFeed: React.FC<UserLockedAchievementsFeedProps> = (p
           );
         })}
       </div>
-    </AchievementsFeed>
+    </FiltersShell>
   );
 };
 

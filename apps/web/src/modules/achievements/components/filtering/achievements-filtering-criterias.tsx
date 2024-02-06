@@ -2,7 +2,7 @@ import React from 'react';
 import { ToggleGroup, ToggleGroupItem } from '@read-quill/design-system';
 import { ACHIEVEMENT_DISPLAY_CRITERIAS } from '@modules/achievements/lib/achievement.constants';
 import type { UseFilterActionsReturn } from '@modules/common/hooks/use-filter-actions';
-import UserUnLockedAchievementsFilterSection from './achievements-filter-section';
+import FilterSection from '@modules/common/components/filter/filter-section';
 
 interface AchievementsFilteringCriteriasProps {
   filterCriterias: string[];
@@ -18,7 +18,7 @@ const AchievementsFilteringCriterias: React.FC<AchievementsFilteringCriteriasPro
   };
 
   return (
-    <UserUnLockedAchievementsFilterSection onResetFilter={onResetFilter} title="Criterias">
+    <FilterSection onResetFilter={onResetFilter} title="Criterias">
       <ToggleGroup
         className="flex-wrap"
         onValueChange={handleChange}
@@ -34,7 +34,7 @@ const AchievementsFilteringCriterias: React.FC<AchievementsFilteringCriteriasPro
           );
         })}
       </ToggleGroup>
-    </UserUnLockedAchievementsFilterSection>
+    </FilterSection>
   );
 };
 

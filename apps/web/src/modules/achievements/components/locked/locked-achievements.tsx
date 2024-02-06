@@ -44,10 +44,6 @@ const LockedAchievements: React.FC = () => {
             <UserLockedAchievementsFeed userAchievements={data.lockedAchievements} />
           </FilterProvider>
         )}
-
-        {!(isFetching || isLoading) && data.lockedAchievements.length === 0 ? (
-          <p>User did not unlock any achievements so far!</p>
-        ) : null}
       </div>
     </div>
   );

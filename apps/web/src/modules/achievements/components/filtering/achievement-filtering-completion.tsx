@@ -1,7 +1,7 @@
 import React from 'react';
 import { Slider } from '@read-quill/design-system';
 import type { UseFilterActionsReturn } from '@modules/common/hooks/use-filter-actions';
-import AchievementsFilterSection from './achievements-filter-section';
+import FilterSection from '@modules/common/components/filter/filter-section';
 
 interface AchievementsFilteringCompletionProps {
   filterCompletion: number;
@@ -17,12 +17,12 @@ const AchievementsFilteringCompletion: React.FC<AchievementsFilteringCompletionP
   };
 
   return (
-    <AchievementsFilterSection onResetFilter={onResetFilter} title="Completion %">
+    <FilterSection onResetFilter={onResetFilter} title="Completion %">
       <div className="flex gap-2 justify-between items-center">
         <Slider onValueChange={handleChange} value={[filterCompletion]} />
         <span className="text-sm font-medium block">{filterCompletion}</span>
       </div>
-    </AchievementsFilterSection>
+    </FilterSection>
   );
 };
 

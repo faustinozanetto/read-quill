@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
   Button,
   ChevronDownIcon,
@@ -7,16 +8,15 @@ import {
   CollapsibleTrigger,
   DeleteIcon,
 } from '@read-quill/design-system';
-import React, { useState } from 'react';
 import type { UseFilterActionsReturn } from '@modules/common/hooks/use-filter-actions';
 
-interface AchievementsFilterSectionProps {
+interface FilterSectionProps {
   title: string;
   children: React.ReactNode;
   onResetFilter: UseFilterActionsReturn<unknown>['resetFilter'];
 }
 
-const AchievementsFilterSection: React.FC<AchievementsFilterSectionProps> = (props) => {
+const FilterSection: React.FC<FilterSectionProps> = (props) => {
   const { title, children, onResetFilter } = props;
 
   const [isOpen, setIsOpen] = useState(false);
@@ -47,4 +47,4 @@ const AchievementsFilterSection: React.FC<AchievementsFilterSectionProps> = (pro
   );
 };
 
-export default AchievementsFilterSection;
+export default FilterSection;
