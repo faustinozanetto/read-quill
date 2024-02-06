@@ -6,5 +6,11 @@ export interface QueriesSliceState {
 }
 
 export const useQueriesStore = create<QueriesSliceState>(() => ({
-  queryClient: new QueryClient(),
+  queryClient: new QueryClient({
+    defaultOptions: {
+      queries: {
+        refetchOnWindowFocus: false,
+      },
+    },
+  }),
 }));
