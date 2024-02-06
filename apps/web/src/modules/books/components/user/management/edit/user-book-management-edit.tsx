@@ -70,7 +70,7 @@ const UserBookManagementEdit: React.FC = () => {
   return (
     <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
       <DialogTrigger asChild>
-        <Button aria-label="Update Book" size="sm" variant="outline">
+        <Button aria-label="Update Book" variant="outline">
           <EditIcon className="mr-2 stroke-current" />
           Update Book
         </Button>

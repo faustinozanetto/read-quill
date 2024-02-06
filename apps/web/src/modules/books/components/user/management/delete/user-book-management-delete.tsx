@@ -40,7 +40,7 @@ const UserBookManagementDelete: React.FC = () => {
   });
 
   return (
-    <ManagementDeleteObject size="sm" label="Delete Book" onDeleted={mutateAsync} variant="outline-destructive">
+    <ManagementDeleteObject label="Delete Book" onDeleted={mutateAsync} variant="outline-destructive">
       <DeleteIcon className="mr-2 stroke-current" />
       Delete Book
     </ManagementDeleteObject>

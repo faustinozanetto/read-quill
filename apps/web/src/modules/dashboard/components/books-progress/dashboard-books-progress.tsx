@@ -4,7 +4,11 @@ import React from 'react';
 import Link from 'next/link';
 import { Skeleton } from '@read-quill/design-system';
 import { useBooksProgress } from '@modules/dashboard/hooks/use-books-progress';
-import PaginationControls from '@modules/common/components/pagination/pagination-controls';
+import { FilterProvider } from '@modules/filters/components/filter-provider';
+import {
+  BOOKS_PROGRESS_INITIAL_FILTERS,
+  BOOKS_PROGRESS_INITIAL_SORT,
+} from '@modules/dashboard/lib/dashboard-filtering.lib';
 import DashboardNoDataMessage from '../common/dashboard-no-data-message';
 import DashboardBooksProgressHeader from './header/dashboard-books-progress-header';
 import DashboardBooksProgressFeed from './feed/dashboard-books-progress-feed';
@@ -40,18 +44,25 @@ const DashboardBooksProgress: React.FC = () => {
         </div>
       ) : null}
       {!(isFetching || isLoading) && data.booksProgress.length > 0 ? (
-        <div className="flex flex-col gap-2">
-          <DashboardBooksProgressFeed booksProgress={data.booksProgress} />
-          <PaginationControls
-            getCanNextPage={getCanNextPage}
-            getCanPreviousPage={getCanPreviousPage}
-            nextPage={nextPage}
-            page={page}
-            pageCount={data.pageCount}
-            previousPage={previousPage}
-            setPageIndex={setPageIndex}
-          />
-        </div>
+        <FilterProvider
+          initialState={{
+            initialFilters: BOOKS_PROGRESS_INITIAL_FILTERS,
+            initialSort: BOOKS_PROGRESS_INITIAL_SORT,
+          }}
+        >
+          <div className="rounded-lg shadow border space-y-4">
+            <DashboardBooksProgressFeed
+              booksProgress={data.booksProgress}
+              getCanNextPage={getCanNextPage}
+              getCanPreviousPage={getCanPreviousPage}
+              nextPage={nextPage}
+              page={page}
+              pageCount={data.pageCount}
+              previousPage={previousPage}
+              setPageIndex={setPageIndex}
+            />
+          </div>
+        </FilterProvider>
       ) : null}
       {!(isFetching || isLoading) && data.booksProgress.length === 0 ? (
         <DashboardNoDataMessage>

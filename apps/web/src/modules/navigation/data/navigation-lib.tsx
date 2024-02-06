@@ -1,6 +1,7 @@
 import React from 'react';
 import { BookIcon, MedalIcon } from '@read-quill/design-system';
 import type { NavigationLinkProps } from '../components/navigation-link';
+import { TargetIcon } from '@read-quill/design-system/src';
 
 export const NAVIGATION_LINKS: Omit<NavigationLinkProps, 'isCompact'>[] = [
   {
@@ -30,5 +31,10 @@ export const NAVIGATION_LINKS: Omit<NavigationLinkProps, 'isCompact'>[] = [
     href: '/achievements',
     children: 'Achievements',
     icon: <MedalIcon className="stroke-current" />,
+  },
+  {
+    href: '/challenges',
+    children: 'Challenges',
+    icon: <TargetIcon className="stroke-current" />,
   },
 ];
