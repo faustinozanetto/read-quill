@@ -10,6 +10,8 @@ ReadQuill is your all-in-one reading companion, providing a personalized space t
 - **Effortless Tracking**: Seamlessly track your progress, mark favorites, and set reading goals to stay on top of your literary adventures.
 - **Interactive Annotations**: Add personal notes and annotations to your favorite books, enhancing your reading experience and capturing your thoughts.
 - **User-Friendly Interface**: Enjoy a sleek and intuitive design that enhances navigation, ensuring a delightful and immersive reading platform.
+- **Reading Insights and Trends**: Gain valuable insights into your reading habits with detailed statistics and trends. Understand your most-read genres, average reading time, and more to make informed choices for your next literary journey.
+- **Achievement Unlocks**: Unlock achievements as you reach milestones in your reading journey. Celebrate your accomplishments and explore new challenges to keep the reading excitement alive.
 
 ## 👀 Live Preview
 

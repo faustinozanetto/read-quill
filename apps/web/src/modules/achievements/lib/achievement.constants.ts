@@ -1,4 +1,4 @@
-import type { NestedKeyOf } from '@modules/common/hooks/use-filter-data';
+import type { NestedKeyOf } from '@modules/filters/hooks/use-filter-data';
 import type { AchievementWithProgress, UserAchievementWithAchievement } from '../types/achievements.types';
 
 export const ACHIEVEMENT_DISPLAY_CRITERIAS: Record<string, string> = {

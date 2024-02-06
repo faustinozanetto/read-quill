@@ -1,10 +1,10 @@
 import React from 'react';
 import { Button, SelectItem } from '@read-quill/design-system';
 import { ResetIcon } from '@read-quill/design-system/src/components/icons';
-import { useFilterActions } from '@modules/common/hooks/use-filter-actions';
+import { useFilterActions } from '@modules/filters/hooks/use-filter-actions';
 import type { Book } from '@read-quill/database';
-import type { NestedKeyOf, UseFilterReturn } from '@modules/common/hooks/use-filter-data';
-import FiltersSortBy from '@modules/common/components/filter/filters-sort-by';
+import type { NestedKeyOf, UseFilterReturn } from '@modules/filters/hooks/use-filter-data';
+import FiltersSortBy from '@modules/filters/components/filters-sort-by';
 import { BOOKS_SORT_BY } from '@modules/books/lib/book-filtering.lib';
 import UserBookFilteringName from './user-book-feed-filtering-name';
 import UserBookFilteringLanguage from './user-book-feed-filtering-language';

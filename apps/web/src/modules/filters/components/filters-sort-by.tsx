@@ -8,9 +8,9 @@ import {
   SortAscIcon,
   SortDescIcon,
 } from '@read-quill/design-system';
-import type { NestedKeyOf } from '@modules/common/hooks/use-filter-data';
-import type { UseFilterActionsReturn } from '@modules/common/hooks/use-filter-actions';
-import FilterSection from '@modules/common/components/filter/filter-section';
+import type { NestedKeyOf } from '@modules/filters/hooks/use-filter-data';
+import type { UseFilterActionsReturn } from '@modules/filters/hooks/use-filter-actions';
+import FilterSection from '@modules/filters/components/filter-section';
 
 interface FiltersSortByProps<TData> {
   children: React.ReactNode;

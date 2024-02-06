@@ -3,7 +3,7 @@
 import React from 'react';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useLockedAchievements } from '@modules/achievements/hooks/use-locked-achievements';
-import { FilterProvider } from '@modules/common/components/filter/filter-provider';
+import { FilterProvider } from '@modules/filters/components/filter-provider';
 import {
   LOCKED_ACHIEVEMENTS_INITIAL_FILTERS,
   LOCKED_ACHIEVEMENTS_INITIAL_SORT,

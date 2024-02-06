@@ -1,8 +1,8 @@
 import type { Reducer } from 'react';
 import React, { createContext, useMemo, useReducer } from 'react';
-import { filterReducer } from '@modules/common/context/filter/filter-reducer';
+import { filterReducer } from '@modules/filters/context/filter/filter-reducer';
 import type { FilterActions, FilterState } from '@modules/common/types/filter.types';
-import { constructFiltersRecordFromArray } from '@modules/common/lib/filter.lib';
+import { constructFiltersRecordFromArray } from '@modules/filters/lib/filter.lib';
 
 interface FilterContextValue<TData> {
   state: FilterState<TData>;

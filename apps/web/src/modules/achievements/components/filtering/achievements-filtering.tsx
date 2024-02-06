@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '@read-quill/design-system';
 import { ResetIcon } from '@read-quill/design-system/src/components/icons';
-import type { UseFilterActionsReturn } from '@modules/common/hooks/use-filter-actions';
+import type { UseFilterActionsReturn } from '@modules/filters/hooks/use-filter-actions';
 
 interface AchievementsFilteringProps<TData> {
   children: React.JSX.Element;

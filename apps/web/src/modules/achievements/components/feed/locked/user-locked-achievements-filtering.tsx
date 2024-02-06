@@ -1,10 +1,10 @@
 import React from 'react';
 import { SelectItem } from '@read-quill/design-system';
 import type { AchievementWithProgress } from '@modules/achievements/types/achievements.types';
-import type { NestedKeyOf, UseFilterReturn } from '@modules/common/hooks/use-filter-data';
+import type { NestedKeyOf, UseFilterReturn } from '@modules/filters/hooks/use-filter-data';
 import { LOCKED_ACHIEVEMENT_SORT_BY } from '@modules/achievements/lib/achievement.constants';
-import { useFilterActions } from '@modules/common/hooks/use-filter-actions';
-import FiltersSortBy from '@modules/common/components/filter/filters-sort-by';
+import { useFilterActions } from '@modules/filters/hooks/use-filter-actions';
+import FiltersSortBy from '@modules/filters/components/filters-sort-by';
 import AchievementsFilteringCriterias from '../../filtering/achievements-filtering-criterias';
 import AchievementsFilteringName from '../../filtering/achievements-filtering-name';
 import AchievementsFiltering from '../../filtering/achievements-filtering';

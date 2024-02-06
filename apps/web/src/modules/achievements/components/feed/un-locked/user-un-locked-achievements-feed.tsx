@@ -2,9 +2,9 @@ import React from 'react';
 import { compareAsc, isBefore } from 'date-fns';
 import type { Prisma } from '@read-quill/database';
 import type { UserAchievementWithAchievement } from '@modules/achievements/types/achievements.types';
-import type { UseFilterFilteringFunctions, UseFilterSortingFunctions } from '@modules/common/hooks/use-filter-data';
-import { useFilterData } from '@modules/common/hooks/use-filter-data';
-import FiltersShell from '@modules/common/components/filter/filters-shell';
+import type { UseFilterFilteringFunctions, UseFilterSortingFunctions } from '@modules/filters/hooks/use-filter-data';
+import { useFilterData } from '@modules/filters/hooks/use-filter-data';
+import FiltersShell from '@modules/filters/components/filters-shell';
 import UnLockedAchievementCard from '../../cards/un-lockeed/user-un-locked-achievement-card';
 import UserUnLockedAchievementsFiltering from './user-un-locked-achievements-filtering';
 

@@ -5,8 +5,8 @@ import {
   useFilterData,
   type UseFilterFilteringFunctions,
   type UseFilterSortingFunctions,
-} from '@modules/common/hooks/use-filter-data';
-import FiltersShell from '@modules/common/components/filter/filters-shell';
+} from '@modules/filters/hooks/use-filter-data';
+import FiltersShell from '@modules/filters/components/filters-shell';
 import type { PaginationControlsProps } from '@modules/common/components/pagination/pagination-controls';
 import PaginationControls from '@modules/common/components/pagination/pagination-controls';
 import BooksFeed from '../../feed/books-feed';

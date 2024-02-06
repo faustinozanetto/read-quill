@@ -1,8 +1,8 @@
 import React from 'react';
 import { Popover, PopoverTrigger, Button, cn, CalendarIcon, PopoverContent, Calendar } from '@read-quill/design-system';
 import { format } from 'date-fns';
-import type { UseFilterActionsReturn } from '@modules/common/hooks/use-filter-actions';
-import FilterSection from '@modules/common/components/filter/filter-section';
+import type { UseFilterActionsReturn } from '@modules/filters/hooks/use-filter-actions';
+import FilterSection from '@modules/filters/components/filter-section';
 
 interface AchievementsFilteringUnlockedBeforeProps {
   filterUnlockedBefore: string;

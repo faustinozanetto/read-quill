@@ -1,6 +1,6 @@
 import { useContext } from 'react';
-import type { FilterContextState } from '../types/filter.types';
-import { FilterContext } from '../components/filter/filter-provider';
+import type { FilterContextState } from '../../common/types/filter.types';
+import { FilterContext } from '../components/filter-provider';
 
 export const useFilterContext = <TData>(): FilterContextState<TData> => {
   const context = useContext(FilterContext);

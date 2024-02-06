@@ -1,5 +1,5 @@
-import type { Filter, NestedKeyOf } from '@modules/common/hooks/use-filter-data';
-import { constructFiltersRecordFromArray } from '@modules/common/lib/filter.lib';
+import type { Filter, NestedKeyOf } from '@modules/filters/hooks/use-filter-data';
+import { constructFiltersRecordFromArray } from '@modules/filters/lib/filter.lib';
 import type { FilterState, FilterActions } from '@modules/common/types/filter.types';
 import { FilterActionType } from '@modules/common/types/filter.types';
 

@@ -1,4 +1,4 @@
-import type { Filter, Sort } from '@modules/common/hooks/use-filter-data';
+import type { Filter, Sort } from '@modules/filters/hooks/use-filter-data';
 import type { AchievementWithProgress, UserAchievementWithAchievement } from '../types/achievements.types';
 
 export const UN_LOCKED_ACHIEVEMENTS_INITIAL_FILTERS: Filter<UserAchievementWithAchievement>[] = [

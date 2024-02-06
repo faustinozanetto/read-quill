@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { FilterActionType } from '../types/filter.types';
+import { FilterActionType } from '../../common/types/filter.types';
 import { useFilterContext } from './use-filter-context';
 import type { Sort, Filter, NestedKeyOf } from './use-filter-data';
 

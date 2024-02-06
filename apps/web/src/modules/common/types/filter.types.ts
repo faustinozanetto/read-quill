@@ -1,4 +1,4 @@
-import type { Filter, NestedKeyOf, Sort } from '../hooks/use-filter-data';
+import type { Filter, NestedKeyOf, Sort } from '../../filters/hooks/use-filter-data';
 import type { ActionMap } from './common.types';
 
 export interface FilterState<TData> {

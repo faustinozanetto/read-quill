@@ -4,7 +4,7 @@ import React from 'react';
 import { ExclamationIcon } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useUnLockedAchievements } from '@modules/achievements/hooks/use-un-locked-achievements';
-import { FilterProvider } from '@modules/common/components/filter/filter-provider';
+import { FilterProvider } from '@modules/filters/components/filter-provider';
 import {
   UN_LOCKED_ACHIEVEMENTS_INITIAL_FILTERS,
   UN_LOCKED_ACHIEVEMENTS_INITIAL_SORT,

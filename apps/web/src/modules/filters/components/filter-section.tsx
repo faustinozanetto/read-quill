@@ -8,7 +8,7 @@ import {
   CollapsibleTrigger,
   DeleteIcon,
 } from '@read-quill/design-system';
-import type { UseFilterActionsReturn } from '@modules/common/hooks/use-filter-actions';
+import type { UseFilterActionsReturn } from '@modules/filters/hooks/use-filter-actions';
 
 interface FilterSectionProps {
   title: string;

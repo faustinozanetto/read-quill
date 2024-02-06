@@ -23,6 +23,7 @@
     "db:seed": {},
     "lint": {},
     "type-check": {},
+    "test": {},
     "dev": {
       "dependsOn": ["^db:generate"],
       "cache": false

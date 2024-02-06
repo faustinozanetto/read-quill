@@ -1,9 +1,9 @@
 import React from 'react';
 import type { Prisma } from '@read-quill/database';
 import type { AchievementWithProgress } from '@modules/achievements/types/achievements.types';
-import type { UseFilterFilteringFunctions, UseFilterSortingFunctions } from '@modules/common/hooks/use-filter-data';
-import { useFilterData } from '@modules/common/hooks/use-filter-data';
-import FiltersShell from '@modules/common/components/filter/filters-shell';
+import type { UseFilterFilteringFunctions, UseFilterSortingFunctions } from '@modules/filters/hooks/use-filter-data';
+import { useFilterData } from '@modules/filters/hooks/use-filter-data';
+import FiltersShell from '@modules/filters/components/filters-shell';
 import UserLockedAchievementCard from '../../cards/locked/user-locked-achievement-card';
 import UserLockedAchievementsFiltering from './user-locked-achievements-filtering';
 

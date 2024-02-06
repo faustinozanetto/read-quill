@@ -3,7 +3,7 @@
 import React from 'react';
 import { useUserBooks } from '@modules/books/hooks/use-user-books';
 import { BOOKS_INITIAL_FILTERS, BOOKS_INITIAL_SORT } from '@modules/books/lib/book-filtering.lib';
-import { FilterProvider } from '@modules/common/components/filter/filter-provider';
+import { FilterProvider } from '@modules/filters/components/filter-provider';
 import BookCardPlaceholder from '../cards/book-card-placeholder';
 import UserBooksHeader from './user-books-header';
 import UserBooksFeed from './feed/user-books-feed';
