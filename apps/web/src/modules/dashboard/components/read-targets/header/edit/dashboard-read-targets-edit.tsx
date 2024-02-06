@@ -59,7 +59,7 @@ const DashboardReadTargetsEdit: React.FC<DashboardReadTargetsEditProps> = (props
   return (
     <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
       <DialogTrigger asChild>
-        <Button aria-label="Edit Read Targets" className="w-full sm:ml-auto sm:w-fit">
+        <Button aria-label="Edit Read Targets" className="w-full sm:ml-auto sm:w-fit" size="sm">
           <EditIcon className="mr-2 stroke-current" />
           Edit Read Targets
         </Button>

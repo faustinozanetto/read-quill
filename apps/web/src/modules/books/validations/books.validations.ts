@@ -74,6 +74,10 @@ export const bookReviewValidationSchemaAPI = bookReviewValidationSchemaForm.exte
   bookId: z.string(),
 });
 
+export const deleteBookReviewValidationSchemaAPI = z.object({
+  bookId: z.string(),
+});
+
 /* Book Favourite */
 export const bookFavouriteValidationSchemaForm = z.object({
   bookId: z.string(),

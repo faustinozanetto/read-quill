@@ -59,9 +59,9 @@ const UserBookReviewManagementAdd: React.FC = () => {
   return (
     <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
       <DialogTrigger asChild>
-        <Button aria-label="Add Review">
+        <Button aria-label="Add Review" size="sm" variant="outline">
           <EditIcon className="mr-2 stroke-current" />
-          Add Review
+          Add
         </Button>
       </DialogTrigger>
 

@@ -15,7 +15,7 @@ const UserBookReviewHeader: React.FC<UserBookReviewHeaderProps> = (props) => {
   const { isBookOwner } = useIsBookOwner();
 
   return (
-    <div className="flex flex-col gap-2 md:flex-row md:justify-between md:gap-0">
+    <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:gap-0">
       <h2 className="text-2xl font-bold">User Review</h2>
 
       {isLoading ? <Skeleton className="h-10 w-full md:w-36" /> : null}

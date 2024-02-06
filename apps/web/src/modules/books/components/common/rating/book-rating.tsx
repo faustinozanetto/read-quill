@@ -20,6 +20,7 @@ const BookRating: React.FC<BookRatingProps> = (props) => {
   const [rating, setRating] = useState(book.rating ?? -1);
 
   const { mutateAsync, isLoading } = useMutation({
+    mutationKey: [book.id, rating],
     mutationFn: async () => {
       try {
         const url = new URL('/api/books/rating', __URL__);

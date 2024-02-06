@@ -65,7 +65,7 @@ const BookAnnotationManagementEdit: React.FC<BookAnnotationManagementEditProps> 
   return (
     <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
       <DialogTrigger asChild>
-        <Button aria-label="Edit Annotation" size="icon">
+        <Button aria-label="Edit Annotation" size="icon" variant="outline">
           <EditIcon className="stroke-current" />
         </Button>
       </DialogTrigger>

@@ -36,12 +36,12 @@ const UserBookReviewManagementEdit: React.FC = () => {
 
         const response = await fetch(url, { method: 'PATCH', body });
         if (!response.ok) {
-          throw new Error('Could not updated book review!');
+          throw new Error('Could not update book review!');
         }
 
         toast({ variant: 'success', content: `Book review updated successfully!` });
       } catch (error) {
-        let errorMessage = 'Could not updated book review!';
+        let errorMessage = 'Could not update book review!';
         if (error instanceof Error) errorMessage = error.message;
 
         toast({ variant: 'error', content: errorMessage });
@@ -59,9 +59,9 @@ const UserBookReviewManagementEdit: React.FC = () => {
   return (
     <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
       <DialogTrigger asChild>
-        <Button aria-label="Update Review">
+        <Button aria-label="Update Review" size="sm" variant="outline">
           <EditIcon className="mr-2 stroke-current" />
-          Update Review
+          Update
         </Button>
       </DialogTrigger>
 

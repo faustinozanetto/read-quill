@@ -56,7 +56,7 @@ const DashboardReadRegistriesCreate: React.FC = () => {
   return (
     <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
       <DialogTrigger asChild>
-        <Button aria-label="Create Read Registry" className="w-full sm:ml-auto sm:w-fit">
+        <Button aria-label="Create Read Registry" className="w-full sm:ml-auto sm:w-fit" size="sm">
           <PlusIcon className="mr-2 stroke-current" />
           Create Read Registry
         </Button>

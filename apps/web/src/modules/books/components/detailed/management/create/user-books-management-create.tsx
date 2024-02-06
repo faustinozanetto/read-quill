@@ -63,7 +63,7 @@ const UserBooksManagementCreate: React.FC = () => {
   return (
     <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
       <DialogTrigger asChild>
-        <Button aria-label="Create Book">
+        <Button aria-label="Create Book" size="sm">
           <PlusIcon className="mr-2 stroke-current" />
           Create Book
         </Button>

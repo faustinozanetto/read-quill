@@ -11,13 +11,13 @@ const UserProfileBooksHeader: React.FC = () => {
   const isProfileOwner = Boolean(user && session?.user && user.email === session.user.email);
 
   return (
-    <div className="flex flex-col gap-2 md:flex-row md:justify-between md:gap-0">
+    <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:gap-0">
       <h2 className="text-2xl font-bold">Books</h2>
       {/* Management */}
       {isLoading ? <Skeleton className="h-10 w-full md:w-32" /> : null}
 
       {!isLoading && isProfileOwner ? (
-        <Button aria-label="Manage Containers" asChild className="w-full md:w-auto">
+        <Button aria-label="Manage Containers" asChild className="w-full md:w-auto" size="sm" variant="outline">
           <Link className="w-full md:w-auto" href="/books">
             <ManageIcon className="mr-2" />
             Manage Books

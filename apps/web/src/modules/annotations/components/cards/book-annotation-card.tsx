@@ -33,6 +33,8 @@ const BookAnnotationCard: React.FC<BookAnnotationCardProps> = (props) => {
               onClick={() => {
                 setRevealContent(true);
               }}
+              size="sm"
+              variant="outline"
             >
               <EyeIcon className="mr-2" />
               Click to reveal

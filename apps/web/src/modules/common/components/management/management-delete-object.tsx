@@ -13,19 +13,19 @@ import {
   AlertDialogAction,
 } from '@read-quill/design-system';
 
-interface ManagementDeleteObjectProps extends Omit<ButtonProps, 'onClick' | 'variant'> {
+interface ManagementDeleteObjectProps extends Omit<ButtonProps, 'onClick'> {
   children: React.ReactNode;
   label: string;
   onDeleted: () => void;
 }
 
 const ManagementDeleteObject: React.FC<ManagementDeleteObjectProps> = (props) => {
-  const { children, label, onDeleted, ...rest } = props;
+  const { children, label, onDeleted, variant = 'destructive', ...rest } = props;
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button aria-label={label} variant="destructive" {...rest}>
+        <Button aria-label={label} variant={variant} {...rest}>
           {children}
         </Button>
       </AlertDialogTrigger>

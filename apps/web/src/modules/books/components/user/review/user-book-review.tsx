@@ -26,7 +26,12 @@ const UserBookReview: React.FC = () => {
         </p>
       ) : null}
 
-      {!isLoading && !readerWrittenReview ? <p>This reader has not written a review yet!</p> : null}
+      {!isLoading && !readerWrittenReview ? (
+        <p>
+          No review found, add one by clicking the <span className="text-primary font-bold underline">Add</span> button
+          to get started.
+        </p>
+      ) : null}
     </div>
   );
 };

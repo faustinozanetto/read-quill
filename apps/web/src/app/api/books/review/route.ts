@@ -3,7 +3,10 @@ import { getServerSession } from 'next-auth/next';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { bookReviewValidationSchemaAPI } from '@modules/books/validations/books.validations';
+import {
+  bookReviewValidationSchemaAPI,
+  deleteBookReviewValidationSchemaAPI,
+} from '@modules/books/validations/books.validations';
 import { authOptions } from '@modules/auth/lib/auth.lib';
 
 // /api/books/rewiew POST : creates a book review
@@ -37,7 +40,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
   }
 }
 
-// /api/books/rewiew PATCH : updated a book review
+// /api/books/rewiew PATCH : Update a book review
 export async function PATCH(request: NextRequest): Promise<NextResponse> {
   try {
     const session = await getServerSession(authOptions);
@@ -55,6 +58,37 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
       },
       data: {
         review,
+      },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    let errorMessage = 'An error occurred!';
+    if (error instanceof Error) errorMessage = error.message;
+    else if (error instanceof z.ZodError) errorMessage = error.issues[0].message;
+
+    return new NextResponse(errorMessage, { status: 500 });
+  }
+}
+
+// /api/books/rewiew DELETE : Delete a book review
+export async function DELETE(request: NextRequest): Promise<NextResponse> {
+  try {
+    const session = await getServerSession(authOptions);
+
+    if (!session) {
+      return new NextResponse('Unauthorized', { status: 403 });
+    }
+
+    const json = await request.json();
+    const { bookId } = deleteBookReviewValidationSchemaAPI.parse(json);
+
+    await prisma.book.update({
+      where: {
+        id: bookId,
+      },
+      data: {
+        review: { set: null },
       },
     });
 

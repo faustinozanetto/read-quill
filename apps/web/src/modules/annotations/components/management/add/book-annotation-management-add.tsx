@@ -59,9 +59,9 @@ const BookAnnotationManagementAdd: React.FC = () => {
   return (
     <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
       <DialogTrigger asChild>
-        <Button aria-label="Add Annotation">
+        <Button aria-label="Add Annotation" size="sm" variant="outline">
           <PlusIcon className="mr-2 stroke-current" />
-          Add Annotation
+          Add
         </Button>
       </DialogTrigger>
 

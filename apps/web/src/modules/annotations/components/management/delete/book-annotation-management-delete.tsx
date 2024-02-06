@@ -47,7 +47,7 @@ const BookAnnotationManagementDelete: React.FC<BookAnnotationManagementDeletePro
   });
 
   return (
-    <ManagementDeleteObject label="Delete Annotation" onDeleted={mutateAsync} size="icon">
+    <ManagementDeleteObject label="Delete Annotation" onDeleted={mutateAsync} size="icon" variant="outline-destructive">
       <DeleteIcon className="stroke-current" />
     </ManagementDeleteObject>
   );

@@ -15,7 +15,7 @@ const AchievementsFiltering = <TData,>(props: AchievementsFilteringProps<TData>)
   const { children, onResetFilters } = props;
 
   return (
-    <div className="flex flex-col justify-between gap-2 h-full">
+    <div className="flex flex-col justify-between gap-4 h-full">
       {children}
       <Button
         aria-label="Reset Filters"
