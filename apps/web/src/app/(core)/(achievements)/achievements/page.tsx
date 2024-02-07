@@ -6,7 +6,7 @@ import Achievements from '@modules/achievements/components/achievements';
 export const metadata: Metadata = {
   title: 'User Achievements',
   description:
-    'Welcome to your literary haven – the ReadQuill Dashboard. Navigate your reading world effortlessly, track your progress, and receive tailored recommendations. Your personalized literary adventure begins here, where every page turns into a unique experience.',
+    'Explore your reading accomplishments on our achievements page. Track your progress, unlock milestones, and celebrate your literary journey with personalized achievements. Dive into a world of reading challenges and discover new horizons as you embark on your quest for knowledge and adventure.',
 };
 
 export default async function AchievementsPage(): Promise<React.JSX.Element> {

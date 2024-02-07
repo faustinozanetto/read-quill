@@ -45,7 +45,7 @@ const UserLockedAchievementsFeed: React.FC<UserLockedAchievementsFeedProps> = (p
         return <UserLockedAchievementsFiltering filters={filters} sort={sort} />;
       }}
     >
-      <div className="grid gap-4 p-4 sm:grid-cols-2 xl:grid-cols-3 grow h-fit">
+      <div className="max-h-[600px] overflow-y-auto grid gap-4 p-4 sm:grid-cols-2 xl:grid-cols-3 grow h-fit">
         {filteredData.map((userAchievement) => {
           return (
             <UserLockedAchievementCard
