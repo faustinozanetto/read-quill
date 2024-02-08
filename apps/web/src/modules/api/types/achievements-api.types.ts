@@ -1,10 +1,10 @@
 import type {
   AchievementWithProgress,
-  UserAchievementWithAchievement,
+  AchievementWithUserAchievement,
 } from '@modules/achievements/types/achievements.types';
 
 export interface AchievementsUnLockedGetResponse {
-  unLockedAchievements: UserAchievementWithAchievement[];
+  unLockedAchievements: AchievementWithUserAchievement[];
 }
 
 export interface AchievementsLockedGetResponse {

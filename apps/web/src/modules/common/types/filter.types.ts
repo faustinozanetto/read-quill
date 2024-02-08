@@ -5,7 +5,7 @@ export interface FilterState<TData> {
   initialSort: Sort<TData>;
   initialFilters: Filter<TData>[];
   sort: Sort<TData>;
-  filters: Record<NestedKeyOf<TData, keyof TData>, Filter<TData>>;
+  filters: Record<NestedKeyOf<TData>, Filter<TData>>;
 }
 
 export interface FilterContextState<TData> {

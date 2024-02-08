@@ -5,16 +5,19 @@ import { useFilterActions } from '@modules/filters/hooks/use-filter-actions';
 import type { NestedKeyOf, UseFilterReturn } from '@modules/filters/hooks/use-filter-data';
 import FiltersSortBy from '@modules/filters/components/filters-sort-by';
 import type { DashboardBooksProgressGetResponse } from '@modules/api/types/dashboard-api.types';
-import UserBookFilteringName from '@modules/books/components/detailed/feed/filtering/user-book-feed-filtering-name';
 import { BOOKS_PROGRESS_SORT_BY } from '@modules/dashboard/lib/dashboard-filtering.lib';
+import FilterTextInput from '@modules/filters/components/inputs/filter-text-input';
 
+/**
+ * Props for the DashboardBooksProgressFiltering component.
+ */
 interface DashboardBooksProgressFilteringProps {
   /**
-   * Filter sort data.
+   * Sort criteria for filtering book progress data on the dashboard.
    */
   sort: UseFilterReturn<DashboardBooksProgressGetResponse['booksProgress'][0]>['sort'];
   /**
-   * Filter filters data.
+   * Filter criteria for filtering book progress data on the dashboard.
    */
   filters: UseFilterReturn<DashboardBooksProgressGetResponse['booksProgress'][0]>['filters'];
 }
@@ -52,12 +55,14 @@ const DashboardBooksProgressFiltering: React.FC<DashboardBooksProgressFilteringP
           );
         })}
       </FiltersSortBy>
-      <UserBookFilteringName
-        filterName={filters.name.value as string}
-        onFilterNameChange={handleFilterNameChange}
+      <FilterTextInput
+        onFilterChange={handleFilterNameChange}
         onResetFilter={() => {
           resetFilter('name');
         }}
+        placeholder="Treasure Island"
+        title="Name"
+        value={filters.name.value as string}
       />
       <Button
         aria-label="Reset Filters"

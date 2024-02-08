@@ -14,7 +14,7 @@ export type NestedKeyOf<T, K = keyof T> = K extends keyof T & (string | number)
  */
 export interface Filter<TData> {
   value: unknown;
-  property: NestedKeyOf<TData, keyof TData>;
+  property: NestedKeyOf<TData>;
   shouldEnable: (value: unknown) => boolean;
 }
 
@@ -26,7 +26,7 @@ export interface Filter<TData> {
  */
 export interface Sort<TData> {
   ascending: boolean;
-  property: NestedKeyOf<TData, keyof TData>;
+  property: NestedKeyOf<TData>;
 }
 
 export interface UseFilterReturn<TData> {
@@ -41,7 +41,7 @@ export interface UseFilterReturn<TData> {
   /**
    * Filters data.
    */
-  filters: Record<NestedKeyOf<TData, keyof TData>, Filter<TData>>;
+  filters: Record<NestedKeyOf<TData>, Filter<TData>>;
 }
 
 interface UseFilterParams<TData> {
@@ -63,7 +63,7 @@ interface UseFilterParams<TData> {
  * Utility type for the filtering functions.
  */
 export type UseFilterFilteringFunctions<TData> = Partial<
-  Record<NestedKeyOf<TData, keyof TData>, (item: TData, value: unknown) => boolean>
+  Record<NestedKeyOf<TData>, (item: TData, value: unknown) => boolean>
 >;
 
 /**
@@ -85,7 +85,7 @@ export const useFilterData = <TData>(params: UseFilterParams<TData>): UseFilterR
     let resultData: TData[] = data;
 
     Object.keys(state.filters).forEach((filterKey) => {
-      const filter = state.filters[filterKey as NestedKeyOf<TData, keyof TData>];
+      const filter = state.filters[filterKey as NestedKeyOf<TData>];
       if (filter.shouldEnable(filter.value)) {
         resultData = resultData.filter((item) => {
           if (filter.property in filterFunctions) {

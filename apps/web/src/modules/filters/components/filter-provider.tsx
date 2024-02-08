@@ -5,14 +5,18 @@ import type { FilterActions, FilterState } from '@modules/common/types/filter.ty
 import { constructFiltersRecordFromArray } from '@modules/filters/lib/filter.lib';
 
 interface FilterContextValue<TData> {
+  /** The current state of the filters. */
   state: FilterState<TData>;
+  /** Function to dispatch actions to update the filter state. */
   dispatch: React.Dispatch<FilterActions<TData>>;
 }
 
 export const FilterContext = createContext<FilterContextValue<any>>({} as FilterContextValue<any>);
 
 interface FilterProviderProps<TData> {
+  /** Initial state of the filters including initial filters and sort settings. */
   initialState: Pick<FilterState<TData>, 'initialFilters' | 'initialSort'>;
+  /** Children components that will have access to the filter context. */
   children: React.ReactNode;
 }
 

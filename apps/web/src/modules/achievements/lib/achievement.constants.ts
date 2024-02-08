@@ -1,5 +1,5 @@
 import type { NestedKeyOf } from '@modules/filters/hooks/use-filter-data';
-import type { AchievementWithProgress, UserAchievementWithAchievement } from '../types/achievements.types';
+import type { AchievementWithProgress, AchievementWithUserAchievement } from '../types/achievements.types';
 
 export const ACHIEVEMENT_DISPLAY_CRITERIAS: Record<string, string> = {
   pagesRead: 'Pages Read',
@@ -7,8 +7,8 @@ export const ACHIEVEMENT_DISPLAY_CRITERIAS: Record<string, string> = {
   readDaysStreak: 'Read Days Streak',
 };
 
-export const UN_LOCKED_ACHIEVEMENT_SORT_BY: Partial<Record<NestedKeyOf<UserAchievementWithAchievement>, string>> = {
-  'achievement.name': 'Name',
+export const UN_LOCKED_ACHIEVEMENT_SORT_BY: Partial<Record<NestedKeyOf<AchievementWithUserAchievement>, string>> = {
+  name: 'Name',
   unlockedAt: 'Unlocked At',
 };
 

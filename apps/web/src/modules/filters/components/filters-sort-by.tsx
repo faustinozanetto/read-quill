@@ -12,23 +12,19 @@ import type { NestedKeyOf } from '@modules/filters/hooks/use-filter-data';
 import type { UseFilterActionsReturn } from '@modules/filters/hooks/use-filter-actions';
 import FilterSection from '@modules/filters/components/filter-section';
 
+/**
+ * Props for the FiltersSortBy component.
+ */
 interface FiltersSortByProps<TData> {
+  /** Children elements representing options for sorting. */
   children: React.ReactNode;
-  /**
-   * Sort by property.
-   */
+  /** The key to sort by. */
   sortBy: NestedKeyOf<TData>;
-  /**
-   * Sort asc or desc.
-   */
+  /** Indicates whether the sort order is ascending. */
   sortAscending: boolean;
-  /**
-   * Callback function when sort by changes.
-   * @param value - Sort by property value.
-   * @param ascending - Sort asc or desc.
-   * @returns Void.
-   */
+  /** Function called when the sort criteria changes. */
   onSortByChanged: (value: NestedKeyOf<TData>, ascending: boolean) => void;
+  /** Function to reset the filter to its initial state. */
   onResetFilter: UseFilterActionsReturn<unknown>['resetFilter'];
 }
 

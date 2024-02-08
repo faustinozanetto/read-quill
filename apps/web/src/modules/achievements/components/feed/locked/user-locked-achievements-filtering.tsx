@@ -1,22 +1,27 @@
 import React from 'react';
-import { SelectItem } from '@read-quill/design-system';
+import { SelectItem, ToggleGroupItem } from '@read-quill/design-system';
 import type { AchievementWithProgress } from '@modules/achievements/types/achievements.types';
-import type { NestedKeyOf, UseFilterReturn } from '@modules/filters/hooks/use-filter-data';
-import { LOCKED_ACHIEVEMENT_SORT_BY } from '@modules/achievements/lib/achievement.constants';
+import type { UseFilterReturn } from '@modules/filters/hooks/use-filter-data';
+import {
+  ACHIEVEMENT_DISPLAY_CRITERIAS,
+  LOCKED_ACHIEVEMENT_SORT_BY,
+} from '@modules/achievements/lib/achievement.constants';
 import { useFilterActions } from '@modules/filters/hooks/use-filter-actions';
-import FiltersSortBy from '@modules/filters/components/filters-sort-by';
-import AchievementsFilteringCriterias from '../../filtering/achievements-filtering-criterias';
-import AchievementsFilteringName from '../../filtering/achievements-filtering-name';
+import FilterSliderInput from '@modules/filters/components/inputs/filter-slider-input';
+import FilterTextInput from '@modules/filters/components/inputs/filter-text-input';
+import FilterToggleGroupInput from '@modules/filters/components/inputs/filter-toggle-group-input';
 import AchievementsFiltering from '../../filtering/achievements-filtering';
-import AchievementsFilteringCompletion from '../../filtering/achievement-filtering-completion';
 
+/**
+ * Props for the UserLockedAchievementsFiltering component.
+ */
 interface UserLockedAchievementsFilteringProps {
   /**
-   * Filter sort data.
+   * Sort criteria for filtering locked achievements.
    */
   sort: UseFilterReturn<AchievementWithProgress>['sort'];
   /**
-   * Filter filters data.
+   * Filter criteria for filtering locked achievements.
    */
   filters: UseFilterReturn<AchievementWithProgress>['filters'];
 }
@@ -24,8 +29,11 @@ interface UserLockedAchievementsFilteringProps {
 const UserLockedAchievementsFiltering: React.FC<UserLockedAchievementsFilteringProps> = (props) => {
   const { sort, filters } = props;
 
-  const { updateFilterValue, updateSort, resetFilter, resetFilters, resetSort } =
-    useFilterActions<AchievementWithProgress>();
+  const { updateFilterValue, resetFilter } = useFilterActions<AchievementWithProgress>();
+
+  const handleFilterCompletionChange = (value: number): void => {
+    updateFilterValue('completionPercentage', value);
+  };
 
   const handleFilterNameChange = (value: string): void => {
     updateFilterValue('name', value);
@@ -35,53 +43,52 @@ const UserLockedAchievementsFiltering: React.FC<UserLockedAchievementsFilteringP
     updateFilterValue('criteria', value);
   };
 
-  const handleSortByChange = (value: NestedKeyOf<AchievementWithProgress>, ascending: boolean): void => {
-    updateSort({ property: value, ascending });
-  };
-
-  const handleFilterCompletionChange = (value: number): void => {
-    updateFilterValue('completionPercentage', value);
-  };
-
   return (
-    <AchievementsFiltering onResetFilters={resetFilters}>
-      <div className="flex flex-col gap-2">
-        <FiltersSortBy
-          onResetFilter={resetSort}
-          onSortByChanged={handleSortByChange}
-          sortAscending={sort.ascending}
-          sortBy={sort.property}
-        >
-          {Object.entries(LOCKED_ACHIEVEMENT_SORT_BY).map((achievementSortBy) => {
-            return (
-              <SelectItem key={achievementSortBy[0]} value={achievementSortBy[0]}>
-                {achievementSortBy[1]}
-              </SelectItem>
-            );
-          })}
-        </FiltersSortBy>
-        <AchievementsFilteringName
-          filterName={filters.name.value as string}
-          onFilterNameChange={handleFilterNameChange}
-          onResetFilter={() => {
-            resetFilter('name');
-          }}
-        />
-        <AchievementsFilteringCriterias
-          filterCriterias={filters.criteria.value as string[]}
-          onFilterCriteriasChange={handleFilterCriteriasChange}
-          onResetFilter={() => {
-            resetFilter('criteria');
-          }}
-        />
-        <AchievementsFilteringCompletion
-          filterCompletion={filters.completionPercentage.value as number}
-          onFilterCompletionChange={handleFilterCompletionChange}
-          onResetFilter={() => {
-            resetFilter('completionPercentage');
-          }}
-        />
-      </div>
+    <AchievementsFiltering
+      onRenderSortBy={() => {
+        return Object.entries(LOCKED_ACHIEVEMENT_SORT_BY).map((achievementSortBy) => {
+          return (
+            <SelectItem key={achievementSortBy[0]} value={achievementSortBy[0]}>
+              {achievementSortBy[1]}
+            </SelectItem>
+          );
+        });
+      }}
+      sort={sort}
+    >
+      <FilterTextInput
+        onFilterChange={handleFilterNameChange}
+        onResetFilter={() => {
+          resetFilter('name');
+        }}
+        placeholder="Novice Reader"
+        title="Name"
+        value={filters.name.value as string}
+      />
+      <FilterToggleGroupInput
+        onFilterChange={handleFilterCriteriasChange}
+        onResetFilter={() => {
+          resetFilter('criteria');
+        }}
+        title="Criterias"
+        value={filters.criteria.value as string[]}
+      >
+        {Object.entries(ACHIEVEMENT_DISPLAY_CRITERIAS).map((criteria) => {
+          return (
+            <ToggleGroupItem className="text-xs" key={criteria[0]} size="sm" value={criteria[0]}>
+              {criteria[1]}
+            </ToggleGroupItem>
+          );
+        })}
+      </FilterToggleGroupInput>
+      <FilterSliderInput
+        onFilterChange={handleFilterCompletionChange}
+        onResetFilter={() => {
+          resetFilter('completionPercentage');
+        }}
+        title="Completion %"
+        value={filters.completionPercentage.value as number}
+      />
     </AchievementsFiltering>
   );
 };

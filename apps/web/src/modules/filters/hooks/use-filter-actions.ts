@@ -63,7 +63,7 @@ export const useFilterActions = <TData>(): UseFilterActionsReturn<TData> => {
   );
 
   const updateFilterValue = useCallback(
-    (property: NestedKeyOf<TData, keyof TData>, value: unknown) => {
+    (property: NestedKeyOf<TData>, value: unknown) => {
       dispatch({ type: FilterActionType.UPDATE_FILTER_VALUE, payload: { property, value } });
     },
     [dispatch]
@@ -74,7 +74,7 @@ export const useFilterActions = <TData>(): UseFilterActionsReturn<TData> => {
   }, [dispatch]);
 
   const resetFilter = useCallback(
-    (property: NestedKeyOf<TData, keyof TData>) => {
+    (property: NestedKeyOf<TData>) => {
       dispatch({ type: FilterActionType.RESET_FILTER, payload: { property } });
     },
     [dispatch]

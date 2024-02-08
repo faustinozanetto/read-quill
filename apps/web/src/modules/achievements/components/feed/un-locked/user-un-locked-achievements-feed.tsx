@@ -1,7 +1,7 @@
 import React from 'react';
 import { compareAsc, isBefore } from 'date-fns';
 import type { Prisma } from '@read-quill/database';
-import type { UserAchievementWithAchievement } from '@modules/achievements/types/achievements.types';
+import type { AchievementWithUserAchievement } from '@modules/achievements/types/achievements.types';
 import type { UseFilterFilteringFunctions, UseFilterSortingFunctions } from '@modules/filters/hooks/use-filter-data';
 import { useFilterData } from '@modules/filters/hooks/use-filter-data';
 import FiltersShell from '@modules/filters/components/filters-shell';
@@ -9,16 +9,16 @@ import UnLockedAchievementCard from '../../cards/un-lockeed/user-un-locked-achie
 import UserUnLockedAchievementsFiltering from './user-un-locked-achievements-filtering';
 
 interface UserUnLockedAchievementsFeedProps {
-  userAchievements: UserAchievementWithAchievement[];
+  userAchievements: AchievementWithUserAchievement[];
 }
 
 const UserUnLockedAchievementsFeed: React.FC<UserUnLockedAchievementsFeedProps> = (props) => {
   const { userAchievements } = props;
 
-  const filterFunctions: UseFilterFilteringFunctions<UserAchievementWithAchievement> = {
-    'achievement.name': (item, value) => item.achievement.name.toLowerCase().includes((value as string).toLowerCase()),
-    'achievement.criteria': (item, value) => {
-      const criterias = Object.keys(item.achievement.criteria as Prisma.JsonObject);
+  const filterFunctions: UseFilterFilteringFunctions<AchievementWithUserAchievement> = {
+    name: (item, value) => item.name.toLowerCase().includes((value as string).toLowerCase()),
+    criteria: (item, value) => {
+      const criterias = Object.keys(item.criteria as Prisma.JsonObject);
 
       return criterias.some((criteria) => (value as string[]).includes(criteria));
     },
@@ -29,8 +29,8 @@ const UserUnLockedAchievementsFeed: React.FC<UserUnLockedAchievementsFeedProps> 
     },
   };
 
-  const sortFunctions: UseFilterSortingFunctions<UserAchievementWithAchievement> = {
-    'achievement.name': (a, b) => a.achievement.name.localeCompare(b.achievement.name),
+  const sortFunctions: UseFilterSortingFunctions<AchievementWithUserAchievement> = {
+    name: (a, b) => a.name.localeCompare(b.name),
     unlockedAt: (a, b) => {
       const aDate = a.unlockedAt ? new Date(a.unlockedAt) : new Date();
       const bDate = b.unlockedAt ? new Date(b.unlockedAt) : new Date();
@@ -39,7 +39,7 @@ const UserUnLockedAchievementsFeed: React.FC<UserUnLockedAchievementsFeedProps> 
     },
   };
 
-  const { filteredData, sort, filters } = useFilterData<UserAchievementWithAchievement>({
+  const { filteredData, sort, filters } = useFilterData<AchievementWithUserAchievement>({
     data: userAchievements,
     filterFunctions,
     sortFunctions,
@@ -55,7 +55,7 @@ const UserUnLockedAchievementsFeed: React.FC<UserUnLockedAchievementsFeedProps> 
         {filteredData.map((userAchievement) => {
           return (
             <UnLockedAchievementCard
-              key={`unlocked-achievement-${userAchievement.achievementId}`}
+              key={`unlocked-achievement-${userAchievement.id}`}
               userAchievement={userAchievement}
             />
           );

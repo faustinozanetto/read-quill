@@ -3,7 +3,13 @@ import { Badge, ThropyIcon } from '@read-quill/design-system';
 import type { AchievementWithProgress } from '@modules/achievements/types/achievements.types';
 import { ACHIEVEMENT_DISPLAY_CRITERIAS } from '@modules/achievements/lib/achievement.constants';
 
+/**
+ * Props for the UserLockedAchievementCard component.
+ */
 interface UserLockedAchievementCardProps {
+  /**
+   * Information about the locked achievement associated with the user's progress.
+   */
   userAchievement: AchievementWithProgress;
 }
 

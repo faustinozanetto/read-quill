@@ -12,7 +12,7 @@ export const filterReducer = <TData>(state: FilterState<TData>, action: FilterAc
       };
     }
     case FilterActionType.UPDATE_FILTER: {
-      const newFilters: Record<NestedKeyOf<TData, keyof TData>, Filter<TData>> = {
+      const newFilters: Record<NestedKeyOf<TData>, Filter<TData>> = {
         ...state.filters,
         [action.payload.filter.property as string]: action.payload.filter,
       };
@@ -23,7 +23,7 @@ export const filterReducer = <TData>(state: FilterState<TData>, action: FilterAc
       };
     }
     case FilterActionType.UPDATE_FILTER_VALUE: {
-      const newFilters: Record<NestedKeyOf<TData, keyof TData>, Filter<TData>> = {
+      const newFilters: Record<NestedKeyOf<TData>, Filter<TData>> = {
         ...state.filters,
         [action.payload.property]: { ...state.filters[action.payload.property], value: action.payload.value },
       };
@@ -39,7 +39,7 @@ export const filterReducer = <TData>(state: FilterState<TData>, action: FilterAc
       );
       if (!initialFilterData) return { ...state };
 
-      const newFilters: Record<NestedKeyOf<TData, keyof TData>, Filter<TData>> = {
+      const newFilters: Record<NestedKeyOf<TData>, Filter<TData>> = {
         ...state.filters,
         [action.payload.property]: { ...initialFilterData },
       };

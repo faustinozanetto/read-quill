@@ -1,13 +1,13 @@
 import type { Filter, Sort } from '@modules/filters/hooks/use-filter-data';
-import type { AchievementWithProgress, UserAchievementWithAchievement } from '../types/achievements.types';
+import type { AchievementWithProgress, AchievementWithUserAchievement } from '../types/achievements.types';
 
-export const UN_LOCKED_ACHIEVEMENTS_INITIAL_FILTERS: Filter<UserAchievementWithAchievement>[] = [
-  { property: 'achievement.name', value: '', shouldEnable: (value) => value !== '' },
-  { property: 'achievement.criteria', value: [], shouldEnable: (value) => (value as string[]).length > 0 },
+export const UN_LOCKED_ACHIEVEMENTS_INITIAL_FILTERS: Filter<AchievementWithUserAchievement>[] = [
+  { property: 'name', value: '', shouldEnable: (value) => value !== '' },
+  { property: 'criteria', value: [], shouldEnable: (value) => (value as string[]).length > 0 },
   { property: 'unlockedAt', value: '', shouldEnable: (value) => value !== '' },
 ];
 
-export const UN_LOCKED_ACHIEVEMENTS_INITIAL_SORT: Sort<UserAchievementWithAchievement> = {
+export const UN_LOCKED_ACHIEVEMENTS_INITIAL_SORT: Sort<AchievementWithUserAchievement> = {
   property: 'unlockedAt',
   ascending: false,
 };

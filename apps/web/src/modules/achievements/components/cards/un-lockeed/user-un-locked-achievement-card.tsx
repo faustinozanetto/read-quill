@@ -8,30 +8,34 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@read-quill/design-system';
-import type { UserAchievementWithAchievement } from '@modules/achievements/types/achievements.types';
+import type { AchievementWithUserAchievement } from '@modules/achievements/types/achievements.types';
 import { ACHIEVEMENT_DISPLAY_CRITERIAS } from '@modules/achievements/lib/achievement.constants';
 
+/**
+ * Props for the UserUnLockedAchievementCard component.
+ */
 interface UserUnLockedAchievementCardProps {
-  userAchievement: UserAchievementWithAchievement;
+  /**
+   * Information about the unlocked achievement associated with the user.
+   */
+  userAchievement: AchievementWithUserAchievement;
 }
 
 const UserUnLockedAchievementCard: React.FC<UserUnLockedAchievementCardProps> = (props) => {
   const { userAchievement } = props;
 
-  const { achievement, unlockedAt } = userAchievement;
-
   return (
     <div className="rounded-lg border p-2.5 transition-transform hover:scale-[101%] shadow flex flex-col items-center justify-start text-center">
       <ThropyIcon className="w-14 h-14 sm:w-16 sm:h-16 bg-primary p-2 rounded-lg shadow-lg mb-1" />
-      <span className="font-bold uppercase block">{achievement.name}</span>
+      <span className="font-bold uppercase block">{userAchievement.name}</span>
 
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger className="flex gap-2 items-center justify-center mb-2">
             <CalendarIcon className="stroke-current" />
-            {unlockedAt ? (
+            {userAchievement.unlockedAt ? (
               <span className="font-medium text-sm">
-                {new Date(unlockedAt).toLocaleDateString('en-US', { dateStyle: 'medium' })}
+                {new Date(userAchievement.unlockedAt).toLocaleDateString('en-US', { dateStyle: 'medium' })}
               </span>
             ) : null}
           </TooltipTrigger>
@@ -39,9 +43,9 @@ const UserUnLockedAchievementCard: React.FC<UserUnLockedAchievementCardProps> = 
         </Tooltip>
       </TooltipProvider>
 
-      {achievement.criteria ? (
+      {userAchievement.criteria ? (
         <ul className="flex gap-1.5 my-auto justify-between items-center">
-          {Object.entries(achievement.criteria).map(([criteriaName, criteriaValue]) => (
+          {Object.entries(userAchievement.criteria).map(([criteriaName, criteriaValue]) => (
             <Badge key={criteriaName}>
               {ACHIEVEMENT_DISPLAY_CRITERIAS[criteriaName] || criteriaName} {criteriaValue}
             </Badge>

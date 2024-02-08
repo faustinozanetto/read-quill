@@ -9,9 +9,14 @@ import {
   SortAscIcon,
 } from '@read-quill/design-system';
 
+/**
+ * Props for the FiltersShell component.
+ */
 interface FiltersShellProps {
-  children: React.JSX.Element;
-  onRenderFilters: () => React.JSX.Element;
+  /** Content to be rendered as children of the FiltersShell component. */
+  children: React.ReactNode;
+  /** Function to render the filters. */
+  onRenderFilters: () => React.ReactNode;
 }
 
 const FiltersShell: React.FC<FiltersShellProps> = (props) => {

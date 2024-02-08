@@ -1,7 +1,7 @@
-import type { Achievement, UserAchievement } from '@read-quill/database';
+import type { Achievement } from '@read-quill/database';
 
-export interface UserAchievementWithAchievement extends UserAchievement {
-  achievement: Achievement;
+export interface AchievementWithUserAchievement extends Achievement {
+  unlockedAt: Date | null;
 }
 
 export interface AchievementWithProgress extends Achievement {

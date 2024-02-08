@@ -10,9 +10,15 @@ import {
 } from '@read-quill/design-system';
 import type { UseFilterActionsReturn } from '@modules/filters/hooks/use-filter-actions';
 
+/**
+ * Props for the FilterSection component.
+ */
 interface FilterSectionProps {
+  /** The title of the filter section. */
   title: string;
+  /** The content of the filter section. */
   children: React.ReactNode;
+  /** Function to reset the filter associated with this section. */
   onResetFilter: UseFilterActionsReturn<unknown>['resetFilter'];
 }
 
