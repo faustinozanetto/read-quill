@@ -35,7 +35,7 @@
     "eslint": "8.56.0",
     "prisma": "5.9.1",
     "rimraf": "5.0.5",
-    "@faker-js/faker": "8.4.0",
+    "@faker-js/faker": "8.4.1",
     "@read-quill/typescript-config": "*",
     "tsx": "4.7.0",
     "tsup": "8.0.1",
