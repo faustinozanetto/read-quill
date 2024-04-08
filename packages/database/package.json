@@ -37,7 +37,7 @@
     "rimraf": "5.0.5",
     "@faker-js/faker": "8.4.0",
     "@read-quill/typescript-config": "*",
-    "tsx": "4.7.0",
+    "tsx": "4.7.2",
     "tsup": "8.0.1",
     "typescript": "5.3.3"
   }
