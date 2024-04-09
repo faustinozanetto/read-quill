@@ -28,7 +28,7 @@ export async function GET(
       const roundedDate = new Date(
         Math.round(registryDate.getTime() / (groupSize * 60 * 1000)) * (groupSize * 60 * 1000)
       );
-      const key = `${roundedDate.getHours()}:${roundedDate.getMinutes()}`;
+      const key = `${String(roundedDate.getHours()).padStart(2, '0')}:${String(roundedDate.getMinutes()).padEnd(2, '0')}`;
 
       if (!acc[key]) {
         acc[key] = registry.pagesRead;

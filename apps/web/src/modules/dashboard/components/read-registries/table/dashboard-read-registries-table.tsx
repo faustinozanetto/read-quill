@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
-import { DataTableColumnHeader } from '@read-quill/design-system';
+import { DataTableColumnHeader, DataTableViewOptions } from '@read-quill/design-system';
 import type { ColumnDef, ColumnFiltersState, SortingState, VisibilityState } from '@tanstack/react-table';
 import { getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import { DataTable, DataTablePagination } from '@read-quill/design-system/src';
@@ -80,8 +80,11 @@ const DashboardReadRegistriesTable: React.FC = () => {
   });
 
   return (
-    <div className="space-y-2">
-      <DataTable table={table} />
+    <div className="flex flex-col gap-2 w-full">
+      <DataTableViewOptions table={table} />
+      <div className="max-h-[600px] overflow-y-auto">
+        <DataTable table={table} />
+      </div>
       <DataTablePagination pageSizes={[4, 8, 10, 16, 20]} table={table} />
     </div>
   );

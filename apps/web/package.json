@@ -52,7 +52,7 @@
     "@read-quill/tailwind-config": "workspace:*",
     "@read-quill/typescript-config": "workspace:*",
     "@types/node": "^20.10.6",
-    "@types/react": "^18.2.46",
+    "@types/react": "^18.2.0",
     "@types/jest": "29.5.12",
     "jsx-email": "1.10.9",
     "@types/react-dom": "^18.2.18",
