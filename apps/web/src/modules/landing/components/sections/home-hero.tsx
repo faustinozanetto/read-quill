@@ -12,7 +12,7 @@ const HomeHero: React.FC = () => {
       <div aria-hidden="true" className="absolute inset-0 left-1/2 -translate-x-1/2 transform">
         <div className="rounded-fulls h-[40rem] w-[60rem] origin-top-left -translate-x-[15rem] -rotate-12 bg-gradient-to-tl from-orange-300 via-yellow-100 to-orange-200 blur-3xl dark:from-orange-500/50 dark:via-yellow-600/50 dark:to-orange-400/40 " />
       </div>
-      <div className="mx-auto my-12 max-w-[85rem] px-4 sm:px-6 md:my-24 lg:my-40 lg:px-8">
+      <div className="mx-auto my-6 sm:my-12 max-w-[85rem] px-4 sm:px-6 md:my-24 lg:my-40 lg:px-8">
         <div className="relative z-10 grid gap-4 lg:grid-cols-2 lg:items-center md:gap-8 lg:gap-16">
           <div>
             <motion.h1

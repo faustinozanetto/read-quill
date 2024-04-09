@@ -49,3 +49,4 @@ export * from './file-icon';
 export * from './sort-asc-icon';
 export * from './sort-desc-icon';
 export * from './reset-icon';
+export * from './horizontal-bars-icon';
