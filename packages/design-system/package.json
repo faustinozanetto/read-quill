@@ -44,7 +44,7 @@
   },
   "peerDependencies": {
     "react": "^18.2.0",
-    "react-hook-form": "7.50.0",
+    "react-hook-form": "7.51.2",
     "@hookform/resolvers": "3.3.4",
     "@tanstack/react-table": "8.11.7",
     "framer-motion": "10.18.0",
