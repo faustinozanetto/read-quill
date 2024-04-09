@@ -28,17 +28,17 @@
     "studio": "prisma studio"
   },
   "dependencies": {
-    "@prisma/client": "5.9.1"
+    "@prisma/client": "5.12.1"
   },
   "devDependencies": {
     "@read-quill/eslint-config": "*",
-    "eslint": "8.56.0",
+    "eslint": "9.0.0",
     "prisma": "5.9.1",
     "rimraf": "5.0.5",
     "@faker-js/faker": "8.4.0",
     "@read-quill/typescript-config": "*",
-    "tsx": "4.7.0",
-    "tsup": "8.0.1",
+    "tsup": "8.0.2",
+    "tsx": "4.7.2",
     "typescript": "5.3.3"
   }
 }
