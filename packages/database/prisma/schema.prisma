@@ -38,6 +38,9 @@ model User {
   readTargets  ReadTargets?
   books        Book[]
   achievements UserAchievement[]
+
+  threads        Thread[]
+  threadComments ThreadComment[]
 }
 
 model ReadTargets {
@@ -117,4 +120,29 @@ model Achievement {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Thread {
+  id       String @id @default(cuid())
+  title    String
+  content  String
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+
+  comments ThreadComment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ThreadComment {
+  id      String @id @default(cuid())
+  content String
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+  thread   Thread @relation(fields: [threadId], references: [id])
+  threadId String
+
+  createdAt DateTime @default(now())
 }
