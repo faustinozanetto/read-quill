@@ -8,27 +8,25 @@ import type { UserBooksGetResponse } from '@modules/api/types/books-api.types';
 // /api/books/user GET : Gets the books of the user
 export async function GET(request: NextRequest): Promise<NextResponse<UserBooksGetResponse>> {
   try {
-    const session = await getServerSession(authOptions);
-
-    if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
-    }
-
     const { searchParams } = new URL(request.url);
 
     const pageIndex = Number.parseInt(searchParams.get('pageIndex') ?? '0');
     const pageSize = Number.parseInt(searchParams.get('pageSize') ?? '6');
+    const userId = searchParams.get('userId');
+    if (!userId) {
+      return new NextResponse('Missing userId', { status: 500 });
+    }
 
     // Paginate the books
     const books = await prisma.book.findMany({
-      where: { readerId: session.user.id },
+      where: { readerId: userId },
       skip: pageSize * pageIndex,
       take: pageSize,
     });
 
     // Fetch the total count of books
     const totalCount = await prisma.book.count({
-      where: { readerId: session.user.id },
+      where: { readerId: userId },
     });
 
     // Calculate the total number of pages for pagination

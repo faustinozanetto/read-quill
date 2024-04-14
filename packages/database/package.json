@@ -19,6 +19,7 @@
     "db:seed": "tsx src/seed-dummy.ts",
     "db:seed-achievements": "tsx src/seed-achievements.ts",
     "db:seed-community": "tsx src/seed-community.ts",
+    "db:seed-users": "tsx src/seed-users.ts",
     "build": "tsup",
     "dev": "tsup --watch",
     "format": "prisma format",

@@ -17,7 +17,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<CommunityT
       orderBy: {
         createdAt: 'desc',
       },
-      include: { author: true },
+      include: { author: { select: { name: true, image: true } } },
     });
 
     // Fetch the total count of threads

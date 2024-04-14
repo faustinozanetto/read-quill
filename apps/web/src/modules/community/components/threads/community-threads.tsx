@@ -16,7 +16,7 @@ const CommunityThreads: React.FC = () => {
     nextPage,
     previousPage,
     setPageIndex,
-  } = useCommunityThreads({ pageSize: 6 });
+  } = useCommunityThreads({ pageSize: 12 });
 
   return (
     <div className="flex w-full flex-col gap-2 p-4 rounded-lg shadow border">

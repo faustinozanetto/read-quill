@@ -1,5 +1,8 @@
 import { Thread, User } from '@read-quill/database';
 
 export interface ThreadWithAuthor extends Thread {
-  author: User;
+  author: {
+    name: User['name'];
+    image: User['image'];
+  };
 }

@@ -126,6 +126,7 @@ model Thread {
   id       String @id @default(cuid())
   title    String
   content  String
+  keywords String
   author   User   @relation(fields: [authorId], references: [id])
   authorId String
 

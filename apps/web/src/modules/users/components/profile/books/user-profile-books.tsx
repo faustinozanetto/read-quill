@@ -6,9 +6,11 @@ import { __URL__ } from '@modules/common/lib/common.constants';
 import BookCardPlaceholder from '@modules/books/components/cards/book-card-placeholder';
 import { useUserBooks } from '@modules/books/hooks/use-user-books';
 import UserProfileBooksHeader from './user-profile-books-header';
+import { useParams } from 'next/navigation';
 
 const UserProfileBooks: React.FC = () => {
-  const { data, isFetching, isLoading } = useUserBooks({ pageSize: 6 });
+  const params = useParams<{ userId: string }>();
+  const { data, isFetching, isLoading } = useUserBooks({ pageSize: 6, userId: params.userId });
 
   return (
     <div className="flex flex-col gap-2 rounded-lg p-4 shadow border">
