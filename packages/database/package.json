@@ -18,6 +18,7 @@
     "db:push": "prisma db push",
     "db:seed": "tsx src/seed-dummy.ts",
     "db:seed-achievements": "tsx src/seed-achievements.ts",
+    "db:seed-community": "tsx src/seed-community.ts",
     "build": "tsup",
     "dev": "tsup --watch",
     "format": "prisma format",
