@@ -39,7 +39,7 @@
     "date-fns": "3.6.0",
     "cmdk": "1.0.0",
     "tailwind-merge": "2.2.2",
-    "clsx": "2.1.0",
+    "clsx": "2.1.1",
     "class-variance-authority": "0.7.0"
   },
   "peerDependencies": {
