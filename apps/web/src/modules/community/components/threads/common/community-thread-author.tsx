@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { ThreadWithAuthor } from '@modules/community/types/community.types';
+import { ThreadWithDetails } from '@modules/community/types/community.types';
 import Image from 'next/image';
 
 interface CommunityThreadAuthorProps {
-  author: ThreadWithAuthor['author'];
+  author: ThreadWithDetails['author'];
 }
 
 const CommunityThreadAuthor: React.FC<CommunityThreadAuthorProps> = (props) => {

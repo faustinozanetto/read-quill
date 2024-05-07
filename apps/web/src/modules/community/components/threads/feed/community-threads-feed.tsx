@@ -1,9 +1,9 @@
 import React from 'react';
 import CommunityThreadCard from '../card/community-thread-card';
-import { ThreadWithAuthor } from '@modules/community/types/community.types';
+import { ThreadWithDetails } from '@modules/community/types/community.types';
 
 interface CommunityThreadsFeedProps {
-  threads: ThreadWithAuthor[];
+  threads: ThreadWithDetails[];
 }
 
 const CommunityThreadsFeed: React.FC<CommunityThreadsFeedProps> = (props) => {

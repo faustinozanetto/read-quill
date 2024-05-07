@@ -1,12 +1,12 @@
 import React from 'react';
 import CommunityThreadCreatedAt from '../common/community-thread-created-at';
 import CommunityThreadAuthor from '../common/community-thread-author';
-import { ThreadWithAuthor } from '@modules/community/types/community.types';
+import { ThreadWithDetails } from '@modules/community/types/community.types';
 import Link from 'next/link';
 import CommunityThreadKeywords from '../common/community-thread-keywords';
 
 interface CommunityThreadCardProps {
-  thread: ThreadWithAuthor;
+  thread: ThreadWithDetails;
 }
 
 const CommunityThreadCard: React.FC<CommunityThreadCardProps> = (props) => {
@@ -24,7 +24,12 @@ const CommunityThreadCard: React.FC<CommunityThreadCardProps> = (props) => {
           <CommunityThreadCreatedAt createdAt={thread.createdAt} />
         </div>
       </div>
-      <CommunityThreadKeywords keywords={thread.keywords} />
+      <div className="flex flex-col sm:flex-row sm:items-center gap-1 mb-1.5">
+        <CommunityThreadKeywords keywords={thread.keywords} />
+        <span className="ml-auto">
+          <strong>{thread.commentsCount}</strong> comments
+        </span>
+      </div>
       <p className="line-clamp-2 text-sm md:text-base mt-0.5">{thread.content}</p>
     </Link>
   );

@@ -3,10 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
 import { useToast } from '@read-quill/design-system/src';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import type { UserBooksGetResponse } from '@modules/api/types/books-api.types';
+import { ThreadsCommunityGetResponse } from '@modules/api/types/community-api.types';
 
-export interface UseUserBooksReturn
-  extends Pick<DefinedUseQueryResult<UserBooksGetResponse>, 'data' | 'isLoading' | 'isFetching'> {
+export interface UseThreadCommentsReturn
+  extends Pick<DefinedUseQueryResult<ThreadsCommunityGetResponse>, 'data' | 'isLoading' | 'isFetching'> {
   page: number;
   setPageIndex: (index: number) => void;
   nextPage: () => void;
@@ -15,44 +15,47 @@ export interface UseUserBooksReturn
   getCanNextPage: () => boolean;
 }
 
-interface UseUserBooksParams {
+interface UseThreadCommentsParams {
   pageSize: number;
-  userId: string;
+  threadId: string;
 }
 
-const buildUrl = (page: number, pageSize: number, userId: string): string => {
-  const url = new URL('/api/books/user', __URL__);
+const buildUrl = (threadId: string, page: number, pageSize: number): string => {
+  const url = new URL('/api/community/thread/comments', __URL__);
+  url.searchParams.set('threadId', threadId);
   url.searchParams.set('pageIndex', String(page));
   url.searchParams.set('pageSize', String(pageSize));
-  url.searchParams.set('userId', userId);
   return url.toString();
 };
 
-export const useUserBooks = (params: UseUserBooksParams): UseUserBooksReturn => {
-  const { pageSize, userId } = params;
+export const useThreadComments = (params: UseThreadCommentsParams): UseThreadCommentsReturn => {
+  const { pageSize, threadId } = params;
 
   const { toast } = useToast();
 
   const [page, setPage] = useState(0);
 
-  const { data, isLoading, isFetching, isPreviousData } = useQuery<UserBooksGetResponse>(['user-books', page, userId], {
-    initialData: { books: [], hasMore: false, pageCount: 0 },
-    keepPreviousData: true,
-    queryFn: async () => {
-      try {
-        const url = buildUrl(page, pageSize, userId);
-        const response = await fetch(url, { method: 'GET' });
+  const { data, isLoading, isFetching, isPreviousData } = useQuery<ThreadsCommunityGetResponse>(
+    ['thread-comments', page, threadId],
+    {
+      initialData: { threads: [], hasMore: false, pageCount: 0 },
+      keepPreviousData: true,
+      queryFn: async () => {
+        try {
+          const url = buildUrl(threadId, page, pageSize);
+          const response = await fetch(url, { method: 'GET' });
 
-        if (!response.ok) {
-          throw new Error('Failed to fetch user books!');
+          if (!response.ok) {
+            throw new Error('Failed to fetch thread comments!');
+          }
+
+          return response.json();
+        } catch (error) {
+          toast({ variant: 'error', content: 'Failed to fetch thread comments!' });
         }
-
-        return response.json();
-      } catch (error) {
-        toast({ variant: 'error', content: 'Failed to fetch user books!' });
-      }
-    },
-  });
+      },
+    }
+  );
 
   const previousPage = useCallback(() => {
     setPage((old) => Math.max(old - 1, 0));

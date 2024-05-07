@@ -3,10 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
 import { useToast } from '@read-quill/design-system/src';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import { CommunityThreadsGetResponse } from '@modules/api/types/community-api.types';
+import { ThreadsCommunityGetResponse } from '@modules/api/types/community-api.types';
 
 export interface UseCommunityThreadsReturn
-  extends Pick<DefinedUseQueryResult<CommunityThreadsGetResponse>, 'data' | 'isLoading' | 'isFetching'> {
+  extends Pick<DefinedUseQueryResult<ThreadsCommunityGetResponse>, 'data' | 'isLoading' | 'isFetching'> {
   page: number;
   setPageIndex: (index: number) => void;
   nextPage: () => void;
@@ -33,7 +33,7 @@ export const useCommunityThreads = (params: UseCommunityThreadsParams = { pageSi
 
   const [page, setPage] = useState(0);
 
-  const { data, isLoading, isFetching, isPreviousData } = useQuery<CommunityThreadsGetResponse>(
+  const { data, isLoading, isFetching, isPreviousData } = useQuery<ThreadsCommunityGetResponse>(
     ['community-threads', page],
     {
       initialData: { threads: [], hasMore: false, pageCount: 0 },
