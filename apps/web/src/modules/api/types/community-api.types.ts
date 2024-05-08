@@ -15,3 +15,7 @@ export interface ThreadCommentsGetResponse {
   pageCount: number;
   hasMore: boolean;
 }
+
+export interface ThreadCommentPostResponse {
+  success: true;
+}

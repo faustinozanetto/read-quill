@@ -41,7 +41,13 @@ const CommunityThreadComment: React.FC<CommunityThreadCommentProps> = (props) =>
                   {comment.author.name}
                 </Link>
                 <span className="text-sm">
-                  {new Date(comment.createdAt).toLocaleDateString('en-US', { dateStyle: 'medium' })}
+                  {new Date(comment.createdAt).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: 'numeric',
+                    minute: 'numeric',
+                  })}
                 </span>
               </div>
               <p className="text-sm">{comment.content}</p>

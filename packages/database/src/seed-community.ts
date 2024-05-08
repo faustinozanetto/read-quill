@@ -1,28 +1,33 @@
 import { faker } from '@faker-js/faker';
-import { ThreadComment, prisma } from '.';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 async function createComments(
   threadId: string,
   parentCommentId: string | null = null,
-  depth: number = 0
+  depth: number = 0,
+  parentCreatedAt: Date
 ): Promise<void> {
   const users = await prisma.user.findMany();
-  const numComments = parentCommentId === null ? Math.floor(Math.random() * 3) + 1 : Math.floor(Math.random() * 3) + 1; // Ensure at least 1 reply for level 0 comments
+  const numComments = parentCommentId === null ? Math.floor(Math.random() * 4) + 1 : Math.floor(Math.random() * 3) + 1; // Ensure at least 1 reply for level 0 comments
 
   for (let i = 0; i < numComments; i++) {
-    const replyAuthor = users[Math.floor(Math.random() * users.length)];
-    const reply = await prisma.threadComment.create({
+    const commentAuthor = users[Math.floor(Math.random() * users.length)];
+    const createdAt = faker.date.between({ from: parentCreatedAt, to: new Date() });
+    const comment = await prisma.threadComment.create({
       data: {
         content: faker.lorem.paragraph(),
-        author: { connect: { id: replyAuthor.id } },
+        author: { connect: { id: commentAuthor.id } },
         thread: { connect: { id: threadId } },
         replyTo: parentCommentId ? { connect: { id: parentCommentId } } : undefined,
+        createdAt,
       },
     });
 
     // Recursively create further replies
     if (depth > 0) {
-      await createComments(threadId, reply.id, depth - 1);
+      await createComments(threadId, comment.id, depth - 1, createdAt);
     }
   }
 }
@@ -32,9 +37,9 @@ void (async () => {
     const users = await prisma.user.findMany();
 
     await Promise.all(
-      Array.from({ length: 5 }).map(async () => {
+      Array.from({ length: 35 }).map(async () => {
         const user = users[Math.floor(Math.random() * users.length)]; // Pick a random user
-        const createdAt = faker.date.between({ from: faker.date.recent(120), to: new Date() });
+        const threadCreatedAt = faker.date.between({ from: faker.date.recent({ days: 120 }), to: new Date() });
         const numKeywords = Math.floor(Math.random() * 5) + 2; // Generate a random number of keywords (2 to 6)
 
         const keywords = Array.from({ length: numKeywords })
@@ -46,13 +51,13 @@ void (async () => {
             title: faker.lorem.words(5),
             content: faker.lorem.paragraphs(3),
             authorId: user.id,
-            createdAt,
+            createdAt: threadCreatedAt,
             keywords,
           },
         });
 
         // Create comments for the thread
-        await createComments(thread.id, null, 3);
+        await createComments(thread.id, null, 3, threadCreatedAt);
       })
     );
   } catch (error) {

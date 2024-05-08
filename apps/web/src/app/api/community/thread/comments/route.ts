@@ -16,6 +16,7 @@ async function buildCommentsTree(
     skip,
     take: pageSize,
     include: { author: { select: { id: true, name: true, image: true } } },
+    orderBy: { createdAt: 'asc' },
   });
 
   const commentNodes: ThreadCommentNode[] = await Promise.all(
@@ -25,7 +26,12 @@ async function buildCommentsTree(
     })
   );
 
-  return commentNodes;
+  // Sort comments and their replies by creation date in ascending order
+  const sortedCommentNodes = commentNodes.sort((a, b) => {
+    return new Date(b.comment.createdAt).getTime() - new Date(a.comment.createdAt).getTime();
+  });
+
+  return sortedCommentNodes;
 }
 
 // /api/community/thread/comments GET : Gets the comments of a thread
@@ -43,7 +49,6 @@ export async function GET(request: NextRequest): Promise<NextResponse<ThreadComm
 
     // Build the comments tree
     const commentsTree = await buildCommentsTree(threadId, null, pageIndex, pageSize);
-    const sortedTree = commentsTree.sort((a, b) => (a.replies.length > b.replies.length ? -1 : 1));
 
     // Fetch the total count of threads
     const totalCount = await prisma.threadComment.count({ where: { threadId } });
@@ -52,7 +57,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<ThreadComm
     const pageCount = Math.ceil(totalCount / pageSize);
     const hasMore = pageIndex < pageCount - 1;
 
-    return NextResponse.json({ comments: sortedTree, pageCount, hasMore });
+    return NextResponse.json({ comments: commentsTree, pageCount, hasMore });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;

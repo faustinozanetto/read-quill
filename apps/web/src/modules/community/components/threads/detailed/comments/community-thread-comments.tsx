@@ -4,6 +4,7 @@ import React from 'react';
 import { ThreadWithDetails } from '@modules/community/types/community.types.ts';
 import { useThreadComments } from '@modules/community/hooks/use-thread-comments.ts';
 import CommunityThreadComment from './community-thread-comment';
+import CommunityThreadWriteComment from './write/community-thread-write-comment';
 
 interface CommunityThreadCommentsProps {
   thread: ThreadWithDetails;
@@ -19,6 +20,8 @@ const CommunityThreadComments: React.FC<CommunityThreadCommentsProps> = (props) 
       <div className="p-4 border rounded-lg shadow flex flex-col">
         <h3 className="text-xl font-bold">Comments</h3>
       </div>
+
+      <CommunityThreadWriteComment threadId={thread.id} />
 
       <div>
         {data && data.comments && data.comments.length > 0 && (
