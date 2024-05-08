@@ -1,16 +1,15 @@
 import { prisma } from '@read-quill/database';
-import { getServerSession } from 'next-auth';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { authOptions } from '@modules/auth/lib/auth.lib';
 import type { DashboardReadInsightsTimeDistributionGetResponse } from '@modules/api/types/dashboard-api.types';
+import { auth } from 'auth';
 
 // /api/dashboard/read-insights/time-distribution GET : Gets the read time distribution of the user.
 export async function GET(
   request: NextRequest
 ): Promise<NextResponse<DashboardReadInsightsTimeDistributionGetResponse>> {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) {
       return new NextResponse('Unauthorized', { status: 403 });

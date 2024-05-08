@@ -1,5 +1,4 @@
 import { prisma } from '@read-quill/database';
-import { getServerSession } from 'next-auth';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -8,12 +7,12 @@ import {
   deleteReadRegistryValidationSchema,
   editReadRegistryValidationSchema,
 } from '@modules/dashboard/validations/dashboard.validations';
-import { authOptions } from '@modules/auth/lib/auth.lib';
+import { auth } from 'auth';
 
 // /api/dashboard/read-registries GET : Gets the read registries
 export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) {
       return new NextResponse('Unauthorized', { status: 403 });
@@ -51,7 +50,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
 // /api/dashboard/read-registries POST : Creates a read registry
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) {
       return new NextResponse('Unauthorized', { status: 403 });
@@ -80,7 +79,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 // /api/dashboard/read-registries PATCH : Edits a read registry
 export async function PATCH(request: NextRequest): Promise<NextResponse> {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) {
       return new NextResponse('Unauthorized', { status: 403 });
@@ -109,7 +108,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
 // /api/dashboard/read-registries DELETE : Deletes a read registry
 export async function DELETE(request: NextRequest): Promise<NextResponse> {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) {
       return new NextResponse('Unauthorized', { status: 403 });

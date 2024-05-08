@@ -1,11 +1,10 @@
 import React from 'react';
 import LandingFooter from '@modules/landing/components/footer/landing-footer';
 import LandingNavbar from '@modules/landing/components/navbar/landing-navbar';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@modules/auth/lib/auth.lib';
+import { auth } from 'auth';
 
 export default async function LandingLayout({ children }: { children: React.ReactNode }): Promise<React.JSX.Element> {
-  const session = await getServerSession(authOptions);
+  const session = await auth();
 
   return (
     <div className="flex min-h-screen flex-col">

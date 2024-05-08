@@ -17,5 +17,13 @@ export interface ThreadCommentsGetResponse {
 }
 
 export interface ThreadCommentPostResponse {
-  success: true;
+  success: boolean;
+}
+
+export interface ThreadCommentPatchResponse {
+  success: boolean;
+}
+
+export interface ThreadCommentDeleteResponse {
+  success: boolean;
 }

@@ -1,7 +1,11 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createThreadCommentValidationBaseSchema } from '@modules/community/validations/community.validations';
+import { ThreadCommentWithAuthor } from '@modules/community/types/community.types';
+import {
+  createThreadCommentValidationBaseSchema,
+  editThreadCommentValidationBaseSchema,
+} from '@modules/community/validations/community.validations';
 import {
   Button,
   Form,
@@ -19,20 +23,23 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-export type CommunityThreadWriteCommentFormData = z.infer<typeof createThreadCommentValidationBaseSchema>;
+export type CommunityThreadEditCommentFormData = z.infer<typeof editThreadCommentValidationBaseSchema>;
 
-interface CommunityThreadWriteCommentFormProps {
-  onSubmit: (data: CommunityThreadWriteCommentFormData) => void;
+interface CommunityThreadCommentManagementEditFormProps {
+  comment: ThreadCommentWithAuthor;
+  onSubmit: (data: CommunityThreadEditCommentFormData) => void;
 }
 
-const CommunityThreadWriteCommentForm: React.FC<CommunityThreadWriteCommentFormProps> = (props) => {
-  const { onSubmit } = props;
+const CommunityThreadCommentManagementEditForm: React.FC<CommunityThreadCommentManagementEditFormProps> = (props) => {
+  const { comment, onSubmit } = props;
 
-  const form = useForm<CommunityThreadWriteCommentFormData>({
+  const form = useForm<CommunityThreadEditCommentFormData>({
     resolver: zodResolver(createThreadCommentValidationBaseSchema),
     mode: 'onBlur',
+    defaultValues: {
+      content: comment.content,
+    },
   });
-
   const isFormLoading = form.formState.isSubmitting;
 
   return (
@@ -52,17 +59,17 @@ const CommunityThreadWriteCommentForm: React.FC<CommunityThreadWriteCommentFormP
           )}
         />
         <Button
-          aria-label="Post Comment"
+          aria-label="Edit Comment"
           className={cn('sm:ml-auto', isFormLoading && 'cursor-not-allowed')}
           disabled={isFormLoading}
           type="submit"
         >
           {isFormLoading ? <LoadingIcon className="mr-2" /> : <PencilIcon className="mr-2" />}
-          Post
+          Edit
         </Button>
       </form>
     </Form>
   );
 };
 
-export default CommunityThreadWriteCommentForm;
+export default CommunityThreadCommentManagementEditForm;

@@ -3,6 +3,8 @@ import { ThreadCommentNode } from '@modules/community/types/community.types';
 import CommunityThreadAuthorAvatar from '../../common/community-thread-author-avatar';
 import Link from 'next/link';
 import { cn } from '@read-quill/design-system';
+import { useSession } from 'next-auth/react';
+import CommunityThreadCommentManagement from './management/community-thread-comment-management';
 
 const REPLIES_SPACING_PX = 8;
 
@@ -17,15 +19,23 @@ const CommunityThreadComment: React.FC<CommunityThreadCommentProps> = (props) =>
   const { commentNode, depth = 0, isDepthZeroLastReply = false, isRecursiveDepthLastReply = false } = props;
   const { comment, replies } = commentNode;
 
+  const { data: session } = useSession();
   const [lastReplyHeight, setLastReplyHeight] = useState<number | null>(null);
 
   return (
     <div
-      className="flex flex-col"
+      className="flex flex-col relative"
       style={{
         gap: `${REPLIES_SPACING_PX}px`,
       }}
     >
+      {/* Management */}
+      {session?.user.id === commentNode.comment.author.id && (
+        <div className="absolute top-2 right-2 z-10">
+          <CommunityThreadCommentManagement comment={commentNode.comment} />
+        </div>
+      )}
+
       {comment.author && (
         <div className="relative">
           <div

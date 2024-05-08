@@ -1,13 +1,12 @@
 import { prisma } from '@read-quill/database';
-import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
-import { authOptions } from '@modules/auth/lib/auth.lib';
 import type { DashboardReadActivityGetResponse } from '@modules/api/types/dashboard-api.types';
+import { auth } from 'auth';
 
 // /api/dashboard/read-activity GET : Gets the user read activity
 export async function GET(): Promise<NextResponse<DashboardReadActivityGetResponse>> {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) {
       return new NextResponse('Unauthorized', { status: 403 });

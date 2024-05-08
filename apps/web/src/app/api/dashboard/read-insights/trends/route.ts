@@ -1,12 +1,11 @@
 import type { ReadRegistry } from '@read-quill/database';
 import { prisma } from '@read-quill/database';
-import { getServerSession } from 'next-auth';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { startOfMonth, sub } from 'date-fns';
-import { authOptions } from '@modules/auth/lib/auth.lib';
 import type { DashboardReadInsightsReadTrendsIntervalType } from '@modules/dashboard/types/dashboard.types';
 import type { DashboardReadInsightsTrendsGetResponse } from '@modules/api/types/dashboard-api.types';
+import { auth } from 'auth';
 
 const sortTrendsByDate = (trends: Record<string, ReadRegistry[]>): { date: string; registries: ReadRegistry[] }[] => {
   const sortedTrends: { date: string; registries: ReadRegistry[] }[] = Object.keys(trends)
@@ -19,7 +18,7 @@ const sortTrendsByDate = (trends: Record<string, ReadRegistry[]>): { date: strin
 // /api/dashboard/read-insights/trends GET : Gets the read trends of the user
 export async function GET(request: NextRequest): Promise<NextResponse<DashboardReadInsightsTrendsGetResponse>> {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) {
       return new NextResponse('Unauthorized', { status: 403 });

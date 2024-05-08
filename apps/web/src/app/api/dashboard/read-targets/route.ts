@@ -1,5 +1,4 @@
 import { prisma } from '@read-quill/database';
-import { getServerSession } from 'next-auth';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -7,13 +6,13 @@ import {
   createReadTargetsValidationSchema,
   editReadTargetsValidationSchema,
 } from '@modules/dashboard/validations/dashboard.validations';
-import { authOptions } from '@modules/auth/lib/auth.lib';
 import type { DashboardReadTargetsGetResponse } from '@modules/api/types/dashboard-api.types';
+import { auth } from 'auth';
 
 // /api/dashboard/read-targets GET : Gets the read targets of the user
 export async function GET(): Promise<NextResponse<DashboardReadTargetsGetResponse | { message: string }>> {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) {
       return new NextResponse('Unauthorized', { status: 403 });
@@ -80,7 +79,7 @@ export async function GET(): Promise<NextResponse<DashboardReadTargetsGetRespons
 // /api/dashboard/read-targets POST : Creates the read targets for the user
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) {
       return new NextResponse('Unauthorized', { status: 403 });
@@ -117,7 +116,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 // /api/dashboard/read-targets PATCH : Updates the read targets for the user
 export async function PATCH(request: NextRequest): Promise<NextResponse> {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) {
       return new NextResponse('Unauthorized', { status: 403 });
