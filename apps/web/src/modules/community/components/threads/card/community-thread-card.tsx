@@ -1,6 +1,6 @@
 import React from 'react';
 import CommunityThreadCreatedAt from '../common/community-thread-created-at';
-import CommunityThreadAuthor from '../common/community-thread-author';
+import CommunityThreadAuthorAvatar from '../common/community-thread-author-avatar';
 import { ThreadWithDetails } from '@modules/community/types/community.types';
 import Link from 'next/link';
 import CommunityThreadKeywords from '../common/community-thread-keywords';
@@ -18,7 +18,7 @@ const CommunityThreadCard: React.FC<CommunityThreadCardProps> = (props) => {
       className="p-4 border rounded-lg shadow hover:scale-[101%] transition-transform"
     >
       <div className="flex gap-2 items-center mb-1">
-        <CommunityThreadAuthor author={thread.author} />
+        <CommunityThreadAuthorAvatar author={thread.author} />
         <div>
           <h3 className="font-bold">{thread.title}</h3>
           <CommunityThreadCreatedAt createdAt={thread.createdAt} />

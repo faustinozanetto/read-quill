@@ -1,5 +1,4 @@
-import { ThreadComment } from '@read-quill/database';
-import { ThreadWithDetails } from '@modules/community/types/community.types';
+import { ThreadCommentNode, ThreadWithDetails } from '@modules/community/types/community.types';
 
 export interface ThreadsCommunityGetResponse {
   threads: ThreadWithDetails[];
@@ -12,7 +11,7 @@ export interface ThreadsGetResponse {
 }
 
 export interface ThreadCommentsGetResponse {
-  comments: ThreadComment[];
+  comments: ThreadCommentNode[];
   pageCount: number;
   hasMore: boolean;
 }

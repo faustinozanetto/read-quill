@@ -19,7 +19,7 @@ const CommunityThreads: React.FC = () => {
   } = useCommunityThreads({ pageSize: 12 });
 
   return (
-    <div className="flex w-full flex-col gap-2 p-4 rounded-lg shadow border">
+    <div className="flex w-full flex-col p-4 rounded-lg shadow border">
       <CommunityThreadsHeader />
 
       <CommunityThreadsFeed threads={data.threads} />

@@ -18,7 +18,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<ThreadsCom
       orderBy: {
         createdAt: 'desc',
       },
-      include: { author: { select: { name: true, image: true } }, comments: { select: { id: true } } },
+      include: { author: { select: { id: true, name: true, image: true } }, comments: { select: { id: true } } },
     });
 
     // Fetch the total count of threads

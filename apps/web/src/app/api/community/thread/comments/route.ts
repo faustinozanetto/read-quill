@@ -2,6 +2,31 @@ import { prisma } from '@read-quill/database';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { ThreadCommentsGetResponse } from '@modules/api/types/community-api.types';
+import { ThreadCommentNode } from '@modules/community/types/community.types';
+
+async function buildCommentsTree(
+  threadId: string,
+  replyToId: string | null = null,
+  pageIndex: number,
+  pageSize: number
+): Promise<ThreadCommentNode[]> {
+  const skip = pageSize * pageIndex;
+  const threadComments = await prisma.threadComment.findMany({
+    where: { threadId, replyToId },
+    skip,
+    take: pageSize,
+    include: { author: { select: { id: true, name: true, image: true } } },
+  });
+
+  const commentNodes: ThreadCommentNode[] = await Promise.all(
+    threadComments.map(async (comment) => {
+      const replies = await buildCommentsTree(threadId, comment.id, pageIndex, pageSize);
+      return { comment, replies };
+    })
+  );
+
+  return commentNodes;
+}
 
 // /api/community/thread/comments GET : Gets the comments of a thread
 export async function GET(request: NextRequest): Promise<NextResponse<ThreadCommentsGetResponse>> {
@@ -16,15 +41,9 @@ export async function GET(request: NextRequest): Promise<NextResponse<ThreadComm
     const pageIndex = Number.parseInt(searchParams.get('pageIndex') ?? '0');
     const pageSize = Number.parseInt(searchParams.get('pageSize') ?? '6');
 
-    // Paginate the threads
-    const threadComments = await prisma.threadComment.findMany({
-      where: { threadId },
-      skip: pageSize * pageIndex,
-      take: pageSize,
-      orderBy: {
-        createdAt: 'desc',
-      },
-    });
+    // Build the comments tree
+    const commentsTree = await buildCommentsTree(threadId, null, pageIndex, pageSize);
+    const sortedTree = commentsTree.sort((a, b) => (a.replies.length > b.replies.length ? -1 : 1));
 
     // Fetch the total count of threads
     const totalCount = await prisma.threadComment.count({ where: { threadId } });
@@ -33,7 +52,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<ThreadComm
     const pageCount = Math.ceil(totalCount / pageSize);
     const hasMore = pageIndex < pageCount - 1;
 
-    return NextResponse.json({ comments: threadComments, pageCount, hasMore });
+    return NextResponse.json({ comments: sortedTree, pageCount, hasMore });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;

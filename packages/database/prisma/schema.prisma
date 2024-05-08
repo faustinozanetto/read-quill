@@ -142,8 +142,13 @@ model ThreadComment {
 
   author   User   @relation(fields: [authorId], references: [id])
   authorId String
+
   thread   Thread @relation(fields: [threadId], references: [id])
   threadId String
+
+  replyToId String?
+  replyTo   ThreadComment?  @relation("ThreadCommentReplies", fields: [replyToId], references: [id])
+  replies   ThreadComment[] @relation("ThreadCommentReplies")
 
   createdAt DateTime @default(now())
 }

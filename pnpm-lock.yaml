@@ -77,6 +77,9 @@ importers:
       apexcharts:
         specifier: 3.45.2
         version: 3.45.2
+      class-variance-authority:
+        specifier: 0.7.0
+        version: 0.7.0
       date-fns:
         specifier: 3.3.1
         version: 3.3.1

@@ -3,10 +3,10 @@ import { useQuery } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
 import { useToast } from '@read-quill/design-system/src';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import { ThreadsCommunityGetResponse } from '@modules/api/types/community-api.types';
+import { ThreadCommentsGetResponse } from '@modules/api/types/community-api.types';
 
 export interface UseThreadCommentsReturn
-  extends Pick<DefinedUseQueryResult<ThreadsCommunityGetResponse>, 'data' | 'isLoading' | 'isFetching'> {
+  extends Pick<DefinedUseQueryResult<ThreadCommentsGetResponse>, 'data' | 'isLoading' | 'isFetching'> {
   page: number;
   setPageIndex: (index: number) => void;
   nextPage: () => void;
@@ -35,10 +35,10 @@ export const useThreadComments = (params: UseThreadCommentsParams): UseThreadCom
 
   const [page, setPage] = useState(0);
 
-  const { data, isLoading, isFetching, isPreviousData } = useQuery<ThreadsCommunityGetResponse>(
+  const { data, isLoading, isFetching, isPreviousData } = useQuery<ThreadCommentsGetResponse>(
     ['thread-comments', page, threadId],
     {
-      initialData: { threads: [], hasMore: false, pageCount: 0 },
+      initialData: { comments: [], hasMore: false, pageCount: 0 },
       keepPreviousData: true,
       queryFn: async () => {
         try {

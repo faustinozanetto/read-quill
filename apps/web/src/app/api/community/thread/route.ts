@@ -16,7 +16,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<ThreadsGet
 
     const thread = await prisma.thread.findUnique({
       where: { id: threadId },
-      include: { author: { select: { name: true, image: true } }, comments: { select: { id: true } } },
+      include: { author: { select: { id: true, name: true, image: true } }, comments: { select: { id: true } } },
     });
 
     if (!thread) {
