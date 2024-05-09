@@ -27,3 +27,7 @@ export interface ThreadCommentPatchResponse {
 export interface ThreadCommentDeleteResponse {
   success: boolean;
 }
+
+export interface ThreadCommentReplyPostResponse {
+  success: boolean;
+}

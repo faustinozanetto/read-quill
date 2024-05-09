@@ -62,7 +62,7 @@
 
   @media (min-width: 640px) {
     .testimonials-items::before {
-        content: "" !important;
+      content: '' !important;
     }
   }
 
@@ -82,7 +82,7 @@
     0% {
       transform: translateZ(0) translate(0);
     }
-    100%{
+    100% {
       transform: translateZ(0) translate(-50%);
     }
   }

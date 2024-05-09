@@ -41,7 +41,7 @@ const CommunityThreadPage: React.FC<CommunityThreadPageProps> = (props) => {
     },
   });
 
-  return <div className="container my-4">{thread && <CommunityThread thread={thread} />}</div>;
+  return <div className="container mt-4">{thread && <CommunityThread thread={thread} />}</div>;
 };
 
 export default CommunityThreadPage;

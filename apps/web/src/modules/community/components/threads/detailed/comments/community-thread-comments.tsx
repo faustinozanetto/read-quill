@@ -23,24 +23,24 @@ const CommunityThreadComments: React.FC<CommunityThreadCommentsProps> = (props) 
       </div>
       <CommunityThreadWriteComment />
       {data && data.comments && data.comments.length > 0 && (
-        <Virtuoso
-          style={{ height: 650 }}
-          totalCount={data.comments.length}
-          data={data.comments}
-          itemContent={(index, commentNode) => (
-            <CommunityThreadComment key={commentNode.comment.id} commentNode={commentNode} />
-          )}
-          components={{
-            List: React.forwardRef((props, ref) => {
-              return <div {...props} className="space-y-1.5 mr-2" ref={ref} />;
-            }),
-          }}
-        />
-        // <div className="space-y-1.5">
-        //   {data.comments.map((commentNode) => (
+        // <Virtuoso
+        //   style={{ height: 900 }}
+        //   totalCount={data.comments.length}
+        //   data={data.comments}
+        //   itemContent={(index, commentNode) => (
         //     <CommunityThreadComment key={commentNode.comment.id} commentNode={commentNode} />
-        //   ))}
-        // </div>
+        //   )}
+        //   components={{
+        //     List: React.forwardRef((props, ref) => {
+        //       return <div {...props} className="space-y-1.5 mr-2" ref={ref} />;
+        //     }),
+        //   }}
+        // />
+        <div className="space-y-1.5">
+          {data.comments.map((commentNode) => (
+            <CommunityThreadComment key={commentNode.comment.id} commentNode={commentNode} />
+          ))}
+        </div>
       )}
       {data && data.comments && data.comments.length === 0 && <p>This thread has no comments, be the first one!</p>}
     </div>

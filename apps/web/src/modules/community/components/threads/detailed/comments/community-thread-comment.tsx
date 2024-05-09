@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { cn } from '@read-quill/design-system';
 import { useSession } from 'next-auth/react';
 import CommunityThreadCommentManagement from './management/community-thread-comment-management';
+import CommunityThreadReplyComment from './reply/community-thread-reply-comment';
 
 const REPLIES_SPACING_PX = 8;
 
@@ -29,25 +30,14 @@ const CommunityThreadComment: React.FC<CommunityThreadCommentProps> = (props) =>
         gap: `${REPLIES_SPACING_PX}px`,
       }}
     >
-      {/* Management */}
-      {session?.user.id === commentNode.comment.author.id && (
-        <div className="absolute top-2 right-2 z-10">
-          <CommunityThreadCommentManagement comment={commentNode.comment} />
-        </div>
-      )}
-
-      {comment.author && (
-        <div className="relative">
-          <div
-            className="p-2 border rounded-lg shadow flex"
-            style={{
-              gap: `${REPLIES_SPACING_PX}px`,
-            }}
-          >
-            <CommunityThreadAuthorAvatar author={comment.author} size="sm" />
-            <div>
-              <div className="space-x-2">
-                <Link href={`/users/${comment.author.id}`} className="font-medium">
+      <div className="relative">
+        <div className="py-2.5 px-4 border rounded-lg shadow flex flex-col">
+          <div className="space-y-1 grow">
+            {/* Details */}
+            <div className="flex gap-2 items-center">
+              <CommunityThreadAuthorAvatar author={comment.author} size="sm" />
+              <div className="flex flex-col sm:items-center sm:gap-2 sm:flex-row">
+                <Link href={`/users/${comment.author.id}`} className="font-medium leading-[12px] sm:leading-normal">
                   {comment.author.name}
                 </Link>
                 <span className="text-sm">
@@ -60,22 +50,32 @@ const CommunityThreadComment: React.FC<CommunityThreadCommentProps> = (props) =>
                   })}
                 </span>
               </div>
-              <p className="text-sm">{comment.content}</p>
+              {/* Management */}
+              {session?.user.id === commentNode.comment.author.id && (
+                <div className="ml-auto">
+                  <CommunityThreadCommentManagement comment={commentNode.comment} />
+                </div>
+              )}
             </div>
+            {/* Content */}
+            <p className="text-sm">{comment.content}</p>
           </div>
-          {/* Horizontal Own Bar */}
-          {depth > 0 && <div className="absolute -left-10 ml-5 top-1/2 w-5 bg-primary h-1 rounded-bl-lg" />}
-          {/* Vertical Own Bar */}
-          <div
-            className={cn('absolute left-0 bottom-0 -ml-5 bg-primary w-1', isRecursiveDepthLastReply && 'bottom-1/2')}
-            style={{
-              height: isDepthZeroLastReply ? `calc(50% + ${REPLIES_SPACING_PX}px)` : undefined,
-              top: `-${REPLIES_SPACING_PX}px`,
-            }}
-          />
+          {/* Reply */}
+          <div className="flex justify-between flex-row-reverse sm:flex-col items-end ml-auto mt-auto">
+            <CommunityThreadReplyComment comment={comment} />
+          </div>
         </div>
-      )}
-
+        {/* Horizontal Own Bar */}
+        {depth > 0 && <div className="absolute -left-10 ml-5 top-1/2 w-5 bg-primary h-1 rounded-bl-lg" />}
+        {/* Vertical Own Bar */}
+        <div
+          className={cn('absolute left-0 bottom-0 -ml-5 bg-primary w-1', isRecursiveDepthLastReply && 'bottom-1/2')}
+          style={{
+            height: isDepthZeroLastReply ? `calc(50% + ${REPLIES_SPACING_PX}px)` : undefined,
+            top: `-${REPLIES_SPACING_PX}px`,
+          }}
+        />
+      </div>
       {/* Replies */}
       {replies.length > 0 && (
         <div

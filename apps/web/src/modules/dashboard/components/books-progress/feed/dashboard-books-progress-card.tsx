@@ -3,6 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { useCountUp } from '@modules/common/hooks/use-count-up';
+import Link from 'next/link';
 
 interface DashboardBooksProgressCardProps {
   id: string;
@@ -12,7 +13,7 @@ interface DashboardBooksProgressCardProps {
 }
 
 const DashboardBooksProgressCard: React.FC<DashboardBooksProgressCardProps> = (props) => {
-  const { name, cover, progress } = props;
+  const { id, name, cover, progress } = props;
 
   const clampedProgress = Math.max(0, Math.min(progress, 100));
 
@@ -35,7 +36,9 @@ const DashboardBooksProgressCard: React.FC<DashboardBooksProgressCardProps> = (p
           {count > 10 ? <span className="text-2xl font-bold block">{count}%</span> : null}
         </div>
       </div>
-      <h3 className="font-semibold text-center p-2">{name}</h3>
+      <Link href={`/books/${id}`} className="block font-medium text-center p-1">
+        {name}
+      </Link>
     </div>
   );
 };

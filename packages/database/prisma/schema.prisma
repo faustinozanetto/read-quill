@@ -147,7 +147,7 @@ model ThreadComment {
   threadId String
 
   replyToId String?
-  replyTo   ThreadComment?  @relation("ThreadCommentReplies", fields: [replyToId], references: [id])
+  replyTo   ThreadComment?  @relation("ThreadCommentReplies", fields: [replyToId], references: [id], onDelete: Cascade)
   replies   ThreadComment[] @relation("ThreadCommentReplies")
 
   createdAt DateTime @default(now())

@@ -36,6 +36,7 @@ export * from './search-icon';
 export * from './dots-horizontal-icon';
 export * from './eye-none-icon';
 export * from './medal-icon';
+export * from './arrow-back-icon';
 export * from './thropy-icon';
 export * from './target-icon';
 export * from './chart-icon';

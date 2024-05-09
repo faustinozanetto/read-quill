@@ -18,6 +18,7 @@ import {
   PopoverTrigger,
   cn,
   ArrowsSortIcon,
+  CommandList,
 } from '@read-quill/design-system';
 import { useFormContext } from 'react-hook-form';
 import type { BooksNamesGetResponse } from '@modules/api/types/books-api.types';
@@ -46,31 +47,33 @@ const DashboardReadRegistriesFormBook: React.FC<DashboardReadRegistriesFormBookP
                   role="combobox"
                   variant="outline"
                 >
-                  {field.value ? booksNames.find((book) => book.id === field.value)?.name : 'Select book'}
+                  {field.value && booksNames ? booksNames.find((book) => book.id === field.value)?.name : 'Select book'}
                   <ArrowsSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
               </FormControl>
             </PopoverTrigger>
+
             <PopoverContent className="w-[200px] md:w-full p-0">
-              <Command>
-                <CommandInput className="h-9" placeholder="Search book..." />
-                <CommandEmpty>No book found.</CommandEmpty>
-                <CommandGroup>
-                  {booksNames.map((book) => (
-                    <CommandItem
-                      key={book.name}
-                      onSelect={() => {
-                        form.setValue('bookId', book.id);
-                      }}
-                      value={book.name}
-                    >
-                      {book.name}
-                      <CheckIcon
-                        className={cn('ml-auto h-4 w-4', book.id === field.value ? 'opacity-100' : 'opacity-0')}
-                      />
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
+              <Command shouldFilter={false}>
+                <CommandList>
+                  <CommandEmpty>No book found.</CommandEmpty>
+                  <CommandGroup heading="Books">
+                    {booksNames.map((book) => (
+                      <CommandItem
+                        key={book.id}
+                        onSelect={(value) => {
+                          form.setValue('bookId', value);
+                        }}
+                        value={book.id}
+                      >
+                        {book.name}
+                        <CheckIcon
+                          className={cn('ml-auto h-4 w-4', book.id === field.value ? 'opacity-100' : 'opacity-0')}
+                        />
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </CommandList>
               </Command>
             </PopoverContent>
           </Popover>

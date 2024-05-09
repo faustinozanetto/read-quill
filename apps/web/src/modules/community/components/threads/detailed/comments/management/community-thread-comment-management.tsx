@@ -24,12 +24,12 @@ const CommunityThreadCommentManagement: React.FC<CommunityThreadCommentManagemen
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size="icon" variant="outline" className="w-6 h-6">
-          <ManageIcon size="sm" />
+        <Button size="icon" variant="outline" className="h-8 w-8">
+          <ManageIcon />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="p-2" side="left">
-        <DropdownMenuLabel>Manage Comment</DropdownMenuLabel>
+        <DropdownMenuLabel className="p-1">Manage Comment</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup className="flex flex-col gap-1">
           <CommunityThreadCommentManagementEdit comment={comment} />
