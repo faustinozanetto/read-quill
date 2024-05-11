@@ -4,6 +4,7 @@ import { useCommunityThreads } from '@modules/community/hooks/use-community-thre
 import React from 'react';
 import CommunityThreadsFeed from './feed/community-threads-feed';
 import CommunityThreadsHeader from './community-threads-header';
+import CommunityThreadCardPlaceholder from './card/community-thread-card-placeholder';
 
 const CommunityThreads: React.FC = () => {
   const {
@@ -19,22 +20,17 @@ const CommunityThreads: React.FC = () => {
   } = useCommunityThreads({ pageSize: 12 });
 
   return (
-    <div className="flex w-full flex-col p-4 rounded-lg shadow border">
+    <div className="flex w-full flex-col p-4 gap-2 rounded-lg shadow border">
       <CommunityThreadsHeader />
 
       <CommunityThreadsFeed threads={data.threads} />
-      {/* {isFetching || isLoading ? (
-        <div
-          className="grid gap-4 p-4 border rounded-lg shadow"
-          style={{
-            gridTemplateColumns: 'repeat(auto-fill, minmax(275px, 1fr))',
-          }}
-        >
+      {isFetching || isLoading ? (
+        <div className="flex flex-col gap-2">
           {Array.from({ length: 6 }).map((_, i) => (
-            <BookCardPlaceholder key={`user-book-placeholder-${i}`} />
+            <CommunityThreadCardPlaceholder key={`thread-placeholder-${i}`} />
           ))}
         </div>
-      ) : null} */}
+      ) : null}
 
       {/* {!(isFetching || isLoading) && data.threads.length > 0 ? (
         <FilterProvider

@@ -6,8 +6,16 @@ export interface ThreadsCommunityGetResponse {
   hasMore: boolean;
 }
 
-export interface ThreadsGetResponse {
+export interface ThreadGetResponse {
   thread: ThreadWithDetails;
+}
+
+export interface ThreadPatchResponse {
+  success: boolean;
+}
+
+export interface ThreadDeleteResponse {
+  success: boolean;
 }
 
 export interface ThreadCommentsGetResponse {

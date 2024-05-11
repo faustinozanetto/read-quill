@@ -1,11 +1,16 @@
 import { prisma } from '@read-quill/database';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { ThreadsGetResponse } from '@modules/api/types/community-api.types';
+import { ThreadPatchResponse, ThreadGetResponse } from '@modules/api/types/community-api.types';
 import { ThreadWithDetails } from '@modules/community/types/community.types';
+import { auth } from 'auth';
+import {
+  deleteThreadValidationApiSchema,
+  editThreadValidationApiSchema,
+} from '@modules/community/validations/community.validations';
 
 // /api/community/thread GET : Gets a thread by a given threadId
-export async function GET(request: NextRequest): Promise<NextResponse<ThreadsGetResponse>> {
+export async function GET(request: NextRequest): Promise<NextResponse<ThreadGetResponse>> {
   try {
     const { searchParams } = new URL(request.url);
     const threadId = searchParams.get('threadId');
@@ -32,6 +37,93 @@ export async function GET(request: NextRequest): Promise<NextResponse<ThreadsGet
     };
 
     return NextResponse.json({ thread: mappedThread });
+  } catch (error) {
+    let errorMessage = 'An error occurred!';
+    if (error instanceof Error) errorMessage = error.message;
+
+    return new NextResponse(errorMessage, { status: 500 });
+  }
+}
+
+// /api/community/thread PATCH : Updates a thread
+export async function PATCH(request: NextRequest): Promise<NextResponse<ThreadPatchResponse>> {
+  try {
+    const session = await auth();
+
+    if (!session) {
+      return new NextResponse('Unauthorized', { status: 403 });
+    }
+
+    const json = await request.json();
+    const { threadId, ...data } = editThreadValidationApiSchema.parse(json);
+
+    const thread = await prisma.thread.findUnique({
+      where: {
+        id: threadId,
+      },
+    });
+
+    if (!thread) {
+      return new NextResponse('Thread not found', { status: 404 });
+    }
+
+    const isThreadOwner = thread.authorId === session.user.id;
+    if (!isThreadOwner) {
+      return new NextResponse('Unauthorized', { status: 403 });
+    }
+
+    await prisma.thread.update({
+      where: {
+        id: threadId,
+      },
+      data: {
+        ...data,
+      },
+    });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    let errorMessage = 'An error occurred!';
+    if (error instanceof Error) errorMessage = error.message;
+
+    return new NextResponse(errorMessage, { status: 500 });
+  }
+}
+
+// /api/community/thread DELETE : Deletes a thread
+export async function DELETE(request: NextRequest): Promise<NextResponse<ThreadPatchResponse>> {
+  try {
+    const session = await auth();
+
+    if (!session) {
+      return new NextResponse('Unauthorized', { status: 403 });
+    }
+
+    const json = await request.json();
+    const { threadId } = deleteThreadValidationApiSchema.parse(json);
+
+    const thread = await prisma.thread.findUnique({
+      where: {
+        id: threadId,
+      },
+    });
+
+    if (!thread) {
+      return new NextResponse('Thread not found', { status: 404 });
+    }
+
+    const isThreadOwner = thread.authorId === session.user.id;
+    if (!isThreadOwner) {
+      return new NextResponse('Unauthorized', { status: 403 });
+    }
+
+    await prisma.thread.delete({
+      where: {
+        id: threadId,
+      },
+    });
+
+    return NextResponse.json({ success: true });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;

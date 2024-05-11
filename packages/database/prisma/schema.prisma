@@ -115,7 +115,7 @@ model UserAchievement {
 model Achievement {
   id         String            @id @default(cuid())
   name       String
-  criteria   Json // JSON field to store badge criteria
+  criteria   Json
   unlockedBy UserAchievement[]
 
   createdAt DateTime @default(now())
@@ -143,7 +143,7 @@ model ThreadComment {
   author   User   @relation(fields: [authorId], references: [id])
   authorId String
 
-  thread   Thread @relation(fields: [threadId], references: [id])
+  thread   Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
   threadId String
 
   replyToId String?

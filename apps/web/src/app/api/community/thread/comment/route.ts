@@ -54,6 +54,21 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<ThreadCo
     const json = await request.json();
     const { commentId, content } = editThreadCommentValidationApiSchema.parse(json);
 
+    const threadComment = await prisma.threadComment.findUnique({
+      where: {
+        id: commentId,
+      },
+    });
+
+    if (!threadComment) {
+      return new NextResponse('Thread comment not found', { status: 404 });
+    }
+
+    const isThreadCommentOwner = threadComment.authorId === session.user.id;
+    if (!isThreadCommentOwner) {
+      return new NextResponse('Unauthorized', { status: 403 });
+    }
+
     await prisma.threadComment.update({
       where: {
         id: commentId,
@@ -83,6 +98,21 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<ThreadC
 
     const json = await request.json();
     const { commentId } = deleteThreadCommentValidationApiSchema.parse(json);
+
+    const threadComment = await prisma.threadComment.findUnique({
+      where: {
+        id: commentId,
+      },
+    });
+
+    if (!threadComment) {
+      return new NextResponse('Thread comment not found', { status: 404 });
+    }
+
+    const isThreadCommentOwner = threadComment.authorId === session.user.id;
+    if (!isThreadCommentOwner) {
+      return new NextResponse('Unauthorized', { status: 403 });
+    }
 
     await prisma.threadComment.delete({
       where: {
