@@ -8,7 +8,7 @@ const HOME_FAQ_QUESTIONS: { title: string; content: string }[] = [
   {
     title: 'How do I get started with Read Quill?',
     content:
-      'Getting started with Read Quill is easy! Simply sign up for an account, add your favorite books, and start tracking your reading journey.',
+      'Getting started with Read Quill is easy! Simply sign up for an account, add your favourite books, and start tracking your reading journey.',
   },
   {
     title: 'How do I track my reading progress and set reading goals?',

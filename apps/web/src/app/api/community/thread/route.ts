@@ -7,7 +7,7 @@ import { auth } from 'auth';
 import {
   deleteThreadValidationApiSchema,
   editThreadValidationApiSchema,
-} from '@modules/community/validations/community.validations';
+} from '@modules/community/validations/community-thread.validations';
 
 // /api/community/thread GET : Gets a thread by a given threadId
 export async function GET(request: NextRequest): Promise<NextResponse<ThreadGetResponse>> {

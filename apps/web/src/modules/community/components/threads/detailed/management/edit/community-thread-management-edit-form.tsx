@@ -2,7 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ThreadWithDetails } from '@modules/community/types/community.types';
-import { editThreadValidationBaseSchema } from '@modules/community/validations/community.validations';
+import { editThreadValidationBaseSchema } from '@modules/community/validations/community-thread.validations';
 import {
   Button,
   Form,

@@ -39,3 +39,11 @@ export interface ThreadCommentDeleteResponse {
 export interface ThreadCommentReplyPostResponse {
   success: boolean;
 }
+
+export interface ThreadFavouritePostResponse {
+  success: boolean;
+}
+
+export interface ThreadFavouriteGetResponse {
+  isFavourite: boolean;
+}

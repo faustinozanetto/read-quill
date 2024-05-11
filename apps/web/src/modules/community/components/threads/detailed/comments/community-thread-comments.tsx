@@ -1,11 +1,12 @@
 'use client';
 
-import React from 'react';
+import React, { lazy } from 'react';
 import { ThreadWithDetails } from '@modules/community/types/community.types.ts';
 import { useThreadComments } from '@modules/community/hooks/use-thread-comments.ts';
-import CommunityThreadComment from './community-thread-comment';
 import CommunityThreadWriteComment from './write/community-thread-write-comment';
-import { Virtuoso } from 'react-virtuoso';
+import CommunityThreadCommentPlaceholder from './community-thread-comment-placeholder';
+
+const CommunityThreadComment = lazy(() => import('./community-thread-comment'));
 
 interface CommunityThreadCommentsProps {
   thread: ThreadWithDetails;
@@ -14,7 +15,7 @@ interface CommunityThreadCommentsProps {
 const CommunityThreadComments: React.FC<CommunityThreadCommentsProps> = (props) => {
   const { thread } = props;
 
-  const { data } = useThreadComments({ pageSize: 1000, threadId: thread.id });
+  const { data, isFetching, isLoading } = useThreadComments({ pageSize: 1000, threadId: thread.id });
 
   return (
     <div className="flex flex-col gap-2">
@@ -22,27 +23,31 @@ const CommunityThreadComments: React.FC<CommunityThreadCommentsProps> = (props) 
         <h3 className="text-xl font-bold">Comments</h3>
       </div>
       <CommunityThreadWriteComment />
-      {data && data.comments && data.comments.length > 0 && (
-        // <Virtuoso
-        //   style={{ height: 900 }}
-        //   totalCount={data.comments.length}
-        //   data={data.comments}
-        //   itemContent={(index, commentNode) => (
-        //     <CommunityThreadComment key={commentNode.comment.id} commentNode={commentNode} />
-        //   )}
-        //   components={{
-        //     List: React.forwardRef((props, ref) => {
-        //       return <div {...props} className="space-y-1.5 mr-2" ref={ref} />;
-        //     }),
-        //   }}
-        // />
+
+      {isFetching || isLoading ? (
+        <div className="flex flex-col gap-2">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <CommunityThreadCommentPlaceholder key={`thread-comment-placeholder-${i}`} />
+          ))}
+        </div>
+      ) : null}
+
+      {!(isFetching || isLoading) && data.comments.length > 0 ? (
         <div className="space-y-1.5">
           {data.comments.map((commentNode) => (
             <CommunityThreadComment key={commentNode.comment.id} commentNode={commentNode} />
           ))}
         </div>
-      )}
-      {data && data.comments && data.comments.length === 0 && <p>This thread has no comments, be the first one!</p>}
+      ) : null}
+
+      {!(isFetching || isLoading) && data.comments.length === 0 ? (
+        <div className="rounded-lg p-4 shadow border space-y-4">
+          <p>
+            This thread has no comments! Be the first one by clicking the{' '}
+            <span className="text-primary font-bold underline">Post</span> button to get started.
+          </p>
+        </div>
+      ) : null}
     </div>
   );
 };

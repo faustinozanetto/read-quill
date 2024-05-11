@@ -13,7 +13,6 @@ const CommunityThread: React.FC<CommunityThreadProps> = (props) => {
   return (
     <section className="mx-auto flex flex-col gap-4">
       <CommunityThreadDetails thread={thread} />
-      <div className="p-4 border rounded-lg shadow">{thread.content}</div>
       <CommunityThreadComments thread={thread} />
     </section>
   );

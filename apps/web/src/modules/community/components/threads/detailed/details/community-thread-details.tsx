@@ -7,6 +7,7 @@ import CommunityThreadAuthorAvatar from '../../common/community-thread-author-av
 import CommunityThreadCreatedAt from '../../common/community-thread-created-at';
 import CommunityThreadManagement from '../management/community-thread-management';
 import { useIsThreadOwner } from '@modules/community/hooks/use-is-thread-owner';
+import CommnuityThreadFavourite from './community-thread-favourite';
 
 interface CommunityThreadDetailsProps {
   thread: ThreadWithDetails;
@@ -28,16 +29,18 @@ const CommunityThreadDetails: React.FC<CommunityThreadDetailsProps> = (props) =>
         {isThreadOwner && <CommunityThreadManagement thread={thread} />}
       </div>
       <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center my-4 md:my-8">{thread.title}</h1>
-      <div className="flex gap-2 mb-2">
+      <div className="flex gap-2 mb-2 justify-between items-center">
         <CommunityThreadAuthorAvatar author={thread.author} />
-        <div>
+        <div className="flex-1">
           <Link href={`/users/${thread.author.id}`}>
             <h2 className="text-lg">{thread.author.name}</h2>
           </Link>
           <CommunityThreadCreatedAt createdAt={thread.createdAt} />
         </div>
+        <CommnuityThreadFavourite thread={thread} />
       </div>
       <CommunityThreadKeywords keywords={thread.keywords} />
+      <div className="mt-2 text-sm sm:text-base">{thread.content}</div>
     </div>
   );
 };

@@ -15,7 +15,7 @@ const DashboardBooksRatings: React.FC = () => {
       <DashboardBooksRatingsHeader />
       <p>
         Get a quick overview of your book ratings with our visual representation. Discover the distribution of ratings
-        in your collection, from high-rated favorites to hidden gems. Uncover insights into your reading preferences
+        in your collection, from high-rated favourites to hidden gems. Uncover insights into your reading preferences
         effortlessly.
       </p>
       {isFetching || (isLoading && data.booksRatings.length > 0) ? <Skeleton className="h-40 w-full" /> : null}

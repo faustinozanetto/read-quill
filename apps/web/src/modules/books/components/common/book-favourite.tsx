@@ -36,7 +36,7 @@ const BookFavourite: React.FC<BookFavouriteProps> = (props) => {
 
         const response = await fetch(url, { method: 'POST', body });
         if (!response.ok) {
-          throw new Error('Could not updated book favourite!');
+          throw new Error('Could not update book favourite!');
         }
 
         toast({
@@ -44,7 +44,7 @@ const BookFavourite: React.FC<BookFavouriteProps> = (props) => {
           content: `Book ${book.isFavourite ? 'removed' : 'added'} ${book.isFavourite ? 'from' : 'to'} favourites!`,
         });
       } catch (error) {
-        let errorMessage = 'Could not updated book review!';
+        let errorMessage = 'Could not update book favourite!';
         if (error instanceof Error) errorMessage = error.message;
 
         toast({ variant: 'error', content: errorMessage });

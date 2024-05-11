@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '..';
+import { SEED_COMMUNITY_CONFIG } from './seed-constants';
 
 async function createComments(
   threadId: string,
@@ -37,7 +36,7 @@ void (async () => {
     const users = await prisma.user.findMany();
 
     await Promise.all(
-      Array.from({ length: 35 }).map(async () => {
+      Array.from({ length: SEED_COMMUNITY_CONFIG.THREADS.COUNT }).map(async () => {
         const user = users[Math.floor(Math.random() * users.length)]; // Pick a random user
         const threadCreatedAt = faker.date.between({ from: faker.date.recent({ days: 120 }), to: new Date() });
         const numKeywords = Math.floor(Math.random() * 5) + 2; // Generate a random number of keywords (2 to 6)

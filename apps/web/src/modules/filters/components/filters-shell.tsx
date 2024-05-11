@@ -7,6 +7,7 @@ import {
   SheetTitle,
   buttonVariants,
   SortAscIcon,
+  cn,
 } from '@read-quill/design-system';
 
 /**
@@ -15,12 +16,13 @@ import {
 interface FiltersShellProps {
   /** Content to be rendered as children of the FiltersShell component. */
   children: React.ReactNode;
+  filtersContainerClassNames?: string;
   /** Function to render the filters. */
   onRenderFilters: () => React.ReactNode;
 }
 
 const FiltersShell: React.FC<FiltersShellProps> = (props) => {
-  const { children, onRenderFilters } = props;
+  const { children, filtersContainerClassNames, onRenderFilters } = props;
 
   return (
     <div className="flex flex-col">
@@ -37,7 +39,9 @@ const FiltersShell: React.FC<FiltersShellProps> = (props) => {
       </Sheet>
 
       <div className="flex">
-        <div className="hidden lg:block w-[240px] p-4 border-r">{onRenderFilters()}</div>
+        <div className={cn('hidden lg:block w-[240px] p-4 border-r', filtersContainerClassNames)}>
+          {onRenderFilters()}
+        </div>
         {children}
       </div>
     </div>

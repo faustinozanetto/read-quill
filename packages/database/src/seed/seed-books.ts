@@ -1,20 +1,15 @@
 import { faker } from '@faker-js/faker';
-import { prisma } from '.';
+import { prisma } from '..';
+import { SEED_BOOKS_CONFIG } from './seed-constants';
 
 void (async () => {
   try {
-    Array.from({ length: 10 }).map(async () => {
-      const user = await prisma.user.create({
-        data: {
-          name: faker.person.fullName(),
-          email: faker.internet.email(),
-          image: faker.image.avatar(),
-        },
-      });
+    const users = await prisma.user.findMany();
 
-      await Promise.all(
-        Array.from({ length: 8 }).map(async () => {
-          const startedAt = faker.date.between({ from: faker.date.recent(120), to: new Date() });
+    await Promise.all(
+      users.map((user) =>
+        Array.from({ length: SEED_BOOKS_CONFIG.COUNT }).map(async () => {
+          const startedAt = faker.date.between({ from: faker.date.recent({ days: 120 }), to: new Date() });
           const finishedAt = faker.date.between({ from: startedAt, to: new Date() });
 
           const book = await prisma.book.create({
@@ -24,7 +19,10 @@ void (async () => {
               author: faker.person.fullName(),
               coverImage: faker.image.url(),
               language: faker.helpers.arrayElement(['English', 'Spanish', 'French']),
-              pageCount: faker.number.int({ min: 50, max: 400 }),
+              pageCount: faker.number.int({
+                min: SEED_BOOKS_CONFIG.PAGE_COUNT.MIN,
+                max: SEED_BOOKS_CONFIG.PAGE_COUNT.MAX,
+              }),
               startedAt,
               finishedAt,
               isFavourite: faker.datatype.boolean(),
@@ -34,8 +32,12 @@ void (async () => {
             },
           });
 
-          // Create between 1 to 5 ReadRegistry entries for each book with different dates
-          const readRegistries = Array.from({ length: faker.number.int({ min: 2, max: 10 }) }).map(() => {
+          const readRegistries = Array.from({
+            length: faker.number.int({
+              min: SEED_BOOKS_CONFIG.READ_REGISTRIES.MIN,
+              max: SEED_BOOKS_CONFIG.READ_REGISTRIES.MAX,
+            }),
+          }).map(() => {
             return {
               id: faker.string.uuid(),
               pagesRead: faker.number.int({ min: 5, max: 35 }),
@@ -47,7 +49,12 @@ void (async () => {
             };
           });
 
-          const bookAnnotations = Array.from({ length: faker.number.int({ min: 2, max: 5 }) }).map(() => {
+          const bookAnnotations = Array.from({
+            length: faker.number.int({
+              min: SEED_BOOKS_CONFIG.ANNOTATIONS.MIN,
+              max: SEED_BOOKS_CONFIG.ANNOTATIONS.MAX,
+            }),
+          }).map(() => {
             return {
               title: faker.lorem.words(),
               chapter: `Chapter ${faker.number.int({ min: 0, max: 25 })}`,
@@ -61,8 +68,8 @@ void (async () => {
 
           return book;
         })
-      );
-    });
+      )
+    );
   } catch (error) {
     process.exit(1);
   } finally {

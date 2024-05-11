@@ -10,7 +10,7 @@ import {
   createThreadCommentValidationApiSchema,
   deleteThreadCommentValidationApiSchema,
   editThreadCommentValidationApiSchema,
-} from '@modules/community/validations/community.validations';
+} from '@modules/community/validations/community-comment.validations';
 import { auth } from 'auth';
 
 // /api/community/thread/comment POST : Creates a thread comment

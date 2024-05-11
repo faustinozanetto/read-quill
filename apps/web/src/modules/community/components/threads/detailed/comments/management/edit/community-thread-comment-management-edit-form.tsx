@@ -5,7 +5,7 @@ import { ThreadCommentWithAuthor } from '@modules/community/types/community.type
 import {
   createThreadCommentValidationBaseSchema,
   editThreadCommentValidationBaseSchema,
-} from '@modules/community/validations/community.validations';
+} from '@modules/community/validations/community-comment.validations';
 import {
   Button,
   Form,

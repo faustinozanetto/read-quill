@@ -10,7 +10,7 @@ const CommunityThreadsHeader: React.FC = () => {
   const { status } = useSession();
 
   return (
-    <div className="flex flex-col gap-2 md:flex-row md:justify-between">
+    <div className="flex flex-col rounded-lg shadow border p-4 gap-4 md:flex-row md:justify-between">
       <h1 className="text-2xl font-bold">Latest Threads</h1>
       {status === 'loading' ? (
         <Skeleton className="h-10 w-full md:w-32" />

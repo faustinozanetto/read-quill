@@ -2,7 +2,7 @@ import { prisma } from '@read-quill/database';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { ThreadCommentReplyPostResponse } from '@modules/api/types/community-api.types';
-import { threadCommentReplyValidationApichema } from '@modules/community/validations/community.validations';
+import { threadCommentReplyValidationApichema } from '@modules/community/validations/community-comment.validations';
 import { auth } from 'auth';
 
 // /api/community/thread/comment/reply POST : Creates a reply to a thread comment

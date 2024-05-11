@@ -1,7 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { threadCommentReplyValidationBaseSchema } from '@modules/community/validations/community.validations';
+import { threadCommentReplyValidationBaseSchema } from '@modules/community/validations/community-comment.validations';
 import {
   Button,
   Form,
