@@ -2,7 +2,7 @@ import { ThreadCommentNode, ThreadWithDetails } from '@modules/community/types/c
 
 export interface ThreadsCommunityGetResponse {
   threads: ThreadWithDetails[];
-  pageCount: number;
+  nextCursor: string | null;
   hasMore: boolean;
 }
 

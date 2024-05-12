@@ -33,6 +33,10 @@ const CommunityThreadsFeedFiltering: React.FC<CommunityThreadsFeedFilteringProps
     updateFilterValue('author.name', value);
   };
 
+  const handleFilterKeywordsChange = (value: string): void => {
+    updateFilterValue('keywords', value);
+  };
+
   const handleFilterCommentsCountChange = (value: number): void => {
     updateFilterValue('commentsCount', value);
   };
@@ -74,6 +78,15 @@ const CommunityThreadsFeedFiltering: React.FC<CommunityThreadsFeedFilteringProps
         placeholder="Robert Jones"
         title="Author"
         value={filters['author.name'].value as string}
+      />
+      <FilterTextInput
+        onFilterChange={handleFilterKeywordsChange}
+        onResetFilter={() => {
+          resetFilter('keywords');
+        }}
+        placeholder="Robert Jones"
+        title="Keywords"
+        value={filters.keywords.value as string}
       />
       <FilterSliderInput
         onFilterChange={handleFilterCommentsCountChange}

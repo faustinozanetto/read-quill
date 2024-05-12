@@ -1,27 +1,23 @@
-import type { DefinedUseQueryResult } from '@tanstack/react-query';
-import { useQuery } from '@tanstack/react-query';
+import type { DefinedUseQueryResult, UseInfiniteQueryResult } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
 import { useToast } from '@read-quill/design-system/src';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { ThreadsCommunityGetResponse } from '@modules/api/types/community-api.types';
 
 export interface UseCommunityThreadsReturn
-  extends Pick<DefinedUseQueryResult<ThreadsCommunityGetResponse>, 'data' | 'isLoading' | 'isFetching'> {
-  page: number;
-  setPageIndex: (index: number) => void;
-  nextPage: () => void;
-  previousPage: () => void;
-  getCanPreviousPage: () => boolean;
-  getCanNextPage: () => boolean;
-}
+  extends Pick<
+    UseInfiniteQueryResult<ThreadsCommunityGetResponse>,
+    'data' | 'fetchNextPage' | 'hasNextPage' | 'isFetchingNextPage' | 'isLoading' | 'isFetching'
+  > {}
 
 interface UseCommunityThreadsParams {
   pageSize: number;
 }
 
-const buildUrl = (page: number, pageSize: number): string => {
+const buildUrl = (cursor: string | null, pageSize: number): string => {
   const url = new URL('/api/community/threads', __URL__);
-  url.searchParams.set('pageIndex', String(page));
+  if (cursor) url.searchParams.set('cursor', cursor);
   url.searchParams.set('pageSize', String(pageSize));
   return url.toString();
 };
@@ -31,16 +27,15 @@ export const useCommunityThreads = (params: UseCommunityThreadsParams = { pageSi
 
   const { toast } = useToast();
 
-  const [page, setPage] = useState(0);
-
-  const { data, isLoading, isFetching, isPreviousData } = useQuery<ThreadsCommunityGetResponse>(
-    ['community-threads', page],
-    {
-      initialData: { threads: [], hasMore: false, pageCount: 0 },
-      keepPreviousData: true,
-      queryFn: async () => {
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isFetching } =
+    useInfiniteQuery<ThreadsCommunityGetResponse>({
+      getNextPageParam: (lastPage, pages) => {
+        if (!lastPage.hasMore) return undefined; // Stop fetching if no more pages
+        return lastPage.nextCursor; // Return the next cursor for the next page
+      },
+      queryFn: async ({ pageParam = null }) => {
         try {
-          const url = buildUrl(page, pageSize);
+          const url = buildUrl(pageParam, pageSize);
           const response = await fetch(url, { method: 'GET' });
 
           if (!response.ok) {
@@ -52,43 +47,8 @@ export const useCommunityThreads = (params: UseCommunityThreadsParams = { pageSi
           toast({ variant: 'error', content: 'Failed to fetch community threads!' });
         }
       },
-    }
-  );
+      queryKey: ['community-threads'],
+    });
 
-  const previousPage = useCallback(() => {
-    setPage((old) => Math.max(old - 1, 0));
-  }, []);
-
-  const nextPage = useCallback(() => {
-    if (!isPreviousData && data.hasMore) {
-      setPage((old) => old + 1);
-    }
-  }, [data.hasMore, isPreviousData]);
-
-  const setPageIndex = useCallback(
-    (index: number) => {
-      if (index >= 0 && index <= data.pageCount) setPage(index);
-    },
-    [data.pageCount]
-  );
-
-  const getCanPreviousPage = useCallback(() => {
-    return page !== 0;
-  }, [page]);
-
-  const getCanNextPage = useCallback(() => {
-    return !(isPreviousData || !data?.hasMore);
-  }, [data?.hasMore, isPreviousData]);
-
-  return {
-    data,
-    isLoading,
-    isFetching,
-    page,
-    getCanPreviousPage,
-    getCanNextPage,
-    previousPage,
-    nextPage,
-    setPageIndex,
-  };
+  return { data, fetchNextPage, isFetching, isFetchingNextPage, isLoading, hasNextPage };
 };

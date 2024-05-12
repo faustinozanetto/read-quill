@@ -12,16 +12,18 @@ import CommunityThreadsFeedFiltering from './community-threads-feed-filtering';
 
 interface CommunityThreadsFeedProps {
   threads: ThreadWithDetails[];
+  children: React.ReactNode;
 }
 
 const CommunityThreadsFeed: React.FC<CommunityThreadsFeedProps> = (props) => {
-  const { threads } = props;
+  const { threads, children } = props;
 
   const filterFunctions: UseFilterFilteringFunctions<ThreadWithDetails> = {
     title: (item, value) => item.title.toLowerCase().includes((value as string).toLowerCase()),
     'author.name': (item, value) =>
       item.author.name ? item.author.name.toLowerCase().includes((value as string).toLowerCase()) : false,
     commentsCount: (item, value) => item.commentsCount <= (value as number),
+    keywords: (item, value) => item.keywords.toLowerCase().includes((value as string).toLowerCase()),
   };
 
   const sortFunctions: UseFilterSortingFunctions<ThreadWithDetails> = {
@@ -48,10 +50,11 @@ const CommunityThreadsFeed: React.FC<CommunityThreadsFeedProps> = (props) => {
         return <CommunityThreadsFeedFiltering filters={filters} sort={sort} />;
       }}
     >
-      <div className="flex flex-col gap-2 p-4 max-h-screen overflow-y-auto">
+      <div className="flex flex-col gap-2 p-4 max-h-screen overflow-y-auto grow">
         {filteredData.map((thread) => {
           return <CommunityThreadCard thread={thread} key={`thread-${thread.id}`} />;
         })}
+        {children}
       </div>
     </FiltersShell>
   );

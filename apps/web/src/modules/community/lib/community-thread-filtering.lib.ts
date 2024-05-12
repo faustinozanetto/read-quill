@@ -5,6 +5,7 @@ export const THREADS_INITIAL_FILTERS: Filter<ThreadWithDetails>[] = [
   { property: 'title', value: '', shouldEnable: (value) => (value as string) !== '' },
   { property: 'author.name', value: '', shouldEnable: (value) => (value as string) !== '' },
   { property: 'commentsCount', value: 0, shouldEnable: (value) => (value as number) !== 0 },
+  { property: 'keywords', value: '', shouldEnable: (value) => (value as string) !== '' },
 ];
 
 export const THREADS_INITIAL_SORT: Sort<ThreadWithDetails> = { property: 'createdAt', ascending: false };
