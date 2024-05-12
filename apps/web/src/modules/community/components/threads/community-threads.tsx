@@ -7,19 +7,14 @@ import CommunityThreadsHeader from './community-threads-header';
 import CommunityThreadCardPlaceholder from './card/community-thread-card-placeholder';
 import { FilterProvider } from '@modules/filters/components/filter-provider';
 import { THREADS_INITIAL_FILTERS, THREADS_INITIAL_SORT } from '@modules/community/lib/community-thread-filtering.lib';
-import { ThreadsCommunityGetResponse } from '@modules/api/types/community-api.types';
-import { Button, PlusIcon } from '@read-quill/design-system';
+import { Button, LoadingIcon, PlusIcon } from '@read-quill/design-system';
 
 const CommunityThreads: React.FC = () => {
   const { data, isLoading, isFetching, fetchNextPage, isFetchingNextPage, hasNextPage } = useCommunityThreads({
     pageSize: 10,
   });
 
-  const threads = data
-    ? data.pages.reduce<ThreadsCommunityGetResponse['threads']>((acc, curr) => {
-        return [...acc, ...curr.threads];
-      }, [])
-    : [];
+  const threads = data?.pages.flatMap((v) => v.threads) ?? [];
 
   const handleLoadMore = async () => {
     await fetchNextPage();
@@ -46,7 +41,7 @@ const CommunityThreads: React.FC = () => {
             ) : null}
             {hasNextPage && (
               <Button className="w-fit min-w-60 mx-auto" onClick={handleLoadMore} disabled={isFetchingNextPage}>
-                <PlusIcon className="mr-2" /> Load More
+                {isFetchingNextPage ? <LoadingIcon className="mr-2" /> : <PlusIcon className="mr-2" />} Load More
               </Button>
             )}
           </CommunityThreadsFeed>

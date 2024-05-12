@@ -41,6 +41,10 @@ const CommunityThreadsFeedFiltering: React.FC<CommunityThreadsFeedFilteringProps
     updateFilterValue('commentsCount', value);
   };
 
+  const handleFilterVotesChange = (value: number): void => {
+    updateFilterValue('votes', value);
+  };
+
   const handleSortByChange = (value: NestedKeyOf<ThreadWithDetails>, ascending: boolean): void => {
     updateSort({ property: value, ascending });
   };
@@ -87,6 +91,14 @@ const CommunityThreadsFeedFiltering: React.FC<CommunityThreadsFeedFilteringProps
         placeholder="Robert Jones"
         title="Keywords"
         value={filters.keywords.value as string}
+      />
+      <FilterSliderInput
+        onFilterChange={handleFilterVotesChange}
+        onResetFilter={() => {
+          resetFilter('votes');
+        }}
+        title="Votes"
+        value={filters.votes.value as number}
       />
       <FilterSliderInput
         onFilterChange={handleFilterCommentsCountChange}

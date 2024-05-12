@@ -8,6 +8,7 @@ import CommunityThreadCreatedAt from '../../common/community-thread-created-at';
 import CommunityThreadManagement from '../management/community-thread-management';
 import { useIsThreadOwner } from '@modules/community/hooks/use-is-thread-owner';
 import CommnuityThreadFavourite from './community-thread-favourite';
+import CommnuityThreadVotes from './community-thread-votes';
 
 interface CommunityThreadDetailsProps {
   thread: ThreadWithDetails;
@@ -30,6 +31,7 @@ const CommunityThreadDetails: React.FC<CommunityThreadDetailsProps> = (props) =>
       </div>
       <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center my-4 md:my-8">{thread.title}</h1>
       <div className="flex gap-2 mb-2 justify-between items-center">
+        <CommnuityThreadVotes thread={thread} />
         <CommunityThreadAuthorAvatar author={thread.author} />
         <div className="flex-1">
           <Link href={`/users/${thread.author.id}`}>

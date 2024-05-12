@@ -47,3 +47,7 @@ export interface ThreadFavouritePostResponse {
 export interface ThreadFavouriteGetResponse {
   isFavourite: boolean;
 }
+
+export interface ThreadVotePostResponse {
+  success: boolean;
+}

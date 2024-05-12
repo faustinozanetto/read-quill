@@ -130,6 +130,7 @@ model Thread {
   keywords String
   author   User   @relation(fields: [authorId], references: [id])
   authorId String
+  votes    Int    @default(0)
 
   comments             ThreadComment[]
   userFavouriteThreads UserFavouriteThread[]
@@ -140,9 +141,9 @@ model Thread {
 
 model UserFavouriteThread {
   id       String @id @default(cuid())
-  user     User   @relation(fields: [userId], references: [id])
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId   String
-  thread   Thread @relation(fields: [threadId], references: [id])
+  thread   Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
   threadId String
 
   createdAt DateTime @default(now())

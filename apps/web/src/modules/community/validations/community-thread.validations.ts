@@ -22,3 +22,8 @@ export const favouriteThreadValidationSchema = z.object({
   threadId: z.string({ required_error: 'ThreadId is required!' }),
   isFavourite: z.boolean({ required_error: 'IsFavourite is required!' }),
 });
+
+export const voteThreadValidationSchema = z.object({
+  threadId: z.string({ required_error: 'ThreadId is required!' }),
+  type: z.enum(['upvote', 'downvote'], { required_error: 'Type is required!' }),
+});

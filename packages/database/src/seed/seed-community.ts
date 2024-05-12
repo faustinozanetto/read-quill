@@ -45,6 +45,8 @@ void (async () => {
           .map(() => faker.word.words())
           .join(', ');
 
+        const votes = faker.number.int({ min: 0, max: 150 });
+
         const thread = await prisma.thread.create({
           data: {
             title: faker.lorem.words(5),
@@ -52,6 +54,7 @@ void (async () => {
             authorId: user.id,
             createdAt: threadCreatedAt,
             keywords,
+            votes,
           },
         });
 

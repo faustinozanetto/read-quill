@@ -5,6 +5,7 @@ export const THREADS_INITIAL_FILTERS: Filter<ThreadWithDetails>[] = [
   { property: 'title', value: '', shouldEnable: (value) => (value as string) !== '' },
   { property: 'author.name', value: '', shouldEnable: (value) => (value as string) !== '' },
   { property: 'commentsCount', value: 0, shouldEnable: (value) => (value as number) !== 0 },
+  { property: 'votes', value: 0, shouldEnable: (value) => (value as number) !== 0 },
   { property: 'keywords', value: '', shouldEnable: (value) => (value as string) !== '' },
 ];
 
@@ -14,4 +15,5 @@ export const THREADS_SORT_BY: Partial<Record<NestedKeyOf<ThreadWithDetails>, str
   title: 'Title',
   createdAt: 'Created At',
   commentsCount: 'Comments Count',
+  votes: 'Votes',
 };

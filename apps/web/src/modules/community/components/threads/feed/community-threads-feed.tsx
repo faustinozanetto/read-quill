@@ -23,6 +23,7 @@ const CommunityThreadsFeed: React.FC<CommunityThreadsFeedProps> = (props) => {
     'author.name': (item, value) =>
       item.author.name ? item.author.name.toLowerCase().includes((value as string).toLowerCase()) : false,
     commentsCount: (item, value) => item.commentsCount <= (value as number),
+    votes: (item, value) => item.votes <= (value as number),
     keywords: (item, value) => item.keywords.toLowerCase().includes((value as string).toLowerCase()),
   };
 
@@ -35,6 +36,7 @@ const CommunityThreadsFeed: React.FC<CommunityThreadsFeedProps> = (props) => {
       return compareAsc(aDate, bDate);
     },
     commentsCount: (a, b) => (a.commentsCount > b.commentsCount ? 1 : -1),
+    votes: (a, b) => (a.votes > b.votes ? 1 : -1),
   };
 
   const { filteredData, filters, sort } = useFilterData<ThreadWithDetails>({

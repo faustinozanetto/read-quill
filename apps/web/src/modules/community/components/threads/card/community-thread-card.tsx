@@ -19,9 +19,12 @@ const CommunityThreadCard: React.FC<CommunityThreadCardProps> = (props) => {
     >
       <div className="flex gap-2 items-center mb-1">
         <CommunityThreadAuthorAvatar author={thread.author} />
-        <div>
+        <div className="flex-1">
           <h3 className="font-bold">{thread.title}</h3>
           <CommunityThreadCreatedAt createdAt={thread.createdAt} />
+        </div>
+        <div className="p-1 rounded-lg border bg-primary aspect-square h-10 w-10 flex items-center justify-center font-bold text-background">
+          {thread.votes}
         </div>
       </div>
       <div className="flex flex-col sm:flex-row sm:items-center gap-1 mb-1.5">
