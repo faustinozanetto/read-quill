@@ -4,7 +4,7 @@ import React from 'react';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import BookAnnotationsFeed from '@modules/annotations/components/feed/books-annotations-feed';
 import { useBookAnnotations } from '@modules/books/hooks/use-book-annotations';
-import BookAnnotationCardPlaceholder from '../../../../annotations/components/cards/book-annotation-card-placeholder';
+import BookAnnotationCardPlaceholder from '@modules/annotations/components/cards/book-annotation-card-placeholder';
 
 const UserBookAnnotationsContent: React.FC = () => {
   const { data, isFetching, isLoading } = useBookAnnotations();

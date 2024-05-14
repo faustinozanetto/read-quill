@@ -12,12 +12,13 @@ const REPLIES_SPACING_PX = 8;
 interface CommunityThreadCommentProps {
   commentNode: ThreadCommentNode;
   depth?: number;
+  index?: number;
   isDepthZeroLastReply?: boolean;
   isRecursiveDepthLastReply?: boolean;
 }
 
 const CommunityThreadComment: React.FC<CommunityThreadCommentProps> = (props) => {
-  const { commentNode, depth = 0, isDepthZeroLastReply = false, isRecursiveDepthLastReply = false } = props;
+  const { commentNode, depth = 0, index = 0, isDepthZeroLastReply = false, isRecursiveDepthLastReply = false } = props;
   const { comment, replies } = commentNode;
 
   const { data: session } = useSession();
@@ -68,13 +69,15 @@ const CommunityThreadComment: React.FC<CommunityThreadCommentProps> = (props) =>
         {/* Horizontal Own Bar */}
         {depth > 0 && <div className="absolute -left-10 ml-5 top-1/2 w-5 bg-primary h-1 rounded-bl-lg" />}
         {/* Vertical Own Bar */}
-        <div
-          className={cn('absolute left-0 bottom-0 -ml-5 bg-primary w-1', isRecursiveDepthLastReply && 'bottom-1/2')}
-          style={{
-            height: isDepthZeroLastReply ? `calc(50% + ${REPLIES_SPACING_PX}px)` : undefined,
-            top: `-${REPLIES_SPACING_PX}px`,
-          }}
-        />
+        {index > 0 && depth > 0 && (
+          <div
+            className={cn('absolute left-0 bottom-0 -ml-5 bg-primary w-1', isRecursiveDepthLastReply && 'bottom-1/2')}
+            style={{
+              height: isDepthZeroLastReply ? `calc(50% + ${REPLIES_SPACING_PX}px)` : undefined,
+              top: `-${REPLIES_SPACING_PX}px`,
+            }}
+          />
+        )}
       </div>
       {/* Replies */}
       {replies.length > 0 && (
@@ -93,22 +96,23 @@ const CommunityThreadComment: React.FC<CommunityThreadCommentProps> = (props) =>
             }}
           />
 
-          {replies.map((reply, index) => {
-            const isDepthZeroLastReply = depth === 0 && index === replies.length - 1;
-            const isRecursiveDepthLastReply = depth >= 1 && index === replies.length - 1;
+          {replies.map((reply, i) => {
+            const isDepthZeroLastReply = depth === 0 && i === replies.length - 1;
+            const isRecursiveDepthLastReply = depth >= 1 && i === replies.length - 1;
 
             return (
               <div
                 key={`${comment.id}-reply-${reply.comment.id}`}
                 className="relative"
                 // Store the last reply height if the current reply is the last one to render.
-                ref={index === replies.length - 1 ? (node) => setLastReplyHeight(node?.clientHeight ?? 0) : undefined}
+                ref={i === replies.length - 1 ? (node) => setLastReplyHeight(node?.clientHeight ?? 0) : undefined}
               >
                 {/* Nested comment */}
                 <CommunityThreadComment
                   commentNode={reply}
                   isDepthZeroLastReply={isDepthZeroLastReply}
                   isRecursiveDepthLastReply={isRecursiveDepthLastReply}
+                  index={(i + 1) * (index + 1)}
                   depth={depth + 1}
                 />
               </div>

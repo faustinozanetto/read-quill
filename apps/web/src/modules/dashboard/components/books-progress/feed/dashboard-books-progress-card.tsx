@@ -30,7 +30,7 @@ const DashboardBooksProgressCard: React.FC<DashboardBooksProgressCardProps> = (p
           width={200}
         />
         <div
-          className="bg-primary/80 left-0 bottom-0 right-0 absolute items-center justify-center flex"
+          className="bg-primary/80 left-0 bottom-0 right-0 absolute items-center justify-center flex rounded-t-lg"
           style={{ top: `${100 - count}%` }}
         >
           {count > 10 ? <span className="text-2xl font-bold block">{count}%</span> : null}

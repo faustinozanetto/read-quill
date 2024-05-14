@@ -15,6 +15,7 @@ export async function GET(): Promise<NextResponse<DashboardReadActivityGetRespon
     // Fetch read registries for the current page
     const readRegistries = await prisma.readRegistry.findMany({
       where: { book: { reader: { id: session.user.id } } },
+      orderBy: { createdAt: 'desc' },
     });
 
     const readActivity = readRegistries.reduce<Record<string, number>>((acc, cur) => {

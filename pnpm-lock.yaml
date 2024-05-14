@@ -59,6 +59,9 @@ importers:
       '@read-quill/design-system':
         specifier: workspace:*
         version: link:../../packages/design-system
+      '@read-quill/redis':
+        specifier: workspace:*
+        version: link:../../packages/redis
       '@sentry/nextjs':
         specifier: ^7.99.0
         version: 7.99.0(next@14.2.3)(react@18.2.0)
@@ -347,6 +350,34 @@ importers:
       eslint-config-turbo:
         specifier: ^1.13.2
         version: 1.13.2(eslint@8.56.0)
+
+  packages/redis:
+    dependencies:
+      '@upstash/redis':
+        specifier: 1.30.1
+        version: 1.30.1
+    devDependencies:
+      '@read-quill/eslint-config':
+        specifier: '*'
+        version: link:../eslint-config
+      '@read-quill/typescript-config':
+        specifier: '*'
+        version: link:../typescript-config
+      eslint:
+        specifier: 9.0.0
+        version: 9.0.0
+      rimraf:
+        specifier: 5.0.5
+        version: 5.0.5
+      tsup:
+        specifier: 8.0.2
+        version: 8.0.2(postcss@8.4.38)(typescript@5.4.4)
+      tsx:
+        specifier: 4.7.2
+        version: 4.7.2
+      typescript:
+        specifier: 5.4.4
+        version: 5.4.4
 
   packages/tailwind-config:
     dependencies:
@@ -1535,7 +1566,7 @@ packages:
       debug: 4.3.4
       espree: 9.6.1
       globals: 13.24.0
-      ignore: 5.3.0
+      ignore: 5.3.1
       import-fresh: 3.3.0
       js-yaml: 4.1.0
       minimatch: 3.1.2
@@ -4043,6 +4074,12 @@ packages:
       '@unocss/core': 0.58.4
     dev: true
 
+  /@upstash/redis@1.30.1:
+    resolution: {integrity: sha512-Cmk2cvm1AcD6mKLg/UFhQDzM+H1HsX/k5ufvNL4Kii8DsMTKmadMJ1rRZEGQ/SM7H51EeOL/YSa6K2EPc1SYPA==}
+    dependencies:
+      crypto-js: 4.2.0
+    dev: false
+
   /@vercel/analytics@1.1.2:
     resolution: {integrity: sha512-CodhkLCQ/EHzjX8k+Qg+OzTBY0UadykrcfolfSOJVZZY/ZJM5nbhztm9KdbYvMfqKlasAr1+OYy0ThZnDA/MYA==}
     dependencies:
@@ -5267,6 +5304,10 @@ packages:
       randombytes: 2.1.0
       randomfill: 1.0.4
     dev: true
+
+  /crypto-js@4.2.0:
+    resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
+    dev: false
 
   /css-selector-parser@3.0.4:
     resolution: {integrity: sha512-pnmS1dbKsz6KA4EW4BznyPL2xxkNDRg62hcD0v8g6DEw2W7hxOln5M953jsp9hmw5Dg57S6o/A8GOn37mbAgcQ==}
@@ -6963,7 +7004,7 @@ packages:
     dependencies:
       dir-glob: 3.0.1
       fast-glob: 3.3.2
-      ignore: 5.3.0
+      ignore: 5.3.1
       merge2: 1.4.1
       slash: 4.0.0
     dev: false

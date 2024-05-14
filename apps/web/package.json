@@ -21,6 +21,7 @@
     "react-hook-form": "7.51.2",
     "@hookform/resolvers": "3.3.4",
     "@read-quill/database": "workspace:*",
+    "@read-quill/redis": "workspace:*",
     "@read-quill/design-system": "workspace:*",
     "@sentry/nextjs": "^7.99.0",
     "@supabase/supabase-js": "2.39.3",

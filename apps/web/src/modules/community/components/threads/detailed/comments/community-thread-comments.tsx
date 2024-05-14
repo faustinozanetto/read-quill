@@ -34,8 +34,8 @@ const CommunityThreadComments: React.FC<CommunityThreadCommentsProps> = (props) 
 
       {!(isFetching || isLoading) && data.comments.length > 0 ? (
         <div className="space-y-1.5">
-          {data.comments.map((commentNode) => (
-            <CommunityThreadComment key={commentNode.comment.id} commentNode={commentNode} />
+          {data.comments.map((commentNode, index) => (
+            <CommunityThreadComment key={commentNode.comment.id} commentNode={commentNode} index={index} />
           ))}
         </div>
       ) : null}

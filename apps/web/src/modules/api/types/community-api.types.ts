@@ -50,4 +50,5 @@ export interface ThreadFavouriteGetResponse {
 
 export interface ThreadVotePostResponse {
   success: boolean;
+  alredyVoted: boolean;
 }

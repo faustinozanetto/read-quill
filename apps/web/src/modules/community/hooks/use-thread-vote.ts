@@ -2,11 +2,8 @@ import { UseMutationResult, useMutation } from '@tanstack/react-query';
 import { ThreadVotePostResponse } from '@modules/api/types/community-api.types';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useToast } from '@read-quill/design-system';
-import { z } from 'zod';
-import { voteThreadValidationSchema } from '../validations/community-thread.validations';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
-
-type VoteThreadValidationSchema = z.infer<typeof voteThreadValidationSchema>;
+import { VoteThreadValidationSchema } from '../types/community.types';
 
 interface UseIsThreadVoteReturn
   extends Pick<
@@ -42,9 +39,17 @@ export const useThreadVote = (): UseIsThreadVoteReturn => {
         }
       },
       async onSuccess(data, variables) {
-        if (data.success) {
-          await queryClient.invalidateQueries(['community-thread', variables.threadId]);
-          toast({ variant: 'success', content: 'Thread vote added successfully!' });
+        if (!data) return;
+
+        const { success, alredyVoted } = data;
+        if (!success) return;
+
+        await queryClient.invalidateQueries(['community-thread', variables.threadId]);
+
+        if (alredyVoted) {
+          toast({ variant: 'info', content: `You already ${variables.type}d this thread!` });
+        } else {
+          toast({ variant: 'success', content: `Thread ${variables.type}d successfully!` });
         }
       },
     }

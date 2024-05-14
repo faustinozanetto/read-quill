@@ -5,11 +5,20 @@ import { useToast } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { DashboardReadInsightsTrendsGetResponse } from '@modules/api/types/dashboard-api.types';
 import type { DashboardReadInsightsReadTrendsIntervalType } from '../types/dashboard.types';
+import { useMemo, useState } from 'react';
+import { addDays, isWithinInterval, subDays } from 'date-fns';
+
+export interface ReadInsightsTrendsDailyRange {
+  from: Date;
+  to: Date;
+}
 
 interface UseReadInsightsTrendsReturn
   extends Pick<DefinedUseQueryResult<DashboardReadInsightsTrendsGetResponse>, 'data' | 'isLoading' | 'isFetching'> {
   interval: DashboardReadInsightsReadTrendsIntervalType;
   setInterval: (interval: DashboardReadInsightsReadTrendsIntervalType) => void;
+  dailyRange: ReadInsightsTrendsDailyRange;
+  setDailyRange: (dailyRange: ReadInsightsTrendsDailyRange) => void;
 }
 
 export const useReadInsightsTrends = (): UseReadInsightsTrendsReturn => {
@@ -17,6 +26,11 @@ export const useReadInsightsTrends = (): UseReadInsightsTrendsReturn => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
+
+  const [dailyRange, setDailyRange] = useState<ReadInsightsTrendsDailyRange>({
+    from: subDays(new Date(), 30),
+    to: addDays(new Date(), 30),
+  });
 
   const interval = (searchParams.get('read-trends-interval') as DashboardReadInsightsReadTrendsIntervalType) ?? 'daily';
 
@@ -48,5 +62,19 @@ export const useReadInsightsTrends = (): UseReadInsightsTrendsReturn => {
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
-  return { data, isLoading, isFetching, interval, setInterval };
+  const computedData = useMemo(() => {
+    if (interval !== 'daily') return data;
+
+    const filteredData: DashboardReadInsightsTrendsGetResponse = {
+      trends: [],
+    };
+    filteredData.trends = data.trends.filter((trend) => {
+      const date = new Date(trend.date);
+      return isWithinInterval(date, { start: dailyRange.from, end: dailyRange.to });
+    });
+
+    return filteredData;
+  }, [data, dailyRange, interval]);
+
+  return { data: computedData, isLoading, isFetching, interval, setInterval, dailyRange, setDailyRange };
 };
