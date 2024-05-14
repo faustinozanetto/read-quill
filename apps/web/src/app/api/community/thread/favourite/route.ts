@@ -66,7 +66,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadFav
       });
     }
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, threadFavourite: isFavouriteAction });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;

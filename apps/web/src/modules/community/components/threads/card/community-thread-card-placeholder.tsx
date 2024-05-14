@@ -1,9 +1,15 @@
 import React from 'react';
-import { Skeleton } from '@read-quill/design-system';
+import { Skeleton, cn } from '@read-quill/design-system';
 
-const CommunityThreadCardPlaceholder: React.FC = () => {
+interface CommunityThreadCardPlaceholderProps {
+  className?: string;
+}
+
+const CommunityThreadCardPlaceholder: React.FC<CommunityThreadCardPlaceholderProps> = (props) => {
+  const { className = '' } = props;
+
   return (
-    <div className="p-4 border rounded-lg shadow hover:scale-[101%] transition-transform w-full">
+    <div className={cn('p-4 border rounded-lg shadow hover:scale-[101%] transition-transform w-full', className)}>
       <div className="flex gap-2 items-center mb-1">
         <Skeleton className="h-12 w-12 aspect-square rounded-full" />
         <div className="w-full space-y-1">

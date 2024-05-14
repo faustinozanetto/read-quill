@@ -6,6 +6,10 @@ export interface ThreadsCommunityGetResponse {
   hasMore: boolean;
 }
 
+export interface ThreadsCommunityTrendingGetResponse {
+  threads: ThreadWithDetails[];
+}
+
 export interface ThreadGetResponse {
   thread: ThreadWithDetails;
 }
@@ -42,6 +46,7 @@ export interface ThreadCommentReplyPostResponse {
 
 export interface ThreadFavouritePostResponse {
   success: boolean;
+  threadFavourite: boolean;
 }
 
 export interface ThreadFavouriteGetResponse {

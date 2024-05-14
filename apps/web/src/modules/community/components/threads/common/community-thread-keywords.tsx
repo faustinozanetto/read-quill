@@ -11,7 +11,7 @@ const CommunityThreadKeywords: React.FC<CommunityThreadKeywordsProps> = (props) 
   const { keywords } = props;
 
   return (
-    <div className="space-x-2">
+    <div className="flex gap-0.5 flex-wrap">
       {keywords.split(',').map((keyword) => (
         <Badge key={keyword}>{keyword}</Badge>
       ))}

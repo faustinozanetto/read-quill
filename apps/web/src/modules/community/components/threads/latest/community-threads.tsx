@@ -2,9 +2,9 @@
 
 import React from 'react';
 import { useCommunityThreads } from '@modules/community/hooks/use-community-threads';
-import CommunityThreadsFeed from './feed/community-threads-feed';
+import CommunityThreadsFeed from '../feed/community-threads-feed';
 import CommunityThreadsHeader from './community-threads-header';
-import CommunityThreadCardPlaceholder from './card/community-thread-card-placeholder';
+import CommunityThreadCardPlaceholder from '../card/community-thread-card-placeholder';
 import { FilterProvider } from '@modules/filters/components/filter-provider';
 import { THREADS_INITIAL_FILTERS, THREADS_INITIAL_SORT } from '@modules/community/lib/community-thread-filtering.lib';
 import { Button, LoadingIcon, PlusIcon } from '@read-quill/design-system';

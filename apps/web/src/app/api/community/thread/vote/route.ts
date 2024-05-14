@@ -3,9 +3,8 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { ThreadVotePostResponse } from '@modules/api/types/community-api.types';
 import { auth } from 'auth';
-import { redis } from '@read-quill/redis';
 import { voteThreadValidationSchema } from '@modules/community/validations/community-thread.validations';
-import { voteThread } from '@modules/community/lib/community-thread-vote.lib';
+import { storeUserThreadVoteInRedis } from '@modules/community/lib/community-thread-vote.lib';
 
 // /api/community/thread/vote POST : Votes a thread
 export async function POST(request: NextRequest): Promise<NextResponse<ThreadVotePostResponse>> {
@@ -20,7 +19,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadVot
     const { threadId, type } = voteThreadValidationSchema.parse(json);
 
     // Use redis to avoid users voting multiple times.
-    const voteResult = await voteThread(threadId, session.user.id, type);
+    const voteResult = await storeUserThreadVoteInRedis(threadId, session.user.id, type);
     if (voteResult) {
       await prisma.thread.update({
         where: {

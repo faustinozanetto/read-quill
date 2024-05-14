@@ -28,7 +28,7 @@ export const useSetThreadFavourite = (): UseSetThreadFavouriteReturn => {
   >({
     mutationFn: async (data) => {
       try {
-        const { userId, currentThreadFavourite, threadId } = data;
+        const { currentThreadFavourite, threadId } = data;
 
         const url = new URL('/api/community/thread/favourite', __URL__);
         const body = JSON.stringify({
@@ -41,10 +41,6 @@ export const useSetThreadFavourite = (): UseSetThreadFavouriteReturn => {
           throw new Error('Could not update thread favourite!');
         }
 
-        // toast({
-        //   variant: 'success',
-        //   content: `Thread ${book.isFavourite ? 'removed' : 'added'} ${book.isFavourite ? 'from' : 'to'} favourites!`,
-        // });
         return response.json();
       } catch (error) {
         let errorMessage = 'Could not update thread favourite!';
@@ -54,8 +50,14 @@ export const useSetThreadFavourite = (): UseSetThreadFavouriteReturn => {
       }
     },
     onSuccess: async (data, variables) => {
-      const { threadId, userId } = variables;
+      if (!data) return;
 
+      const { success, threadFavourite } = data;
+      if (!success) return;
+
+      toast({ variant: 'success', content: `Thread ${threadFavourite ? 'added to' : 'removed from'} favourites!` });
+
+      const { threadId, userId } = variables;
       await queryClient.invalidateQueries(['thread-favourite', threadId, userId]);
     },
   });

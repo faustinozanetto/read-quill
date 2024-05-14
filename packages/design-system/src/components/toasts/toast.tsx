@@ -2,6 +2,7 @@ import { clsx } from 'clsx';
 import React from 'react';
 import { motion } from 'framer-motion';
 import type { Toast as ToastData } from '../../types/toasts.types';
+import { CheckIcon, ExclamationIcon } from '../icons';
 
 interface ToastProps {
   toast: ToastData;
@@ -32,39 +33,10 @@ const Toast: React.FC<ToastProps> = (props) => {
         );
       }
       case 'success': {
-        return (
-          <svg
-            className="h-5 w-5 stroke-current"
-            fill="none"
-            stroke="#ffffff"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-            <polyline points="22 4 12 14.01 9 11.01" />
-          </svg>
-        );
+        return <CheckIcon />;
       }
       case 'error': {
-        return (
-          <svg
-            className="h-5 w-5 stroke-current"
-            fill="none"
-            stroke="#ffffff"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <line x1="12" x2="12" y1="8" y2="12" />
-            <line x1="12" x2="12.01" y1="16" y2="16" />
-          </svg>
-        );
+        return <ExclamationIcon />;
       }
     }
   };
@@ -90,10 +62,10 @@ const Toast: React.FC<ToastProps> = (props) => {
     >
       <div
         className={clsx(
-          'flex items-center overflow-hidden rounded p-4 shadow',
-          toast.variant === 'success' && 'bg-green-300 dark:bg-green-700',
-          toast.variant === 'error' && 'bg-destructive',
-          toast.variant === 'info' && 'bg-blue-300 dark:bg-blue-700'
+          'flex items-center overflow-hidden rounded-lg p-4 text-background backdrop-blur-md border',
+          toast.variant === 'success' && 'bg-success/85',
+          toast.variant === 'error' && 'bg-destructive/85',
+          toast.variant === 'info' && 'bg-informative/85'
         )}
       >
         <div className="mr-2 flex-shrink-0">{getToastIcon()}</div>
