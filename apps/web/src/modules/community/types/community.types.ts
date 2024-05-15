@@ -24,3 +24,9 @@ export interface ThreadCommentNode {
 }
 
 export type VoteThreadValidationSchema = z.infer<typeof voteThreadValidationSchema>;
+
+export interface CommunityTopUser {
+  user: Omit<User, 'emailVerified' | 'email'>;
+  threadsCount: number;
+  totalVotes: number;
+}

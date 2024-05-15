@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@read-quill/design-system';
+import { Button, ClearFilterIcon } from '@read-quill/design-system';
 import { ResetIcon } from '@read-quill/design-system/src/components/icons';
 import { useFilterActions } from '@modules/filters/hooks/use-filter-actions';
 import FiltersSortBy from '@modules/filters/components/filters-sort-by';
@@ -54,7 +54,7 @@ const AchievementsFiltering = <TData extends Achievement>(
         size="sm"
         variant="ghost-destructive"
       >
-        <ResetIcon className="mr-2" />
+        <ClearFilterIcon className="mr-2" />
         Reset Filters
       </Button>
     </div>

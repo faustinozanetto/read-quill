@@ -6,7 +6,7 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-  DeleteIcon,
+  ResetIcon,
 } from '@read-quill/design-system';
 import type { UseFilterActionsReturn } from '@modules/filters/hooks/use-filter-actions';
 
@@ -38,7 +38,7 @@ const FilterSection: React.FC<FilterSectionProps> = (props) => {
           size="sm"
           variant="ghost-destructive"
         >
-          <DeleteIcon className="stroke-current" size="sm" />
+          <ResetIcon className="stroke-current" size="sm" />
           <span className="sr-only">Reset</span>
         </Button>
         <CollapsibleTrigger asChild>

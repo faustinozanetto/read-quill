@@ -1,4 +1,4 @@
-import { ThreadCommentNode, ThreadWithDetails } from '@modules/community/types/community.types';
+import { CommunityTopUser, ThreadCommentNode, ThreadWithDetails } from '@modules/community/types/community.types';
 
 export interface ThreadsCommunityGetResponse {
   threads: ThreadWithDetails[];
@@ -8,6 +8,10 @@ export interface ThreadsCommunityGetResponse {
 
 export interface ThreadsCommunityTrendingGetResponse {
   threads: ThreadWithDetails[];
+}
+
+export interface CommunityTopUsersGetResponse {
+  topUsers: CommunityTopUser[];
 }
 
 export interface ThreadGetResponse {

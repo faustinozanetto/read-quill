@@ -24,11 +24,25 @@ const CommnuityThreadVotes: React.FC<CommnuityThreadVotesProps> = (props) => {
 
   return (
     <div className="flex flex-col gap-0.5 items-center justify-center">
-      <Button size="icon" variant="ghost" className="h-7 w-7" disabled={isLoading} onClick={handleUpvote}>
+      <Button
+        aria-label="Upvote Thread"
+        size="icon"
+        variant="ghost"
+        className="h-7 w-7"
+        disabled={isLoading}
+        onClick={handleUpvote}
+      >
         <ArrowUpIcon />
       </Button>
       <span className="text-sm font-medium">{thread.votes}</span>
-      <Button size="icon" variant="ghost" className="h-7 w-7" disabled={isLoading} onClick={handleDownvote}>
+      <Button
+        aria-label="Downvote Thread"
+        size="icon"
+        variant="ghost"
+        className="h-7 w-7"
+        disabled={isLoading}
+        onClick={handleDownvote}
+      >
         <ArrowDownIcon />
       </Button>
     </div>

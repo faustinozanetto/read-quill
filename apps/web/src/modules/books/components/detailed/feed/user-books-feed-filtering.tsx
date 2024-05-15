@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Label, RadioGroupItem, SelectItem } from '@read-quill/design-system';
+import { Button, ClearFilterIcon, Label, RadioGroupItem, SelectItem } from '@read-quill/design-system';
 import { ResetIcon } from '@read-quill/design-system/src/components/icons';
 import { useFilterActions } from '@modules/filters/hooks/use-filter-actions';
 import type { Book } from '@read-quill/database';
@@ -124,7 +124,7 @@ const UserBooksFiltering: React.FC<UserBooksFilteringProps> = (props) => {
         size="sm"
         variant="ghost-destructive"
       >
-        <ResetIcon className="mr-2" />
+        <ClearFilterIcon className="mr-2" />
         Reset Filters
       </Button>
     </div>

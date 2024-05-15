@@ -24,6 +24,8 @@ export * from './book-icon';
 export * from './pencil-icon';
 export * from './heart-minus-icon';
 export * from './heart-plus-icon';
+export * from './clear-filter-icon';
+export * from './thumbs-up-icon';
 export * from './flag-icon';
 export * from './flag-checkered-icon';
 export * from './user-icon';

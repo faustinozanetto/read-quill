@@ -1,5 +1,5 @@
 import React from 'react';
-import CommunityThreadCard from '../card/community-thread-card';
+import { CommunityThreadCard } from '../card/community-thread-card';
 import { ThreadWithDetails } from '@modules/community/types/community.types';
 import {
   UseFilterFilteringFunctions,
@@ -54,7 +54,15 @@ const CommunityThreadsFeed: React.FC<CommunityThreadsFeedProps> = (props) => {
     >
       <div className="flex flex-col gap-2 p-4 max-h-screen overflow-y-auto grow">
         {filteredData.map((thread) => {
-          return <CommunityThreadCard thread={thread} key={`thread-${thread.id}`} />;
+          return (
+            <CommunityThreadCard.Root key={`thread-${thread.id}`} thread={thread}>
+              <CommunityThreadCard.Metadata thread={thread}>
+                <CommunityThreadCard.Votes thread={thread} />
+              </CommunityThreadCard.Metadata>
+              <CommunityThreadCard.KeywordsComments thread={thread} />
+              <CommunityThreadCard.Content>{thread.content}</CommunityThreadCard.Content>
+            </CommunityThreadCard.Root>
+          );
         })}
         {children}
       </div>
