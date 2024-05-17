@@ -4,7 +4,7 @@ import { useSession } from 'next-auth/react';
 import { Button, ManageIcon, Skeleton } from '@read-quill/design-system';
 import { useUserProfileStore } from '@modules/users/state/user-profile.slice';
 
-const UserProfileBooksHeader: React.FC = () => {
+const UserProfileThreadsHeader: React.FC = () => {
   const { data: session } = useSession();
   const { user, isLoading } = useUserProfileStore();
 
@@ -12,7 +12,7 @@ const UserProfileBooksHeader: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:gap-0">
-      <h2 className="text-2xl font-bold">Books</h2>
+      <h2 className="text-2xl font-bold">Threads</h2>
 
       {isLoading ? <Skeleton className="h-10 w-full md:w-32" /> : null}
 
@@ -20,7 +20,7 @@ const UserProfileBooksHeader: React.FC = () => {
         <Button aria-label="Manage Containers" asChild className="md:w-auto" size="sm" variant="outline">
           <Link className="md:w-auto" href="/books">
             <ManageIcon className="mr-2" />
-            Manage Books
+            Manage Threads
           </Link>
         </Button>
       ) : null}
@@ -28,4 +28,4 @@ const UserProfileBooksHeader: React.FC = () => {
   );
 };
 
-export default UserProfileBooksHeader;
+export default UserProfileThreadsHeader;

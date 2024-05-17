@@ -18,7 +18,7 @@ const DashboardBooksRatings: React.FC = () => {
         in your collection, from high-rated favourites to hidden gems. Uncover insights into your reading preferences
         effortlessly.
       </p>
-      {isFetching || (isLoading && data.booksRatings.length > 0) ? <Skeleton className="h-40 w-full" /> : null}
+      {(isFetching || isLoading) && <Skeleton className="h-40 w-full" />}
 
       {!(isFetching || isLoading) && data.booksRatings.length > 0 ? (
         <DashboardBooksRatingsChart booksRatings={data.booksRatings} />

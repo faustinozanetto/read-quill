@@ -5,9 +5,10 @@ import { Skeleton } from '@read-quill/design-system';
 import { useReadTargets } from '@modules/dashboard/hooks/read-targets/use-read-targets';
 import DashboardReadTargetsHeader from './header/dashboard-read-targets-header';
 import DashboardReadTargetsFeed from './feed/dashboard-read-targets-feed';
+import DashboardNoDataMessage from '../common/dashboard-no-data-message';
 
 const DashboardReadTargets: React.FC = () => {
-  const { data, isLoading, isFetching } = useReadTargets();
+  const { targetsCreated, data, isLoading, isFetching } = useReadTargets();
 
   return (
     <div className="rounded-lg border p-4 shadow flex flex-col gap-2">
@@ -27,6 +28,12 @@ const DashboardReadTargets: React.FC = () => {
       ) : null}
 
       {!(isFetching || isLoading) && data !== undefined ? <DashboardReadTargetsFeed data={data} /> : null}
+
+      {!(isFetching || isLoading) && !targetsCreated ? (
+        <DashboardNoDataMessage>
+          <p>It looks like you haven't created your read targets yet!</p>
+        </DashboardNoDataMessage>
+      ) : null}
     </div>
   );
 };

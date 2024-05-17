@@ -14,7 +14,7 @@ const BookCard: React.FC<BookCardProps> = (props) => {
 
   return (
     <Link href={`/books/${book.id}`}>
-      <div className="rounded-lg border p-4 transition-transform hover:scale-[101%] shadow">
+      <div className="rounded-lg border p-4 transition-transform hover:scale-[101%] shadow h-full flex flex-col">
         <Image
           alt="Book Cover"
           aria-label="Boko Cover"
@@ -26,8 +26,10 @@ const BookCard: React.FC<BookCardProps> = (props) => {
         />
         <span className="font-bold uppercase block mt-1">{book.name}</span>
         <span className="font-medium text-sm block">{book.author}</span>
-        <BookPagesBadge className="mr-2" pageCount={book.pageCount} />
-        <BookLanguageBadge language={book.language} />
+        <div className="mt-auto">
+          <BookPagesBadge className="mr-2" pageCount={book.pageCount} />
+          <BookLanguageBadge language={book.language} />
+        </div>
       </div>
     </Link>
   );

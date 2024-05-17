@@ -1,11 +1,11 @@
-import type { DefinedUseQueryResult } from '@tanstack/react-query';
+import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { useToast } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { DashboardReadTargetsCreatedGetResponse } from '@modules/api/types/dashboard-api.types';
 
 type UseReadTargetsCreatedReturn = Pick<
-  DefinedUseQueryResult<DashboardReadTargetsCreatedGetResponse>,
+  UseQueryResult<DashboardReadTargetsCreatedGetResponse>,
   'data' | 'isLoading' | 'isFetching'
 >;
 

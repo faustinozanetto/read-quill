@@ -10,12 +10,7 @@ const BooksFeed: React.FC<BooksFeedProps> = (props) => {
   const { books } = props;
 
   return (
-    <div
-      className="grid gap-4"
-      style={{
-        gridTemplateColumns: 'repeat(auto-fill, minmax(275px, 1fr))',
-      }}
-    >
+    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
       {books.map((book) => {
         return <BookCard book={book} key={`book-${book.id}`} />;
       })}

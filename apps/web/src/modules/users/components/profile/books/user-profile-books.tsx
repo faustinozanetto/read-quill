@@ -18,7 +18,7 @@ const UserProfileBooks: React.FC = () => {
 
       {isFetching || isLoading ? (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {Array.from({ length: 2 }).map((_, i) => (
+          {Array.from({ length: 4 }).map((_, i) => (
             <BookCardPlaceholder key={`user-book-placeholder-${i}`} />
           ))}
         </div>

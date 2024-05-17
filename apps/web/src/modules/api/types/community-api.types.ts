@@ -61,3 +61,9 @@ export interface ThreadVotePostResponse {
   success: boolean;
   alredyVoted: boolean;
 }
+
+export interface ThreadsUserGetResponse {
+  threads: ThreadWithDetails[];
+  nextCursor: string | null;
+  hasMore: boolean;
+}
