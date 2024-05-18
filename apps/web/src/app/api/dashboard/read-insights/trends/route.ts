@@ -30,9 +30,6 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardR
     const readRegistries = await prisma.readRegistry.findMany({
       where: {
         book: { readerId: session.user.id },
-        createdAt: {
-          gte: startOfMonth(sub(new Date(), { weeks: 2 })),
-        },
       },
     });
 
