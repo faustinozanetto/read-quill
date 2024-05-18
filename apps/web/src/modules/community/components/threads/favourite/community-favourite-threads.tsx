@@ -45,10 +45,7 @@ const CommunityFavouriteThreads: React.FC = () => {
       )}
 
       {!(isFetching || isLoading) && threads.length === 0 ? (
-        <p>
-          No threads found! Be the first one by clicking the{' '}
-          <span className="text-primary font-bold underline">Start a Thread</span> button to get started.
-        </p>
+        <p>No favourite threads found! Start by adding one to favourites!</p>
       ) : null}
     </div>
   );

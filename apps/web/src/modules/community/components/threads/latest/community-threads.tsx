@@ -44,16 +44,15 @@ const CommunityThreads: React.FC = () => {
                 {isFetchingNextPage ? <LoadingIcon className="mr-2" /> : <PlusIcon className="mr-2" />} Load More
               </Button>
             )}
+            {!(isFetching || isLoading) && threads.length === 0 ? (
+              <p>
+                No threads found! Be the first one by clicking the{' '}
+                <span className="text-primary font-bold underline">Start a Thread</span> button to get started.
+              </p>
+            ) : null}
           </CommunityThreadsFeed>
         </div>
       </FilterProvider>
-
-      {!(isFetching || isLoading) && threads.length === 0 ? (
-        <p>
-          No threads found! Be the first one by clicking the{' '}
-          <span className="text-primary font-bold underline">Start a Thread</span> button to get started.
-        </p>
-      ) : null}
     </div>
   );
 };
