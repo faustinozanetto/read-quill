@@ -34,13 +34,13 @@
   },
   "devDependencies": {
     "@read-quill/eslint-config": "*",
-    "eslint": "9.0.0",
     "prisma": "5.14.0",
+    "eslint": "9.3.0",
     "rimraf": "5.0.5",
     "@faker-js/faker": "8.4.1",
     "@read-quill/typescript-config": "*",
     "tsup": "8.0.2",
-    "tsx": "4.7.2",
-    "typescript": "5.4.4"
+    "tsx": "4.10.5",
+    "typescript": "5.4.5"
   }
 }
