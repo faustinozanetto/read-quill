@@ -3,9 +3,9 @@ import { ThreadCommentNode } from '@modules/community/types/community.types';
 import CommunityThreadAuthorAvatar from '../../common/community-thread-author-avatar';
 import Link from 'next/link';
 import { cn } from '@read-quill/design-system';
-import { useSession } from 'next-auth/react';
 import CommunityThreadCommentManagement from './management/community-thread-comment-management';
 import CommunityThreadReplyComment from './reply/community-thread-reply-comment';
+import { useAuthContext } from '@modules/auth/hooks/use-auth-context';
 
 const REPLIES_SPACING_PX = 8;
 
@@ -21,7 +21,7 @@ const CommunityThreadComment: React.FC<CommunityThreadCommentProps> = (props) =>
   const { commentNode, depth = 0, index = 0, isDepthZeroLastReply = false, isRecursiveDepthLastReply = false } = props;
   const { comment, replies } = commentNode;
 
-  const { data: session } = useSession();
+  const user = useAuthContext((s) => s.user);
   const [lastReplyHeight, setLastReplyHeight] = useState<number | null>(null);
 
   return (
@@ -52,7 +52,7 @@ const CommunityThreadComment: React.FC<CommunityThreadCommentProps> = (props) =>
                 </span>
               </div>
               {/* Management */}
-              {session?.user.id === commentNode.comment.author.id && (
+              {user?.id === commentNode.comment.author.id && (
                 <div className="ml-auto">
                   <CommunityThreadCommentManagement comment={commentNode.comment} />
                 </div>

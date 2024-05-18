@@ -3,7 +3,7 @@ import { ThreadVotePostResponse } from '@modules/api/types/community-api.types';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useToast } from '@read-quill/design-system';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
-import { VoteThreadValidationSchema } from '../types/community.types';
+import { VoteThreadValidationSchema } from '../../types/community.types';
 
 interface UseIsThreadVoteReturn
   extends Pick<
@@ -44,7 +44,7 @@ export const useThreadVote = (): UseIsThreadVoteReturn => {
         const { success, alredyVoted } = data;
         if (!success) return;
 
-        await queryClient.invalidateQueries(['community-thread', variables.threadId]);
+        await queryClient.invalidateQueries(['thread-vote-count', variables.threadId]);
 
         if (alredyVoted) {
           toast({ variant: 'info', content: `You already ${variables.type}d this thread!` });

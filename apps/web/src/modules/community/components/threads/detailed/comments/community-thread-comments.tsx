@@ -2,7 +2,7 @@
 
 import React, { lazy } from 'react';
 import { ThreadWithDetails } from '@modules/community/types/community.types.ts';
-import { useThreadComments } from '@modules/community/hooks/use-thread-comments.ts';
+import { useThreadComments } from '@modules/community/hooks/threads/use-thread-comments';
 import CommunityThreadWriteComment from './write/community-thread-write-comment';
 import CommunityThreadCommentPlaceholder from './community-thread-comment-placeholder';
 

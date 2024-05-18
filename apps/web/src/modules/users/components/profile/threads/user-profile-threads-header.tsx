@@ -1,14 +1,15 @@
 import React from 'react';
 import Link from 'next/link';
-import { useSession } from 'next-auth/react';
+
 import { Button, ManageIcon, Skeleton } from '@read-quill/design-system';
 import { useUserProfileStore } from '@modules/users/state/user-profile.slice';
+import { useAuthContext } from '@modules/auth/hooks/use-auth-context';
 
 const UserProfileThreadsHeader: React.FC = () => {
-  const { data: session } = useSession();
+  const authUser = useAuthContext((s) => s.user);
   const { user, isLoading } = useUserProfileStore();
 
-  const isProfileOwner = Boolean(user && session?.user && user.email === session.user.email);
+  const isProfileOwner = Boolean(user && authUser && user.email === authUser.email);
 
   return (
     <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:gap-0">

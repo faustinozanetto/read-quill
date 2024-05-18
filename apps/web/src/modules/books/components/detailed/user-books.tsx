@@ -7,10 +7,13 @@ import { FilterProvider } from '@modules/filters/components/filter-provider';
 import BookCardPlaceholder from '../cards/book-card-placeholder';
 import UserBooksHeader from './user-books-header';
 import UserBooksFeed from './feed/user-books-feed';
-import { useSession } from 'next-auth/react';
 
-const UserBooks: React.FC = () => {
-  const { data: session } = useSession();
+interface UserBooksProps {
+  userId: string;
+}
+
+const UserBooks: React.FC<UserBooksProps> = (props) => {
+  const { userId } = props;
 
   const {
     data,
@@ -22,7 +25,7 @@ const UserBooks: React.FC = () => {
     nextPage,
     previousPage,
     setPageIndex,
-  } = useUserBooks({ pageSize: 6, userId: session?.user.id! });
+  } = useUserBooks({ pageSize: 6, userId });
 
   return (
     <div className="flex w-full flex-col gap-2">

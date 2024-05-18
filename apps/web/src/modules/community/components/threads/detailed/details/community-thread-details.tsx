@@ -6,9 +6,9 @@ import CommunityThreadKeywords from '../../common/community-thread-keywords';
 import CommunityThreadAuthorAvatar from '../../common/community-thread-author-avatar';
 import CommunityThreadCreatedAt from '../../common/community-thread-created-at';
 import CommunityThreadManagement from '../management/community-thread-management';
-import { useIsThreadOwner } from '@modules/community/hooks/use-is-thread-owner';
+import { useIsThreadOwner } from '@modules/community/hooks/threads/use-is-thread-owner';
 import CommnuityThreadFavourite from './community-thread-favourite';
-import CommnuityThreadVotes from './community-thread-votes';
+import CommnuityThreadVotes from './vote/community-thread-votes';
 
 interface CommunityThreadDetailsProps {
   thread: ThreadWithDetails;

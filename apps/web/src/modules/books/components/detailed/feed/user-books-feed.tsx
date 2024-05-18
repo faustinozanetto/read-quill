@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { Book } from '@read-quill/database';
 import { compareAsc } from 'date-fns';
 import {
@@ -11,6 +11,12 @@ import type { PaginationControlsProps } from '@modules/common/components/paginat
 import PaginationControls from '@modules/common/components/pagination/pagination-controls';
 import BooksFeed from '../../feed/books-feed';
 import UserBooksFiltering from './user-books-feed-filtering';
+import { BookCardStyleProps } from '../../cards/book-card';
+import { Button } from '@read-quill/design-system';
+import { LayoutListIcon } from '@read-quill/design-system';
+import { ToggleGroup } from '@read-quill/design-system';
+import { ToggleGroupItem } from '@read-quill/design-system';
+import { LayoutGridIcon } from '@read-quill/design-system';
 
 interface UserBooksFeedProps extends PaginationControlsProps {
   books: Book[];
@@ -18,6 +24,8 @@ interface UserBooksFeedProps extends PaginationControlsProps {
 
 const UserBooksFeed: React.FC<UserBooksFeedProps> = (props) => {
   const { books, page, pageCount, getCanNextPage, getCanPreviousPage, nextPage, previousPage, setPageIndex } = props;
+
+  const [cardVariant, setCardVariant] = useState<BookCardStyleProps['variant']>('vertical');
 
   const filterFunctions: UseFilterFilteringFunctions<Book> = {
     name: (item, value) => item.name.toLowerCase().includes((value as string).toLowerCase()),
@@ -54,11 +62,15 @@ const UserBooksFeed: React.FC<UserBooksFeedProps> = (props) => {
     },
   };
 
-  const { filteredData, filters, sort } = useFilterData<Book>({
+  const { filteredData, filters, sort, noResults } = useFilterData<Book>({
     data: books,
     filterFunctions,
     sortFunctions,
   });
+
+  const handleCardVariantChange = (value: string) => {
+    setCardVariant(value as BookCardStyleProps['variant']);
+  };
 
   return (
     <FiltersShell
@@ -66,17 +78,36 @@ const UserBooksFeed: React.FC<UserBooksFeedProps> = (props) => {
         return <UserBooksFiltering filters={filters} sort={sort} />;
       }}
     >
-      <div className="p-4 grow space-y-4">
-        <BooksFeed books={filteredData} />
-        <PaginationControls
-          getCanNextPage={getCanNextPage}
-          getCanPreviousPage={getCanPreviousPage}
-          nextPage={nextPage}
-          page={page}
-          pageCount={pageCount}
-          previousPage={previousPage}
-          setPageIndex={setPageIndex}
-        />
+      <div className="p-4 grow flex flex-col justify-between gap-4">
+        <div className="flex items-center ml-auto">
+          <ToggleGroup type="single" onValueChange={handleCardVariantChange}>
+            <ToggleGroupItem value="vertical">
+              <LayoutListIcon />
+            </ToggleGroupItem>
+            <ToggleGroupItem value="landscape">
+              <LayoutGridIcon />
+            </ToggleGroupItem>
+          </ToggleGroup>
+        </div>
+        {noResults ? (
+          <p className="my-auto text-center">
+            It looks like there are <strong>no books</strong> that match your current filters, try adjusting your
+            filters!
+          </p>
+        ) : (
+          <>
+            <BooksFeed books={filteredData} cardVariant={cardVariant} />
+            <PaginationControls
+              getCanNextPage={getCanNextPage}
+              getCanPreviousPage={getCanPreviousPage}
+              nextPage={nextPage}
+              page={page}
+              pageCount={pageCount}
+              previousPage={previousPage}
+              setPageIndex={setPageIndex}
+            />
+          </>
+        )}
       </div>
     </FiltersShell>
   );

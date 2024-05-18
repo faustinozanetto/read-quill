@@ -1,15 +1,7 @@
 import type { ComponentPropsWithoutRef } from 'react';
 import React from 'react';
 import type { Thread } from '@read-quill/database';
-import {
-  CalendarIcon,
-  FlagIcon,
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-  cn,
-} from '@read-quill/design-system';
+import { CalendarIcon, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger, cn } from '@read-quill/design-system';
 
 interface CommunityThreadCreatedAtProps extends ComponentPropsWithoutRef<typeof TooltipTrigger> {
   createdAt: Thread['createdAt'];
@@ -26,7 +18,7 @@ const CommunityThreadCreatedAt: React.FC<CommunityThreadCreatedAtProps> = (props
           {...rest}
         >
           <CalendarIcon size="sm" />
-          {new Date(createdAt).toLocaleDateString('en-US', { dateStyle: 'medium' })}
+          {new Date(createdAt).toLocaleDateString('en-US', { dateStyle: 'long' })}
         </TooltipTrigger>
         <TooltipContent>
           <p>Thread Created At</p>

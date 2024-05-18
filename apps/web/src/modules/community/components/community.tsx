@@ -2,6 +2,7 @@ import React from 'react';
 import CommunityThreads from './threads/latest/community-threads';
 import CommunityTrendingThreads from './threads/trending/community-trending-threads';
 import CommunityTopUsers from './top-users/community-top-users';
+import CommunityFavouriteThreads from './threads/favourite/community-favourite-threads';
 
 const Community: React.FC = () => {
   return (
@@ -15,8 +16,9 @@ const Community: React.FC = () => {
       </div>
       <CommunityTopUsers />
       <div className="gap-4 flex flex-col 2xl:flex-row-reverse relative">
-        <div className="2xl:max-w-[550px]">
+        <div className="2xl:max-w-[550px] flex flex-col gap-4">
           <CommunityTrendingThreads />
+          <CommunityFavouriteThreads />
         </div>
         <CommunityThreads />
       </div>

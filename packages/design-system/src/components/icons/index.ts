@@ -54,3 +54,5 @@ export * from './sort-desc-icon';
 export * from './reset-icon';
 export * from './horizontal-bars-icon';
 export * from './users-icon';
+export * from './layout-grid-icon';
+export * from './layout-list-icon';

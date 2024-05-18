@@ -11,9 +11,10 @@ import {
 } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { ThreadWithDetails } from '@modules/community/types/community.types';
-import { useIsThreadFavourite } from '@modules/community/hooks/use-is-thread-favourite';
-import { useSession } from 'next-auth/react';
-import { useSetThreadFavourite } from '@modules/community/hooks/use-set-thread-favourite';
+import { useIsThreadFavourite } from '@modules/community/hooks/threads/use-is-thread-favourite';
+
+import { useSetThreadFavourite } from '@modules/community/hooks/threads/use-set-thread-favourite';
+import { useAuthContext } from '@modules/auth/hooks/use-auth-context';
 
 interface CommnuityThreadFavouriteProps {
   thread: ThreadWithDetails;
@@ -22,22 +23,22 @@ interface CommnuityThreadFavouriteProps {
 const CommnuityThreadFavourite: React.FC<CommnuityThreadFavouriteProps> = (props) => {
   const { thread } = props;
 
-  const { data: session } = useSession();
+  const user = useAuthContext((s) => s.user);
   const {
     data: { isFavourite: isCurrentThreadFavourite },
     isLoading,
     isFetching,
   } = useIsThreadFavourite({
     threadId: thread.id,
-    userId: session?.user.id,
+    userId: user?.id,
   });
   const { mutateAsync, isLoading: isSetLoading } = useSetThreadFavourite();
 
   const handleSetFavourite = async () => {
-    if (!session?.user) return;
+    if (!user || !user.id) return;
 
     await mutateAsync({
-      userId: session.user.id,
+      userId: user.id,
       threadId: thread.id,
       currentThreadFavourite: isCurrentThreadFavourite,
     });

@@ -32,7 +32,7 @@ const UserBookManagementEdit: React.FC = () => {
       if (!book) return;
 
       try {
-        const { coverImage, ...rest } = data;
+        const { coverImage, startedAt, finishedAt, ...rest } = data;
 
         // Handle cover image updated, then upload.
         let coverFile: BooksUploadPostResponse | null = null;
@@ -41,8 +41,10 @@ const UserBookManagementEdit: React.FC = () => {
         const url = new URL('/api/books', __URL__);
         const body = JSON.stringify({
           bookId: book.id,
-          ...rest,
+          startedAt: startedAt ? new Date(startedAt) : book.startedAt,
+          finishedAt: finishedAt ? new Date(finishedAt) : book.finishedAt,
           coverImage: coverFile?.fileUrl,
+          ...rest,
         });
 
         const response = await fetch(url, { method: 'PATCH', body });

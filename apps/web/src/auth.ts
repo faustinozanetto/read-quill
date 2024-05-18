@@ -4,8 +4,6 @@ import { prisma } from '@read-quill/database';
 import NextAuth from 'next-auth';
 import Google from 'next-auth/providers/google';
 
-const COOKIES_PREFIX = 'readquill';
-
 export const { auth, handlers, signIn, signOut } = NextAuth({
   providers: [Google],
   adapter: PrismaAdapter(prisma),

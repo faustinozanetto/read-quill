@@ -60,6 +60,18 @@ const CommunityThreadManagementEditForm: React.FC<CommunityThreadManagementEditF
 
         <FormField
           control={form.control}
+          name="keywords"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Keywords</FormLabel>
+              <FormControl></FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
           name="content"
           render={({ field }) => (
             <FormItem>

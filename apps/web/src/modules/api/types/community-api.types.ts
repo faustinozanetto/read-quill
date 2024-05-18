@@ -57,12 +57,22 @@ export interface ThreadFavouriteGetResponse {
   isFavourite: boolean;
 }
 
+export interface ThreadVoteGetResponse {
+  votes: number;
+}
+
 export interface ThreadVotePostResponse {
   success: boolean;
   alredyVoted: boolean;
 }
 
 export interface ThreadsUserGetResponse {
+  threads: ThreadWithDetails[];
+  nextCursor: string | null;
+  hasMore: boolean;
+}
+
+export interface FavouriteThreadsCommunityGetResponse {
   threads: ThreadWithDetails[];
   nextCursor: string | null;
   hasMore: boolean;

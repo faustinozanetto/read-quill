@@ -6,7 +6,7 @@ import CommunityTopUserCard from './card/community-top-user-card';
 import CommunityTopUserCardPlaceholder from './card/community-top-user-card-placeholder';
 
 const CommunityTopUsers: React.FC = () => {
-  const { data, isLoading, isFetching } = useCommunityTopUsers();
+  const { data, isLoading, isFetching } = useCommunityTopUsers({ take: 8 });
 
   return (
     <div className="flex w-full flex-col border p-4 rounded-lg shadow">
@@ -15,7 +15,7 @@ const CommunityTopUsers: React.FC = () => {
 
       {(isFetching || isLoading) && (
         <div className="grid gap-2 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-          {Array.from({ length: 6 }).map((_, i) => (
+          {Array.from({ length: 8 }).map((_, i) => (
             <CommunityTopUserCardPlaceholder key={`community-top-user-placeholder-${i}`} />
           ))}
         </div>
