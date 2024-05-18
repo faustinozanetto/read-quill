@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import { DeepPartial, FieldValues, UseFormReturn, useForm } from 'react-hook-form';
+import { DeepPartial, DefaultValues, FieldValues, Path, UseFormReturn, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 export interface MultiStepFormStep<T extends FieldValues> {
   title: string;
-  fields: (keyof T)[];
+  fields: Path<T>[];
 }
 
 interface UseMultiStepFormParams<T extends FieldValues> {
   data: MultiStepFormStep<T>[];
   resolver: any;
-  initialData?: DeepPartial<T>;
+  initialData?: DefaultValues<T>;
 }
 
 export interface UseMultiStepFormReturn<T extends FieldValues> {
@@ -38,7 +38,7 @@ export const useMultiStepForm = <T extends FieldValues>(
 
   const form = useForm<T>({
     resolver: zodResolver(resolver),
-    defaultValues: { ...initialData },
+    defaultValues: initialData,
   });
 
   const gotoNextStep = async () => {

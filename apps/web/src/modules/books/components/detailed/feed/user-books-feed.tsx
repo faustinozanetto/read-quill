@@ -17,6 +17,7 @@ import { LayoutListIcon } from '@read-quill/design-system';
 import { ToggleGroup } from '@read-quill/design-system';
 import { ToggleGroupItem } from '@read-quill/design-system';
 import { LayoutGridIcon } from '@read-quill/design-system';
+import { NoUndefinedField } from '@modules/common/types/common.types';
 
 interface UserBooksFeedProps extends PaginationControlsProps {
   books: Book[];
@@ -25,7 +26,7 @@ interface UserBooksFeedProps extends PaginationControlsProps {
 const UserBooksFeed: React.FC<UserBooksFeedProps> = (props) => {
   const { books, page, pageCount, getCanNextPage, getCanPreviousPage, nextPage, previousPage, setPageIndex } = props;
 
-  const [cardVariant, setCardVariant] = useState<BookCardStyleProps['variant']>('vertical');
+  const [cardVariant, setCardVariant] = useState<'vertical' | 'landscape'>('vertical');
 
   const filterFunctions: UseFilterFilteringFunctions<Book> = {
     name: (item, value) => item.name.toLowerCase().includes((value as string).toLowerCase()),
@@ -81,7 +82,7 @@ const UserBooksFeed: React.FC<UserBooksFeedProps> = (props) => {
             type="single"
             variant="outline"
             value={cardVariant}
-            onValueChange={(value: BookCardStyleProps['variant']) => {
+            onValueChange={(value: 'vertical' | 'landscape') => {
               if (value) setCardVariant(value);
             }}
           >

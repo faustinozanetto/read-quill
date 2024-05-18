@@ -31,7 +31,15 @@ const DashboardReadInsightTrendsDailyRangeSelect: React.FC<DashboardReadInsightT
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <Calendar mode="range" selected={dailyRange} onSelect={setDailyRange} />
+        <Calendar
+          mode="range"
+          selected={dailyRange}
+          onSelect={(range) => {
+            if (!range) return;
+
+            setDailyRange({ from: range.from ?? new Date(), to: range.to ?? new Date() });
+          }}
+        />
       </DropdownMenuContent>
     </DropdownMenu>
   );

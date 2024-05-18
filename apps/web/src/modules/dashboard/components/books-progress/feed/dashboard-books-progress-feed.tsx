@@ -26,7 +26,9 @@ const DashboardBooksProgressFeed: React.FC<DashboardBooksProgressFeedProps> = (p
     progress: (a, b) => (a.progress >= b.progress ? 1 : -1),
   };
 
-  const { filteredData, filters, sort } = useFilterData<DashboardBooksProgressGetResponse['booksProgress'][0]>({
+  const { filteredData, filters, sort, noResults } = useFilterData<
+    DashboardBooksProgressGetResponse['booksProgress'][0]
+  >({
     data: booksProgress,
     filterFunctions,
     sortFunctions,
@@ -38,29 +40,40 @@ const DashboardBooksProgressFeed: React.FC<DashboardBooksProgressFeedProps> = (p
         return <DashboardBooksProgressFiltering filters={filters} sort={sort} />;
       }}
     >
-      <div className="p-4 grow space-y-4">
-        <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-3 mt-2">
-          {filteredData.map((bookProgress) => {
-            return (
-              <DashboardBooksProgressCard
-                cover={bookProgress.cover}
-                id={bookProgress.id}
-                key={`dashboard-books-progress-${bookProgress.id}`}
-                name={bookProgress.name}
-                progress={bookProgress.progress}
-              />
-            );
-          })}
-        </div>
-        <PaginationControls
-          getCanNextPage={getCanNextPage}
-          getCanPreviousPage={getCanPreviousPage}
-          nextPage={nextPage}
-          page={page}
-          pageCount={pageCount}
-          previousPage={previousPage}
-          setPageIndex={setPageIndex}
-        />
+      <div className="p-4 grow flex flex-col justify-between gap-4">
+        <span className="font-medium">Showing {filteredData.length} Books</span>
+
+        {noResults ? (
+          <p className="my-auto text-center">
+            It looks like there are <strong>no books</strong> that match your current filters, try adjusting your
+            filters!
+          </p>
+        ) : (
+          <>
+            <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-3 mt-2">
+              {filteredData.map((bookProgress) => {
+                return (
+                  <DashboardBooksProgressCard
+                    cover={bookProgress.cover}
+                    id={bookProgress.id}
+                    key={`dashboard-books-progress-${bookProgress.id}`}
+                    name={bookProgress.name}
+                    progress={bookProgress.progress}
+                  />
+                );
+              })}
+            </div>
+            <PaginationControls
+              getCanNextPage={getCanNextPage}
+              getCanPreviousPage={getCanPreviousPage}
+              nextPage={nextPage}
+              page={page}
+              pageCount={pageCount}
+              previousPage={previousPage}
+              setPageIndex={setPageIndex}
+            />
+          </>
+        )}
       </div>
     </FiltersShell>
   );

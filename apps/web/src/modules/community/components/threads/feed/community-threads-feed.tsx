@@ -39,7 +39,7 @@ const CommunityThreadsFeed: React.FC<CommunityThreadsFeedProps> = (props) => {
     votes: (a, b) => (a.votes > b.votes ? 1 : -1),
   };
 
-  const { filteredData, filters, sort } = useFilterData<ThreadWithDetails>({
+  const { filteredData, filters, sort, noResults } = useFilterData<ThreadWithDetails>({
     data: threads,
     filterFunctions,
     sortFunctions,
@@ -52,19 +52,29 @@ const CommunityThreadsFeed: React.FC<CommunityThreadsFeedProps> = (props) => {
         return <CommunityThreadsFeedFiltering filters={filters} sort={sort} />;
       }}
     >
-      <div className="flex flex-col gap-2 p-4 max-h-screen overflow-y-auto grow">
-        {filteredData.map((thread) => {
-          return (
-            <CommunityThreadCard.Root key={`thread-${thread.id}`} thread={thread}>
-              <CommunityThreadCard.Metadata thread={thread}>
-                <CommunityThreadCard.Votes thread={thread} />
-              </CommunityThreadCard.Metadata>
-              <CommunityThreadCard.KeywordsComments thread={thread} />
-              <CommunityThreadCard.Content>{thread.content}</CommunityThreadCard.Content>
-            </CommunityThreadCard.Root>
-          );
-        })}
-        {children}
+      <div className="p-4 grow flex flex-col justify-between gap-4">
+        <span className="font-medium">Showing {filteredData.length} Threads</span>
+        {noResults ? (
+          <p className="my-auto text-center">
+            It looks like there are <strong>no threads</strong> that match your current filters, try adjusting your
+            filters!
+          </p>
+        ) : (
+          <div className="flex flex-col gap-2 max-h-screen overflow-y-auto grow overflow-x-hidden">
+            {filteredData.map((thread) => {
+              return (
+                <CommunityThreadCard.Root key={`thread-${thread.id}`} thread={thread}>
+                  <CommunityThreadCard.Metadata thread={thread}>
+                    <CommunityThreadCard.Votes thread={thread} />
+                  </CommunityThreadCard.Metadata>
+                  <CommunityThreadCard.KeywordsComments thread={thread} />
+                  <CommunityThreadCard.Content>{thread.content}</CommunityThreadCard.Content>
+                </CommunityThreadCard.Root>
+              );
+            })}
+            {children}
+          </div>
+        )}
       </div>
     </FiltersShell>
   );
