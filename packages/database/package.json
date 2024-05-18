@@ -34,8 +34,8 @@
   },
   "devDependencies": {
     "@read-quill/eslint-config": "*",
+    "prisma": "5.14.0",
     "eslint": "9.3.0",
-    "prisma": "5.12.1",
     "rimraf": "5.0.5",
     "@faker-js/faker": "8.4.1",
     "@read-quill/typescript-config": "*",
