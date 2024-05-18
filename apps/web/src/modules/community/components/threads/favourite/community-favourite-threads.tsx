@@ -17,9 +17,13 @@ const CommunityFavouriteThreads: React.FC = () => {
   const threads = data?.pages.flatMap((v) => v.threads) ?? [];
 
   return (
-    <div className="flex w-full flex-col border p-4 rounded-lg shadow">
+    <div className="flex w-full flex-col border p-4 rounded-lg shadow space-y-2">
       <h1 className="text-2xl font-bold">💖 Favourite Threads</h1>
-      <p className="mb-2">Check out your favourite threads!</p>
+      <p>
+        {threads.length === 0 && !(isLoading || isFetching)
+          ? 'Your favourite threads will appear here once you add some!'
+          : 'Check out your favourite threads!'}
+      </p>
 
       {(isFetching || isLoading) && (
         <div className="grid xl:grid-cols-2 2xl:grid-cols-1 gap-2">
@@ -43,10 +47,6 @@ const CommunityFavouriteThreads: React.FC = () => {
           })}
         </div>
       )}
-
-      {!(isFetching || isLoading) && threads.length === 0 ? (
-        <p>No favourite threads found! Start by adding one to favourites!</p>
-      ) : null}
     </div>
   );
 };

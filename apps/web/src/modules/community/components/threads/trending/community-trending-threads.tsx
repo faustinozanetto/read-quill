@@ -12,9 +12,13 @@ const CommunityTrendingThreads: React.FC = () => {
   });
 
   return (
-    <div className="flex w-full flex-col border p-4 rounded-lg shadow">
+    <div className="flex w-full flex-col border p-4 rounded-lg shadow space-y-2">
       <h1 className="text-2xl font-bold">🔥Trending Threads</h1>
-      <p className="mb-2">Check out the most upvoted threads in the past weeks!</p>
+      <p>
+        {data && data.threads.length === 0 && !(isLoading || isFetching)
+          ? 'Trending threads will appear here once people write some!'
+          : 'Check out the latest trending threads!'}
+      </p>
 
       {(isFetching || isLoading) && (
         <div className="grid xl:grid-cols-2 2xl:grid-cols-1 gap-2">
@@ -38,13 +42,6 @@ const CommunityTrendingThreads: React.FC = () => {
           })}
         </div>
       )}
-
-      {!(isFetching || isLoading) && data && data.threads.length === 0 ? (
-        <p>
-          No threads found! Be the first one by clicking the{' '}
-          <span className="text-primary font-bold underline">Start a Thread</span> button to get started.
-        </p>
-      ) : null}
     </div>
   );
 };
