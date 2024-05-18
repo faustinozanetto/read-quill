@@ -68,10 +68,6 @@ const UserBooksFeed: React.FC<UserBooksFeedProps> = (props) => {
     sortFunctions,
   });
 
-  const handleCardVariantChange = (value: string) => {
-    setCardVariant(value as BookCardStyleProps['variant']);
-  };
-
   return (
     <FiltersShell
       onRenderFilters={() => {
@@ -79,8 +75,16 @@ const UserBooksFeed: React.FC<UserBooksFeedProps> = (props) => {
       }}
     >
       <div className="p-4 grow flex flex-col justify-between gap-4">
-        <div className="flex items-center ml-auto">
-          <ToggleGroup type="single" onValueChange={handleCardVariantChange}>
+        <div className="flex items-center justify-between">
+          <span className="font-medium">Showing {filteredData.length} Books</span>
+          <ToggleGroup
+            type="single"
+            variant="outline"
+            value={cardVariant}
+            onValueChange={(value: BookCardStyleProps['variant']) => {
+              if (value) setCardVariant(value);
+            }}
+          >
             <ToggleGroupItem value="vertical">
               <LayoutListIcon />
             </ToggleGroupItem>

@@ -17,7 +17,7 @@ const FileInputEntry: React.FC<FileInputEntryProps> = (props) => {
     <div className="flex items-center gap-2">
       <TooltipProvider>
         <Tooltip delayDuration={100}>
-          <TooltipTrigger>
+          <TooltipTrigger className="aspect-square">
             <img alt={file.name} className="h-10 w-10 aspect-square rounded-md border object-cover" src={url} />
           </TooltipTrigger>
           <TooltipContent className="bg-background p-0">
@@ -25,13 +25,14 @@ const FileInputEntry: React.FC<FileInputEntryProps> = (props) => {
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <span className="text-sm mr-auto">{file.name}</span>
+      <span className="text-sm mr-auto text-wrap line-clamp-1">{file.name}</span>
       <Button
         onClick={() => {
           onDelete(file.name);
         }}
         size="icon"
         variant="destructive"
+        className="aspect-square"
       >
         <DeleteIcon className="stroke-current" />
       </Button>

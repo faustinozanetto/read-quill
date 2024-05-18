@@ -36,7 +36,7 @@ const DashboardBooksProgressCard: React.FC<DashboardBooksProgressCardProps> = (p
           {count > 10 ? <span className="text-2xl font-bold block">{count}%</span> : null}
         </div>
       </div>
-      <Link href={`/books/${id}`} className="block font-medium text-center p-1">
+      <Link href={`/books/${id}`} className="block font-medium text-center p-1 hover:underline">
         {name}
       </Link>
     </div>
