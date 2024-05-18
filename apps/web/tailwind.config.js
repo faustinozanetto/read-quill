@@ -5,6 +5,9 @@ module.exports = {
   presets: [sharedConfig],
   theme: {
     extend: {
+      gridTemplateColumns: {
+        community: 'auto 1fr',
+      },
       animation: {
         'hero-background': 'rotate 10s linear infinite',
         'home-testimonials-1': 'home-testimonials 100s linear infinite',

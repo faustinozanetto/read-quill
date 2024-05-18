@@ -1,15 +1,14 @@
 import { prisma } from '@read-quill/database';
-import { getServerSession } from 'next-auth';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { authOptions } from '@modules/auth/lib/auth.lib';
 import {
   createBookAnnotationValidationSchemaAPI,
   deleteBookAnnotationValidationSchema,
   editBookAnnotationValidationSchemaAPI,
 } from '@modules/annotations/lib/annotations.validations';
 import type { BookAnnotationPostResponse, BookAnnotationsGetResponse } from '@modules/api/types/books-api.types';
+import { auth } from 'auth';
 
 // /api/books/annotations GET : Gets the book annotations by a given bookId
 export async function GET(request: NextRequest): Promise<NextResponse<BookAnnotationsGetResponse>> {
@@ -34,7 +33,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<BookAnnota
 // /api/books/annotations POST : creates a book annotation
 export async function POST(request: NextRequest): Promise<NextResponse<BookAnnotationPostResponse>> {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) {
       return new NextResponse('Unauthorized', { status: 403 });
@@ -65,7 +64,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<BookAnnot
 // /api/books/annotations PATCH : edits a book annotation
 export async function PATCH(request: NextRequest): Promise<NextResponse> {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) {
       return new NextResponse('Unauthorized', { status: 403 });
@@ -98,7 +97,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
 // /api/books/annotations DELETE : deletes a book annotation
 export async function DELETE(request: NextRequest): Promise<NextResponse> {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) {
       return new NextResponse('Unauthorized', { status: 403 });

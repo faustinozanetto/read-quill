@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import type { ButtonProps } from '@read-quill/design-system';
 import { Button, LogOutIcon, cn } from '@read-quill/design-system';

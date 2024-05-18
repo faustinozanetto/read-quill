@@ -1,15 +1,14 @@
 import type { Prisma } from '@read-quill/database';
 import { prisma } from '@read-quill/database';
-import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
-import { authOptions } from '@modules/auth/lib/auth.lib';
 import type { AchievementsLockedGetResponse } from '@modules/api/types/achievements-api.types';
 import { calculateCriterias } from '@modules/achievements/lib/achievement-criterias.lib';
+import { auth } from 'auth';
 
 // /api/achievements/locked GET : Gets the locked achievements of a user.
 export async function GET(): Promise<NextResponse<AchievementsLockedGetResponse>> {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) {
       return new NextResponse('Unauthorized', { status: 403 });

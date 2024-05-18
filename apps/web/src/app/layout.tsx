@@ -7,6 +7,7 @@ import { Analytics } from '@vercel/analytics/react';
 import type { Metadata } from 'next';
 import { siteConfig } from '@config/config';
 import Providers from './providers';
+import { auth } from 'auth';
 
 const rubikFont = Rubik({
   variable: '--font-sans',
@@ -91,11 +92,13 @@ export const metadata: Metadata = {
   ],
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }): JSX.Element {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const session = await auth();
+
   return (
     <html className={rubikFont.variable} lang="en" suppressHydrationWarning>
       <body className="bg-background font-sans subpixel-antialiased scroll-smooth">
-        <Providers>
+        <Providers session={session}>
           {children}
           <Analytics />
           <ToastsContainer />

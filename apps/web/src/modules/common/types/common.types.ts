@@ -8,3 +8,5 @@ export type ActionMap<M extends Record<string, unknown>> = {
         payload: M[Key];
       };
 };
+
+export type NoUndefinedField<T> = { [P in keyof T]-?: NoUndefinedField<NonNullable<T[P]>> };

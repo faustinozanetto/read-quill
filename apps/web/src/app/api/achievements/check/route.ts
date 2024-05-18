@@ -1,14 +1,13 @@
 import type { Prisma } from '@read-quill/database';
 import { prisma } from '@read-quill/database';
-import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
-import { authOptions } from '@modules/auth/lib/auth.lib';
 import { calculateCriterias } from '@modules/achievements/lib/achievement-criterias.lib';
+import { auth } from 'auth';
 
 // /api/achievements/check POST : Checks if the user met the requirements for unlocking achievements.
 export async function POST(): Promise<NextResponse> {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) {
       return new NextResponse('Unauthorized', { status: 403 });

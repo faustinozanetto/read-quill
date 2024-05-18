@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Thread" ADD COLUMN     "votes" INTEGER NOT NULL DEFAULT 0;
