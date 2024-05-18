@@ -1,5 +1,4 @@
 import { prisma } from '@read-quill/database';
-import { getServerSession } from 'next-auth/next';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -7,12 +6,12 @@ import {
   bookReviewValidationSchemaAPI,
   deleteBookReviewValidationSchemaAPI,
 } from '@modules/books/validations/books.validations';
-import { authOptions } from '@modules/auth/lib/auth.lib';
+import { auth } from 'auth';
 
 // /api/books/rewiew POST : creates a book review
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) {
       return new NextResponse('Unauthorized', { status: 403 });
@@ -43,7 +42,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 // /api/books/rewiew PATCH : Update a book review
 export async function PATCH(request: NextRequest): Promise<NextResponse> {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) {
       return new NextResponse('Unauthorized', { status: 403 });
@@ -74,7 +73,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
 // /api/books/rewiew DELETE : Delete a book review
 export async function DELETE(request: NextRequest): Promise<NextResponse> {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) {
       return new NextResponse('Unauthorized', { status: 403 });

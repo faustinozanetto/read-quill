@@ -38,6 +38,10 @@ model User {
   readTargets  ReadTargets?
   books        Book[]
   achievements UserAchievement[]
+
+  threads              Thread[]
+  threadComments       ThreadComment[]
+  userFavouriteThreads UserFavouriteThread[]
 }
 
 model ReadTargets {
@@ -112,9 +116,52 @@ model UserAchievement {
 model Achievement {
   id         String            @id @default(cuid())
   name       String
-  criteria   Json // JSON field to store badge criteria
+  criteria   Json
   unlockedBy UserAchievement[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model Thread {
+  id       String @id @default(cuid())
+  title    String
+  content  String
+  keywords String
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+  votes    Int    @default(0)
+
+  comments             ThreadComment[]
+  userFavouriteThreads UserFavouriteThread[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model UserFavouriteThread {
+  id       String @id @default(cuid())
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId   String
+  thread   Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  threadId String
+
+  createdAt DateTime @default(now())
+}
+
+model ThreadComment {
+  id      String @id @default(cuid())
+  content String
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+
+  thread   Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  threadId String
+
+  replyToId String?
+  replyTo   ThreadComment?  @relation("ThreadCommentReplies", fields: [replyToId], references: [id], onDelete: Cascade)
+  replies   ThreadComment[] @relation("ThreadCommentReplies")
+
+  createdAt DateTime @default(now())
 }

@@ -16,8 +16,10 @@
     "db:migrate:deploy": "prisma migrate deploy",
     "db:migrate:dev": "prisma migrate dev",
     "db:push": "prisma db push",
-    "db:seed": "tsx src/seed-dummy.ts",
-    "db:seed-achievements": "tsx src/seed-achievements.ts",
+    "db:seed-books": "tsx src/seed/seed-books.ts",
+    "db:seed-achievements": "tsx src/seed/seed-achievements.ts",
+    "db:seed-community": "tsx src/seed/seed-community.ts",
+    "db:seed-users": "tsx src/seed/seed-users.ts",
     "build": "tsup",
     "dev": "tsup --watch",
     "format": "prisma format",
@@ -39,6 +41,6 @@
     "@read-quill/typescript-config": "*",
     "tsup": "8.0.2",
     "tsx": "4.7.2",
-    "typescript": "5.4.4"
+    "typescript": "5.4.5"
   }
 }

@@ -17,28 +17,30 @@ export interface UseUserBooksReturn
 
 interface UseUserBooksParams {
   pageSize: number;
+  userId: string;
 }
 
-const buildUrl = (page: number, pageSize: number): string => {
+const buildUrl = (page: number, pageSize: number, userId: string): string => {
   const url = new URL('/api/books/user', __URL__);
   url.searchParams.set('pageIndex', String(page));
   url.searchParams.set('pageSize', String(pageSize));
+  url.searchParams.set('userId', userId);
   return url.toString();
 };
 
-export const useUserBooks = (params: UseUserBooksParams = { pageSize: 3 }): UseUserBooksReturn => {
-  const { pageSize } = params;
+export const useUserBooks = (params: UseUserBooksParams): UseUserBooksReturn => {
+  const { pageSize, userId } = params;
 
   const { toast } = useToast();
 
   const [page, setPage] = useState(0);
 
-  const { data, isLoading, isFetching, isPreviousData } = useQuery<UserBooksGetResponse>(['user-books', page], {
+  const { data, isLoading, isFetching, isPreviousData } = useQuery<UserBooksGetResponse>(['user-books', page, userId], {
     initialData: { books: [], hasMore: false, pageCount: 0 },
     keepPreviousData: true,
     queryFn: async () => {
       try {
-        const url = buildUrl(page, pageSize);
+        const url = buildUrl(page, pageSize, userId);
         const response = await fetch(url, { method: 'GET' });
 
         if (!response.ok) {

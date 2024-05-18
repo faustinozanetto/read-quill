@@ -1,13 +1,12 @@
 import { prisma } from '@read-quill/database';
-import { getServerSession } from 'next-auth';
 import { NextResponse } from 'next/server';
-import { authOptions } from '@modules/auth/lib/auth.lib';
 import type { BooksNamesGetResponse } from '@modules/api/types/books-api.types';
+import { auth } from 'auth';
 
 // /api/books/names GET : Gets the user books names and ids.
 export async function GET(): Promise<NextResponse<BooksNamesGetResponse>> {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) {
       return new NextResponse('Unauthorized', { status: 403 });

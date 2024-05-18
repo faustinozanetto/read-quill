@@ -3,9 +3,9 @@ import type { Filter, NestedKeyOf, Sort } from '@modules/filters/hooks/use-filte
 
 export const BOOKS_INITIAL_FILTERS: Filter<Book>[] = [
   { property: 'name', value: '', shouldEnable: (value) => value !== '' },
-  { property: 'language', value: '', shouldEnable: (value) => value !== 'All' },
+  { property: 'language', value: 'All', shouldEnable: (value) => value !== 'All' },
   { property: 'author', value: '', shouldEnable: (value) => value !== '' },
-  { property: 'isFavourite', value: 'all', shouldEnable: () => true },
+  { property: 'isFavourite', value: 'All', shouldEnable: (value) => value !== 'All' },
 ];
 
 export const BOOKS_INITIAL_SORT: Sort<Book> = { property: 'name', ascending: false };

@@ -33,7 +33,7 @@ const DashboardBooksRatingsChart: React.FC<DashboardBooksRatingsChartProps> = (p
       },
       chart: {
         id: 'books-ratings-chart',
-        type: 'polarArea',
+        type: 'pie',
         selection: { enabled: false },
         animations: { enabled: true },
         fontFamily: 'inherit',
@@ -41,9 +41,6 @@ const DashboardBooksRatingsChart: React.FC<DashboardBooksRatingsChartProps> = (p
           show: false,
         },
         background: 'transparent',
-      },
-      yaxis: {
-        stepSize: 1,
       },
       fill: {
         opacity: 0.8,
@@ -53,7 +50,7 @@ const DashboardBooksRatingsChart: React.FC<DashboardBooksRatingsChartProps> = (p
     [theme, booksRatings]
   );
 
-  return <ReactApexChart height={250} options={options} series={series} type="polarArea" width="100%" />;
+  return <ReactApexChart height={250} options={options} series={series} type="pie" width="100%" />;
 };
 
 export default DashboardBooksRatingsChart;

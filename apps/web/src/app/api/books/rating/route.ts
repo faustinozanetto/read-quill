@@ -1,15 +1,14 @@
 import { prisma } from '@read-quill/database';
-import { getServerSession } from 'next-auth';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 import { bookRatingValidationSchemaForm } from '@modules/books/validations/books.validations';
-import { authOptions } from '@modules/auth/lib/auth.lib';
+import { auth } from 'auth';
 
 // /api/books/favourite POST : sets a book rating
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await auth();
 
     if (!session) {
       return new NextResponse('Unauthorized', { status: 403 });

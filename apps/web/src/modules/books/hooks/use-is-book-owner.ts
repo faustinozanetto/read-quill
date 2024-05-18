@@ -1,15 +1,15 @@
-import { useSession } from 'next-auth/react';
 import { useBookStore } from '../state/book.slice';
+import { useAuthContext } from '@modules/auth/hooks/use-auth-context';
 
 interface UseIsBookOwnerReturn {
   isBookOwner: boolean;
 }
 
 export const useIsBookOwner = (): UseIsBookOwnerReturn => {
-  const { data: session } = useSession();
+  const user = useAuthContext((s) => s.user);
   const { book } = useBookStore();
 
-  const isBookOwner = Boolean(session?.user.id === book?.readerId);
+  const isBookOwner = Boolean(user?.id === book?.readerId);
 
   return { isBookOwner };
 };

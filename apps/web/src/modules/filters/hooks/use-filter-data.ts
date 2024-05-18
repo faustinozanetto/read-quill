@@ -42,6 +42,7 @@ export interface UseFilterReturn<TData> {
    * Filters data.
    */
   filters: Record<NestedKeyOf<TData>, Filter<TData>>;
+  noResults: boolean;
 }
 
 interface UseFilterParams<TData> {
@@ -110,9 +111,19 @@ export const useFilterData = <TData>(params: UseFilterParams<TData>): UseFilterR
     return sortedData;
   }, [data, state.sort, state.filters, filterFunctions, sortFunctions]);
 
+  const areFiltersApplied = useMemo(
+    () =>
+      Object.keys(state.filters).some((filterKey) => {
+        const filter = state.filters[filterKey as NestedKeyOf<TData>];
+        return filter.shouldEnable(filter.value);
+      }),
+    [state.filters]
+  );
+
   return {
     sort: state.sort,
     filters: state.filters,
     filteredData,
+    noResults: areFiltersApplied && filteredData.length === 0,
   };
 };
