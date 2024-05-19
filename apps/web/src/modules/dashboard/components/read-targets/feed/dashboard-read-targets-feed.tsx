@@ -4,12 +4,12 @@ import type { DashboardReadTargetsGetResponse } from '@modules/api/types/dashboa
 import DashboardReadTargetsCard from './dashboard-read-targets-card';
 
 interface DashboardReadTargetsFeedProps {
-  data: DashboardReadTargetsGetResponse;
+  data: NonNullable<DashboardReadTargetsGetResponse['result']>;
 }
 
 const DashboardReadTargetsFeed: React.FC<DashboardReadTargetsFeedProps> = (props) => {
   const { data } = props;
-  const { readTargets, targetReadTargets } = data;
+  const { targetReadTargets, readTargets } = data;
 
   return (
     <div className="grid gap-2 md:grid-cols-3 mt-2">

@@ -13,14 +13,14 @@ type UseReadTargetsReturn = Pick<UseQueryResult<DashboardReadTargetsGetResponse>
 export const useReadTargets = (): UseReadTargetsReturn => {
   const { toast } = useToast();
 
-  const {
-    data: readTargetsCreatedData,
-    isLoading: isReadTargetsCreatedLoading,
-    isFetching: isReadTargetsCreatedFetching,
-  } = useReadTargetsCreated();
+  // const {
+  //   data: readTargetsCreatedData,
+  //   isLoading: isReadTargetsCreatedLoading,
+  //   isFetching: isReadTargetsCreatedFetching,
+  // } = useReadTargetsCreated();
 
   const { data, isLoading, isFetching } = useQuery<DashboardReadTargetsGetResponse>(['dashboard-read-targets'], {
-    enabled: Boolean(readTargetsCreatedData?.created),
+    // enabled: Boolean(readTargetsCreatedData?.created),
     queryFn: async () => {
       try {
         const url = new URL('/api/dashboard/read-targets', __URL__);
@@ -38,9 +38,9 @@ export const useReadTargets = (): UseReadTargetsReturn => {
   });
 
   return {
-    targetsCreated: Boolean(readTargetsCreatedData?.created),
+    targetsCreated: Boolean(data?.result),
     data,
-    isLoading: isLoading && isReadTargetsCreatedLoading,
-    isFetching: isFetching && isReadTargetsCreatedFetching,
+    isLoading: isLoading,
+    isFetching: isFetching,
   };
 };

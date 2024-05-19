@@ -9,8 +9,22 @@ export type DashboardReadRegistry = ReadRegistry & {
 };
 
 export interface DashboardReadTargetsGetResponse {
+  result: {
+    targetReadTargets: Pick<ReadTargets, 'daily' | 'weekly' | 'monthly'>;
+    readTargets: Pick<ReadTargets, 'daily' | 'weekly' | 'monthly'>;
+  } | null;
+}
+
+export interface DashboardReadTargetsPostResponse {
+  success: boolean;
+}
+
+export interface DashboardReadTargetsPatchResponse {
   targetReadTargets: Pick<ReadTargets, 'daily' | 'weekly' | 'monthly'>;
-  readTargets: Pick<ReadTargets, 'daily' | 'weekly' | 'monthly'>;
+}
+
+export interface DashboardReadTargetsDeleteResponse {
+  success: boolean;
 }
 
 export interface DashboardReadTargetsCreatedGetResponse {

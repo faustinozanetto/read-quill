@@ -20,9 +20,9 @@ const UserBookDetails: React.FC = () => {
   if (isLoading || !book) return <UserBookDetailsPlaceholder />;
 
   return (
-    <div className="flex w-full flex-col gap-2 rounded-lg p-4 shadow md:flex-row md:gap-4 border">
+    <div className="flex w-full flex-col gap-2 rounded-lg p-4 shadow md:flex-row border">
       <UserBookCover coverUrl={book.coverImage} />
-      <div className="flex-1 flex-col">
+      <div className="flex-1 flex-col pl-2">
         <div className="flex justify-between">
           <h1 className="text-xl font-bold md:text-2xl">{book.name}</h1>
           {isBookOwner ? <BookFavourite book={book} /> : null}

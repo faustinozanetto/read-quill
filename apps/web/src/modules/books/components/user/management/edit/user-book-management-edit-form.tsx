@@ -1,17 +1,10 @@
 import React from 'react';
 import type { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { Button, DialogFooter, Form, cn, LoadingIcon, EditIcon } from '@read-quill/design-system';
+import { Button, cn, LoadingIcon, EditIcon } from '@read-quill/design-system';
 import { editBookValidationSchemaForm } from '@modules/books/validations/books.validations';
 import { useBookStore } from '@modules/books/state/book.slice';
-import BookFormsAuthor from '@modules/books/components/forms/book-forms-author';
-import BookFormsCoverImage from '@modules/books/components/forms/book-forms-cover-image';
-import BookFormsFinishedAt from '@modules/books/components/forms/book-forms-finished-at';
-import BookFormsLanguage from '@modules/books/components/forms/book-forms-language';
-import BookFormsName from '@modules/books/components/forms/book-forms-name';
-import BookFormsPageCount from '@modules/books/components/forms/book-forms-page-count';
-import BookFormsStartedAt from '@modules/books/components/forms/book-forms-started-at';
+
+import BookForm from '@modules/books/components/forms/book-form';
 
 export type UserBookManagementEditFormData = z.infer<typeof editBookValidationSchemaForm>;
 
@@ -25,44 +18,34 @@ const UserBookManagementEditForm: React.FC<UserBookManagementEditFormProps> = (p
 
   const { book } = useBookStore();
 
-  const form = useForm<UserBookManagementEditFormData>({
-    resolver: zodResolver(editBookValidationSchemaForm),
-    mode: 'onBlur',
-    defaultValues: {
-      name: book?.name,
-      author: book?.author,
-      language: book?.language,
-      pageCount: book?.pageCount,
-      startedAt: book?.startedAt ? new Date(book.startedAt).toDateString() : undefined,
-      finishedAt: book?.finishedAt ? new Date(book.finishedAt).toDateString() : undefined,
-    },
-  });
-
-  const isFormLoading = isBookCoverUploading || form.formState.isSubmitting;
-
   return (
-    <Form {...form}>
-      <form className="grid md:grid-cols-2 gap-4" onSubmit={form.handleSubmit(onSubmit)}>
-        <BookFormsName />
-        <BookFormsAuthor />
-        <BookFormsCoverImage />
-        <BookFormsLanguage />
-        <BookFormsPageCount />
-        <BookFormsStartedAt />
-        <BookFormsFinishedAt />
-        <DialogFooter className="col-span-2">
+    <BookForm
+      resolver={editBookValidationSchemaForm}
+      initialData={{
+        name: book?.name,
+        author: book?.author,
+        language: book?.language,
+        pageCount: book?.pageCount,
+        startedAt: book?.startedAt ? new Date(book.startedAt).toDateString() : undefined,
+        finishedAt: book?.finishedAt ? new Date(book.finishedAt).toDateString() : undefined,
+      }}
+      onSubmit={onSubmit}
+    >
+      {(form, getCanSubmit) => {
+        const isFormLoading = form.formState.isSubmitting || isBookCoverUploading;
+        return (
           <Button
             aria-label="Edit Book"
-            className={cn('w-full', isFormLoading && 'cursor-not-allowed')}
-            disabled={isFormLoading}
+            className={cn(isFormLoading && 'cursor-not-allowed')}
+            disabled={isFormLoading || !getCanSubmit()}
             type="submit"
           >
-            {isFormLoading ? <LoadingIcon className="mr-2" /> : <EditIcon className="mr-2" />}
+            {isFormLoading ? <LoadingIcon className="mr-2" /> : <EditIcon className="mr-2 stroke-current" />}
             Edit
           </Button>
-        </DialogFooter>
-      </form>
-    </Form>
+        );
+      }}
+    </BookForm>
   );
 };
 

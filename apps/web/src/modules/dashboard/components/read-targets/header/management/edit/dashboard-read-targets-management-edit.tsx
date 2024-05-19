@@ -14,22 +14,22 @@ import { useMutation } from '@tanstack/react-query';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import type { DashboardReadTargetsGetResponse } from '@modules/api/types/dashboard-api.types';
-import DashboardReadTargetsEditForm from './dashboard-read-targets-edit-form';
-import type { DashboardReadTargetsEditFormData } from './dashboard-read-targets-edit-form';
+import DashboardReadTargetsEditForm from './dashboard-read-targets-management-edit-form';
+import type { DashboardReadTargetsManagementEditFormData } from './dashboard-read-targets-management-edit-form';
 
-interface DashboardReadTargetsEditProps {
-  targetReadTargets: DashboardReadTargetsGetResponse['targetReadTargets'];
+interface DashboardReadTargetsManagementEditProps {
+  readTargets: NonNullable<DashboardReadTargetsGetResponse['result']>;
 }
 
-const DashboardReadTargetsEdit: React.FC<DashboardReadTargetsEditProps> = (props) => {
-  const { targetReadTargets } = props;
+const DashboardReadTargetsManagementEdit: React.FC<DashboardReadTargetsManagementEditProps> = (props) => {
+  const { readTargets } = props;
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const { toast } = useToast();
   const { queryClient } = useQueriesStore();
 
   const { mutateAsync } = useMutation({
-    mutationFn: async (data: DashboardReadTargetsEditFormData) => {
+    mutationFn: async (data: DashboardReadTargetsManagementEditFormData) => {
       try {
         const url = new URL('/api/dashboard/read-targets', __URL__);
         const body = JSON.stringify({
@@ -59,9 +59,9 @@ const DashboardReadTargetsEdit: React.FC<DashboardReadTargetsEditProps> = (props
   return (
     <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
       <DialogTrigger asChild>
-        <Button aria-label="Edit Read Targets" className="w-full sm:ml-auto sm:w-fit" size="sm">
+        <Button aria-label="Edit Read Targets" size="sm" variant="outline">
           <EditIcon className="mr-2 stroke-current" />
-          Edit Read Targets
+          Edit Targets
         </Button>
       </DialogTrigger>
 
@@ -71,10 +71,10 @@ const DashboardReadTargetsEdit: React.FC<DashboardReadTargetsEditProps> = (props
           <DialogDescription>Edit your read targets here.</DialogDescription>
         </DialogHeader>
 
-        <DashboardReadTargetsEditForm initialData={targetReadTargets} onSubmit={mutateAsync} />
+        <DashboardReadTargetsEditForm initialData={readTargets.targetReadTargets} onSubmit={mutateAsync} />
       </DialogContent>
     </Dialog>
   );
 };
 
-export default DashboardReadTargetsEdit;
+export default DashboardReadTargetsManagementEdit;

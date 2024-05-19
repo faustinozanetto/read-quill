@@ -6,11 +6,16 @@ import {
   createReadTargetsValidationSchema,
   editReadTargetsValidationSchema,
 } from '@modules/dashboard/validations/dashboard.validations';
-import type { DashboardReadTargetsGetResponse } from '@modules/api/types/dashboard-api.types';
+import type {
+  DashboardReadTargetsDeleteResponse,
+  DashboardReadTargetsGetResponse,
+  DashboardReadTargetsPatchResponse,
+  DashboardReadTargetsPostResponse,
+} from '@modules/api/types/dashboard-api.types';
 import { auth } from 'auth';
 
 // /api/dashboard/read-targets GET : Gets the read targets of the user
-export async function GET(): Promise<NextResponse<DashboardReadTargetsGetResponse | { message: string }>> {
+export async function GET(): Promise<NextResponse<DashboardReadTargetsGetResponse>> {
   try {
     const session = await auth();
 
@@ -23,7 +28,7 @@ export async function GET(): Promise<NextResponse<DashboardReadTargetsGetRespons
     });
 
     if (!userReadTargets) {
-      return NextResponse.json({ message: 'User did not create read targets!' }, { status: 409 });
+      return NextResponse.json({ result: null }, { status: 200 });
     }
 
     // The target read targets that are stored in db.
@@ -67,7 +72,7 @@ export async function GET(): Promise<NextResponse<DashboardReadTargetsGetRespons
       }
     });
 
-    return NextResponse.json({ targetReadTargets, readTargets });
+    return NextResponse.json({ result: { targetReadTargets, readTargets } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
@@ -77,7 +82,7 @@ export async function GET(): Promise<NextResponse<DashboardReadTargetsGetRespons
 }
 
 // /api/dashboard/read-targets POST : Creates the read targets for the user
-export async function POST(request: NextRequest): Promise<NextResponse> {
+export async function POST(request: NextRequest): Promise<NextResponse<DashboardReadTargetsPostResponse>> {
   try {
     const session = await auth();
 
@@ -114,7 +119,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 }
 
 // /api/dashboard/read-targets PATCH : Updates the read targets for the user
-export async function PATCH(request: NextRequest): Promise<NextResponse> {
+export async function PATCH(request: NextRequest): Promise<NextResponse<DashboardReadTargetsPatchResponse>> {
   try {
     const session = await auth();
 
@@ -144,6 +149,30 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
     });
 
     return NextResponse.json({ targetReadTargets });
+  } catch (error) {
+    let errorMessage = 'An error occurred!';
+    if (error instanceof Error) errorMessage = error.message;
+    else if (error instanceof z.ZodError) errorMessage = error.issues[0].message;
+
+    return new NextResponse(errorMessage, { status: 500 });
+  }
+}
+
+// /api/dashboard/read-targets DELETE : Deletes the read targets for the user
+export async function DELETE(request: NextRequest): Promise<NextResponse<DashboardReadTargetsDeleteResponse>> {
+  try {
+    const session = await auth();
+
+    if (!session) {
+      return new NextResponse('Unauthorized', { status: 403 });
+    }
+
+    // Check if user created read targets.
+    await prisma.readTargets.delete({
+      where: { userId: session.user.id },
+    });
+
+    return NextResponse.json({ success: true });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
