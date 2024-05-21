@@ -52,7 +52,7 @@ const BookAnnotationManagementAdd: React.FC = () => {
     onSuccess: async () => {
       if (!book) return;
 
-      await queryClient.invalidateQueries(['book-annotations', book.id]);
+      await queryClient.refetchQueries(['book-annotations', book.id]);
     },
   });
 

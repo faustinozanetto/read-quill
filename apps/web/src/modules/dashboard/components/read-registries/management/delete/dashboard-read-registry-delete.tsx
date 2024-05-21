@@ -12,6 +12,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
   DropdownMenuItem,
+  buttonVariants,
 } from '@read-quill/design-system';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { ReadRegistry } from '@read-quill/database';
@@ -54,9 +55,9 @@ const DashboardReadRegistryDelete: React.FC<DashboardReadRegistryDeleteProps> = 
       }
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries(['dashboard-read-targets']);
-      await queryClient.invalidateQueries(['dashboard-read-registries']);
-      await queryClient.invalidateQueries(['dashboard-books-progress']);
+      await queryClient.refetchQueries(['dashboard-read-targets']);
+      await queryClient.refetchQueries(['dashboard-read-registries']);
+      await queryClient.refetchQueries(['dashboard-books-progress']);
     },
   });
 
@@ -84,6 +85,7 @@ const DashboardReadRegistryDelete: React.FC<DashboardReadRegistryDeleteProps> = 
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
+            className={buttonVariants({ variant: 'destructive' })}
             onClick={async () => {
               await mutateAsync();
             }}

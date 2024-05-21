@@ -15,7 +15,7 @@ const BookAnnotationCard: React.FC<BookAnnotationCardProps> = (props) => {
   const [revealContent, setRevealContent] = useState(false);
 
   return (
-    <div className="rounded-lg border transition-transform hover:scale-[101%] shadow flex flex-col">
+    <div className="rounded-lg border shadow flex flex-col">
       <div className="px-4 pt-4 flex justify-between items-start mb-2">
         <div>
           <span className="text-lg font-semibold block">{annotation.title}</span>

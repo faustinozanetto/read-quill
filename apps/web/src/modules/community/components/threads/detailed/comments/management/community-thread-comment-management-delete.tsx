@@ -42,7 +42,7 @@ const CommunityThreadCommentManagementDelete: React.FC<CommunityThreadCommentMan
     },
     onSuccess: (data) => {
       if (data && data.success && thread) {
-        queryClient.invalidateQueries(['thread-comments', 0, thread.id]);
+        queryClient.refetchQueries(['thread-comments', 0, thread.id]);
         toast({ variant: 'success', content: `Comment deleted successfully!` });
       }
     },

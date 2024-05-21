@@ -2,15 +2,7 @@ import React from 'react';
 import type { ZodSchema } from 'zod';
 import { DefaultValues, FieldValues, UseFormReturn } from 'react-hook-form';
 import { Button, ChevronLeftIcon, ChevronRightIcon, DialogFooter, Form } from '@read-quill/design-system';
-import BookFormsName from './book-forms-name';
-import BookFormsAuthor from './book-forms-author';
 import { MultiStepFormStep, useMultiStepForm } from '@modules/forms/hooks/use-multi-step-form';
-import { UserBooksManagementCreateFormData } from '../detailed/management/create/user-books-management-create-form';
-import BookFormsCoverImage from './book-forms-cover-image';
-import BookFormsLanguage from './book-forms-language';
-import BookFormsPageCount from './book-forms-page-count';
-import BookFormsStartedAt from './book-forms-started-at';
-import BookFormsFinishedAt from './book-forms-finished-at';
 import { BookAnnotationManagementAddFormData } from '../management/add/book-annotation-management-add-form';
 import AnnotationFormsTitle from './annotation-forms-title';
 import AnnotationFormsContent from './annotation-forms-content';
@@ -51,6 +43,7 @@ const AnnotationForm = <T extends FieldValues>(props: AnnotationFormProps<T>) =>
     gotoNextStep,
     gotoPrevStep,
   } = useMultiStepForm<T>({
+    // @ts-ignore
     data: STEPS_DATA,
     initialData,
     resolver,

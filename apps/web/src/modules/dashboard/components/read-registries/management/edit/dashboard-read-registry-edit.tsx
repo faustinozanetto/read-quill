@@ -55,9 +55,9 @@ const DashboardReadRegistryEdit: React.FC<DashboardReadRegistryEditProps> = (pro
       }
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries(['dashboard-read-targets']);
-      await queryClient.invalidateQueries(['dashboard-read-registries']);
-      await queryClient.invalidateQueries(['dashboard-books-progress']);
+      await queryClient.refetchQueries(['dashboard-read-targets']);
+      await queryClient.refetchQueries(['dashboard-read-registries']);
+      await queryClient.refetchQueries(['dashboard-books-progress']);
     },
   });
 

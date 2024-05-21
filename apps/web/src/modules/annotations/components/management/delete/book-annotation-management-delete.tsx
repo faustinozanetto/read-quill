@@ -42,7 +42,7 @@ const BookAnnotationManagementDelete: React.FC<BookAnnotationManagementDeletePro
     onSuccess: async () => {
       if (!book) return;
 
-      await queryClient.invalidateQueries(['book-annotations', book.id]);
+      await queryClient.refetchQueries(['book-annotations', book.id]);
     },
   });
 

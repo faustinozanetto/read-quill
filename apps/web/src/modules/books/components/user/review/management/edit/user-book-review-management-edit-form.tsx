@@ -66,7 +66,11 @@ const UserBookReviewManagementEditForm: React.FC<UserBookReviewManagementEditFor
             disabled={isFormLoading}
             type="submit"
           >
-            {isFormLoading ? <LoadingIcon className="mr-2" /> : <EditIcon className="mr-2" />}
+            {isFormLoading ? (
+              <LoadingIcon className="mr-2 stroke-current" />
+            ) : (
+              <EditIcon className="mr-2 stroke-current" />
+            )}
             Edit
           </Button>
         </DialogFooter>

@@ -22,6 +22,10 @@ export interface ThreadPatchResponse {
   success: boolean;
 }
 
+export interface ThreadPostResponse {
+  thread: ThreadWithDetails;
+}
+
 export interface ThreadDeleteResponse {
   success: boolean;
 }

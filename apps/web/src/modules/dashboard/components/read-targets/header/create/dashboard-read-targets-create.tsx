@@ -45,7 +45,7 @@ const DashboardReadTargetsCreate: React.FC = () => {
       }
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries(['dashboard-read-targets']);
+      await queryClient.refetchQueries(['dashboard-read-targets']);
     },
   });
 

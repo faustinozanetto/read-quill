@@ -29,8 +29,8 @@ const DashboardReadTargetsManagementDelete: React.FC = () => {
     },
     onSuccess: async (data) => {
       if (data && data.success) {
-        await queryClient.invalidateQueries(['dashboard-read-targets-created']);
-        await queryClient.invalidateQueries(['dashboard-read-targets']);
+        await queryClient.refetchQueries(['dashboard-read-targets-created']);
+        await queryClient.refetchQueries(['dashboard-read-targets']);
         toast({ variant: 'success', content: `Targets deleted successfully!` });
       }
     },

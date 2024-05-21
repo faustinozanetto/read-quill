@@ -44,7 +44,7 @@ export const useThreadVote = (): UseIsThreadVoteReturn => {
         const { success, alredyVoted } = data;
         if (!success) return;
 
-        await queryClient.invalidateQueries(['thread-vote-count', variables.threadId]);
+        await queryClient.refetchQueries(['thread-vote-count', variables.threadId]);
 
         if (alredyVoted) {
           toast({ variant: 'info', content: `You already ${variables.type}d this thread!` });

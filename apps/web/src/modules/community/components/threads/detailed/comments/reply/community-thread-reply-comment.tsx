@@ -64,7 +64,7 @@ const CommunityThreadReplyComment: React.FC<CommunityThreadReplyCommentProps> = 
     },
     onSuccess(data) {
       if (data && data.success && thread) {
-        queryClient.invalidateQueries(['thread-comments', 0, thread.id]);
+        queryClient.refetchQueries(['thread-comments', 0, thread.id]);
         toast({ variant: 'success', content: `Reply created successfully!` });
       }
     },

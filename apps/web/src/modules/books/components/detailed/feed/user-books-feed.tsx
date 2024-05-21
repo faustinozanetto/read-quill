@@ -87,10 +87,10 @@ const UserBooksFeed: React.FC<UserBooksFeedProps> = (props) => {
             }}
           >
             <ToggleGroupItem value="vertical">
-              <LayoutListIcon />
+              <LayoutGridIcon />
             </ToggleGroupItem>
             <ToggleGroupItem value="landscape">
-              <LayoutGridIcon />
+              <LayoutListIcon />
             </ToggleGroupItem>
           </ToggleGroup>
         </div>

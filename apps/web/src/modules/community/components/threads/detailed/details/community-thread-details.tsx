@@ -42,7 +42,6 @@ const CommunityThreadDetails: React.FC<CommunityThreadDetailsProps> = (props) =>
         <CommnuityThreadFavourite thread={thread} />
       </div>
       <CommunityThreadKeywords keywords={thread.keywords} />
-      <div className="mt-2 text-sm sm:text-base">{thread.content}</div>
     </div>
   );
 };

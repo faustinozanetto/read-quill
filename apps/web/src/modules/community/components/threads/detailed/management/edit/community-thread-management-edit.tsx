@@ -56,7 +56,7 @@ const CommunityThreadManagementEdit: React.FC<CommunityThreadManagementEditProps
     },
     onSuccess(data) {
       if (data && data.success && thread) {
-        queryClient.invalidateQueries(['community-thread', thread.id]);
+        queryClient.refetchQueries(['community-thread', thread.id]);
         toast({ variant: 'success', content: `Thread updated successfully!` });
       }
     },

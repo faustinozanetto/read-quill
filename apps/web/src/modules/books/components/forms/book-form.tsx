@@ -51,6 +51,7 @@ const BookForm = <T extends FieldValues>(props: BookFormProps<T>) => {
     gotoNextStep,
     gotoPrevStep,
   } = useMultiStepForm<T>({
+    // @ts-ignore
     data: STEPS_DATA,
     initialData,
     resolver,

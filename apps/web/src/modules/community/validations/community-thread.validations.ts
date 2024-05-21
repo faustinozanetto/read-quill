@@ -1,5 +1,15 @@
 import { z } from 'zod';
 
+export const createThreadValidationBaseSchema = z.object({
+  title: z
+    .string({ required_error: 'Please provide the title!' })
+    .max(250, { message: 'Title max characters is 100!' }),
+  content: z
+    .string({ required_error: 'Please provide the content!' })
+    .max(1000, { message: 'Content max characters is 1000!' }),
+  keywords: z.string({ required_error: 'Please provide the keywords!' }),
+});
+
 export const editThreadValidationBaseSchema = z.object({
   title: z
     .string({ required_error: 'Please provide the title!' })

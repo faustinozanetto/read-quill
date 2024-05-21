@@ -43,6 +43,7 @@ const DashboardReadTargetsForm = <T extends FieldValues>(props: DashboardReadTar
     gotoNextStep,
     gotoPrevStep,
   } = useMultiStepForm<T>({
+    // @ts-ignore
     data: STEPS_DATA,
     initialData,
     resolver,

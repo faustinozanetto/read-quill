@@ -52,7 +52,7 @@ const UserBookReviewManagementAdd: React.FC = () => {
     onSuccess: async () => {
       if (!book) return;
 
-      await queryClient.invalidateQueries(['book-page', book.id]);
+      await queryClient.refetchQueries(['book-page', book.id]);
     },
   });
 

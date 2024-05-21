@@ -58,7 +58,7 @@ export const useSetThreadFavourite = (): UseSetThreadFavouriteReturn => {
       toast({ variant: 'success', content: `Thread ${threadFavourite ? 'added to' : 'removed from'} favourites!` });
 
       const { threadId, userId } = variables;
-      await queryClient.invalidateQueries(['thread-favourite', threadId, userId]);
+      await queryClient.refetchQueries(['thread-favourite', threadId, userId]);
     },
   });
 

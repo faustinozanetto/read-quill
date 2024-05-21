@@ -7,7 +7,7 @@ import BookLanguageBadge from '../common/book-language-badge';
 import { cva, VariantProps } from 'class-variance-authority';
 import { cn } from '@read-quill/design-system';
 
-const containerVariants = cva('rounded-lg border transition-transform hover:scale-[101%] shadow', {
+const containerVariants = cva('rounded-lg border transition-transform hover:scale-[101%] shadow hover:border-primary', {
   variants: {
     variant: {
       landscape: 'flex gap-2.5',

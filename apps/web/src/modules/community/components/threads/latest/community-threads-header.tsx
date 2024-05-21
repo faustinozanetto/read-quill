@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from '@read-quill/design-system';
 import { PencilIcon } from '@read-quill/design-system';
+import Link from 'next/link';
 
 const CommunityThreadsHeader: React.FC = () => {
   return (
@@ -9,8 +10,10 @@ const CommunityThreadsHeader: React.FC = () => {
         <h1 className="text-2xl font-bold block">Latest Threads</h1>
         <p>Browse the latest threads posted by our community users.</p>
       </div>
-      <Button>
-        <PencilIcon className="mr-2" /> Start a Thread
+      <Button asChild>
+        <Link href="/community/threads/create">
+          <PencilIcon className="mr-2" /> Start a Thread
+        </Link>
       </Button>
     </div>
   );

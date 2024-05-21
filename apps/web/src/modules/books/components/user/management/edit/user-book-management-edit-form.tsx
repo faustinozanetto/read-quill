@@ -20,6 +20,7 @@ const UserBookManagementEditForm: React.FC<UserBookManagementEditFormProps> = (p
 
   return (
     <BookForm
+      // @ts-ignore
       resolver={editBookValidationSchemaForm}
       initialData={{
         name: book?.name,

@@ -51,7 +51,7 @@ const BookFavourite: React.FC<BookFavouriteProps> = (props) => {
       }
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries(['book-page', book.id]);
+      await queryClient.refetchQueries(['book-page', book.id]);
     },
   });
 
