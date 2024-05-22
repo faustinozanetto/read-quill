@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function CreateThreadPage(): React.JSX.Element {
   return (
-    <div className="my-4 px-4">
+    <div className="container my-4 px-4">
       <CreateThread />
     </div>
   );

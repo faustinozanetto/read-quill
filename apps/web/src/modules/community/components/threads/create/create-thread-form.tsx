@@ -16,10 +16,14 @@ import {
   Skeleton,
   Input,
   cn,
+  MultiInput,
+  Textarea,
+  FileInput,
 } from '@read-quill/design-system';
 import dynamic from 'next/dynamic';
 import React, { Suspense } from 'react';
 import { z } from 'zod';
+import ThreadFormsAttachments from '../forms/thread-forms-attachments';
 
 const ThreadContentEditor = dynamic(() => import('./thread-content-editor'), { ssr: false });
 
@@ -36,8 +40,9 @@ const STEPS_DATA: MultiStepFormStep<CommunityThreadCreateFormData>[] = [
   },
   {
     title: 'Content',
-    fields: ['content'],
+    fields: ['content.content'],
   },
+  { title: 'Attachments', fields: ['content.attachments'] },
 ];
 
 interface CreateThreadFormProps {
@@ -59,11 +64,6 @@ const CreateThreadForm: React.FC<CreateThreadFormProps> = (props) => {
   } = useMultiStepForm<CommunityThreadCreateFormData>({
     data: STEPS_DATA,
     resolver: createThreadValidationBaseSchema,
-    initialData: {
-      content: `
-      Hello **world**!
-      `,
-    },
   });
 
   const isFormLoading = form.formState.isSubmitting;
@@ -99,7 +99,7 @@ const CreateThreadForm: React.FC<CreateThreadFormProps> = (props) => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input {...field} />
+                    <MultiInput placeholder="Please provide some keywords..." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -109,19 +109,18 @@ const CreateThreadForm: React.FC<CreateThreadFormProps> = (props) => {
           {currentStep === 2 && (
             <FormField
               control={form.control}
-              name="content"
-              render={({ field: { value, onChange } }) => (
+              name="content.content"
+              render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Suspense fallback={<Skeleton className="h-40 w-full" />}>
-                      <ThreadContentEditor className="border rounded-lg" markdown={value} onChange={onChange} />
-                    </Suspense>
+                    <Textarea {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
           )}
+          {currentStep === 3 && <ThreadFormsAttachments />}
 
           <div className="mt-4 grid grid-cols-2 gap-2 sm:ml-auto">
             <Button disabled={!getCanGoPrevStep()} variant="outline" onClick={gotoPrevStep}>

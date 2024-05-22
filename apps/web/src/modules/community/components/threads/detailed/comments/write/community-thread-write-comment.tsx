@@ -8,7 +8,7 @@ import { __URL__ } from '@modules/common/lib/common.constants';
 import { useToast } from '@read-quill/design-system';
 import { useMutation } from '@tanstack/react-query';
 import { ThreadCommentPostResponse } from '@modules/api/types/community-api.types';
-import { useCommunityThreadStore } from '@modules/community/state/state/community-thread.slice';
+import { useCommunityThreadStore } from '@modules/community/state/community-thread.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 
 const CommunityThreadWriteComment: React.FC = () => {

@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import ManagementDeleteObject from '@modules/common/components/management/management-delete-object';
 import { ThreadCommentDeleteResponse } from '@modules/api/types/community-api.types';
-import { useCommunityThreadStore } from '@modules/community/state/state/community-thread.slice';
+import { useCommunityThreadStore } from '@modules/community/state/community-thread.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 
 interface CommunityThreadCommentManagementDeleteProps {

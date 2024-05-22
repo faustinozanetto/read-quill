@@ -2,7 +2,7 @@ import React from 'react';
 import { ThreadWithDetails } from '@modules/community/types/community.types.ts';
 import CommunityThreadComments from './comments/community-thread-comments';
 import CommunityThreadDetails from './details/community-thread-details';
-import CommunityThreadContent from './community-thread-content';
+import CommunityThreadAttachments from './attachments/community-thread-attachments';
 
 interface CommunityThreadProps {
   thread: ThreadWithDetails;
@@ -14,7 +14,7 @@ const CommunityThread: React.FC<CommunityThreadProps> = (props) => {
   return (
     <section className="mx-auto flex flex-col gap-4">
       <CommunityThreadDetails thread={thread} />
-      <CommunityThreadContent content={thread.content} />
+      <CommunityThreadAttachments threadId={thread.id} />
       <CommunityThreadComments thread={thread} />
     </section>
   );

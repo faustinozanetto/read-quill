@@ -1,4 +1,5 @@
 import { CommunityTopUser, ThreadCommentNode, ThreadWithDetails } from '@modules/community/types/community.types';
+import { ThreadAttachment } from '@read-quill/database';
 
 export interface ThreadsCommunityGetResponse {
   threads: ThreadWithDetails[];
@@ -80,4 +81,12 @@ export interface FavouriteThreadsCommunityGetResponse {
   threads: ThreadWithDetails[];
   nextCursor: string | null;
   hasMore: boolean;
+}
+
+export interface ThreadAttachmentUploadPostResponse {
+  attachmentUrls: Record<string, string>;
+}
+
+export interface ThreadAttachmentsGetResponse {
+  attachments: ThreadAttachment[];
 }

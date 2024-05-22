@@ -2,7 +2,6 @@ import type { ReadRegistry } from '@read-quill/database';
 import { prisma } from '@read-quill/database';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { startOfMonth, sub } from 'date-fns';
 import type { DashboardReadInsightsReadTrendsIntervalType } from '@modules/dashboard/types/dashboard.types';
 import type { DashboardReadInsightsTrendsGetResponse } from '@modules/api/types/dashboard-api.types';
 import { auth } from 'auth';

@@ -18,7 +18,7 @@ import CommunityThreadCommentManagementEditForm, {
   CommunityThreadEditCommentFormData,
 } from './community-thread-comment-management-edit-form';
 import { ThreadCommentPatchResponse } from '@modules/api/types/community-api.types';
-import { useCommunityThreadStore } from '@modules/community/state/state/community-thread.slice';
+import { useCommunityThreadStore } from '@modules/community/state/community-thread.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 
 interface CommunityThreadCommentManagementEditProps {

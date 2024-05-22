@@ -30,3 +30,13 @@ export interface CommunityTopUser {
   threadsCount: number;
   totalVotes: number;
 }
+
+export interface ThreadContentAttachment {
+  image: File;
+  description: string;
+}
+
+export interface ThreadContentLayout {
+  content: string;
+  attachments: ThreadContentAttachment[];
+}

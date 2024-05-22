@@ -18,7 +18,7 @@ import CommunityThreadReplyCommentForm, {
 } from './community-thread-reply-comment-form';
 import { ThreadCommentPatchResponse } from '@modules/api/types/community-api.types';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import { useCommunityThreadStore } from '@modules/community/state/state/community-thread.slice';
+import { useCommunityThreadStore } from '@modules/community/state/community-thread.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { useMutation } from '@tanstack/react-query';
 import { ThreadCommentWithAuthor } from '@modules/community/types/community.types';

@@ -5,7 +5,7 @@ import { ThreadPatchResponse, ThreadGetResponse, ThreadPostResponse } from '@mod
 import { ThreadWithDetails } from '@modules/community/types/community.types';
 import { auth } from 'auth';
 import {
-  createThreadValidationBaseSchema,
+  createThreadValidationApiSchema,
   deleteThreadValidationApiSchema,
   editThreadValidationApiSchema,
 } from '@modules/community/validations/community-thread.validations';
@@ -56,11 +56,23 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadPos
     }
 
     const json = await request.json();
-    const data = createThreadValidationBaseSchema.parse(json);
+    const { content, title, keywords } = createThreadValidationApiSchema.parse(json);
 
     const thread = await prisma.thread.create({
       data: {
-        ...data,
+        title,
+        content: content.content,
+        keywords: keywords.join(','),
+        attachments: {
+          createMany: {
+            data: content.attachments.map((attachment) => {
+              return {
+                description: attachment.description,
+                attachmentImage: attachment.url,
+              };
+            }),
+          },
+        },
         authorId: session.user.id,
       },
       include: { author: { select: { id: true, name: true, image: true } }, comments: { select: { id: true } } },

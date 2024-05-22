@@ -3,7 +3,7 @@
 import { __URL__ } from '@modules/common/lib/common.constants';
 import CommunityThread from '@modules/community/components/threads/detailed/community-thread';
 import CommunityThreadPlaceholder from '@modules/community/components/threads/detailed/community-thread-placeholder';
-import { useCommunityThreadStore } from '@modules/community/state/state/community-thread.slice';
+import { useCommunityThreadStore } from '@modules/community/state/community-thread.slice';
 import { ThreadWithDetails } from '@modules/community/types/community.types';
 import { useQuery } from '@tanstack/react-query';
 import React from 'react';

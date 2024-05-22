@@ -1,4 +1,4 @@
-import { useCommunityThreadStore } from '../../state/state/community-thread.slice';
+import { useCommunityThreadStore } from '../../state/community-thread.slice';
 import { useAuthContext } from '@modules/auth/hooks/use-auth-context';
 
 interface UseIsThreadOwnerReturn {

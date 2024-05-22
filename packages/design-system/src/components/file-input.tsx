@@ -83,7 +83,7 @@ const FileInput = React.forwardRef<HTMLInputElement, FileInputProps>((props, _re
         type="file"
         {...rest}
       />
-      <div className="flex flex-col gap-1 p-2 border border-dashed rounded-md">
+      <div className="flex flex-col gap-1 p-2 border-2 border-dashed rounded-md">
         {files.length === 0 && <p className="text-sm">No files selected!</p>}
         {files.length > 0 &&
           files.map((file) => (
