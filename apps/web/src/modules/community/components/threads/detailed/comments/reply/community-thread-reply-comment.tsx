@@ -13,7 +13,7 @@ import {
   useToast,
 } from '@read-quill/design-system';
 import CommunityThreadReplyCommentForm from './community-thread-reply-comment-form';
-import { ThreadCommentPatchResponse, ThreadCommentReplyPostResponse } from '@modules/api/types/community-api.types';
+import { ThreadCommentReplyPostResponse } from '@modules/api/types/community-api.types';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useCommunityThreadStore } from '@modules/community/state/community-thread.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
