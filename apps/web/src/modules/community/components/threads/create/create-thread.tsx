@@ -2,48 +2,31 @@
 
 import React from 'react';
 
-import CreateThreadForm, { CommunityThreadCreateFormData } from './create-thread-form';
+import CreateThreadForm from './create-thread-form';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useToast } from '@read-quill/design-system';
-import { ThreadContentLayout } from '@modules/community/types/community.types';
-import { ThreadAttachmentUploadPostResponse } from '@modules/api/types/community-api.types';
+
+import { ThreadAttachmentUploadPostResponse, ThreadPostResponse } from '@modules/api/types/community-api.types';
 import {
   extractAttachmentNameFromFile,
   extractAttachmentNameFromUrl,
 } from '@modules/community/lib/thread-attachments.lib';
+import { useRouter } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
+import { useUploadThreadAttachments } from '@modules/community/hooks/threads/attachments/use-upload-thread-attachments';
+import { CreateThreadFormActionData } from '@modules/community/types/community-thread-validations.types';
 
 const CreateThread: React.FC = () => {
   const { toast } = useToast();
+  const router = useRouter();
 
-  const uploadThreadAttachments = async (
-    attachments: ThreadContentLayout['attachments']
-  ): Promise<ThreadAttachmentUploadPostResponse> => {
-    const formData = new FormData();
-    attachments.forEach((attachment) => {
-      const imageName = attachment.image.name.split('.').slice(0, -1).join('');
-      formData.append(imageName, attachment.image);
-    });
+  const { uploadAttachments } = useUploadThreadAttachments();
 
-    const url = new URL('/api/community/thread/attachments/upload', __URL__);
-
-    const response = await fetch(url, {
-      method: 'POST',
-      body: formData,
-    });
-
-    if (!response.ok) {
-      throw new Error('Failed to upload thread attachments!');
-    }
-
-    const data: ThreadAttachmentUploadPostResponse = await response.json();
-    return data;
-  };
-
-  const handleCreateThread = async (data: CommunityThreadCreateFormData) => {
-    try {
+  const { mutateAsync } = useMutation<ThreadPostResponse, Error, CreateThreadFormActionData>({
+    mutationFn: async (data) => {
       let attachmentsUrls: ThreadAttachmentUploadPostResponse['attachmentUrls'] = {};
       if (data.content.attachments) {
-        const uploadResult = await uploadThreadAttachments(data.content.attachments);
+        const uploadResult = await uploadAttachments(data.content.attachments);
         attachmentsUrls = uploadResult.attachmentUrls;
       }
 
@@ -59,8 +42,6 @@ const CreateThread: React.FC = () => {
             const imageNameFromFile = extractAttachmentNameFromFile(attachment.image);
             const imageNameFromUrl = extractAttachmentNameFromUrl(attachmentUrl);
 
-            console.log({ imageNameFromFile, imageNameFromUrl });
-
             return imageNameFromFile === imageNameFromUrl;
           });
 
@@ -71,7 +52,6 @@ const CreateThread: React.FC = () => {
         },
         []
       );
-      console.log({ attachments });
 
       const url = new URL('/api/community/thread', __URL__);
       const body = JSON.stringify({
@@ -88,16 +68,18 @@ const CreateThread: React.FC = () => {
         throw new Error('Could not post thread!');
       }
 
-      // const res = await response.json();
-
-      toast({ variant: 'success', content: `Thread posted successfully!` });
-    } catch (error) {
-      let errorMessage = 'Could not post thread!';
-      if (error instanceof Error) errorMessage = error.message;
-
-      toast({ variant: 'error', content: errorMessage });
-    }
-  };
+      return await response.json();
+    },
+    onSuccess: async (data) => {
+      if (data && data.thread) {
+        router.push(`/community/threads/${data.thread.id}`);
+        toast({ variant: 'success', content: `Thread posted successfully!` });
+      }
+    },
+    onError(error) {
+      toast({ variant: 'error', content: error.message });
+    },
+  });
 
   return (
     <div className="space-y-4">
@@ -105,7 +87,7 @@ const CreateThread: React.FC = () => {
         <h1 className="text-2xl font-bold">Posting Thread</h1>
       </div>
       <div className="p-4 border rounded-lg shadow">
-        <CreateThreadForm onSubmit={handleCreateThread} />
+        <CreateThreadForm onSubmit={mutateAsync} />
       </div>
     </div>
   );

@@ -14,10 +14,10 @@ import {
 import { useMutation } from '@tanstack/react-query';
 import { __URL__ } from '@modules/common/lib/common.constants';
 
-import { CommunityThreadEditFormData } from './community-thread-management-edit-form';
-import { ThreadCommentPatchResponse } from '@modules/api/types/community-api.types';
+import { ThreadPatchResponse } from '@modules/api/types/community-api.types';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import CommunityThreadManagementEditForm from './community-thread-management-edit-form';
+import { EditThreadFormActionData } from '@modules/community/types/community-thread-validations.types';
 
 interface CommunityThreadManagementEditProps {
   thread: ThreadWithDetails;
@@ -30,8 +30,8 @@ const CommunityThreadManagementEdit: React.FC<CommunityThreadManagementEditProps
   const { queryClient } = useQueriesStore();
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const { mutateAsync } = useMutation({
-    mutationFn: async (data: CommunityThreadEditFormData) => {
+  const { mutateAsync } = useMutation<ThreadPatchResponse, Error, EditThreadFormActionData>({
+    mutationFn: async (data) => {
       try {
         const url = new URL('/api/community/thread', __URL__);
         const body = JSON.stringify({
@@ -44,7 +44,7 @@ const CommunityThreadManagementEdit: React.FC<CommunityThreadManagementEditProps
           throw new Error('Could not update thread!');
         }
 
-        return response.json() as Promise<ThreadCommentPatchResponse>;
+        return response.json();
       } catch (error) {
         let errorMessage = 'Could not update thread!';
         if (error instanceof Error) errorMessage = error.message;

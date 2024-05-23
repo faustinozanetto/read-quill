@@ -14,6 +14,7 @@ import {
 import { useMutation } from '@tanstack/react-query';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
+import { BookFavouritePostResponse } from '@modules/api/types/books-api.types';
 
 interface BookFavouriteProps {
   book: Book;
@@ -25,7 +26,7 @@ const BookFavourite: React.FC<BookFavouriteProps> = (props) => {
   const { queryClient } = useQueriesStore();
   const { toast } = useToast();
 
-  const { mutateAsync, isLoading } = useMutation({
+  const { mutateAsync, isLoading } = useMutation<BookFavouritePostResponse>({
     mutationFn: async () => {
       try {
         const url = new URL('/api/books/favourite', __URL__);
@@ -39,10 +40,7 @@ const BookFavourite: React.FC<BookFavouriteProps> = (props) => {
           throw new Error('Could not update book favourite!');
         }
 
-        toast({
-          variant: 'success',
-          content: `Book ${book.isFavourite ? 'removed' : 'added'} ${book.isFavourite ? 'from' : 'to'} favourites!`,
-        });
+        return response.json();
       } catch (error) {
         let errorMessage = 'Could not update book favourite!';
         if (error instanceof Error) errorMessage = error.message;
@@ -50,8 +48,15 @@ const BookFavourite: React.FC<BookFavouriteProps> = (props) => {
         toast({ variant: 'error', content: errorMessage });
       }
     },
-    onSuccess: async () => {
-      await queryClient.refetchQueries(['book-page', book.id]);
+    onSuccess: async (data) => {
+      if (data && data.success) {
+        await queryClient.refetchQueries(['book-page', book.id]);
+
+        toast({
+          variant: 'success',
+          content: `Book ${book.isFavourite ? 'removed' : 'added'} ${book.isFavourite ? 'from' : 'to'} favourites!`,
+        });
+      }
     },
   });
 

@@ -2,13 +2,11 @@ import { prisma } from '@read-quill/database';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import {
-  createBookValidationSchemaAPI,
-  deleteBookValidationSchemaForm,
-  editBookValidationSchemaAPI,
-} from '@modules/books/validations/books.validations';
+
 import { supabase } from '@modules/supabase/lib/supabase.lib';
 import { auth } from 'auth';
+import { BookDeleteResponse, BookPatchResponse } from '@modules/api/types/books-api.types';
+import { BOOK_ACTIONS_VALIDATIONS_API } from '@modules/books/validations/books.validations';
 
 // /api/books GET : Gets a book by a given bookId
 export async function GET(request: NextRequest): Promise<NextResponse> {
@@ -43,7 +41,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     const json = await request.json();
     const { name, author, coverImage, language, pageCount, startedAt, finishedAt } =
-      createBookValidationSchemaAPI.parse(json);
+      BOOK_ACTIONS_VALIDATIONS_API.CREATE.parse(json);
 
     const book = await prisma.book.create({
       data: {
@@ -76,7 +74,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 }
 
 // /api/books PATCH : updates a book
-export async function PATCH(request: NextRequest): Promise<NextResponse> {
+export async function PATCH(request: NextRequest): Promise<NextResponse<BookPatchResponse>> {
   try {
     const session = await auth();
 
@@ -85,7 +83,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
     }
 
     const json = await request.json();
-    const { bookId, ...updateData } = editBookValidationSchemaAPI.parse(json);
+    const { bookId, ...updateData } = BOOK_ACTIONS_VALIDATIONS_API.EDIT.parse(json);
 
     const book = await prisma.book.update({
       where: {
@@ -110,7 +108,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
 }
 
 // /api/books DELETE : deletes a book
-export async function DELETE(request: NextRequest): Promise<NextResponse> {
+export async function DELETE(request: NextRequest): Promise<NextResponse<BookDeleteResponse>> {
   try {
     const session = await auth();
 
@@ -119,7 +117,7 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
     }
 
     const json = await request.json();
-    const { bookId } = deleteBookValidationSchemaForm.parse(json);
+    const { bookId } = BOOK_ACTIONS_VALIDATIONS_API.DELETE.parse(json);
 
     const book = await prisma.book.delete({
       where: {

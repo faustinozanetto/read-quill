@@ -1,35 +1,15 @@
-import mime from 'mime';
-import sharp from 'sharp';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { supabase } from '@modules/supabase/lib/supabase.lib';
 import { ThreadAttachmentUploadPostResponse } from '@modules/api/types/community-api.types';
-
-async function handleFileUpload(fileName: string, blob: Blob): Promise<string | undefined> {
-  const uniqueSuffix = `${Date.now()}-${fileName}`;
-  const filename = `${uniqueSuffix}.${mime.getExtension(blob.type)}`;
-
-  const { data } = await supabase.storage.from('ThreadAttachments').upload(filename, blob, {
-    cacheControl: '3600',
-    upsert: false,
-  });
-
-  return data?.path;
-}
-
-async function processFile(file: Blob): Promise<Blob> {
-  const processedFile = await sharp(await file.arrayBuffer())
-    .webp()
-    .toBuffer();
-  const processedBlob = new Blob([processedFile], { type: 'image/webp' });
-  return processedBlob;
-}
+import { convertFileToWebp, uploadFileToSupabase } from '@modules/uploads/lib/uploads.lib';
+import { FileUploadResult } from '@modules/uploads/types/uploads.types';
 
 export async function POST(request: NextRequest): Promise<NextResponse<ThreadAttachmentUploadPostResponse>> {
   try {
     const formData = await request.formData();
 
-    const uploadPromises: Promise<string | undefined>[] = [];
+    const uploadPromises: Promise<FileUploadResult>[] = [];
 
     for (const pair of formData.entries()) {
       const [key, value] = pair;
@@ -37,26 +17,28 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadAtt
       if (!file) continue;
 
       // Process the file before uploading
-      const processedBlob = await processFile(file);
+      const processedBlob = await convertFileToWebp(file);
       // Add the file upload promise to the array
-      uploadPromises.push(handleFileUpload(key, processedBlob));
+      uploadPromises.push(uploadFileToSupabase(key, 'ThreadAttachments', processedBlob));
     }
 
     // Wait for all uploads to complete
     const uploadedPaths = await Promise.all(uploadPromises);
     const uploadFailed = uploadedPaths.some((path) => path === undefined);
     if (uploadFailed) {
-      return NextResponse.json({ error: 'Failed to upload book cover.' }, { status: 400 });
+      return new NextResponse('Failed to upload thread attachment!', { status: 400 });
     }
 
     // Build public urls record
-    const attachmentUrls = uploadedPaths.reduce<Record<string, string>>((acc, path) => {
-      if (!path) return acc;
+    const attachmentUrls = uploadedPaths.reduce<Record<string, string>>((acc, uploadResult) => {
+      const { data } = uploadResult;
+      if (!data) return acc;
 
+      // Get attachment public url from supabase
       const {
         data: { publicUrl },
-      } = supabase.storage.from('ThreadAttachments').getPublicUrl(path);
-      acc[path] = publicUrl;
+      } = supabase.storage.from('ThreadAttachments').getPublicUrl(data.path);
+      acc[data.path] = publicUrl;
 
       return acc;
     }, {});

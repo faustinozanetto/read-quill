@@ -5,13 +5,14 @@ import { useMutation } from '@tanstack/react-query';
 import ManagementDeleteObject from '@modules/common/components/management/management-delete-object';
 import { useBookStore } from '@modules/books/state/book.slice';
 import { __URL__ } from '@modules/common/lib/common.constants';
+import { BookDeleteResponse } from '@modules/api/types/books-api.types';
 
 const UserBookManagementDelete: React.FC = () => {
   const router = useRouter();
   const { toast } = useToast();
   const { book } = useBookStore();
 
-  const { mutateAsync } = useMutation({
+  const { mutateAsync } = useMutation<BookDeleteResponse, Error>({
     mutationKey: ['delete-book', book?.id],
     mutationFn: async () => {
       if (!book) return;
@@ -27,14 +28,19 @@ const UserBookManagementDelete: React.FC = () => {
           throw new Error('Could not delete book!');
         }
 
-        toast({ variant: 'success', content: `Book ${book.name} deleted successfully!` });
-
-        router.push('/books');
+        return response.json();
       } catch (error) {
         let errorMessage = 'Could not delete book!';
         if (error instanceof Error) errorMessage = error.message;
 
         toast({ variant: 'error', content: errorMessage });
+      }
+    },
+    onSuccess: async (data) => {
+      if (data && data.success && book) {
+        toast({ variant: 'success', content: `Book ${book.name} deleted successfully!` });
+
+        router.push('/books');
       }
     },
   });

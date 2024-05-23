@@ -2,17 +2,22 @@ import { ThreadAttachment } from '@read-quill/database';
 import { DialogTrigger, Skeleton } from '@read-quill/design-system';
 import Image from 'next/image';
 import React from 'react';
+import CommunityThreadAttachmentManagement from './management/community-thread-attachment-management';
 
-interface CommunityThreadAttachmentProps {
+interface CommunityThreadAttachmentCardProps {
   attachment: ThreadAttachment;
+  threadId: string;
   onSelected: () => void;
 }
 
-const CommunityThreadAttachment: React.FC<CommunityThreadAttachmentProps> = (props) => {
-  const { attachment, onSelected } = props;
+const CommunityThreadAttachmentCard: React.FC<CommunityThreadAttachmentCardProps> = (props) => {
+  const { attachment, threadId, onSelected } = props;
 
   return (
-    <div className="border rounded-lg shadow hover:border-primary transition-all hover:scale-[102%]">
+    <div className="border rounded-lg shadow hover:border-primary transition-all hover:scale-[102%] relative">
+      <div className="absolute top-2 right-2">
+        <CommunityThreadAttachmentManagement attachment={attachment} threadId={threadId} />
+      </div>
       <DialogTrigger className="w-full" onClick={onSelected}>
         <Image
           src={attachment.attachmentImage}
@@ -27,4 +32,4 @@ const CommunityThreadAttachment: React.FC<CommunityThreadAttachmentProps> = (pro
   );
 };
 
-export default CommunityThreadAttachment;
+export default CommunityThreadAttachmentCard;

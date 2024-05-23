@@ -4,11 +4,10 @@ import { NextResponse } from 'next/server';
 import { ThreadPatchResponse, ThreadGetResponse, ThreadPostResponse } from '@modules/api/types/community-api.types';
 import { ThreadWithDetails } from '@modules/community/types/community.types';
 import { auth } from 'auth';
-import {
-  createThreadValidationApiSchema,
-  deleteThreadValidationApiSchema,
-  editThreadValidationApiSchema,
-} from '@modules/community/validations/community-thread.validations';
+
+import { extractAttachmentIdFromUrl } from '@modules/community/lib/thread-attachments.lib';
+import { deleteFileFromSupabase } from '@modules/uploads/lib/uploads.lib';
+import { THREAD_ACTIONS_VALIDATIONS_API } from '@modules/community/validations/community-thread.validations';
 
 // /api/community/thread GET : Gets a thread by a given threadId
 export async function GET(request: NextRequest): Promise<NextResponse<ThreadGetResponse>> {
@@ -56,23 +55,25 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadPos
     }
 
     const json = await request.json();
-    const { content, title, keywords } = createThreadValidationApiSchema.parse(json);
+    const { content, title, keywords } = THREAD_ACTIONS_VALIDATIONS_API.CREATE.parse(json);
 
     const thread = await prisma.thread.create({
       data: {
         title,
         content: content.content,
         keywords: keywords.join(','),
-        attachments: {
-          createMany: {
-            data: content.attachments.map((attachment) => {
-              return {
-                description: attachment.description,
-                attachmentImage: attachment.url,
-              };
-            }),
-          },
-        },
+        attachments: content.attachments
+          ? {
+              createMany: {
+                data: content.attachments.map((attachment) => {
+                  return {
+                    description: attachment.description,
+                    attachmentImage: attachment.url,
+                  };
+                }),
+              },
+            }
+          : undefined,
         authorId: session.user.id,
       },
       include: { author: { select: { id: true, name: true, image: true } }, comments: { select: { id: true } } },
@@ -103,7 +104,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<ThreadPa
     }
 
     const json = await request.json();
-    const { threadId, ...data } = editThreadValidationApiSchema.parse(json);
+    const { threadId, ...data } = THREAD_ACTIONS_VALIDATIONS_API.EDIT.parse(json);
 
     const thread = await prisma.thread.findUnique({
       where: {
@@ -120,12 +121,16 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<ThreadPa
       return new NextResponse('Unauthorized', { status: 403 });
     }
 
+    const { title, keywords, content } = data;
+
     await prisma.thread.update({
       where: {
         id: threadId,
       },
       data: {
-        ...data,
+        title,
+        content,
+        keywords: keywords.join(','),
       },
     });
 
@@ -148,7 +153,7 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<ThreadP
     }
 
     const json = await request.json();
-    const { threadId } = deleteThreadValidationApiSchema.parse(json);
+    const { threadId } = THREAD_ACTIONS_VALIDATIONS_API.DELETE.parse(json);
 
     const thread = await prisma.thread.findUnique({
       where: {
@@ -164,6 +169,30 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<ThreadP
     if (!isThreadOwner) {
       return new NextResponse('Unauthorized', { status: 403 });
     }
+
+    // Handle the deletion of the asocaited thread attachments
+    const threadAttachments = await prisma.threadAttachment.findMany({
+      where: {
+        threadId,
+      },
+    });
+
+    const deleteAttachmentPromises: Promise<void>[] = threadAttachments.map(async (threadAttachment) => {
+      const attachmentFileId = extractAttachmentIdFromUrl(threadAttachment.attachmentImage);
+
+      const { error } = await deleteFileFromSupabase('ThreadAttachments', attachmentFileId);
+      if (error) {
+        throw new Error('Could not delete attachment!');
+      }
+
+      await prisma.threadAttachment.delete({
+        where: {
+          id: threadAttachment.id,
+        },
+      });
+    });
+
+    await Promise.all(deleteAttachmentPromises);
 
     await prisma.thread.delete({
       where: {

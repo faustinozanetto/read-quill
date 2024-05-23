@@ -14,8 +14,9 @@ import { useMutation } from '@tanstack/react-query';
 import { useBookStore } from '@modules/books/state/book.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import type { UserBookReviewManagementAddFormData } from './user-book-review-management-add-form';
 import UserBookReviewManagementAddForm from './user-book-review-management-add-form';
+import { BookReviewPostResponse } from '@modules/api/types/books-api.types';
+import { CreateBookReviewFormActionData } from '@modules/books/types/book-validations.types';
 
 const UserBookReviewManagementAdd: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -23,8 +24,8 @@ const UserBookReviewManagementAdd: React.FC = () => {
   const { queryClient } = useQueriesStore();
   const { book } = useBookStore();
 
-  const { mutateAsync } = useMutation({
-    mutationFn: async (data: UserBookReviewManagementAddFormData) => {
+  const { mutateAsync } = useMutation<BookReviewPostResponse, Error, CreateBookReviewFormActionData>({
+    mutationFn: async (data) => {
       if (!book) return;
 
       try {
@@ -38,8 +39,7 @@ const UserBookReviewManagementAdd: React.FC = () => {
         if (!response.ok) {
           throw new Error('Could not add book review!');
         }
-
-        toast({ variant: 'success', content: `Book review added successfully!` });
+        return response.json();
       } catch (error) {
         let errorMessage = 'Could not add book review!';
         if (error instanceof Error) errorMessage = error.message;
@@ -49,10 +49,13 @@ const UserBookReviewManagementAdd: React.FC = () => {
         setDialogOpen(false);
       }
     },
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       if (!book) return;
 
-      await queryClient.refetchQueries(['book-page', book.id]);
+      if (data && data.review) {
+        await queryClient.refetchQueries(['book-page', book.id]);
+        toast({ variant: 'success', content: `Book review added successfully!` });
+      }
     },
   });
 

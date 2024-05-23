@@ -15,8 +15,10 @@ import type { Annotation } from '@read-quill/database';
 import { useBookStore } from '@modules/books/state/book.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import type { BookAnnotationManagementEditFormData } from './book-annotation-management-edit-form';
+
 import BookAnnotationManagementEditForm from './book-annotation-management-edit-form';
+import { BookAnnotationPatchResponse } from '@modules/api/types/books-api.types';
+import { EditAnnotationFormActionData } from '@modules/annotations/types/annotation-validations.types';
 
 interface BookAnnotationManagementEditProps {
   annotation: Annotation;
@@ -31,8 +33,8 @@ const BookAnnotationManagementEdit: React.FC<BookAnnotationManagementEditProps> 
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const { mutateAsync } = useMutation({
-    mutationFn: async (data: BookAnnotationManagementEditFormData) => {
+  const { mutateAsync } = useMutation<BookAnnotationPatchResponse, Error, EditAnnotationFormActionData>({
+    mutationFn: async (data) => {
       try {
         const url = new URL('/api/books/annotations', __URL__);
         const body = JSON.stringify({
@@ -45,7 +47,7 @@ const BookAnnotationManagementEdit: React.FC<BookAnnotationManagementEditProps> 
           throw new Error('Could not edit book annotation!');
         }
 
-        toast({ variant: 'success', content: `Book annotation edited successfully!` });
+        return response.json();
       } catch (error) {
         let errorMessage = 'Could not edit book annotation!';
         if (error instanceof Error) errorMessage = error.message;
@@ -55,10 +57,14 @@ const BookAnnotationManagementEdit: React.FC<BookAnnotationManagementEditProps> 
         setDialogOpen(false);
       }
     },
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       if (!book) return;
 
-      await queryClient.refetchQueries(['book-annotations', book.id]);
+      if (data && data.annotation) {
+        await queryClient.refetchQueries(['book-annotations', book.id]);
+
+        toast({ variant: 'success', content: `Book annotation edited successfully!` });
+      }
     },
   });
 

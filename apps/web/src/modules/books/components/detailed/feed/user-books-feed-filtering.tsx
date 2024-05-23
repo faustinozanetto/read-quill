@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button, ClearFilterIcon, Label, RadioGroupItem, SelectItem } from '@read-quill/design-system';
-import { ResetIcon } from '@read-quill/design-system/src/components/icons';
 import { useFilterActions } from '@modules/filters/hooks/use-filter-actions';
 import type { Book } from '@read-quill/database';
 import type { NestedKeyOf, UseFilterReturn } from '@modules/filters/hooks/use-filter-data';

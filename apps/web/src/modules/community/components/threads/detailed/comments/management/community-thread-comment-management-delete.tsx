@@ -19,7 +19,7 @@ const CommunityThreadCommentManagementDelete: React.FC<CommunityThreadCommentMan
   const { queryClient } = useQueriesStore();
   const { thread } = useCommunityThreadStore();
 
-  const { mutateAsync } = useMutation({
+  const { mutateAsync } = useMutation<ThreadCommentDeleteResponse, Error>({
     mutationFn: async () => {
       try {
         const url = new URL('/api/community/thread/comment', __URL__);
@@ -32,7 +32,7 @@ const CommunityThreadCommentManagementDelete: React.FC<CommunityThreadCommentMan
           throw new Error('Could not delete comment!');
         }
 
-        return response.json() as Promise<ThreadCommentDeleteResponse>;
+        return response.json();
       } catch (error) {
         let errorMessage = 'Could not delete comment!';
         if (error instanceof Error) errorMessage = error.message;

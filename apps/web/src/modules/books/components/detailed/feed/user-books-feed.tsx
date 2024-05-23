@@ -11,13 +11,10 @@ import type { PaginationControlsProps } from '@modules/common/components/paginat
 import PaginationControls from '@modules/common/components/pagination/pagination-controls';
 import BooksFeed from '../../feed/books-feed';
 import UserBooksFiltering from './user-books-feed-filtering';
-import { BookCardStyleProps } from '../../cards/book-card';
-import { Button } from '@read-quill/design-system';
 import { LayoutListIcon } from '@read-quill/design-system';
 import { ToggleGroup } from '@read-quill/design-system';
 import { ToggleGroupItem } from '@read-quill/design-system';
 import { LayoutGridIcon } from '@read-quill/design-system';
-import { NoUndefinedField } from '@modules/common/types/common.types';
 
 interface UserBooksFeedProps extends PaginationControlsProps {
   books: Book[];

@@ -35,3 +35,11 @@ export const extractAttachmentNameFromUrl = (url: string) => {
   // Return the part after the first hyphen
   return fileNameWithTimestamp.substring(firstHyphenIndex + 1);
 };
+
+export const extractAttachmentIdFromUrl = (url: string) => {
+  const urlObj = new URL(url);
+  const pathname = urlObj.pathname;
+  const lastSegment = pathname.substring(pathname.lastIndexOf('/') + 1);
+
+  return lastSegment;
+};

@@ -15,7 +15,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useUploadBookCover } from '@modules/books/hooks/use-upload-book-cover';
 import UserBooksManagementCreateForm from './user-books-management-create-form';
-import type { UserBooksManagementCreateFormData } from './user-books-management-create-form';
+import { CreateBookFormActionData } from '@modules/books/types/book-validations.types';
 
 const UserBooksManagementCreate: React.FC = () => {
   const router = useRouter();
@@ -27,7 +27,8 @@ const UserBooksManagementCreate: React.FC = () => {
 
   const [dialogOpen, setDialogOpen] = useState(addBookModalParam);
 
-  const handleCreateBook = async (data: UserBooksManagementCreateFormData): Promise<void> => {
+  // TODO: upgrade to use react query mutation.
+  const handleCreateBook = async (data: CreateBookFormActionData): Promise<void> => {
     try {
       // First upload cover book to vercel blob storage.
       const coverImage = data.coverImage[0];

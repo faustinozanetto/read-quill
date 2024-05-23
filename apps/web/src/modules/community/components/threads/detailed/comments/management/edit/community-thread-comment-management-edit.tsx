@@ -14,12 +14,11 @@ import {
 import { useMutation } from '@tanstack/react-query';
 import { __URL__ } from '@modules/common/lib/common.constants';
 
-import CommunityThreadCommentManagementEditForm, {
-  CommunityThreadEditCommentFormData,
-} from './community-thread-comment-management-edit-form';
+import CommunityThreadCommentManagementEditForm from './community-thread-comment-management-edit-form';
 import { ThreadCommentPatchResponse } from '@modules/api/types/community-api.types';
 import { useCommunityThreadStore } from '@modules/community/state/community-thread.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
+import { EditThreadCommentFormActionData } from '@modules/community/types/community-thread-comments-validations.types';
 
 interface CommunityThreadCommentManagementEditProps {
   comment: ThreadCommentWithAuthor;
@@ -33,8 +32,8 @@ const CommunityThreadCommentManagementEdit: React.FC<CommunityThreadCommentManag
   const { queryClient } = useQueriesStore();
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const { mutateAsync } = useMutation({
-    mutationFn: async (data: CommunityThreadEditCommentFormData) => {
+  const { mutateAsync } = useMutation<ThreadCommentPatchResponse, Error, EditThreadCommentFormActionData>({
+    mutationFn: async (data) => {
       try {
         const url = new URL('/api/community/thread/comment', __URL__);
         const body = JSON.stringify({
@@ -47,7 +46,7 @@ const CommunityThreadCommentManagementEdit: React.FC<CommunityThreadCommentManag
           throw new Error('Could not update thread comment!');
         }
 
-        return response.json() as Promise<ThreadCommentPatchResponse>;
+        return response.json();
       } catch (error) {
         let errorMessage = 'Could not update thread comment!';
         if (error instanceof Error) errorMessage = error.message;

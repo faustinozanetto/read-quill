@@ -1,7 +1,8 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { threadCommentReplyValidationBaseSchema } from '@modules/community/validations/community-comment.validations';
+import { ReplyThreadCommentFormActionData } from '@modules/community/types/community-thread-comments-validations.types';
+import { THREAD_COMMENT_ACTIONS_VALIDATIONS_FORMS } from '@modules/community/validations/community-comment.validations';
 import {
   Button,
   Form,
@@ -17,19 +18,16 @@ import {
 } from '@read-quill/design-system';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-
-export type CommunityThreadReplyCommentFormData = z.infer<typeof threadCommentReplyValidationBaseSchema>;
 
 interface CommunityThreadReplyCommentFormProps {
-  onSubmit: (data: CommunityThreadReplyCommentFormData) => void;
+  onSubmit: (data: ReplyThreadCommentFormActionData) => void;
 }
 
 const CommunityThreadReplyCommentForm: React.FC<CommunityThreadReplyCommentFormProps> = (props) => {
   const { onSubmit } = props;
 
-  const form = useForm<CommunityThreadReplyCommentFormData>({
-    resolver: zodResolver(threadCommentReplyValidationBaseSchema),
+  const form = useForm<ReplyThreadCommentFormActionData>({
+    resolver: zodResolver(THREAD_COMMENT_ACTIONS_VALIDATIONS_FORMS.REPLY),
     mode: 'onBlur',
   });
   const isFormLoading = form.formState.isSubmitting;

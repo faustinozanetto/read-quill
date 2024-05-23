@@ -1,22 +1,41 @@
 import React from 'react';
-import type { z } from 'zod';
+
 import { Button, cn, LoadingIcon, PlusIcon } from '@read-quill/design-system';
-import { createBookValidationSchemaForm } from '@modules/books/validations/books.validations';
 
 import BookForm from '@modules/books/components/forms/book-form';
+import { MultiStepFormStep } from '@modules/forms/hooks/use-multi-step-form';
+import { CreateBookFormActionData } from '@modules/books/types/book-validations.types';
+import { BOOK_ACTIONS_VALIDATIONS_FORMS } from '@modules/books/validations/books.validations';
 
-export type UserBooksManagementCreateFormData = z.infer<typeof createBookValidationSchemaForm>;
+const STEPS_DATA: MultiStepFormStep<CreateBookFormActionData>[] = [
+  {
+    title: 'Name & Author',
+    fields: ['name', 'author'],
+  },
+  {
+    title: 'Cover',
+    fields: ['coverImage'],
+  },
+  {
+    title: 'Language & Pages',
+    fields: ['language', 'pageCount'],
+  },
+  {
+    title: 'Dates',
+    fields: ['startedAt', 'finishedAt'],
+  },
+];
 
 interface UserBooksManagementCreateFormProps {
   isBookCoverUploading: boolean;
-  onSubmit: (data: UserBooksManagementCreateFormData) => void;
+  onSubmit: (data: CreateBookFormActionData) => void;
 }
 
 const UserBooksManagementCreateForm: React.FC<UserBooksManagementCreateFormProps> = (props) => {
   const { onSubmit, isBookCoverUploading } = props;
 
   return (
-    <BookForm resolver={createBookValidationSchemaForm} onSubmit={onSubmit}>
+    <BookForm resolver={BOOK_ACTIONS_VALIDATIONS_FORMS.CREATE} data={STEPS_DATA} onSubmit={onSubmit}>
       {(form, getCanSubmit) => {
         const isFormLoading = form.formState.isSubmitting || isBookCoverUploading;
         return (

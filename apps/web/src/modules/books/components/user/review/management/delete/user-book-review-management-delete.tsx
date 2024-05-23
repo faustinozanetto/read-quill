@@ -5,13 +5,14 @@ import { useBookStore } from '@modules/books/state/book.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import ManagementDeleteObject from '@modules/common/components/management/management-delete-object';
+import { BookReviewDeleteResponse } from '@modules/api/types/books-api.types';
 
 const UserBookReviewManagementDelete: React.FC = () => {
   const { toast } = useToast();
   const { queryClient } = useQueriesStore();
   const { book } = useBookStore();
 
-  const { mutateAsync } = useMutation({
+  const { mutateAsync } = useMutation<BookReviewDeleteResponse, Error>({
     mutationFn: async () => {
       if (!book) return;
 
@@ -26,7 +27,7 @@ const UserBookReviewManagementDelete: React.FC = () => {
           throw new Error('Could not delete book review!');
         }
 
-        toast({ variant: 'success', content: `Book review deleted successfully!` });
+        return response.json();
       } catch (error) {
         let errorMessage = 'Could not delete book review!';
         if (error instanceof Error) errorMessage = error.message;
@@ -34,10 +35,13 @@ const UserBookReviewManagementDelete: React.FC = () => {
         toast({ variant: 'error', content: errorMessage });
       }
     },
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       if (!book) return;
 
-      await queryClient.refetchQueries(['book-page', book.id]);
+      if (data && data.success) {
+        await queryClient.refetchQueries(['book-page', book.id]);
+        toast({ variant: 'success', content: `Book review deleted successfully!` });
+      }
     },
   });
 

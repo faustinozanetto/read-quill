@@ -14,8 +14,9 @@ import { useMutation } from '@tanstack/react-query';
 import { useBookStore } from '@modules/books/state/book.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import type { UserBookReviewManagementEditFormData } from './user-book-review-management-edit-form';
 import UserBookReviewManagementEditForm from './user-book-review-management-edit-form';
+import { BookReviewPatchResponse } from '@modules/api/types/books-api.types';
+import { EditBookReviewFormActionData } from '@modules/books/types/book-validations.types';
 
 const UserBookReviewManagementEdit: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -23,8 +24,8 @@ const UserBookReviewManagementEdit: React.FC = () => {
   const { queryClient } = useQueriesStore();
   const { book } = useBookStore();
 
-  const { mutateAsync } = useMutation({
-    mutationFn: async (data: UserBookReviewManagementEditFormData) => {
+  const { mutateAsync } = useMutation<BookReviewPatchResponse, Error, EditBookReviewFormActionData>({
+    mutationFn: async (data) => {
       if (!book) return;
 
       try {
@@ -39,7 +40,7 @@ const UserBookReviewManagementEdit: React.FC = () => {
           throw new Error('Could not update book review!');
         }
 
-        toast({ variant: 'success', content: `Book review updated successfully!` });
+        return response.json();
       } catch (error) {
         let errorMessage = 'Could not update book review!';
         if (error instanceof Error) errorMessage = error.message;
@@ -49,10 +50,13 @@ const UserBookReviewManagementEdit: React.FC = () => {
         setDialogOpen(false);
       }
     },
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       if (!book) return;
 
-      await queryClient.refetchQueries(['book-page', book.id]);
+      if (data && data.review) {
+        await queryClient.refetchQueries(['book-page', book.id]);
+        toast({ variant: 'success', content: `Book review updated successfully!` });
+      }
     },
   });
 

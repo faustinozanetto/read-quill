@@ -1,5 +1,5 @@
 import { redis } from '@read-quill/redis';
-import { VoteThreadValidationSchema } from '../types/community.types';
+import { VoteThreadType } from '../types/community-thread-validations.types';
 
 /**
  * Function for storing the vote of a user for a thread in redis store.
@@ -11,7 +11,7 @@ import { VoteThreadValidationSchema } from '../types/community.types';
 export const storeUserThreadVoteInRedis = async (
   threadId: string,
   userId: string,
-  type: VoteThreadValidationSchema['type']
+  type: VoteThreadType
 ): Promise<boolean> => {
   const key = `thread:${threadId}:${type}s`;
   const oppositeKey = `thread:${threadId}:${type === 'upvote' ? 'downvote' : 'upvote'}s`;

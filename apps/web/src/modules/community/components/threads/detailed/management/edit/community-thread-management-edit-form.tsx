@@ -1,99 +1,75 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
 import { ThreadWithDetails } from '@modules/community/types/community.types';
-import { editThreadValidationBaseSchema } from '@modules/community/validations/community-thread.validations';
-import {
-  Button,
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  LoadingIcon,
-  PencilIcon,
-  Textarea,
-  cn,
-} from '@read-quill/design-system';
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
-export type CommunityThreadEditFormData = z.infer<typeof editThreadValidationBaseSchema>;
+import { Button, LoadingIcon, PencilIcon, cn } from '@read-quill/design-system';
+import React from 'react';
+
+import ThreadFormsTitle from '../../../forms/thread-forms-title';
+import ThreadFormsKeywords from '../../../forms/thread-forms-keywords';
+import ThreadFormsContent from '../../../forms/thread-forms-content';
+import MultiStepFormWrapper from '@modules/forms/components/multi-step-form-wrapper';
+import { MultiStepFormStep } from '@modules/forms/hooks/use-multi-step-form';
+import { EditThreadFormActionData } from '@modules/community/types/community-thread-validations.types';
+import { THREAD_ACTIONS_VALIDATIONS_FORMS } from '@modules/community/validations/community-thread.validations';
+
+const STEPS_DATA: MultiStepFormStep<EditThreadFormActionData>[] = [
+  {
+    title: 'Title',
+    fields: ['title'],
+  },
+  {
+    title: 'Keywords',
+    fields: ['keywords'],
+  },
+  {
+    title: 'Content',
+    fields: ['content'],
+  },
+];
 
 interface CommunityThreadManagementEditFormProps {
   thread: ThreadWithDetails;
-  onSubmit: (data: CommunityThreadEditFormData) => void;
+  onSubmit: (data: EditThreadFormActionData) => void;
 }
 
 const CommunityThreadManagementEditForm: React.FC<CommunityThreadManagementEditFormProps> = (props) => {
   const { thread, onSubmit } = props;
 
-  const form = useForm<CommunityThreadEditFormData>({
-    resolver: zodResolver(editThreadValidationBaseSchema),
-    mode: 'onBlur',
-    defaultValues: {
-      title: thread.title,
-      content: thread.content,
-      keywords: thread.keywords,
-    },
-  });
-  const isFormLoading = form.formState.isSubmitting;
-
   return (
-    <Form {...form}>
-      <form className="flex flex-col gap-2" onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
-          control={form.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Title</FormLabel>
-              <FormControl>
-                <Textarea placeholder="Treasure Island" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <MultiStepFormWrapper
+      data={STEPS_DATA}
+      initialData={{
+        title: thread.title,
+        content: thread.content,
+        keywords: thread.keywords.split(','),
+      }}
+      resolver={THREAD_ACTIONS_VALIDATIONS_FORMS.EDIT}
+      onSubmit={onSubmit}
+      renderSubmitButton={(form, getCanSubmit) => {
+        const isFormLoading = form.formState.isSubmitting;
 
-        <FormField
-          control={form.control}
-          name="keywords"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Keywords</FormLabel>
-              <FormControl></FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="content"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Comment</FormLabel>
-              <FormControl>
-                <Textarea placeholder="Treasure Island" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button
-          aria-label="Edit Thread"
-          className={cn('sm:ml-auto', isFormLoading && 'cursor-not-allowed')}
-          disabled={isFormLoading}
-          type="submit"
-        >
-          {isFormLoading ? <LoadingIcon className="mr-2" /> : <PencilIcon className="mr-2" />}
-          Edit
-        </Button>
-      </form>
-    </Form>
+        return (
+          <Button
+            aria-label="Edit Thread"
+            className={cn(isFormLoading && 'cursor-not-allowed')}
+            disabled={isFormLoading || !getCanSubmit()}
+            type="submit"
+          >
+            {isFormLoading ? <LoadingIcon className="mr-2" /> : <PencilIcon className="mr-2" />}
+            Edit
+          </Button>
+        );
+      }}
+    >
+      {(currentStep) => (
+        <>
+          {currentStep === 0 && <ThreadFormsTitle />}
+          {currentStep === 1 && <ThreadFormsKeywords />}
+          {currentStep === 2 && <ThreadFormsContent name="content" />}
+        </>
+      )}
+    </MultiStepFormWrapper>
   );
 };
 

@@ -90,3 +90,7 @@ export interface ThreadAttachmentUploadPostResponse {
 export interface ThreadAttachmentsGetResponse {
   attachments: ThreadAttachment[];
 }
+
+export interface ThreadAttachmentDeleteResponse {
+  success: boolean;
+}

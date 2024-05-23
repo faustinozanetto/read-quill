@@ -1,15 +1,35 @@
 import React from 'react';
-import type { z } from 'zod';
+
 import { Button, cn, LoadingIcon, EditIcon } from '@read-quill/design-system';
-import { editBookValidationSchemaForm } from '@modules/books/validations/books.validations';
+
 import { useBookStore } from '@modules/books/state/book.slice';
 
 import BookForm from '@modules/books/components/forms/book-form';
+import { MultiStepFormStep } from '@modules/forms/hooks/use-multi-step-form';
+import { EditBookFormActionData } from '@modules/books/types/book-validations.types';
+import { BOOK_ACTIONS_VALIDATIONS_FORMS } from '@modules/books/validations/books.validations';
 
-export type UserBookManagementEditFormData = z.infer<typeof editBookValidationSchemaForm>;
+const STEPS_DATA: MultiStepFormStep<EditBookFormActionData>[] = [
+  {
+    title: 'Name & Author',
+    fields: ['name', 'author'],
+  },
+  {
+    title: 'Cover',
+    fields: ['coverImage'],
+  },
+  {
+    title: 'Language & Pages',
+    fields: ['language', 'pageCount'],
+  },
+  {
+    title: 'Dates',
+    fields: ['startedAt', 'finishedAt'],
+  },
+];
 
 interface UserBookManagementEditFormProps {
-  onSubmit: (data: UserBookManagementEditFormData) => void;
+  onSubmit: (data: EditBookFormActionData) => void;
   isBookCoverUploading: boolean;
 }
 
@@ -20,8 +40,8 @@ const UserBookManagementEditForm: React.FC<UserBookManagementEditFormProps> = (p
 
   return (
     <BookForm
-      // @ts-ignore
-      resolver={editBookValidationSchemaForm}
+      data={STEPS_DATA}
+      resolver={BOOK_ACTIONS_VALIDATIONS_FORMS.EDIT}
       initialData={{
         name: book?.name,
         author: book?.author,

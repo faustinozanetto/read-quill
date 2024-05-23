@@ -3,20 +3,17 @@ import { ThreadVotePostResponse } from '@modules/api/types/community-api.types';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useToast } from '@read-quill/design-system';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
-import { VoteThreadValidationSchema } from '../../types/community.types';
+import { VoteThreadActionData } from '@modules/community/types/community-thread-validations.types';
 
 interface UseIsThreadVoteReturn
-  extends Pick<
-    UseMutationResult<ThreadVotePostResponse, unknown, VoteThreadValidationSchema>,
-    'mutateAsync' | 'isLoading'
-  > {}
+  extends Pick<UseMutationResult<ThreadVotePostResponse, unknown, VoteThreadActionData>, 'mutateAsync' | 'isLoading'> {}
 
 export const useThreadVote = (): UseIsThreadVoteReturn => {
   const { toast } = useToast();
 
   const { queryClient } = useQueriesStore();
 
-  const { mutateAsync, isLoading } = useMutation<ThreadVotePostResponse, unknown, VoteThreadValidationSchema>(
+  const { mutateAsync, isLoading } = useMutation<ThreadVotePostResponse, unknown, VoteThreadActionData>(
     ['thread-vote'],
     {
       mutationFn: async (data) => {

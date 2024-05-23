@@ -2,7 +2,7 @@ import React from 'react';
 import { ThreadWithDetails } from '@modules/community/types/community.types.ts';
 import CommunityThreadComments from './comments/community-thread-comments';
 import CommunityThreadDetails from './details/community-thread-details';
-import CommunityThreadAttachments from './attachments/community-thread-attachments';
+import CommunityThreadAttachments from '../attachments/community-thread-attachments';
 
 interface CommunityThreadProps {
   thread: ThreadWithDetails;

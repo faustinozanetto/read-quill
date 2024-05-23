@@ -14,8 +14,10 @@ import { useMutation } from '@tanstack/react-query';
 import { useBookStore } from '@modules/books/state/book.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import type { BookAnnotationManagementAddFormData } from './book-annotation-management-add-form';
+
 import BookAnnotationManagementAddForm from './book-annotation-management-add-form';
+import { BookAnnotationPostResponse } from '@modules/api/types/books-api.types';
+import { CreateAnnotationFormActionData } from '@modules/annotations/types/annotation-validations.types';
 
 const BookAnnotationManagementAdd: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -23,12 +25,12 @@ const BookAnnotationManagementAdd: React.FC = () => {
   const { queryClient } = useQueriesStore();
   const { book } = useBookStore();
 
-  const { mutateAsync } = useMutation({
-    mutationFn: async (data: BookAnnotationManagementAddFormData) => {
+  const { mutateAsync } = useMutation<BookAnnotationPostResponse, Error, CreateAnnotationFormActionData>({
+    mutationFn: async (data) => {
       if (!book) return;
 
       try {
-        const url = new URL('/api/books/annotations', __URL__);
+        const url = new URL('/api/annotations', __URL__);
         const body = JSON.stringify({
           bookId: book.id,
           ...data,
@@ -39,7 +41,7 @@ const BookAnnotationManagementAdd: React.FC = () => {
           throw new Error('Could not add book annotation!');
         }
 
-        toast({ variant: 'success', content: `Book annotation added successfully!` });
+        return response.json();
       } catch (error) {
         let errorMessage = 'Could not add book annotation!';
         if (error instanceof Error) errorMessage = error.message;
@@ -49,10 +51,13 @@ const BookAnnotationManagementAdd: React.FC = () => {
         setDialogOpen(false);
       }
     },
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       if (!book) return;
+      if (data && data.annotation) {
+        await queryClient.refetchQueries(['book-annotations', book.id]);
 
-      await queryClient.refetchQueries(['book-annotations', book.id]);
+        toast({ variant: 'success', content: `Book annotation added successfully!` });
+      }
     },
   });
 

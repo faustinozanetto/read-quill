@@ -6,6 +6,7 @@ import ManagementDeleteObject from '@modules/common/components/management/manage
 import { useBookStore } from '@modules/books/state/book.slice';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
+import { BookAnnotationDeleteResponse } from '@modules/api/types/books-api.types';
 
 interface BookAnnotationManagementDeleteProps {
   annotation: Annotation;
@@ -18,7 +19,7 @@ const BookAnnotationManagementDelete: React.FC<BookAnnotationManagementDeletePro
   const { book } = useBookStore();
   const { queryClient } = useQueriesStore();
 
-  const { mutateAsync } = useMutation({
+  const { mutateAsync } = useMutation<BookAnnotationDeleteResponse, Error>({
     mutationFn: async () => {
       try {
         const url = new URL('/api/books/annotations', __URL__);
@@ -31,7 +32,7 @@ const BookAnnotationManagementDelete: React.FC<BookAnnotationManagementDeletePro
           throw new Error('Could not delete annotation!');
         }
 
-        toast({ variant: 'success', content: 'Annotation deleted successfully!' });
+        return response.json();
       } catch (error) {
         let errorMessage = 'Could not delete annotation!';
         if (error instanceof Error) errorMessage = error.message;
@@ -39,10 +40,14 @@ const BookAnnotationManagementDelete: React.FC<BookAnnotationManagementDeletePro
         toast({ variant: 'error', content: errorMessage });
       }
     },
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       if (!book) return;
 
-      await queryClient.refetchQueries(['book-annotations', book.id]);
+      if (data && data.success) {
+        await queryClient.refetchQueries(['book-annotations', book.id]);
+
+        toast({ variant: 'success', content: `Book annotation deleted successfully!` });
+      }
     },
   });
 

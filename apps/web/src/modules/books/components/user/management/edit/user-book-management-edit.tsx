@@ -15,9 +15,9 @@ import { useBookStore } from '@modules/books/state/book.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useUploadBookCover } from '@modules/books/hooks/use-upload-book-cover';
-import type { BooksUploadPostResponse } from '@modules/api/types/books-api.types';
-import type { UserBookManagementEditFormData } from './user-book-management-edit-form';
+import type { BookPatchResponse, BooksUploadPostResponse } from '@modules/api/types/books-api.types';
 import UserBookManagementEditForm from './user-book-management-edit-form';
+import { EditBookFormActionData } from '@modules/books/types/book-validations.types';
 
 const UserBookManagementEdit: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -27,8 +27,8 @@ const UserBookManagementEdit: React.FC = () => {
 
   const { uploadBookCover, isBookCoverUploading } = useUploadBookCover();
 
-  const { mutateAsync } = useMutation({
-    mutationFn: async (data: UserBookManagementEditFormData) => {
+  const { mutateAsync } = useMutation<BookPatchResponse, Error, EditBookFormActionData>({
+    mutationFn: async (data) => {
       if (!book) return;
 
       try {
@@ -52,7 +52,7 @@ const UserBookManagementEdit: React.FC = () => {
           throw new Error('Could not update book!');
         }
 
-        toast({ variant: 'success', content: `Book updated successfully!` });
+        return response.json();
       } catch (error) {
         let errorMessage = 'Could not update book!';
         if (error instanceof Error) errorMessage = error.message;
@@ -62,10 +62,14 @@ const UserBookManagementEdit: React.FC = () => {
         setDialogOpen(false);
       }
     },
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       if (!book) return;
 
-      await queryClient.refetchQueries(['book-page', book.id]);
+      if (data && data.book) {
+        await queryClient.refetchQueries(['book-page', book.id]);
+
+        toast({ variant: 'success', content: `Book updated successfully!` });
+      }
     },
   });
 

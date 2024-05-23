@@ -1,5 +1,5 @@
 import React from 'react';
-import type { z } from 'zod';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import {
@@ -17,13 +17,13 @@ import {
   LoadingIcon,
   EditIcon,
 } from '@read-quill/design-system';
-import { bookReviewValidationSchemaForm } from '@modules/books/validations/books.validations';
-import { useBookStore } from '@modules/books/state/book.slice';
 
-export type UserBookReviewManagementEditFormData = z.infer<typeof bookReviewValidationSchemaForm>;
+import { useBookStore } from '@modules/books/state/book.slice';
+import { EditBookReviewFormActionData } from '@modules/books/types/book-validations.types';
+import { BOOK_ACTIONS_VALIDATIONS_FORMS } from '@modules/books/validations/books.validations';
 
 interface UserBookReviewManagementEditFormProps {
-  onSubmit: (data: UserBookReviewManagementEditFormData) => void;
+  onSubmit: (data: EditBookReviewFormActionData) => void;
 }
 
 const UserBookReviewManagementEditForm: React.FC<UserBookReviewManagementEditFormProps> = (props) => {
@@ -31,8 +31,8 @@ const UserBookReviewManagementEditForm: React.FC<UserBookReviewManagementEditFor
 
   const { book } = useBookStore();
 
-  const form = useForm<UserBookReviewManagementEditFormData>({
-    resolver: zodResolver(bookReviewValidationSchemaForm),
+  const form = useForm<EditBookReviewFormActionData>({
+    resolver: zodResolver(BOOK_ACTIONS_VALIDATIONS_FORMS.EDIT_REVIEW),
     mode: 'onBlur',
     defaultValues: {
       review: book?.review ?? undefined,

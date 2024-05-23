@@ -1,79 +1,119 @@
 import { z } from 'zod';
+import { THREAD_ATTACHMENT_ATTRIBUTES_VALIDATIONS } from './community-thread-attachment.validations';
 
-const threadAttachmentFileSchema = z.instanceof(File).refine((file) => file instanceof File, {
+/* Attributes Validations */
+const threadIdValidationSchema = z.string({ required_error: 'ThreadId is required!' });
+
+const threadKeywordsValidationSchema = z
+  .string({ required_error: 'Please provide the keywords!' })
+  .array()
+  .min(1, { message: 'Min keywords is 1!' });
+
+const threadContentValidationSchema = z.string().min(1, 'Content is required');
+
+const threadTitleValidationSchema = z
+  .string({ required_error: 'Please provide the title!' })
+  .max(250, { message: 'Title max characters is 100!' });
+
+const threadVoteTypeValidationSchema = z.enum(['upvote', 'downvote'], { required_error: 'Type is required!' });
+
+const threadFavouriteValidationSchema = z.boolean({ required_error: 'IsFavourite is required!' });
+
+const threadAttachmentValidationSchema = z.object({
+  description: THREAD_ATTACHMENT_ATTRIBUTES_VALIDATIONS.description,
+  url: z.string().url(),
+});
+
+const threadAttachmentFileValidationSchema = z.instanceof(File).refine((file) => file instanceof File, {
   message: 'Must be a File instance',
 });
 
-const threadAttachmentDescriptionSchema = z.string().min(1, 'Description is required');
-
-// Define the schema for ThreadContentAttachment
-const threadContentAttachmentSchema = z.object({
-  image: threadAttachmentFileSchema,
-  description: threadAttachmentDescriptionSchema,
+const threadUploadAttachmentValidationSchema = z.object({
+  image: threadAttachmentFileValidationSchema,
+  description: THREAD_ATTACHMENT_ATTRIBUTES_VALIDATIONS.description,
 });
 
-const threadContentSchema = z.string().min(1, 'Content is required');
-
-// Define the schema for ThreadContentLayout
-const threadContentLayoutSchema = z.object({
-  content: threadContentSchema,
-  attachments: z.array(threadContentAttachmentSchema).optional(),
+const threadUploadContentValidationSchema = z.object({
+  content: threadContentValidationSchema,
+  attachments: z.array(threadUploadAttachmentValidationSchema).optional(),
 });
 
-export const createThreadValidationBaseSchema = z.object({
-  title: z
-    .string({ required_error: 'Please provide the title!' })
-    .max(250, { message: 'Title max characters is 100!' }),
-  content: threadContentLayoutSchema,
-  keywords: z
-    .string({ required_error: 'Please provide the keywords!' })
-    .array()
-    .min(1, { message: 'Min keywords is 1!' }),
+const threadContentUploadedValidationSchema = z.object({
+  content: threadContentValidationSchema,
+  attachments: z.array(threadAttachmentValidationSchema).optional(),
 });
 
-export const createThreadValidationApiSchema = z.object({
-  title: z
-    .string({ required_error: 'Please provide the title!' })
-    .max(250, { message: 'Title max characters is 100!' }),
-  content: z.object({
-    content: threadContentSchema,
-    attachments: z
-      .object({
-        description: threadAttachmentDescriptionSchema,
-        url: z.string().url(),
-      })
-      .array(),
-  }),
-  keywords: z
-    .string({ required_error: 'Please provide the keywords!' })
-    .array()
-    .min(1, { message: 'Min keywords is 1!' }),
+type ThreadAttributesValidations = {
+  title: typeof threadTitleValidationSchema;
+  keywords: typeof threadKeywordsValidationSchema;
+  content: typeof threadContentValidationSchema;
+  id: typeof threadIdValidationSchema;
+  voteType: typeof threadVoteTypeValidationSchema;
+  favourite: typeof threadFavouriteValidationSchema;
+  attachment: typeof threadAttachmentValidationSchema;
+  uploadContent: typeof threadUploadContentValidationSchema;
+  uploadContentAttachment: typeof threadUploadAttachmentValidationSchema;
+  uploadedContent: typeof threadContentUploadedValidationSchema;
+};
+
+export const THREAD_ATTRIBUTES_VALIDATIONS: ThreadAttributesValidations = {
+  title: threadTitleValidationSchema,
+  keywords: threadKeywordsValidationSchema,
+  content: threadContentValidationSchema,
+  id: threadIdValidationSchema,
+  voteType: threadVoteTypeValidationSchema,
+  favourite: threadFavouriteValidationSchema,
+  attachment: threadAttachmentValidationSchema,
+  uploadContent: threadUploadContentValidationSchema,
+  uploadContentAttachment: threadUploadAttachmentValidationSchema,
+  uploadedContent: threadContentUploadedValidationSchema,
+};
+
+const createThreadValidationBaseSchema = z.object({
+  title: THREAD_ATTRIBUTES_VALIDATIONS.title,
+  keywords: THREAD_ATTRIBUTES_VALIDATIONS.keywords,
+  content: THREAD_ATTRIBUTES_VALIDATIONS.uploadContent,
 });
 
-export const editThreadValidationBaseSchema = z.object({
-  title: z
-    .string({ required_error: 'Please provide the title!' })
-    .max(250, { message: 'Title max characters is 100!' }),
-  content: z
-    .string({ required_error: 'Please provide the content!' })
-    .max(1000, { message: 'Content max characters is 1000!' }),
-  keywords: z.string({ required_error: 'Please provide the keywords!' }),
+const createThreadValidationApiSchema = z.object({
+  title: THREAD_ATTRIBUTES_VALIDATIONS.title,
+  keywords: THREAD_ATTRIBUTES_VALIDATIONS.keywords,
+  content: THREAD_ATTRIBUTES_VALIDATIONS.uploadedContent,
 });
 
-export const editThreadValidationApiSchema = editThreadValidationBaseSchema.extend({
-  threadId: z.string({ required_error: 'ThreadId is required!' }),
+const editThreadValidationBaseSchema = z.object({
+  title: THREAD_ATTRIBUTES_VALIDATIONS.title,
+  content: THREAD_ATTRIBUTES_VALIDATIONS.content,
+  keywords: THREAD_ATTRIBUTES_VALIDATIONS.keywords,
 });
 
-export const deleteThreadValidationApiSchema = z.object({
-  threadId: z.string({ required_error: 'ThreadId is required!' }),
+const editThreadValidationApiSchema = editThreadValidationBaseSchema.extend({
+  threadId: THREAD_ATTRIBUTES_VALIDATIONS.id,
 });
 
-export const favouriteThreadValidationSchema = z.object({
-  threadId: z.string({ required_error: 'ThreadId is required!' }),
-  isFavourite: z.boolean({ required_error: 'IsFavourite is required!' }),
+const deleteThreadValidationApiSchema = z.object({
+  threadId: THREAD_ATTRIBUTES_VALIDATIONS.id,
 });
 
-export const voteThreadValidationSchema = z.object({
-  threadId: z.string({ required_error: 'ThreadId is required!' }),
-  type: z.enum(['upvote', 'downvote'], { required_error: 'Type is required!' }),
+const favouriteThreadValidationApiSchema = z.object({
+  threadId: THREAD_ATTRIBUTES_VALIDATIONS.id,
+  isFavourite: THREAD_ATTRIBUTES_VALIDATIONS.favourite,
 });
+
+const voteThreadValidationApiSchema = z.object({
+  threadId: THREAD_ATTRIBUTES_VALIDATIONS.id,
+  type: THREAD_ATTRIBUTES_VALIDATIONS.voteType,
+});
+
+export const THREAD_ACTIONS_VALIDATIONS_API = {
+  CREATE: createThreadValidationApiSchema,
+  DELETE: deleteThreadValidationApiSchema,
+  EDIT: editThreadValidationApiSchema,
+  VOTE: voteThreadValidationApiSchema,
+  FAVOURITE: favouriteThreadValidationApiSchema,
+};
+
+export const THREAD_ACTIONS_VALIDATIONS_FORMS = {
+  CREATE: createThreadValidationBaseSchema,
+  EDIT: editThreadValidationBaseSchema,
+};

@@ -8,7 +8,7 @@ export interface MultiStepFormStep<T extends FieldValues> {
   fields: Path<T>[];
 }
 
-interface UseMultiStepFormParams<T extends FieldValues> {
+export interface UseMultiStepFormParams<T extends FieldValues> {
   data: MultiStepFormStep<T>[];
   resolver: ZodSchema<T>;
   initialData?: DefaultValues<T>;

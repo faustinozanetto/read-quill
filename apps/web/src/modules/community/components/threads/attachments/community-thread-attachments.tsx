@@ -1,5 +1,5 @@
 import React from 'react';
-import { useThreadAttachments } from '@modules/community/hooks/threads/use-thread-attachments';
+
 import {
   Dialog,
   DialogContent,
@@ -9,9 +9,10 @@ import {
   DialogTrigger,
   Skeleton,
 } from '@read-quill/design-system';
-import CommunityThreadAttachment from './community-thread-attachment';
+import CommunityThreadAttachment from './community-thread-attachment-card';
 import { useCommunityThreadAttachmentsStore } from '@modules/community/state/community-thread-attachments.slice';
 import Image from 'next/image';
+import { useThreadAttachments } from '@modules/community/hooks/threads/attachments/use-thread-attachments';
 
 interface CommunityThreadAttachmentsProps {
   threadId: string;
@@ -41,6 +42,7 @@ const CommunityThreadAttachments: React.FC<CommunityThreadAttachmentsProps> = (p
               <CommunityThreadAttachment
                 key={attachment.id}
                 attachment={attachment}
+                threadId={threadId}
                 onSelected={() => setSelectedAttachment(attachment)}
               />
             ))}

@@ -1,12 +1,11 @@
 'use client';
 
-import React, { lazy } from 'react';
+import React from 'react';
 import { ThreadWithDetails } from '@modules/community/types/community.types.ts';
 import { useThreadComments } from '@modules/community/hooks/threads/use-thread-comments';
 import CommunityThreadWriteComment from './write/community-thread-write-comment';
 import CommunityThreadCommentPlaceholder from './community-thread-comment-placeholder';
-
-const CommunityThreadComment = lazy(() => import('./community-thread-comment'));
+import CommunityThreadComment from './community-thread-comment';
 
 interface CommunityThreadCommentsProps {
   thread: ThreadWithDetails;

@@ -8,6 +8,7 @@ import { DataTable, DataTablePagination } from '@read-quill/design-system/src';
 import { useReadRegistries } from '@modules/dashboard/hooks/use-read-registries';
 import type { DashboardReadRegistry } from '@modules/api/types/dashboard-api.types';
 import DashboardReadRegistriesRowActions from './dashboard-read-registries-row-actions';
+import Link from 'next/link';
 
 const DashboardReadRegistriesTable: React.FC = () => {
   const { data, pagination, setPagination } = useReadRegistries();
@@ -29,7 +30,7 @@ const DashboardReadRegistriesTable: React.FC = () => {
       },
       {
         accessorKey: 'createdAt',
-        header: ({ column }) => <DataTableColumnHeader column={column} title="Created At" />,
+        header: ({ column }) => <DataTableColumnHeader column={column} title="Registered At" />,
         cell: ({ row }) => {
           const value = new Date(row.getValue<string>('createdAt'));
           const formatted = new Intl.DateTimeFormat('en-US', {
@@ -45,7 +46,11 @@ const DashboardReadRegistriesTable: React.FC = () => {
         cell: ({ row }) => {
           const bookName = row.original.book.name;
 
-          return <div>{bookName}</div>;
+          return (
+            <Link className="hover:underline decoration-primary" href={`/books/${row.original.bookId}`}>
+              {bookName}
+            </Link>
+          );
         },
       },
       {

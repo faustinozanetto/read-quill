@@ -6,12 +6,9 @@ import {
   ThreadCommentPatchResponse,
   ThreadCommentPostResponse,
 } from '@modules/api/types/community-api.types';
-import {
-  createThreadCommentValidationApiSchema,
-  deleteThreadCommentValidationApiSchema,
-  editThreadCommentValidationApiSchema,
-} from '@modules/community/validations/community-comment.validations';
+
 import { auth } from 'auth';
+import { THREAD_COMMENT_ACTIONS_VALIDATIONS_API } from '@modules/community/validations/community-comment.validations';
 
 // /api/community/thread/comment POST : Creates a thread comment
 export async function POST(request: NextRequest): Promise<NextResponse<ThreadCommentPostResponse>> {
@@ -23,7 +20,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadCom
     }
 
     const json = await request.json();
-    const { threadId, content } = createThreadCommentValidationApiSchema.parse(json);
+    const { threadId, content } = THREAD_COMMENT_ACTIONS_VALIDATIONS_API.CREATE.parse(json);
 
     const threadComment = await prisma.threadComment.create({
       data: {
@@ -52,7 +49,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<ThreadCo
     }
 
     const json = await request.json();
-    const { commentId, content } = editThreadCommentValidationApiSchema.parse(json);
+    const { commentId, content } = THREAD_COMMENT_ACTIONS_VALIDATIONS_API.EDIT.parse(json);
 
     const threadComment = await prisma.threadComment.findUnique({
       where: {
@@ -97,7 +94,7 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<ThreadC
     }
 
     const json = await request.json();
-    const { commentId } = deleteThreadCommentValidationApiSchema.parse(json);
+    const { commentId } = THREAD_COMMENT_ACTIONS_VALIDATIONS_API.DELETE.parse(json);
 
     const threadComment = await prisma.threadComment.findUnique({
       where: {

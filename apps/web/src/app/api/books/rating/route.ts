@@ -2,8 +2,9 @@ import { prisma } from '@read-quill/database';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { bookRatingValidationSchemaForm } from '@modules/books/validations/books.validations';
+
 import { auth } from 'auth';
+import { BOOK_ACTIONS_VALIDATIONS_API } from '@modules/books/validations/books.validations';
 
 // /api/books/favourite POST : sets a book rating
 export async function POST(request: NextRequest): Promise<NextResponse> {
@@ -15,7 +16,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
 
     const json = await request.json();
-    const { bookId, rating } = bookRatingValidationSchemaForm.parse(json);
+    const { bookId, rating } = BOOK_ACTIONS_VALIDATIONS_API.RATING.parse(json);
 
     await prisma.book.update({
       where: {

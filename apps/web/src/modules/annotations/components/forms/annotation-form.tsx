@@ -1,91 +1,41 @@
 import React from 'react';
 import type { ZodSchema } from 'zod';
 import { DefaultValues, FieldValues, UseFormReturn } from 'react-hook-form';
-import { Button, ChevronLeftIcon, ChevronRightIcon, DialogFooter, Form } from '@read-quill/design-system';
-import { MultiStepFormStep, useMultiStepForm } from '@modules/forms/hooks/use-multi-step-form';
-import { BookAnnotationManagementAddFormData } from '../management/add/book-annotation-management-add-form';
+import { UseMultiStepFormParams } from '@modules/forms/hooks/use-multi-step-form';
 import AnnotationFormsTitle from './annotation-forms-title';
 import AnnotationFormsContent from './annotation-forms-content';
 import AnnotationFormsChapter from './annotation-forms-chapter';
-
-const STEPS_DATA: MultiStepFormStep<BookAnnotationManagementAddFormData>[] = [
-  {
-    title: 'Title',
-    fields: ['title'],
-  },
-  {
-    title: 'Chapter',
-    fields: ['chapter'],
-  },
-  {
-    title: 'Content',
-    fields: ['content'],
-  },
-];
+import MultiStepFormWrapper from '@modules/forms/components/multi-step-form-wrapper';
 
 interface AnnotationFormProps<T extends FieldValues> {
   resolver: ZodSchema<T>;
+  data: UseMultiStepFormParams<T>['data'];
   initialData?: DefaultValues<T>;
   onSubmit: (data: T) => void;
   children: (form: UseFormReturn<T>, getCanSubmit: () => boolean) => React.ReactNode;
 }
 
 const AnnotationForm = <T extends FieldValues>(props: AnnotationFormProps<T>) => {
-  const { resolver, initialData, onSubmit, children } = props;
-
-  const {
-    form,
-    currentStep,
-    totalSteps,
-    getCanGoNextStep,
-    getCanGoPrevStep,
-    getCanSubmit,
-    gotoNextStep,
-    gotoPrevStep,
-  } = useMultiStepForm<T>({
-    // @ts-ignore
-    data: STEPS_DATA,
-    initialData,
-    resolver,
-  });
+  const { resolver, data, initialData, onSubmit, children } = props;
 
   return (
-    <div className="space-y-2.5">
-      <div className="flex justify-between items-center">
-        <h4 className="text-lg font-semibold">{STEPS_DATA[currentStep].title}</h4>
-        <span>
-          Step <strong>{currentStep + 1}</strong> of <strong>{totalSteps}</strong>
-        </span>
-      </div>
-      <Form {...form}>
-        <form className="flex flex-col gap-2" onSubmit={form.handleSubmit(onSubmit)}>
+    <MultiStepFormWrapper
+      data={data}
+      resolver={resolver}
+      onSubmit={onSubmit}
+      initialData={initialData}
+      renderSubmitButton={(form, getCanSubmit) => {
+        return children(form, getCanSubmit);
+      }}
+    >
+      {(currentStep) => (
+        <>
           {currentStep === 0 && <AnnotationFormsTitle />}
           {currentStep === 1 && <AnnotationFormsChapter />}
           {currentStep === 2 && <AnnotationFormsContent />}
-
-          <DialogFooter>
-            <div className="mt-4 grid grid-cols-2 gap-2 sm:ml-auto">
-              <Button disabled={!getCanGoPrevStep()} variant="outline" onClick={gotoPrevStep}>
-                <ChevronLeftIcon className="mr-2" />
-                Prev
-              </Button>
-              {currentStep < totalSteps - 1 && (
-                <Button
-                  disabled={!getCanGoNextStep()}
-                  variant="outline"
-                  onClick={async () => await gotoNextStep()}
-                  type="button"
-                >
-                  Next
-                  <ChevronRightIcon className="ml-2" />
-                </Button>
-              )}
-              {currentStep === totalSteps - 1 && children(form, getCanSubmit)}
-            </div>
-          </DialogFooter>
-        </form>
-      </Form>
-    </div>
+        </>
+      )}
+    </MultiStepFormWrapper>
   );
 };
 

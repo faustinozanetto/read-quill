@@ -1,22 +1,42 @@
 import React from 'react';
-import type { z } from 'zod';
+
 import { Button, PencilIcon, cn, LoadingIcon } from '@read-quill/design-system';
 import type { Annotation } from '@read-quill/database';
 import { editBookAnnotationValidationSchemaBase } from '@modules/annotations/lib/annotations.validations';
 import AnnotationForm from '../../forms/annotation-form';
+import { MultiStepFormStep } from '@modules/forms/hooks/use-multi-step-form';
+import { EditAnnotationFormActionData } from '@modules/annotations/types/annotation-validations.types';
 
-export type BookAnnotationManagementEditFormData = z.infer<typeof editBookAnnotationValidationSchemaBase>;
+const STEPS_DATA: MultiStepFormStep<EditAnnotationFormActionData>[] = [
+  {
+    title: 'Title',
+    fields: ['title'],
+  },
+  {
+    title: 'Chapter',
+    fields: ['chapter'],
+  },
+  {
+    title: 'Content',
+    fields: ['content'],
+  },
+];
 
 interface BookAnnotationManagementEditFormProps {
   annotation: Annotation;
-  onSubmit: (data: BookAnnotationManagementEditFormData) => void;
+  onSubmit: (data: EditAnnotationFormActionData) => void;
 }
 
 const BookAnnotationManagementEditForm: React.FC<BookAnnotationManagementEditFormProps> = (props) => {
   const { annotation, onSubmit } = props;
 
   return (
-    <AnnotationForm resolver={editBookAnnotationValidationSchemaBase} initialData={annotation} onSubmit={onSubmit}>
+    <AnnotationForm
+      data={STEPS_DATA}
+      resolver={editBookAnnotationValidationSchemaBase}
+      initialData={annotation}
+      onSubmit={onSubmit}
+    >
       {(form, getCanSubmit) => {
         const isFormLoading = form.formState.isSubmitting;
         return (

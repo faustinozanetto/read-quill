@@ -1,23 +1,22 @@
 'use client';
 
 import React from 'react';
-import CommunityThreadWriteCommentForm, {
-  CommunityThreadWriteCommentFormData,
-} from './community-thread-write-comment-form';
+import CommunityThreadWriteCommentForm from './community-thread-write-comment-form';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useToast } from '@read-quill/design-system';
 import { useMutation } from '@tanstack/react-query';
 import { ThreadCommentPostResponse } from '@modules/api/types/community-api.types';
 import { useCommunityThreadStore } from '@modules/community/state/community-thread.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
+import { CreateThreadCommentFormActionData } from '@modules/community/types/community-thread-comments-validations.types';
 
 const CommunityThreadWriteComment: React.FC = () => {
   const { toast } = useToast();
   const { thread } = useCommunityThreadStore();
   const { queryClient } = useQueriesStore();
 
-  const { mutateAsync } = useMutation({
-    mutationFn: async (data: CommunityThreadWriteCommentFormData) => {
+  const { mutateAsync } = useMutation<ThreadCommentPostResponse, Error, CreateThreadCommentFormActionData>({
+    mutationFn: async (data) => {
       try {
         if (!thread) return;
 
@@ -32,7 +31,7 @@ const CommunityThreadWriteComment: React.FC = () => {
           throw new Error('Could not create thread comment!');
         }
 
-        return response.json() as Promise<ThreadCommentPostResponse>;
+        return response.json();
       } catch (error) {
         let errorMessage = 'Could not create thread comment!';
         if (error instanceof Error) errorMessage = error.message;

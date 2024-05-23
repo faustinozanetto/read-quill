@@ -2,14 +2,16 @@ import { prisma } from '@read-quill/database';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import {
-  bookReviewValidationSchemaAPI,
-  deleteBookReviewValidationSchemaAPI,
-} from '@modules/books/validations/books.validations';
+import { BOOK_ACTIONS_VALIDATIONS_API } from '@modules/books/validations/books.validations';
 import { auth } from 'auth';
+import {
+  BookReviewDeleteResponse,
+  BookReviewPatchResponse,
+  BookReviewPostResponse,
+} from '@modules/api/types/books-api.types';
 
 // /api/books/rewiew POST : creates a book review
-export async function POST(request: NextRequest): Promise<NextResponse> {
+export async function POST(request: NextRequest): Promise<NextResponse<BookReviewPostResponse>> {
   try {
     const session = await auth();
 
@@ -18,7 +20,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     }
 
     const json = await request.json();
-    const { bookId, review } = bookReviewValidationSchemaAPI.parse(json);
+    const { bookId, review } = BOOK_ACTIONS_VALIDATIONS_API.CREATE_REVIEW.parse(json);
 
     await prisma.book.update({
       where: {
@@ -29,7 +31,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       },
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ review });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
@@ -40,7 +42,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 }
 
 // /api/books/rewiew PATCH : Update a book review
-export async function PATCH(request: NextRequest): Promise<NextResponse> {
+export async function PATCH(request: NextRequest): Promise<NextResponse<BookReviewPatchResponse>> {
   try {
     const session = await auth();
 
@@ -49,7 +51,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
     }
 
     const json = await request.json();
-    const { bookId, review } = bookReviewValidationSchemaAPI.parse(json);
+    const { bookId, review } = BOOK_ACTIONS_VALIDATIONS_API.EDIT_REVIEW.parse(json);
 
     await prisma.book.update({
       where: {
@@ -60,7 +62,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
       },
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ review });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
@@ -71,7 +73,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
 }
 
 // /api/books/rewiew DELETE : Delete a book review
-export async function DELETE(request: NextRequest): Promise<NextResponse> {
+export async function DELETE(request: NextRequest): Promise<NextResponse<BookReviewDeleteResponse>> {
   try {
     const session = await auth();
 
@@ -80,7 +82,7 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
     }
 
     const json = await request.json();
-    const { bookId } = deleteBookReviewValidationSchemaAPI.parse(json);
+    const { bookId } = BOOK_ACTIONS_VALIDATIONS_API.DELETE_REVIEW.parse(json);
 
     await prisma.book.update({
       where: {

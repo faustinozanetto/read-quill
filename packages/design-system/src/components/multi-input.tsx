@@ -45,10 +45,7 @@ const MultiInputEntry: React.FC<MultiEntryEntryProps> = (props) => {
   );
 };
 
-export type MultiInputProps = Omit<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  'value' | 'onChange' | 'className' | 'placeholder'
-> & {
+export type MultiInputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'className'> & {
   value: string[];
   onChange: (value: string[]) => void;
   className?: string;

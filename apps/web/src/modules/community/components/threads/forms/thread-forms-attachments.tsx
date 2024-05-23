@@ -1,27 +1,23 @@
-import { ThreadContentAttachment } from '@modules/community/types/community.types';
+import { ThreadUploadContentAttachment } from '@modules/community/types/community-thread-validations.types';
 import { FileInput, FormControl, FormField, FormItem, FormMessage, Input } from '@read-quill/design-system';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-interface ThreadFormsAttachmentsProps {}
-
-const ThreadFormsAttachments: React.FC<ThreadFormsAttachmentsProps> = (props) => {
-  const {} = props;
-
+const ThreadFormsAttachments: React.FC = () => {
   const form = useFormContext();
-  const [value, setValue] = useState<ThreadContentAttachment[]>([]);
+  const [attachments, setAttachments] = useState<ThreadUploadContentAttachment[]>([]);
 
   const handleFilesChange = useCallback((files: File[]) => {
-    const mappedFiles: ThreadContentAttachment[] = files.map((file) => ({ image: file, description: '' }));
+    const mappedFiles: ThreadUploadContentAttachment[] = files.map((file) => ({ image: file, description: '' }));
 
-    setValue(mappedFiles);
+    setAttachments(mappedFiles);
   }, []);
 
   const handleImageDescriptionChange = (attachment: File, description: string) => {
-    const attachmentToUpdate = value.findIndex((file) => file.image.name === attachment.name);
+    const attachmentToUpdate = attachments.findIndex((file) => file.image.name === attachment.name);
     if (attachmentToUpdate === -1) return;
 
-    setValue((prev) => {
+    setAttachments((prev) => {
       const updatedValues = [...prev];
       updatedValues[attachmentToUpdate].description = description;
       return updatedValues;
@@ -29,32 +25,43 @@ const ThreadFormsAttachments: React.FC<ThreadFormsAttachmentsProps> = (props) =>
   };
 
   useEffect(() => {
-    form.setValue('content.attachments', value);
-  }, [value]);
+    form.setValue('content.attachments', attachments);
+  }, [attachments]);
 
   return (
     <FormField
       control={form.control}
       name="content.attachments"
-      render={({ field: { name, disabled } }) => (
+      render={({ field: { value = [], name, disabled } }) => (
         <FormItem>
           <p>Upload the attachments here.</p>
           <FormControl>
-            <FileInput name={name} disabled={disabled} value={[]} onChange={handleFilesChange} multiple />
+            <FileInput
+              name={name}
+              disabled={disabled}
+              value={value}
+              onChange={handleFilesChange}
+              multiple
+              accept="image/*"
+            />
           </FormControl>
           <div className="flex flex-col gap-2">
-            <p>Set descriptions here.</p>
-            {value.map((attachment) => {
-              return (
-                <div key={attachment.image.name}>
-                  <Input
-                    id={attachment.image.name}
-                    placeholder="Image description."
-                    onChange={(e) => handleImageDescriptionChange(attachment.image, e.target.value)}
-                  />
-                </div>
-              );
-            })}
+            {value.length > 0 && (
+              <>
+                <p>Set descriptions here.</p>
+                {attachments.map((attachment) => {
+                  return (
+                    <div key={attachment.image.name}>
+                      <Input
+                        id={attachment.image.name}
+                        placeholder="Image description."
+                        onChange={(e) => handleImageDescriptionChange(attachment.image, e.target.value)}
+                      />
+                    </div>
+                  );
+                })}
+              </>
+            )}
           </div>
           <FormMessage />
         </FormItem>
