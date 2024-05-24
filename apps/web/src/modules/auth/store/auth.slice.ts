@@ -5,8 +5,6 @@ export interface AuthStoreState {
   user: User | null;
 }
 
-interface AuthStoreActions {}
-
 export type AuthStore = ReturnType<typeof createAuthStore>;
 
 export const createAuthStore = (initProps?: Partial<AuthStoreState>) => {

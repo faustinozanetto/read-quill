@@ -33,10 +33,11 @@ const CommunityTrendingThreads: React.FC = () => {
           {data.threads.map((thread) => {
             return (
               <CommunityThreadCard.Root key={`trending-thread-${thread.id}`} thread={thread}>
-                <CommunityThreadCard.Metadata thread={thread}>
-                  <CommunityThreadCard.Votes thread={thread} />
+                <CommunityThreadCard.Metadata>
+                  <CommunityThreadCard.Votes />
                 </CommunityThreadCard.Metadata>
-                <CommunityThreadCard.Content className="line-clamp-1">{thread.content}</CommunityThreadCard.Content>
+                <CommunityThreadCard.Content className="line-clamp-1" />
+                <CommunityThreadCard.Comments />
               </CommunityThreadCard.Root>
             );
           })}

@@ -32,11 +32,15 @@ const UserProfilThreads: React.FC = () => {
           {threads.map((thread) => {
             return (
               <CommunityThreadCard.Root key={`thread-${thread.id}`} thread={thread}>
-                <CommunityThreadCard.Metadata thread={thread}>
-                  <CommunityThreadCard.Votes thread={thread} />
+                <CommunityThreadCard.Metadata>
+                  <CommunityThreadCard.Votes />
                 </CommunityThreadCard.Metadata>
-                <CommunityThreadCard.KeywordsComments thread={thread} />
-                <CommunityThreadCard.Content>{thread.content}</CommunityThreadCard.Content>
+                <CommunityThreadCard.Keywords />
+                <CommunityThreadCard.Content />
+                <div className="flex gap-2 items-center">
+                  <CommunityThreadCard.Comments />
+                  <CommunityThreadCard.Views />
+                </div>
               </CommunityThreadCard.Root>
             );
           })}

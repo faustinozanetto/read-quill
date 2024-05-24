@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThreadWithDetails } from '@modules/community/types/community.types.ts';
 import Link from 'next/link';
-import { ArrowLeftIcon, Button } from '@read-quill/design-system';
+import { ArrowLeftIcon, Button, Separator } from '@read-quill/design-system';
 import CommunityThreadKeywords from '../../common/community-thread-keywords';
 import CommunityThreadAuthorAvatar from '../../common/community-thread-author-avatar';
 import CommunityThreadCreatedAt from '../../common/community-thread-created-at';
@@ -42,7 +42,8 @@ const CommunityThreadDetails: React.FC<CommunityThreadDetailsProps> = (props) =>
         <CommnuityThreadFavourite thread={thread} />
       </div>
       <CommunityThreadKeywords keywords={thread.keywords} />
-      <p className="mt-4">{thread.content}</p>
+      <Separator className="my-2" />
+      <p>{thread.content}</p>
     </div>
   );
 };

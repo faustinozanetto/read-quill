@@ -9,7 +9,7 @@ const UserBookAnnotationsHeader: React.FC = () => {
   const { isBookOwner } = useIsBookOwner();
 
   return (
-    <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:gap-0">
+    <div className="flex items-center justify-between">
       <h2 className="text-2xl font-bold">Annotations</h2>
 
       {isLoading ? <Skeleton className="h-10 w-full md:w-36" /> : null}

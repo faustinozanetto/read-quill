@@ -13,10 +13,7 @@ const CommunityThreadCreatedAt: React.FC<CommunityThreadCreatedAtProps> = (props
   return (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger
-          className={cn('text-sm flex gap-1 items-center justify-center font-medium', className)}
-          {...rest}
-        >
+        <TooltipTrigger className={cn('text-sm flex gap-1 items-center justify-center', className)} {...rest}>
           <CalendarIcon size="sm" />
           {new Date(createdAt).toLocaleDateString('en-US', { dateStyle: 'long' })}
         </TooltipTrigger>
