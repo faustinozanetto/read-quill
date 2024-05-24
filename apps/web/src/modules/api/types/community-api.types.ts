@@ -1,4 +1,9 @@
-import { CommunityTopUser, ThreadCommentNode, ThreadWithDetails } from '@modules/community/types/community.types';
+import {
+  CommunityTopUser,
+  ThreadCommentNode,
+  ThreadViews,
+  ThreadWithDetails,
+} from '@modules/community/types/community.types';
 import { ThreadAttachment } from '@read-quill/database';
 
 export interface ThreadsCommunityGetResponse {
@@ -96,7 +101,7 @@ export interface ThreadAttachmentDeleteResponse {
 }
 
 export interface ThreadViewGetResponse {
-  views: { unique: number; total: number };
+  views: ThreadViews;
 }
 
 export interface ThreadViewPostResponse {

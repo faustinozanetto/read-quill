@@ -42,7 +42,10 @@ const CommunityFavouriteThreads: React.FC = () => {
                   <CommunityThreadCard.Votes />
                 </CommunityThreadCard.Metadata>
                 <CommunityThreadCard.Content className="line-clamp-1" />
-                <CommunityThreadCard.Comments />
+                <div className="flex gap-2 items-center">
+                  <CommunityThreadCard.Comments />
+                  <CommunityThreadCard.Views />
+                </div>
               </CommunityThreadCard.Root>
             );
           })}

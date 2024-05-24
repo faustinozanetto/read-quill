@@ -8,6 +8,7 @@ import { auth } from 'auth';
 import { extractAttachmentIdFromUrl } from '@modules/community/lib/thread-attachments.lib';
 import { deleteFileFromSupabase } from '@modules/uploads/lib/uploads.lib';
 import { THREAD_ACTIONS_VALIDATIONS_API } from '@modules/community/validations/community-thread.validations';
+import { getThreadViews } from '@modules/community/lib/community-thread-views.lib';
 
 // /api/community/thread GET : Gets a thread by a given threadId
 export async function GET(request: NextRequest): Promise<NextResponse<ThreadGetResponse>> {
@@ -30,10 +31,13 @@ export async function GET(request: NextRequest): Promise<NextResponse<ThreadGetR
       });
     }
 
+    const views = await getThreadViews(threadId);
+
     const { comments, ...rest } = thread;
     const mappedThread: ThreadWithDetails = {
       ...rest,
       commentsCount: comments.length,
+      views,
     };
 
     return NextResponse.json({ thread: mappedThread });
@@ -79,10 +83,13 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadPos
       include: { author: { select: { id: true, name: true, image: true } }, comments: { select: { id: true } } },
     });
 
+    const views = await getThreadViews(thread.id);
+
     const { comments, ...rest } = thread;
     const mappedThread: ThreadWithDetails = {
       ...rest,
       commentsCount: comments.length,
+      views,
     };
 
     return NextResponse.json({ thread: mappedThread });

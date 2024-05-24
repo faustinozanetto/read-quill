@@ -1,6 +1,8 @@
 import { Thread, ThreadComment, User } from '@read-quill/database';
 
-export interface ThreadWithDetails extends Thread, ThreadAuthor, ThreadCommentsCount {}
+export interface ThreadWithDetails extends Thread, ThreadAuthor, ThreadCommentsCount {
+  views: ThreadViews;
+}
 
 export interface ThreadAuthor {
   author: {
@@ -12,6 +14,11 @@ export interface ThreadAuthor {
 
 export interface ThreadCommentsCount {
   commentsCount: number;
+}
+
+export interface ThreadViews {
+  unique: number;
+  total: number;
 }
 
 export interface ThreadCommentWithAuthor extends Omit<ThreadComment, 'authorId'>, ThreadAuthor {}

@@ -37,6 +37,7 @@ const CommunityThreadsFeed: React.FC<CommunityThreadsFeedProps> = (props) => {
     },
     commentsCount: (a, b) => (a.commentsCount > b.commentsCount ? 1 : -1),
     votes: (a, b) => (a.votes > b.votes ? 1 : -1),
+    'views.total': (a, b) => (a.views.total > b.views.total ? 1 : -1),
   };
 
   const { filteredData, filters, sort, noResults } = useFilterData<ThreadWithDetails>({

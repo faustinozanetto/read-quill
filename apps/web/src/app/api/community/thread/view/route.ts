@@ -15,12 +15,6 @@ export async function GET(request: NextRequest): Promise<NextResponse<ThreadView
       return new NextResponse('Thread ID is missing', { status: 400 });
     }
 
-    const session = await auth();
-
-    const userId = session?.user.id;
-    const userIp = request.ip;
-
-    await incrementThreadView(threadId, userId, userIp);
     const views = await getThreadViews(threadId);
 
     return NextResponse.json({ views });

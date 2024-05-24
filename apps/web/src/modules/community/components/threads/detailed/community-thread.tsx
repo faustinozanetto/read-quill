@@ -38,16 +38,16 @@ const CommunityThread: React.FC<CommunityThreadProps> = (props) => {
   });
 
   return (
-    <section className="mx-auto flex flex-col gap-4">
+    <>
       {(isFetching || isLoading) && <CommunityThreadPlaceholder />}
       {!(isFetching || isLoading) && thread && (
-        <>
+        <section className="mx-auto flex flex-col gap-4">
           <CommunityThreadDetails thread={thread} />
           <CommunityThreadAttachments threadId={thread.id} />
           <CommunityThreadComments thread={thread} />
-        </>
+        </section>
       )}
-    </section>
+    </>
   );
 };
 

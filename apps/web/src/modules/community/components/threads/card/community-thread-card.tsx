@@ -113,7 +113,7 @@ const CommunityThreadCardViews: React.FC = () => {
 
   return (
     <div className="flex gap-1 items-center">
-      <EyeIcon /> <span className="text-sm">{thread.commentsCount} views</span>
+      <EyeIcon /> <span className="text-sm">{thread.views.total} views</span>
     </div>
   );
 };

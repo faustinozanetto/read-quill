@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 import { ThreadsCommunityTrendingGetResponse } from '@modules/api/types/community-api.types';
 import { startOfWeek, subDays } from 'date-fns';
 import { ThreadWithDetails } from '@modules/community/types/community.types';
+import { getThreadViews } from '@modules/community/lib/community-thread-views.lib';
 
 // /api/community/threads/trending GET : Gets trending community threads
 export async function GET(request: NextRequest): Promise<NextResponse<ThreadsCommunityTrendingGetResponse>> {
@@ -25,9 +26,12 @@ export async function GET(request: NextRequest): Promise<NextResponse<ThreadsCom
       include: { author: { select: { id: true, name: true, image: true } }, comments: { select: { id: true } } },
     });
 
-    const mappedThreads: ThreadWithDetails[] = threads.map((thread) => {
+    const threadViewsPromises = threads.map((thread) => getThreadViews(thread.id));
+    const threadViews = await Promise.all(threadViewsPromises);
+
+    const mappedThreads: ThreadWithDetails[] = threads.map((thread, index) => {
       const { comments, ...rest } = thread;
-      return { ...rest, commentsCount: comments.length };
+      return { ...rest, commentsCount: comments.length, views: threadViews[index] };
     });
 
     return NextResponse.json({ threads: mappedThreads });
