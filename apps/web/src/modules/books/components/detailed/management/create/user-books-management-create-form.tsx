@@ -6,6 +6,7 @@ import BookForm from '@modules/books/components/forms/book-form';
 import { MultiStepFormStep } from '@modules/forms/hooks/use-multi-step-form';
 import { CreateBookFormActionData } from '@modules/books/types/book-validations.types';
 import { BOOK_ACTIONS_VALIDATIONS_FORMS } from '@modules/books/validations/books.validations';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 const STEPS_DATA: MultiStepFormStep<CreateBookFormActionData>[] = [
   {
@@ -35,7 +36,7 @@ const UserBooksManagementCreateForm: React.FC<UserBooksManagementCreateFormProps
   const { onSubmit, isBookCoverUploading } = props;
 
   return (
-    <BookForm resolver={BOOK_ACTIONS_VALIDATIONS_FORMS.CREATE} data={STEPS_DATA} onSubmit={onSubmit}>
+    <BookForm resolver={zodResolver(BOOK_ACTIONS_VALIDATIONS_FORMS.CREATE)} data={STEPS_DATA} onSubmit={onSubmit}>
       {(form, getCanSubmit) => {
         const isFormLoading = form.formState.isSubmitting || isBookCoverUploading;
         return (

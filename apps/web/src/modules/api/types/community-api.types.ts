@@ -94,3 +94,11 @@ export interface ThreadAttachmentsGetResponse {
 export interface ThreadAttachmentDeleteResponse {
   success: boolean;
 }
+
+export interface ThreadViewGetResponse {
+  views: { unique: number; total: number };
+}
+
+export interface ThreadViewPostResponse {
+  success: boolean;
+}

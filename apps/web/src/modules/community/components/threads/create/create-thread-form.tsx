@@ -10,6 +10,7 @@ import ThreadFormsKeywords from '../forms/thread-forms-keywords';
 import MultiStepFormWrapper from '@modules/forms/components/multi-step-form-wrapper';
 import { CreateThreadFormActionData } from '@modules/community/types/community-thread-validations.types';
 import { THREAD_ACTIONS_VALIDATIONS_FORMS } from '@modules/community/validations/community-thread.validations';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 const STEPS_DATA: MultiStepFormStep<CreateThreadFormActionData>[] = [
   {
@@ -37,8 +38,9 @@ const CreateThreadForm: React.FC<CreateThreadFormProps> = (props) => {
   return (
     <MultiStepFormWrapper
       data={STEPS_DATA}
-      resolver={THREAD_ACTIONS_VALIDATIONS_FORMS.CREATE}
+      resolver={zodResolver(THREAD_ACTIONS_VALIDATIONS_FORMS.CREATE, undefined, { raw: true })}
       onSubmit={onSubmit}
+      mode="onChange"
       renderSubmitButton={(form, getCanSubmit) => {
         const isFormLoading = form.formState.isSubmitting;
 

@@ -1,72 +1,100 @@
-import { ThreadUploadContentAttachment } from '@modules/community/types/community-thread-validations.types';
-import { FileInput, FormControl, FormField, FormItem, FormMessage, Input } from '@read-quill/design-system';
-import React, { useCallback, useEffect, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import {
+  CreateThreadFormActionData,
+  ThreadUploadContentAttachment,
+} from '@modules/community/types/community-thread-validations.types';
+
+import {
+  Button,
+  DeleteIcon,
+  FileInput,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+  Input,
+} from '@read-quill/design-system';
+import React, { useCallback, useEffect } from 'react';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 
 const ThreadFormsAttachments: React.FC = () => {
-  const form = useFormContext();
-  const [attachments, setAttachments] = useState<ThreadUploadContentAttachment[]>([]);
+  const { control, setValue, watch, trigger, formState } = useFormContext<CreateThreadFormActionData>();
+  const { fields, remove } = useFieldArray<CreateThreadFormActionData>({
+    control,
+    name: 'content.attachments',
+  });
 
-  const handleFilesChange = useCallback((files: File[]) => {
-    const mappedFiles: ThreadUploadContentAttachment[] = files.map((file) => ({ image: file, description: '' }));
+  const attachments = (watch('content.attachments') ?? []) as ThreadUploadContentAttachment[];
 
-    setAttachments(mappedFiles);
-  }, []);
-
-  const handleImageDescriptionChange = (attachment: File, description: string) => {
-    const attachmentToUpdate = attachments.findIndex((file) => file.image.name === attachment.name);
-    if (attachmentToUpdate === -1) return;
-
-    setAttachments((prev) => {
-      const updatedValues = [...prev];
-      updatedValues[attachmentToUpdate].description = description;
-      return updatedValues;
-    });
-  };
+  const handleFilesChange = useCallback(
+    (files: File[]) => {
+      const mappedFiles: ThreadUploadContentAttachment[] = files.map((file) => ({
+        image: file,
+        description: file.name,
+      }));
+      setValue('content.attachments', mappedFiles);
+    },
+    [setValue]
+  );
 
   useEffect(() => {
-    form.setValue('content.attachments', attachments);
-  }, [attachments]);
+    trigger('content.attachments');
+  }, [attachments, trigger]);
 
   return (
-    <FormField
-      control={form.control}
-      name="content.attachments"
-      render={({ field: { value = [], name, disabled } }) => (
-        <FormItem>
-          <p>Upload the attachments here.</p>
-          <FormControl>
-            <FileInput
-              name={name}
-              disabled={disabled}
-              value={value}
-              onChange={handleFilesChange}
-              multiple
-              accept="image/*"
-            />
-          </FormControl>
-          <div className="flex flex-col gap-2">
-            {value.length > 0 && (
-              <>
-                <p>Set descriptions here.</p>
-                {attachments.map((attachment) => {
-                  return (
-                    <div key={attachment.image.name}>
-                      <Input
-                        id={attachment.image.name}
-                        placeholder="Image description."
-                        onChange={(e) => handleImageDescriptionChange(attachment.image, e.target.value)}
+    <ol className="list-decimal list-inside">
+      <FormField
+        control={control}
+        name="content.attachments"
+        render={({ field }) => (
+          <FormItem>
+            <li>Upload the attachments here.</li>
+            <FormControl>
+              <FileInput
+                name={field.name}
+                value={attachments.map((att) => att.image)}
+                onChange={handleFilesChange}
+                multiple
+                accept="image/*"
+                showDeleteItemButton={false}
+              />
+            </FormControl>
+            <div className="flex flex-col gap-2">
+              {fields.length > 0 && (
+                <>
+                  <li>Set descriptions here.</li>
+                  {fields.map((attachmentField, index) => {
+                    return (
+                      <FormField
+                        key={attachmentField.id}
+                        control={control}
+                        name={`content.attachments.${index}.description` as const}
+                        render={({ field }) => (
+                          <FormItem>
+                            <div className="flex items-center gap-2">
+                              <FormControl>
+                                <Input
+                                  {...field}
+                                  placeholder="Image description."
+                                  defaultValue={attachmentField.description}
+                                />
+                              </FormControl>
+                              <Button size="icon" variant="destructive" onClick={() => remove(index)}>
+                                <DeleteIcon className="stroke-current" />
+                              </Button>
+                            </div>
+                            <FormMessage />
+                          </FormItem>
+                        )}
                       />
-                    </div>
-                  );
-                })}
-              </>
-            )}
-          </div>
-          <FormMessage />
-        </FormItem>
-      )}
-    />
+                    );
+                  })}
+                </>
+              )}
+            </div>
+          </FormItem>
+        )}
+      />
+    </ol>
   );
 };
 

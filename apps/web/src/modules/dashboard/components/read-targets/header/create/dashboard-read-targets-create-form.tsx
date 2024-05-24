@@ -5,6 +5,7 @@ import { createReadTargetsValidationSchema } from '@modules/dashboard/validation
 
 import DashboardReadTargetsForm from '../../forms/dashboard-read-targets-form';
 import { MultiStepFormStep } from '@modules/forms/hooks/use-multi-step-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 export type DashboardReadTargetsCreateFormData = z.infer<typeof createReadTargetsValidationSchema>;
 
@@ -31,7 +32,11 @@ const DashboardReadTargetsCreateForm: React.FC<DashboardReadTargetsCreateFormPro
   const { onSubmit } = props;
 
   return (
-    <DashboardReadTargetsForm data={STEPS_DATA} resolver={createReadTargetsValidationSchema} onSubmit={onSubmit}>
+    <DashboardReadTargetsForm
+      data={STEPS_DATA}
+      resolver={zodResolver(createReadTargetsValidationSchema)}
+      onSubmit={onSubmit}
+    >
       {(form, getCanSubmit) => {
         const isFormLoading = form.formState.isSubmitting;
         return (

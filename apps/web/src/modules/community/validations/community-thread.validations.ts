@@ -35,7 +35,7 @@ const threadUploadAttachmentValidationSchema = z.object({
 
 const threadUploadContentValidationSchema = z.object({
   content: threadContentValidationSchema,
-  attachments: z.array(threadUploadAttachmentValidationSchema).optional(),
+  attachments: z.array(threadUploadAttachmentValidationSchema),
 });
 
 const threadContentUploadedValidationSchema = z.object({

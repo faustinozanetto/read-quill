@@ -1,11 +1,7 @@
-'use client';
-
 import { __URL__ } from '@modules/common/lib/common.constants';
 import CommunityThread from '@modules/community/components/threads/detailed/community-thread';
-import CommunityThreadPlaceholder from '@modules/community/components/threads/detailed/community-thread-placeholder';
-import { useCommunityThreadStore } from '@modules/community/state/community-thread.slice';
-import { ThreadWithDetails } from '@modules/community/types/community.types';
-import { useQuery } from '@tanstack/react-query';
+import { headers } from 'next/headers';
+
 import React from 'react';
 
 interface CommunityThreadPageProps {
@@ -14,34 +10,20 @@ interface CommunityThreadPageProps {
   };
 }
 
-const CommunityThreadPage: React.FC<CommunityThreadPageProps> = (props) => {
+const CommunityThreadPage: React.FC<CommunityThreadPageProps> = async (props) => {
   const { params } = props;
   const { threadId } = params;
 
-  const { setThread, thread } = useCommunityThreadStore();
-
-  const { isFetching, isLoading } = useQuery<ThreadWithDetails>(['community-thread', threadId], {
-    queryFn: async () => {
-      const url = new URL('/api/community/thread', __URL__);
-      url.searchParams.set('threadId', threadId);
-
-      const response = await fetch(url, { method: 'GET' });
-      if (!response.ok) {
-        throw new Error('Failed to fetch thread!');
-      }
-
-      const { thread }: { thread: ThreadWithDetails } = await response.json();
-      return thread;
-    },
-    onSuccess(data) {
-      setThread(data);
-    },
+  const url = new URL('/api/community/thread/view', __URL__);
+  url.searchParams.set('threadId', threadId);
+  const response = await fetch(url, {
+    headers: headers(),
   });
+  const data = await response.json();
 
   return (
     <div className="container mt-4">
-      {(isFetching || isLoading) && <CommunityThreadPlaceholder />}
-      {!(isFetching || isLoading) && thread && <CommunityThread thread={thread} />}
+      <CommunityThread threadId={threadId} />
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import type { ZodSchema } from 'zod';
-import { DefaultValues, FieldValues, UseFormReturn } from 'react-hook-form';
+import { DefaultValues, FieldValues, UseFormProps, UseFormReturn } from 'react-hook-form';
 import BookFormsName from './book-forms-name';
 import BookFormsAuthor from './book-forms-author';
 import { UseMultiStepFormParams } from '@modules/forms/hooks/use-multi-step-form';
@@ -10,27 +10,25 @@ import BookFormsPageCount from './book-forms-page-count';
 import BookFormsStartedAt from './book-forms-started-at';
 import BookFormsFinishedAt from './book-forms-finished-at';
 import MultiStepFormWrapper from '@modules/forms/components/multi-step-form-wrapper';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-interface BookFormProps<T extends FieldValues> {
-  resolver: ZodSchema<T>;
+interface BookFormProps<T extends FieldValues> extends UseFormProps<T> {
   data: UseMultiStepFormParams<T>['data'];
-  initialData?: DefaultValues<T>;
   onSubmit: (data: T) => void;
   children: (form: UseFormReturn<T>, getCanSubmit: () => boolean) => React.ReactNode;
 }
 
 const BookForm = <T extends FieldValues>(props: BookFormProps<T>) => {
-  const { resolver, data, initialData, onSubmit, children } = props;
+  const { data, onSubmit, children, ...formProps } = props;
 
   return (
     <MultiStepFormWrapper
       data={data}
-      resolver={resolver}
       onSubmit={onSubmit}
-      initialData={initialData}
       renderSubmitButton={(form, getCanSubmit) => {
         return children(form, getCanSubmit);
       }}
+      {...formProps}
     >
       {(currentStep) => (
         <>

@@ -6,6 +6,7 @@ import type { DashboardReadTargetsGetResponse } from '@modules/api/types/dashboa
 
 import DashboardReadTargetsForm from '../../../forms/dashboard-read-targets-form';
 import { MultiStepFormStep } from '@modules/forms/hooks/use-multi-step-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 export type DashboardReadTargetsManagementEditFormData = z.infer<typeof editReadTargetsValidationSchema>;
 
@@ -35,8 +36,8 @@ const DashboardReadTargetsManagementEditForm: React.FC<DashboardReadTargetsManag
   return (
     <DashboardReadTargetsForm
       data={STEPS_DATA}
-      initialData={initialData}
-      resolver={editReadTargetsValidationSchema}
+      defaultValues={initialData}
+      resolver={zodResolver(editReadTargetsValidationSchema)}
       onSubmit={onSubmit}
     >
       {(form, getCanSubmit) => {

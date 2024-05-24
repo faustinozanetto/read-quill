@@ -12,6 +12,7 @@ import MultiStepFormWrapper from '@modules/forms/components/multi-step-form-wrap
 import { MultiStepFormStep } from '@modules/forms/hooks/use-multi-step-form';
 import { EditThreadFormActionData } from '@modules/community/types/community-thread-validations.types';
 import { THREAD_ACTIONS_VALIDATIONS_FORMS } from '@modules/community/validations/community-thread.validations';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 const STEPS_DATA: MultiStepFormStep<EditThreadFormActionData>[] = [
   {
@@ -39,12 +40,12 @@ const CommunityThreadManagementEditForm: React.FC<CommunityThreadManagementEditF
   return (
     <MultiStepFormWrapper
       data={STEPS_DATA}
-      initialData={{
+      defaultValues={{
         title: thread.title,
         content: thread.content,
         keywords: thread.keywords.split(','),
       }}
-      resolver={THREAD_ACTIONS_VALIDATIONS_FORMS.EDIT}
+      resolver={zodResolver(THREAD_ACTIONS_VALIDATIONS_FORMS.EDIT)}
       onSubmit={onSubmit}
       renderSubmitButton={(form, getCanSubmit) => {
         const isFormLoading = form.formState.isSubmitting;

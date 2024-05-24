@@ -8,6 +8,7 @@ import BookForm from '@modules/books/components/forms/book-form';
 import { MultiStepFormStep } from '@modules/forms/hooks/use-multi-step-form';
 import { EditBookFormActionData } from '@modules/books/types/book-validations.types';
 import { BOOK_ACTIONS_VALIDATIONS_FORMS } from '@modules/books/validations/books.validations';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 const STEPS_DATA: MultiStepFormStep<EditBookFormActionData>[] = [
   {
@@ -41,8 +42,8 @@ const UserBookManagementEditForm: React.FC<UserBookManagementEditFormProps> = (p
   return (
     <BookForm
       data={STEPS_DATA}
-      resolver={BOOK_ACTIONS_VALIDATIONS_FORMS.EDIT}
-      initialData={{
+      resolver={zodResolver(BOOK_ACTIONS_VALIDATIONS_FORMS.EDIT)}
+      defaultValues={{
         name: book?.name,
         author: book?.author,
         language: book?.language,

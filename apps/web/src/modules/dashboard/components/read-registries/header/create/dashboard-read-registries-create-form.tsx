@@ -9,6 +9,7 @@ import DashboardReadRegistriesFormPagesRead from '@modules/dashboard/components/
 import DashboardReadRegistriesFormBook from '@modules/dashboard/components/forms/read-registries/dashboard-read-registries-book';
 import { useBooksNames } from '@modules/dashboard/hooks/use-books-names';
 import MultiStepFormWrapper from '@modules/forms/components/multi-step-form-wrapper';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 export type DashboardReadRegistriesCreateFormData = z.infer<typeof createReadRegistryValidationSchema>;
 
@@ -35,7 +36,7 @@ const DashboardReadRegistriesCreateForm: React.FC<DashboardReadRegistriesCreateF
   return (
     <MultiStepFormWrapper
       data={STEPS_DATA}
-      resolver={createReadRegistryValidationSchema}
+      resolver={zodResolver(createReadRegistryValidationSchema)}
       onSubmit={onSubmit}
       renderSubmitButton={(form, getCanSubmit) => {
         const isFormLoading = form.formState.isSubmitting;

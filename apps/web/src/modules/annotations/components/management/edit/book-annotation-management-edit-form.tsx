@@ -6,6 +6,7 @@ import { editBookAnnotationValidationSchemaBase } from '@modules/annotations/lib
 import AnnotationForm from '../../forms/annotation-form';
 import { MultiStepFormStep } from '@modules/forms/hooks/use-multi-step-form';
 import { EditAnnotationFormActionData } from '@modules/annotations/types/annotation-validations.types';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 const STEPS_DATA: MultiStepFormStep<EditAnnotationFormActionData>[] = [
   {
@@ -33,8 +34,8 @@ const BookAnnotationManagementEditForm: React.FC<BookAnnotationManagementEditFor
   return (
     <AnnotationForm
       data={STEPS_DATA}
-      resolver={editBookAnnotationValidationSchemaBase}
-      initialData={annotation}
+      resolver={zodResolver(editBookAnnotationValidationSchemaBase)}
+      defaultValues={annotation}
       onSubmit={onSubmit}
     >
       {(form, getCanSubmit) => {

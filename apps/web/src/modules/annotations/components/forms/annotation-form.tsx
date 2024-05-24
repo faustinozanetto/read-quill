@@ -1,32 +1,29 @@
 import React from 'react';
-import type { ZodSchema } from 'zod';
-import { DefaultValues, FieldValues, UseFormReturn } from 'react-hook-form';
+
+import { FieldValues, UseFormProps, UseFormReturn } from 'react-hook-form';
 import { UseMultiStepFormParams } from '@modules/forms/hooks/use-multi-step-form';
 import AnnotationFormsTitle from './annotation-forms-title';
 import AnnotationFormsContent from './annotation-forms-content';
 import AnnotationFormsChapter from './annotation-forms-chapter';
 import MultiStepFormWrapper from '@modules/forms/components/multi-step-form-wrapper';
 
-interface AnnotationFormProps<T extends FieldValues> {
-  resolver: ZodSchema<T>;
+interface AnnotationFormProps<T extends FieldValues> extends UseFormProps<T> {
   data: UseMultiStepFormParams<T>['data'];
-  initialData?: DefaultValues<T>;
   onSubmit: (data: T) => void;
   children: (form: UseFormReturn<T>, getCanSubmit: () => boolean) => React.ReactNode;
 }
 
 const AnnotationForm = <T extends FieldValues>(props: AnnotationFormProps<T>) => {
-  const { resolver, data, initialData, onSubmit, children } = props;
+  const { data, onSubmit, children, ...formProps } = props;
 
   return (
     <MultiStepFormWrapper
       data={data}
-      resolver={resolver}
       onSubmit={onSubmit}
-      initialData={initialData}
       renderSubmitButton={(form, getCanSubmit) => {
         return children(form, getCanSubmit);
       }}
+      {...formProps}
     >
       {(currentStep) => (
         <>

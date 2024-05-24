@@ -1,16 +1,13 @@
 import { z } from 'zod';
 
 /* Attributes Validations */
-const threadAttachmentDescriptionValidationSchema = z.string({ required_error: 'Description is required!' });
+const threadAttachmentDescriptionValidationSchema = z
+  .string({ required_error: 'Description is required!' })
+  .min(1, { message: 'Description min lenght is 1!' });
 
 const threadAttachmentIdValidationScehma = z.string({ required_error: 'AttachmentId is required!' });
 
-type ThreadAttachmentAttributesValidations = {
-  id: typeof threadAttachmentIdValidationScehma;
-  description: typeof threadAttachmentDescriptionValidationSchema;
-};
-
-export const THREAD_ATTACHMENT_ATTRIBUTES_VALIDATIONS: ThreadAttachmentAttributesValidations = {
+export const THREAD_ATTACHMENT_ATTRIBUTES_VALIDATIONS = {
   id: threadAttachmentIdValidationScehma,
   description: threadAttachmentDescriptionValidationSchema,
 };
