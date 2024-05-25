@@ -1,8 +1,8 @@
-import { BookWithReader } from '@modules/books/types/book.types';
-import type { Annotation, Book } from '@read-quill/database';
+import { BookWithDetails } from '@modules/books/types/book.types';
+import type { Annotation, Book, Image } from '@read-quill/database';
 
 export interface UserBooksGetResponse {
-  books: Book[];
+  books: BookWithDetails[];
   hasMore: boolean;
   pageCount: number;
 }
@@ -34,8 +34,8 @@ export interface BookAnnotationDeleteResponse {
   success: boolean;
 }
 
-export interface BooksUploadPostResponse {
-  fileUrl: string;
+export interface BookUploadPostResponse {
+  coverImage: Image;
 }
 
 export interface BookFavouritePostResponse {
@@ -47,7 +47,7 @@ export interface BookDeleteResponse {
 }
 
 export interface BookPatchResponse {
-  book: BookWithReader;
+  book: BookWithDetails;
 }
 
 export interface BookReviewPostResponse {
@@ -60,4 +60,12 @@ export interface BookReviewPatchResponse {
 
 export interface BookReviewDeleteResponse {
   success: boolean;
+}
+
+export interface BookGetResponse {
+  book: BookWithDetails;
+}
+
+export interface BookPostResponse {
+  book: BookWithDetails;
 }

@@ -1,11 +1,12 @@
-import { ThreadAttachment } from '@read-quill/database';
-import { DialogTrigger, Skeleton } from '@read-quill/design-system';
+import { DialogTrigger } from '@read-quill/design-system';
 import Image from 'next/image';
 import React from 'react';
 import CommunityThreadAttachmentManagement from './management/community-thread-attachment-management';
+import { getImagePublicUrl } from '@modules/images/lib/images.lib';
+import { ThreadAttachmentWithImage } from '@modules/community/types/community.types';
 
 interface CommunityThreadAttachmentCardProps {
-  attachment: ThreadAttachment;
+  attachment: ThreadAttachmentWithImage;
   threadId: string;
   onSelected: () => void;
 }
@@ -20,7 +21,7 @@ const CommunityThreadAttachmentCard: React.FC<CommunityThreadAttachmentCardProps
       </div>
       <DialogTrigger className="w-full" onClick={onSelected}>
         <Image
-          src={attachment.attachmentImage}
+          src={getImagePublicUrl('ThreadAttachments', attachment.image.path)}
           alt={attachment.description}
           width={400}
           height={400}

@@ -1,38 +1,55 @@
-import { useState } from 'react';
+import type { UseMutationResult } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+import { useToast } from '@read-quill/design-system/src';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import type { BooksUploadPostResponse } from '@modules/api/types/books-api.types';
 
-interface UseUploadBookCoverReturn {
-  uploadBookCover: (coverFile: File) => Promise<BooksUploadPostResponse>;
-  isBookCoverUploading: boolean;
+import { BookCoverImageUpload } from '../types/book-validations.types';
+import { BookUploadPostResponse } from '@modules/api/types/books-api.types';
+
+interface UploadBookCoverData {
+  coverImage: BookCoverImageUpload;
+}
+
+export interface UseUploadBookCoverReturn {
+  uploadCover: Pick<
+    UseMutationResult<BookUploadPostResponse, Error, UploadBookCoverData>,
+    'mutateAsync'
+  >['mutateAsync'];
+  isLoading: UseMutationResult<BookUploadPostResponse, Error, UploadBookCoverData>['isLoading'];
 }
 
 export const useUploadBookCover = (): UseUploadBookCoverReturn => {
-  const [isBookCoverUploading, setIsBookCoverUploading] = useState(false);
+  const { toast } = useToast();
 
-  const uploadBookCover = async (coverFile: File): Promise<BooksUploadPostResponse> => {
-    setIsBookCoverUploading(true);
+  const { mutateAsync, isLoading } = useMutation<BookUploadPostResponse, Error, UploadBookCoverData>({
+    mutationFn: async (data) => {
+      const { coverImage } = data;
 
-    const formData = new FormData();
-    formData.append('file', coverFile);
+      if (coverImage.length === 0) throw new Error('No cover image provided!');
 
-    const url = new URL('/api/books/upload', __URL__);
-    url.searchParams.set('filename', coverFile.name);
+      const image = coverImage[0];
+      const formData = new FormData();
+      formData.append('coverFile', image);
 
-    const response = await fetch(url, {
-      method: 'POST',
-      body: formData,
-    });
+      const url = new URL('/api/books/upload', __URL__);
+      const response = await fetch(url, {
+        method: 'POST',
+        body: formData,
+      });
 
-    if (!response.ok) {
-      throw new Error('Failed to upload book cover!');
-    }
+      if (!response.ok) {
+        throw new Error('Failed to upload book cover!');
+      }
 
-    const data: BooksUploadPostResponse = await response.json();
+      return response.json();
+    },
+    onError(error) {
+      toast({ variant: 'error', content: error.message });
+    },
+  });
 
-    setIsBookCoverUploading(false);
-    return data;
+  return {
+    uploadCover: mutateAsync,
+    isLoading,
   };
-
-  return { uploadBookCover, isBookCoverUploading };
 };

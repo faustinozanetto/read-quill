@@ -59,7 +59,6 @@ model Book {
   id          String    @id @default(cuid())
   name        String
   author      String
-  coverImage  String
   language    String
   pageCount   Int
   startedAt   DateTime?
@@ -67,6 +66,9 @@ model Book {
   isFavourite Boolean   @default(false)
   review      String?
   rating      Int?
+
+  image   Image  @relation(fields: [imageId], references: [id], onDelete: NoAction)
+  imageId String
 
   reader   User   @relation(fields: [readerId], references: [id], onDelete: Cascade)
   readerId String
@@ -168,12 +170,23 @@ model ThreadComment {
 }
 
 model ThreadAttachment {
-  id              String @id @default(cuid())
-  description     String
-  attachmentImage String
+  id          String @id @default(cuid())
+  description String
+  image       Image  @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  imageId     String
 
-  thread   Thread @relation(fields: [threadId], references: [id])
+  thread   Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
   threadId String
+
+  createdAt DateTime @default(now())
+}
+
+model Image {
+  id   String @id @default(cuid())
+  path String
+
+  threadAttachments ThreadAttachment[]
+  books             Book[]
 
   createdAt DateTime @default(now())
 }

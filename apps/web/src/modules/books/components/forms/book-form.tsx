@@ -1,6 +1,5 @@
 import React from 'react';
-import type { ZodSchema } from 'zod';
-import { DefaultValues, FieldValues, UseFormProps, UseFormReturn } from 'react-hook-form';
+import { FieldValues, UseFormProps, UseFormReturn } from 'react-hook-form';
 import BookFormsName from './book-forms-name';
 import BookFormsAuthor from './book-forms-author';
 import { UseMultiStepFormParams } from '@modules/forms/hooks/use-multi-step-form';
@@ -10,7 +9,6 @@ import BookFormsPageCount from './book-forms-page-count';
 import BookFormsStartedAt from './book-forms-started-at';
 import BookFormsFinishedAt from './book-forms-finished-at';
 import MultiStepFormWrapper from '@modules/forms/components/multi-step-form-wrapper';
-import { zodResolver } from '@hookform/resolvers/zod';
 
 interface BookFormProps<T extends FieldValues> extends UseFormProps<T> {
   data: UseMultiStepFormParams<T>['data'];

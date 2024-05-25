@@ -1,12 +1,12 @@
-import { ThreadAttachment } from '@read-quill/database';
 import { create } from 'zustand';
+import { ThreadAttachmentWithImage } from '../types/community.types';
 
 export interface CommunityThreadAttachmentsSliceState {
-  selectedAttachment: ThreadAttachment | null;
+  selectedAttachment: ThreadAttachmentWithImage | null;
 }
 
 export interface CommunityThreadAttachmentsSliceActions {
-  setSelectedAttachment: (selectedAttachment: ThreadAttachment) => void;
+  setSelectedAttachment: (selectedAttachment: ThreadAttachmentWithImage) => void;
 }
 
 export const useCommunityThreadAttachmentsStore = create<

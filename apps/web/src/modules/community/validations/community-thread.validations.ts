@@ -78,7 +78,7 @@ const createThreadValidationBaseSchema = z.object({
 const createThreadValidationApiSchema = z.object({
   title: THREAD_ATTRIBUTES_VALIDATIONS.title,
   keywords: THREAD_ATTRIBUTES_VALIDATIONS.keywords,
-  content: THREAD_ATTRIBUTES_VALIDATIONS.uploadedContent,
+  content: THREAD_ATTRIBUTES_VALIDATIONS.content,
 });
 
 const editThreadValidationBaseSchema = z.object({

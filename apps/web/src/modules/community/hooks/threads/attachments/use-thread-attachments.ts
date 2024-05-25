@@ -12,7 +12,7 @@ interface UseThreadAttachmentsParams {
 }
 
 const buildUrl = (threadId: string): string => {
-  const url = new URL('/api/community/thread/attachment', __URL__);
+  const url = new URL('/api/community/thread/attachments', __URL__);
   url.searchParams.set('threadId', threadId);
   return url.toString();
 };

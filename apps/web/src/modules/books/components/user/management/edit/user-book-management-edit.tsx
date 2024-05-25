@@ -15,7 +15,7 @@ import { useBookStore } from '@modules/books/state/book.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useUploadBookCover } from '@modules/books/hooks/use-upload-book-cover';
-import type { BookPatchResponse, BooksUploadPostResponse } from '@modules/api/types/books-api.types';
+import type { BookPatchResponse } from '@modules/api/types/books-api.types';
 import UserBookManagementEditForm from './user-book-management-edit-form';
 import { EditBookFormActionData } from '@modules/books/types/book-validations.types';
 
@@ -25,7 +25,7 @@ const UserBookManagementEdit: React.FC = () => {
   const { queryClient } = useQueriesStore();
   const { book } = useBookStore();
 
-  const { uploadBookCover, isBookCoverUploading } = useUploadBookCover();
+  const { uploadCover, isLoading } = useUploadBookCover();
 
   const { mutateAsync } = useMutation<BookPatchResponse, Error, EditBookFormActionData>({
     mutationFn: async (data) => {
@@ -34,16 +34,18 @@ const UserBookManagementEdit: React.FC = () => {
       try {
         const { coverImage, startedAt, finishedAt, ...rest } = data;
 
-        // Handle cover image updated, then upload.
-        let coverFile: BooksUploadPostResponse | null = null;
-        if (coverImage.length > 0) coverFile = await uploadBookCover(coverImage[0]);
+        let imageId: string | undefined;
+        if (coverImage && coverImage.length > 0) {
+          const coverFile = await uploadCover({ coverImage });
+          imageId = coverFile.coverImage.id;
+        }
 
         const url = new URL('/api/books', __URL__);
         const body = JSON.stringify({
           bookId: book.id,
-          startedAt: startedAt ? new Date(startedAt) : book.startedAt,
-          finishedAt: finishedAt ? new Date(finishedAt) : book.finishedAt,
-          coverImage: coverFile?.fileUrl,
+          startedAt: startedAt ? new Date(startedAt) : undefined,
+          finishedAt: finishedAt ? new Date(finishedAt) : undefined,
+          imageId,
           ...rest,
         });
 
@@ -88,7 +90,7 @@ const UserBookManagementEdit: React.FC = () => {
           <DialogDescription>Update your book details here..</DialogDescription>
         </DialogHeader>
 
-        <UserBookManagementEditForm isBookCoverUploading={isBookCoverUploading} onSubmit={mutateAsync} />
+        <UserBookManagementEditForm isBookCoverUploading={isLoading} onSubmit={mutateAsync} />
       </DialogContent>
     </Dialog>
   );

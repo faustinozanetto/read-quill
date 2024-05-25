@@ -1,10 +1,11 @@
 import {
   CommunityTopUser,
+  ThreadAttachmentWithImage,
   ThreadCommentNode,
   ThreadViews,
   ThreadWithDetails,
 } from '@modules/community/types/community.types';
-import { ThreadAttachment } from '@read-quill/database';
+import { Image, ThreadAttachment } from '@read-quill/database';
 
 export interface ThreadsCommunityGetResponse {
   threads: ThreadWithDetails[];
@@ -89,11 +90,11 @@ export interface FavouriteThreadsCommunityGetResponse {
 }
 
 export interface ThreadAttachmentUploadPostResponse {
-  attachmentUrls: Record<string, string>;
+  attachmentImages: Image[];
 }
 
 export interface ThreadAttachmentsGetResponse {
-  attachments: ThreadAttachment[];
+  attachments: ThreadAttachmentWithImage[];
 }
 
 export interface ThreadAttachmentDeleteResponse {

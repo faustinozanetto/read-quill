@@ -1,18 +1,11 @@
 import React from 'react';
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  Skeleton,
-} from '@read-quill/design-system';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, Skeleton } from '@read-quill/design-system';
 import CommunityThreadAttachment from './community-thread-attachment-card';
 import { useCommunityThreadAttachmentsStore } from '@modules/community/state/community-thread-attachments.slice';
 import Image from 'next/image';
 import { useThreadAttachments } from '@modules/community/hooks/threads/attachments/use-thread-attachments';
+import { getImagePublicUrl } from '@modules/images/lib/images.lib';
 
 interface CommunityThreadAttachmentsProps {
   threadId: string;
@@ -55,7 +48,7 @@ const CommunityThreadAttachments: React.FC<CommunityThreadAttachmentsProps> = (p
               <div className="space-y-2">
                 <Image
                   className="rounded-lg border shadow"
-                  src={selectedAttachment.attachmentImage}
+                  src={getImagePublicUrl('ThreadAttachments', selectedAttachment.image.path)}
                   alt={selectedAttachment.description}
                   width={1000}
                   height={1000}

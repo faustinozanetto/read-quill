@@ -1,14 +1,14 @@
 import { create } from 'zustand';
-import type { BookWithReader } from '../types/book.types';
+import type { BookWithDetails } from '../types/book.types';
 
 export interface BookSliceState {
   isLoading: boolean;
-  book: BookWithReader | null;
+  book: BookWithDetails | null;
 }
 
 export interface BookSliceActions {
   setIsLoading: (isLoading: boolean) => void;
-  setBook: (book: BookWithReader) => void;
+  setBook: (book: BookWithDetails) => void;
 }
 
 export const useBookStore = create<BookSliceState & BookSliceActions>((set) => ({

@@ -6,61 +6,28 @@ import CreateThreadForm from './create-thread-form';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useToast } from '@read-quill/design-system';
 
-import { ThreadAttachmentUploadPostResponse, ThreadPostResponse } from '@modules/api/types/community-api.types';
-import {
-  extractAttachmentNameFromFile,
-  extractAttachmentNameFromUrl,
-} from '@modules/community/lib/thread-attachments.lib';
+import { ThreadPostResponse } from '@modules/api/types/community-api.types';
+
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import { useUploadThreadAttachments } from '@modules/community/hooks/threads/attachments/use-upload-thread-attachments';
 import { CreateThreadFormActionData } from '@modules/community/types/community-thread-validations.types';
 
 const CreateThread: React.FC = () => {
-  const { toast } = useToast();
   const router = useRouter();
+  const { toast } = useToast();
 
   const { uploadAttachments } = useUploadThreadAttachments();
 
   const { mutateAsync } = useMutation<ThreadPostResponse, Error, CreateThreadFormActionData>({
     mutationFn: async (data) => {
-      let attachmentsUrls: ThreadAttachmentUploadPostResponse['attachmentUrls'] = {};
-      if (data.content.attachments) {
-        const uploadResult = await uploadAttachments(data.content.attachments);
-        attachmentsUrls = uploadResult.attachmentUrls;
-      }
-
       const { title, content, keywords } = data;
-
-      // Construct the attachments each with its decsription and public supabe url.
-      const attachments = Object.entries(attachmentsUrls).reduce<{ description: string; url: string }[]>(
-        (acc, [attachmentFileName, attachmentUrl]) => {
-          if (!content.attachments) return acc;
-
-          // Find in the form attachments the corresponding entry that matches the file name with the one in the record returned by the upload post.
-          const formAttachment = content.attachments.find((attachment) => {
-            const imageNameFromFile = extractAttachmentNameFromFile(attachment.image);
-            const imageNameFromUrl = extractAttachmentNameFromUrl(attachmentUrl);
-
-            return imageNameFromFile === imageNameFromUrl;
-          });
-
-          if (!formAttachment) return acc;
-
-          acc.push({ description: formAttachment.description, url: attachmentUrl });
-          return acc;
-        },
-        []
-      );
 
       const url = new URL('/api/community/thread', __URL__);
       const body = JSON.stringify({
         title,
         keywords,
-        content: {
-          content: content.content,
-          attachments,
-        },
+        content: content.content,
       });
 
       const response = await fetch(url, { method: 'POST', body });
@@ -68,7 +35,17 @@ const CreateThread: React.FC = () => {
         throw new Error('Could not post thread!');
       }
 
-      return await response.json();
+      const result = (await response.json()) as ThreadPostResponse;
+
+      // Upload attachments if any.
+      if (data.content.attachments) {
+        await uploadAttachments({
+          attachments: data.content.attachments,
+          threadId: result.thread.id,
+        });
+      }
+
+      return result;
     },
     onSuccess: async (data) => {
       if (data && data.thread) {

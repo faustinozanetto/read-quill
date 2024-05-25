@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import type { Book } from '@read-quill/database';
 import { compareAsc } from 'date-fns';
 import {
   useFilterData,
@@ -15,9 +14,10 @@ import { LayoutListIcon } from '@read-quill/design-system';
 import { ToggleGroup } from '@read-quill/design-system';
 import { ToggleGroupItem } from '@read-quill/design-system';
 import { LayoutGridIcon } from '@read-quill/design-system';
+import { BookWithDetails } from '@modules/books/types/book.types';
 
 interface UserBooksFeedProps extends PaginationControlsProps {
-  books: Book[];
+  books: BookWithDetails[];
 }
 
 const UserBooksFeed: React.FC<UserBooksFeedProps> = (props) => {
@@ -25,7 +25,7 @@ const UserBooksFeed: React.FC<UserBooksFeedProps> = (props) => {
 
   const [cardVariant, setCardVariant] = useState<'vertical' | 'landscape'>('vertical');
 
-  const filterFunctions: UseFilterFilteringFunctions<Book> = {
+  const filterFunctions: UseFilterFilteringFunctions<BookWithDetails> = {
     name: (item, value) => item.name.toLowerCase().includes((value as string).toLowerCase()),
     language: (item, value) => item.language.toLowerCase().includes((value as string).toLowerCase()),
     author: (item, value) => item.author.toLowerCase().includes((value as string).toLowerCase()),
@@ -41,7 +41,7 @@ const UserBooksFeed: React.FC<UserBooksFeedProps> = (props) => {
     },
   };
 
-  const sortFunctions: UseFilterSortingFunctions<Book> = {
+  const sortFunctions: UseFilterSortingFunctions<BookWithDetails> = {
     name: (a, b) => a.name.localeCompare(b.name),
     language: (a, b) => a.language.localeCompare(b.language),
     author: (a, b) => a.author.localeCompare(b.author),
@@ -60,7 +60,7 @@ const UserBooksFeed: React.FC<UserBooksFeedProps> = (props) => {
     },
   };
 
-  const { filteredData, filters, sort, noResults } = useFilterData<Book>({
+  const { filteredData, filters, sort, noResults } = useFilterData<BookWithDetails>({
     data: books,
     filterFunctions,
     sortFunctions,

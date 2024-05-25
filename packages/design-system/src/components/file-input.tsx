@@ -24,7 +24,7 @@ const FileInputEntry: React.FC<FileInputEntryProps> = ({ file, onDelete, showDel
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <span className="text-sm mr-auto text-wrap line-clamp-1">{file.name}</span>
+      <span className="text-sm mr-auto text-wrap max-w-72 line-clamp-1">{file.name}</span>
       {showDeleteItemButton && (
         <Button onClick={() => onDelete(file.name)} size="icon" variant="destructive" className="aspect-square">
           <DeleteIcon className="stroke-current" />

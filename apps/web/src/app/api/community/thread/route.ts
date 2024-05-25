@@ -5,10 +5,9 @@ import { ThreadPatchResponse, ThreadGetResponse, ThreadPostResponse } from '@mod
 import { ThreadWithDetails } from '@modules/community/types/community.types';
 import { auth } from 'auth';
 
-import { extractAttachmentIdFromUrl } from '@modules/community/lib/thread-attachments.lib';
-import { deleteFileFromSupabase } from '@modules/uploads/lib/uploads.lib';
 import { THREAD_ACTIONS_VALIDATIONS_API } from '@modules/community/validations/community-thread.validations';
 import { getThreadViews } from '@modules/community/lib/community-thread-views.lib';
+import { deleteImageFromSupabase, deleteImagesFromSupabase } from '@modules/uploads/lib/uploads.lib';
 
 // /api/community/thread GET : Gets a thread by a given threadId
 export async function GET(request: NextRequest): Promise<NextResponse<ThreadGetResponse>> {
@@ -64,20 +63,8 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadPos
     const thread = await prisma.thread.create({
       data: {
         title,
-        content: content.content,
+        content: content,
         keywords: keywords.join(','),
-        attachments: content.attachments
-          ? {
-              createMany: {
-                data: content.attachments.map((attachment) => {
-                  return {
-                    description: attachment.description,
-                    attachmentImage: attachment.url,
-                  };
-                }),
-              },
-            }
-          : undefined,
         authorId: session.user.id,
       },
       include: { author: { select: { id: true, name: true, image: true } }, comments: { select: { id: true } } },
@@ -182,24 +169,26 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<ThreadP
       where: {
         threadId,
       },
+      include: {
+        image: true,
+      },
     });
 
     const deleteAttachmentPromises: Promise<void>[] = threadAttachments.map(async (threadAttachment) => {
-      const attachmentFileId = extractAttachmentIdFromUrl(threadAttachment.attachmentImage);
-
-      const { error } = await deleteFileFromSupabase('ThreadAttachments', attachmentFileId);
-      if (error) {
-        throw new Error('Could not delete attachment!');
-      }
-
       await prisma.threadAttachment.delete({
         where: {
           id: threadAttachment.id,
         },
       });
+      await prisma.image.delete({ where: { id: threadAttachment.image.id } });
     });
-
     await Promise.all(deleteAttachmentPromises);
+
+    const attachmentsImagePaths = threadAttachments.map((attachment) => attachment.image.path);
+    const { error } = await deleteImagesFromSupabase('ThreadAttachments', attachmentsImagePaths);
+    if (error) {
+      throw new NextResponse('Could not delete thread!', { status: 500 });
+    }
 
     await prisma.thread.delete({
       where: {

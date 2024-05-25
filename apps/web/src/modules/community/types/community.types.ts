@@ -1,4 +1,4 @@
-import { Thread, ThreadComment, User } from '@read-quill/database';
+import { Image, Thread, ThreadAttachment, ThreadComment, User } from '@read-quill/database';
 
 export interface ThreadWithDetails extends Thread, ThreadAuthor, ThreadCommentsCount {
   views: ThreadViews;
@@ -22,6 +22,10 @@ export interface ThreadViews {
 }
 
 export interface ThreadCommentWithAuthor extends Omit<ThreadComment, 'authorId'>, ThreadAuthor {}
+
+export interface ThreadAttachmentWithImage extends ThreadAttachment {
+  image: Image;
+}
 
 export interface ThreadCommentNode {
   comment: ThreadCommentWithAuthor;

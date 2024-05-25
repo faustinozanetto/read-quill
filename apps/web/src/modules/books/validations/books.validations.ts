@@ -12,8 +12,14 @@ const bookPageCountValidationSchema = z
   .min(0, 'Page count must be positive!');
 const bookStartedAtValidationSchema = z.string().optional();
 const bookFinishedAtValidationSchema = z.string().optional();
-const bookCoverImageUploadValidationSchema = z.custom<File>().array().nonempty({ message: 'Cover image is required!' });
-const bookCoverImageUploadedValidationSchema = z.string().url();
+const bookCoverImageUploadValidationSchema = z
+  .instanceof(File)
+  .refine((file) => file instanceof File, {
+    message: 'Must be a File instance',
+  })
+  .array()
+  .min(1, { message: 'Cover image is required!' });
+const bookCoverImageIdValidationSchema = z.string({ required_error: 'Image Id is required!' });
 const bookReviewValidationSchema = z
   .string({ required_error: 'Review is required!' })
   .max(2000, 'Review max characters is 2000!');
@@ -32,7 +38,7 @@ type BookAttributesValidations = {
   startedAt: typeof bookFinishedAtValidationSchema;
   finishedAt: typeof bookFinishedAtValidationSchema;
   coverImageUpload: typeof bookCoverImageUploadValidationSchema;
-  coverImageUploaded: typeof bookCoverImageUploadedValidationSchema;
+  imageId: typeof bookCoverImageIdValidationSchema;
   review: typeof bookReviewValidationSchema;
   rating: typeof bookRatingValidationSchema;
   favourite: typeof bookFavouriteValidationSchema;
@@ -47,7 +53,7 @@ export const BOOK_ATTRIBUTES_VALIDATIONS: BookAttributesValidations = {
   startedAt: bookStartedAtValidationSchema,
   finishedAt: bookFinishedAtValidationSchema,
   coverImageUpload: bookCoverImageUploadValidationSchema,
-  coverImageUploaded: bookCoverImageUploadedValidationSchema,
+  imageId: bookCoverImageIdValidationSchema,
   review: bookReviewValidationSchema,
   rating: bookRatingValidationSchema,
   favourite: bookFavouriteValidationSchema,
@@ -79,7 +85,7 @@ const createBookValidationSchemaForm = createBookValidationSchemaBase.extend({
 });
 
 const createBookValidationSchemaApi = createBookValidationSchemaBase.extend({
-  coverImage: BOOK_ATTRIBUTES_VALIDATIONS.coverImageUploaded,
+  imageId: BOOK_ATTRIBUTES_VALIDATIONS.imageId,
 });
 
 const editBookValidationSchemaBase = z
@@ -103,12 +109,12 @@ const editBookValidationSchemaBase = z
   .innerType();
 
 const editBookValidationSchemaForm = editBookValidationSchemaBase.extend({
-  coverImage: BOOK_ATTRIBUTES_VALIDATIONS.coverImageUpload,
+  coverImage: BOOK_ATTRIBUTES_VALIDATIONS.coverImageUpload.optional(),
 });
 
 const editBookValidationSchemaApi = editBookValidationSchemaBase.extend({
   bookId: BOOK_ATTRIBUTES_VALIDATIONS.id,
-  coverImage: BOOK_ATTRIBUTES_VALIDATIONS.coverImageUploaded.optional(),
+  imageId: BOOK_ATTRIBUTES_VALIDATIONS.imageId.optional(),
 });
 
 const deleteBookValidationSchemaBase = z.object({

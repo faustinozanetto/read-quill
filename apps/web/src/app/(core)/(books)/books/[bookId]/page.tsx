@@ -4,7 +4,7 @@ import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useBookStore } from '@modules/books/state/book.slice';
 import UserBook from '@modules/books/components/user/user-book';
-import type { BookWithReader } from '@modules/books/types/book.types';
+import type { BookWithDetails } from '@modules/books/types/book.types';
 import { __URL__ } from '@modules/common/lib/common.constants';
 
 interface UserBookPageProps {
@@ -19,7 +19,7 @@ const UserBookPage: React.FC<UserBookPageProps> = (props) => {
 
   const { setBook, setIsLoading } = useBookStore();
 
-  useQuery<BookWithReader>(['book-page', bookId], {
+  useQuery<BookWithDetails>(['book-page', bookId], {
     queryFn: async () => {
       const url = new URL('/api/books', __URL__);
       url.searchParams.set('bookId', bookId);
@@ -29,7 +29,7 @@ const UserBookPage: React.FC<UserBookPageProps> = (props) => {
         throw new Error('Failed to fetch book!');
       }
 
-      const { book }: { book: BookWithReader } = await response.json();
+      const { book }: { book: BookWithDetails } = await response.json();
       return book;
     },
     onSuccess(data) {
