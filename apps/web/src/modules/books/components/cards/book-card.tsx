@@ -13,7 +13,7 @@ const containerVariants = cva('rounded-lg border transition-transform hover:scal
   variants: {
     variant: {
       landscape: 'flex gap-2.5',
-      vertical: 'flex flex-col p-4',
+      vertical: 'flex flex-col',
     },
   },
   defaultVariants: {
@@ -25,7 +25,7 @@ const metadataVariants = cva('', {
   variants: {
     variant: {
       landscape: 'py-2.5',
-      vertical: '',
+      vertical: 'p-2.5',
     },
   },
 });
@@ -34,7 +34,7 @@ const imageVariants = cva(' shadow object-cover object-center', {
   variants: {
     variant: {
       landscape: 'aspect-square w-24 rounded-l-lg ',
-      vertical: 'h-40 w-full rounded-lg border',
+      vertical: 'h-40 w-full rounded-t-lg',
     },
   },
 });
@@ -63,7 +63,7 @@ const BookCard: React.FC<BookCardProps> = (props) => {
           />
         )}
         <div className={metadataVariants({ variant })}>
-          <span className="font-bold uppercase block mt-1">{book.name}</span>
+          <span className="font-bold uppercase blockt truncate  line-clamp-1">{book.name}</span>
           <span className="font-medium text-sm block">{book.author}</span>
           <div className="mt-auto">
             <BookPagesBadge className="mr-2" pageCount={book.pageCount} />

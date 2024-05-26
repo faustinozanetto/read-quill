@@ -29,7 +29,7 @@ const UserBookDetails: React.FC = () => {
       <div className="flex-1 flex-col pl-2">
         <div className="flex justify-between">
           <h1 className="text-xl font-bold md:text-2xl">{book.name}</h1>
-          <div className="space-x-2">
+          <div className="flex gap-2">
             {isBookOwner ? <BookFavourite book={book} /> : null}
             {isBookOwner ? <UserBookManagement /> : null}
           </div>

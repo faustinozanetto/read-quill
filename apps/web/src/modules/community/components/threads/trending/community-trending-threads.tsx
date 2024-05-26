@@ -21,7 +21,7 @@ const CommunityTrendingThreads: React.FC = () => {
       </p>
 
       {(isFetching || isLoading) && (
-        <div className="grid xl:grid-cols-2 2xl:grid-cols-1 gap-2">
+        <div className="grid gap-2">
           {Array.from({ length: 4 }).map((_, i) => (
             <CommunityThreadCardPlaceholder key={`thread-placeholder-${i}`} />
           ))}
@@ -29,7 +29,7 @@ const CommunityTrendingThreads: React.FC = () => {
       )}
 
       {!(isFetching || isLoading) && data && data.threads.length > 0 && (
-        <div className="grid xl:grid-cols-2 2xl:grid-cols-1 gap-2">
+        <div className="grid gap-2">
           {data.threads.map((thread) => {
             return (
               <CommunityThreadCard.Root key={`trending-thread-${thread.id}`} thread={thread}>

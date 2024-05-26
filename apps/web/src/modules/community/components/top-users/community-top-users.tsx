@@ -23,8 +23,12 @@ const CommunityTopUsers: React.FC = () => {
 
       {!(isFetching || isLoading) && data && data.topUsers.length > 0 && (
         <div className="grid gap-2 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
-          {data.topUsers.map((topUser) => (
-            <CommunityTopUserCard key={`community-top-user-${topUser.user.id}`} topUser={topUser} />
+          {data.topUsers.map((topUser, index) => (
+            <CommunityTopUserCard
+              key={`community-top-user-${topUser.user.id}`}
+              topUser={topUser}
+              position={index + 1}
+            />
           ))}
         </div>
       )}

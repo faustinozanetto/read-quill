@@ -124,7 +124,7 @@ const CommunityThreadCardVotes: React.FC = () => {
   return (
     <TooltipProvider>
       <Tooltip>
-        <TooltipTrigger className="p-1.5 gap-0.5 rounded-lg border bg-primary flex items-center justify-center font-bold text-background">
+        <TooltipTrigger className="p-1.5 gap-0.5 rounded-lg border border-primary flex items-center justify-center font-bold text-primary text-sm">
           <ThumbsUpIcon />
           {thread.votes}
         </TooltipTrigger>
