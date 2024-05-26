@@ -23,7 +23,7 @@ const BookAnnotationManagementDelete: React.FC<BookAnnotationManagementDeletePro
     mutationKey: ['book-annotation-delete', annotation.id],
     mutationFn: async () => {
       try {
-        const url = new URL('/api/books/annotations', __URL__);
+        const url = new URL('/api/annotations', __URL__);
         const body = JSON.stringify({
           annotationId: annotation.id,
         });

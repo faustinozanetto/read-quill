@@ -15,6 +15,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<BookAnnota
     }
 
     const annotations = await prisma.annotation.findMany({ where: { bookId } });
+
     return NextResponse.json({ annotations });
   } catch (error) {
     let errorMessage = 'An error occurred!';

@@ -10,7 +10,7 @@ import { useAuthContext } from '@modules/auth/hooks/use-auth-context';
 const CommunityFavouriteThreads: React.FC = () => {
   const user = useAuthContext((s) => s.user);
   const { data, isLoading, isFetching } = useCommunityFavouriteThreads({
-    pageSize: 6,
+    pageSize: 4,
     userId: user?.id,
   });
 
@@ -27,7 +27,7 @@ const CommunityFavouriteThreads: React.FC = () => {
 
       {(isFetching || isLoading) && (
         <div className="grid gap-2">
-          {Array.from({ length: 2 }).map((_, i) => (
+          {Array.from({ length: 4 }).map((_, i) => (
             <CommunityThreadCardPlaceholder key={`thread-placeholder-${i}`} />
           ))}
         </div>

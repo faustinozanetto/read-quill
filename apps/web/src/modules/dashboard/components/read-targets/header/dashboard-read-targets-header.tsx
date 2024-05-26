@@ -17,8 +17,8 @@ const DashboardReadTargetsHeader: React.FC<DashboardReadTargetsHeaderProps> = (p
 
   return (
     <div className="flex gap-2 items-center justify-between">
-      <h2 className="text-2xl font-bold">Read Targets</h2>
-      {isFetching || isLoading ? <Skeleton className="h-10 w-full md:w-1/4" /> : null}
+      <h2 className="text-2xl font-bold">🎯 Read Targets</h2>
+      {isFetching || isLoading ? <Skeleton className="h-10 w-10" /> : null}
 
       {!(isFetching || isLoading) && targetsCreated && data && data.result ? (
         <DashboardReadTargetsManagement readTargets={data.result} />

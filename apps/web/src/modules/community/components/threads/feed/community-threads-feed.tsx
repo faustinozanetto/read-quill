@@ -54,7 +54,7 @@ const CommunityThreadsFeed: React.FC<CommunityThreadsFeedProps> = (props) => {
       }}
     >
       <div className="p-4 grow flex flex-col justify-between gap-4">
-        <span className="font-medium">Showing {filteredData.length} Threads</span>
+        {threads.length > 0 && <span className="font-medium">Showing {filteredData.length} Threads</span>}
         {noResults ? (
           <p className="my-auto text-center">
             It looks like there are <strong>no threads</strong> that match your current filters, try adjusting your

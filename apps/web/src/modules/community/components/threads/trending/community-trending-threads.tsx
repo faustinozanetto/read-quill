@@ -8,7 +8,7 @@ import { CommunityThreadCard } from '../card/community-thread-card';
 
 const CommunityTrendingThreads: React.FC = () => {
   const { data, isLoading, isFetching } = useCommunityTrendingThreads({
-    pageSize: 6,
+    pageSize: 4,
   });
 
   return (

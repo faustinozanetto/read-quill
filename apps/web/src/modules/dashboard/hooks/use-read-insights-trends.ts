@@ -14,7 +14,9 @@ export interface ReadInsightsTrendsDailyRange {
 }
 
 interface UseReadInsightsTrendsReturn
-  extends Pick<DefinedUseQueryResult<DashboardReadInsightsTrendsGetResponse>, 'data' | 'isLoading' | 'isFetching'> {
+  extends Pick<DefinedUseQueryResult<DashboardReadInsightsTrendsGetResponse>, 'isLoading' | 'isFetching'> {
+  data: DashboardReadInsightsTrendsGetResponse;
+  filteredData: DashboardReadInsightsTrendsGetResponse;
   interval: DashboardReadInsightsReadTrendsIntervalType;
   setInterval: (interval: DashboardReadInsightsReadTrendsIntervalType) => void;
   dailyRange: ReadInsightsTrendsDailyRange;
@@ -62,7 +64,7 @@ export const useReadInsightsTrends = (): UseReadInsightsTrendsReturn => {
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
-  const computedData = useMemo(() => {
+  const filteredData = useMemo(() => {
     if (interval !== 'daily') return data;
 
     const filteredData: DashboardReadInsightsTrendsGetResponse = {
@@ -76,5 +78,5 @@ export const useReadInsightsTrends = (): UseReadInsightsTrendsReturn => {
     return filteredData;
   }, [data, dailyRange, interval]);
 
-  return { data: computedData, isLoading, isFetching, interval, setInterval, dailyRange, setDailyRange };
+  return { data, filteredData, isLoading, isFetching, interval, setInterval, dailyRange, setDailyRange };
 };

@@ -16,7 +16,7 @@ const Community: React.FC = () => {
       </div>
       <CommunityTopUsers />
       <div className="gap-4 flex flex-col 2xl:flex-row-reverse relative">
-        <div className="2xl:max-w-[550px] 2xl:flex-col xl:flex-row flex flex-col gap-4">
+        <div className="2xl:max-w-[550px] 2xl:min-w-[450px] 2xl:flex-col xl:flex-row flex flex-col gap-4">
           <CommunityTrendingThreads />
           <CommunityFavouriteThreads />
         </div>

@@ -13,7 +13,7 @@ const UserBookReviewHeader: React.FC<UserBookReviewHeaderProps> = (props) => {
   const { isBookOwner } = useIsBookOwner();
 
   return (
-    <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:gap-0">
+    <div className="flex items-center justify-between">
       <h2 className="text-2xl font-bold">User Review</h2>
 
       {isBookOwner ? <UserBookReviewManagement readerWrittenReview={readerWrittenReview} /> : null}

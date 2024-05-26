@@ -9,7 +9,8 @@ import DashboardReadInsightTrendsChart from './dashboard-read-insights-trends-ch
 import DashboardReadInsightTrendsDailyRangeSelect from './dashboard-read-insights-trends-daily-range-select';
 
 const DashboardReadInsightTrends: React.FC = () => {
-  const { data, isLoading, isFetching, interval, setInterval, dailyRange, setDailyRange } = useReadInsightsTrends();
+  const { data, filteredData, isLoading, isFetching, interval, setInterval, dailyRange, setDailyRange } =
+    useReadInsightsTrends();
 
   return (
     <div className="rounded-lg border p-4 shadow flex flex-col gap-2 h-fit">
@@ -32,8 +33,8 @@ const DashboardReadInsightTrends: React.FC = () => {
 
       {isFetching || isLoading ? <Skeleton className="h-48 w-full" /> : null}
 
-      {!(isFetching || isLoading) && data.trends.length > 0 ? (
-        <DashboardReadInsightTrendsChart interval={interval} trends={data.trends} />
+      {!(isFetching || isLoading) && filteredData.trends.length > 0 ? (
+        <DashboardReadInsightTrendsChart interval={interval} trends={filteredData.trends} />
       ) : null}
 
       {!(isFetching || isLoading) && data.trends.length === 0 ? (

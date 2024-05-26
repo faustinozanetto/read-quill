@@ -5,9 +5,11 @@ import UserBookAnnotationsHeader from './user-book-annotations-header';
 import { useBookAnnotations } from '@modules/books/hooks/use-book-annotations';
 import BookAnnotationCardPlaceholder from '@modules/annotations/components/cards/book-annotation-card-placeholder';
 import BookAnnotationsFeed from '@modules/annotations/components/feed/books-annotations-feed';
+import { useIsBookOwner } from '@modules/books/hooks/use-is-book-owner';
 
 const UserBookAnnotations: React.FC = () => {
   const { data, isFetching, isLoading } = useBookAnnotations();
+  const { isBookOwner } = useIsBookOwner();
 
   return (
     <div className="flex flex-col rounded-lg p-4 shadow border gap-2">
@@ -27,8 +29,14 @@ const UserBookAnnotations: React.FC = () => {
 
       {!(isFetching || isLoading) && data && data.annotations.length === 0 ? (
         <p>
-          No annotations found, add one by clicking the <span className="text-primary font-bold underline">Add</span>{' '}
-          button to get started.
+          {isBookOwner ? (
+            <>
+              No annotations found, add one by clicking the{' '}
+              <span className="text-primary font-bold underline">Add</span> button to get started.
+            </>
+          ) : (
+            <>It looks like this user has not written annotations yet!</>
+          )}
         </p>
       ) : null}
     </div>
