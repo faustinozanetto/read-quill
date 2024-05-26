@@ -3,9 +3,9 @@ import { useToast, DeleteIcon } from '@read-quill/design-system';
 import { useRouter } from 'next/navigation';
 import { useMutation } from '@tanstack/react-query';
 import ManagementDeleteObject from '@modules/common/components/management/management-delete-object';
-import { useBookStore } from '@modules/books/state/book.slice';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { BookDeleteResponse } from '@modules/api/types/books-api.types';
+import { useBookStore } from '@modules/books/state/book.slice';
 
 const UserBookManagementDelete: React.FC = () => {
   const router = useRouter();
@@ -13,11 +13,11 @@ const UserBookManagementDelete: React.FC = () => {
   const { book } = useBookStore();
 
   const { mutateAsync } = useMutation<BookDeleteResponse, Error>({
-    mutationKey: ['delete-book', book?.id],
+    mutationKey: ['book-delete', book?.id],
     mutationFn: async () => {
-      if (!book) return;
-
       try {
+        if (!book) return;
+
         const url = new URL('/api/books', __URL__);
         const body = JSON.stringify({
           bookId: book.id,

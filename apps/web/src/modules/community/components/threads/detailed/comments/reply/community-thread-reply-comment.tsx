@@ -15,11 +15,12 @@ import {
 import CommunityThreadReplyCommentForm from './community-thread-reply-comment-form';
 import { ThreadCommentReplyPostResponse } from '@modules/api/types/community-api.types';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import { useCommunityThreadStore } from '@modules/community/state/community-thread.slice';
+
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { useMutation } from '@tanstack/react-query';
 import { ThreadCommentWithAuthor } from '@modules/community/types/community.types';
 import { ReplyThreadCommentFormActionData } from '@modules/community/types/community-thread-comments-validations.types';
+import { useThreadStore } from '@modules/community/state/thread/thread.slice';
 
 interface CommunityThreadReplyCommentProps {
   comment: ThreadCommentWithAuthor;
@@ -29,11 +30,12 @@ const CommunityThreadReplyComment: React.FC<CommunityThreadReplyCommentProps> = 
   const { comment } = props;
 
   const { toast } = useToast();
-  const { thread } = useCommunityThreadStore();
+  const { thread } = useThreadStore();
   const { queryClient } = useQueriesStore();
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const { mutateAsync } = useMutation<ThreadCommentReplyPostResponse, Error, ReplyThreadCommentFormActionData>({
+    mutationKey: ['thread-comment-reply', comment.id],
     mutationFn: async (data) => {
       try {
         if (!thread) return;
@@ -60,9 +62,10 @@ const CommunityThreadReplyComment: React.FC<CommunityThreadReplyCommentProps> = 
         setDialogOpen(false);
       }
     },
-    onSuccess(data) {
+    async onSuccess(data) {
       if (data && data.success && thread) {
-        queryClient.refetchQueries(['thread-comments', 0, thread.id]);
+        await queryClient.refetchQueries(['thread-comments', 0, thread.id]);
+
         toast({ variant: 'success', content: `Reply created successfully!` });
       }
     },

@@ -8,7 +8,7 @@ export interface UseThreadAttachmentsReturn
   extends Pick<DefinedUseQueryResult<ThreadAttachmentsGetResponse>, 'data' | 'isLoading' | 'isFetching'> {}
 
 interface UseThreadAttachmentsParams {
-  threadId: string;
+  threadId?: string;
 }
 
 const buildUrl = (threadId: string): string => {
@@ -25,8 +25,11 @@ export const useThreadAttachments = (params: UseThreadAttachmentsParams): UseThr
   const { data, isLoading, isFetching } = useQuery<ThreadAttachmentsGetResponse>(['thread-attachments', threadId], {
     initialData: { attachments: [] },
     keepPreviousData: true,
+    enabled: threadId !== undefined,
     queryFn: async () => {
       try {
+        if (!threadId) return;
+
         const url = buildUrl(threadId);
         const response = await fetch(url, { method: 'GET' });
 

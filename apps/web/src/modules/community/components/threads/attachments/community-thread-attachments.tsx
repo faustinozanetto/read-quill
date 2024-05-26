@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle, Skeleton } from '@read-quill/design-system';
@@ -7,15 +9,12 @@ import Image from 'next/image';
 import { useThreadAttachments } from '@modules/community/hooks/threads/attachments/use-thread-attachments';
 import { getImagePublicUrl } from '@modules/images/lib/images.lib';
 
-interface CommunityThreadAttachmentsProps {
-  threadId: string;
-}
+import { useThreadStore } from '@modules/community/state/thread/thread.slice';
 
-const CommunityThreadAttachments: React.FC<CommunityThreadAttachmentsProps> = (props) => {
-  const { threadId } = props;
-
+const CommunityThreadAttachments: React.FC = () => {
+  const { thread } = useThreadStore();
   const { selectedAttachment, setSelectedAttachment } = useCommunityThreadAttachmentsStore();
-  const { data, isFetching, isLoading } = useThreadAttachments({ threadId });
+  const { data, isFetching, isLoading } = useThreadAttachments({ threadId: thread?.id });
 
   return (
     <div className="border p-4 rounded-lg shadow">
@@ -28,14 +27,14 @@ const CommunityThreadAttachments: React.FC<CommunityThreadAttachmentsProps> = (p
         </div>
       ) : null}
 
-      {!(isFetching || isLoading) && data.attachments.length > 0 ? (
+      {!(isFetching || isLoading) && thread && data.attachments.length > 0 ? (
         <Dialog>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-2">
             {data.attachments.map((attachment) => (
               <CommunityThreadAttachment
                 key={attachment.id}
                 attachment={attachment}
-                threadId={threadId}
+                threadId={thread.id}
                 onSelected={() => setSelectedAttachment(attachment)}
               />
             ))}

@@ -1,11 +1,11 @@
 import React from 'react';
 import { useToast, DeleteIcon } from '@read-quill/design-system';
 import { useMutation } from '@tanstack/react-query';
-import { useBookStore } from '@modules/books/state/book.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import ManagementDeleteObject from '@modules/common/components/management/management-delete-object';
 import { BookReviewDeleteResponse } from '@modules/api/types/books-api.types';
+import { useBookStore } from '@modules/books/state/book.slice';
 
 const UserBookReviewManagementDelete: React.FC = () => {
   const { toast } = useToast();
@@ -13,10 +13,10 @@ const UserBookReviewManagementDelete: React.FC = () => {
   const { book } = useBookStore();
 
   const { mutateAsync } = useMutation<BookReviewDeleteResponse, Error>({
+    mutationKey: [book?.id],
     mutationFn: async () => {
-      if (!book) return;
-
       try {
+        if (!book) return;
         const url = new URL('/api/books/review', __URL__);
         const body = JSON.stringify({
           bookId: book.id,

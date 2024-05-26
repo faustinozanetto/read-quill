@@ -1,5 +1,7 @@
+'use client';
+
 import React, { useState } from 'react';
-import { ThreadWithDetails } from '@modules/community/types/community.types';
+
 import {
   Button,
   Dialog,
@@ -18,21 +20,20 @@ import { ThreadPatchResponse } from '@modules/api/types/community-api.types';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import CommunityThreadManagementEditForm from './community-thread-management-edit-form';
 import { EditThreadFormActionData } from '@modules/community/types/community-thread-validations.types';
+import { useThreadStore } from '@modules/community/state/thread/thread.slice';
 
-interface CommunityThreadManagementEditProps {
-  thread: ThreadWithDetails;
-}
-
-const CommunityThreadManagementEdit: React.FC<CommunityThreadManagementEditProps> = (props) => {
-  const { thread } = props;
-
+const CommunityThreadManagementEdit: React.FC = () => {
   const { toast } = useToast();
+  const { thread } = useThreadStore();
   const { queryClient } = useQueriesStore();
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const { mutateAsync } = useMutation<ThreadPatchResponse, Error, EditThreadFormActionData>({
+    mutationKey: ['thread-edit', thread?.id],
     mutationFn: async (data) => {
       try {
+        if (!thread) return;
+
         const url = new URL('/api/community/thread', __URL__);
         const body = JSON.stringify({
           threadId: thread.id,
@@ -77,7 +78,7 @@ const CommunityThreadManagementEdit: React.FC<CommunityThreadManagementEditProps
           <DialogDescription>Update your thread details here..</DialogDescription>
         </DialogHeader>
 
-        <CommunityThreadManagementEditForm onSubmit={mutateAsync} thread={thread} />
+        {thread && <CommunityThreadManagementEditForm onSubmit={mutateAsync} thread={thread} />}
       </DialogContent>
     </Dialog>
   );

@@ -1,11 +1,10 @@
-'use client';
-
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { useBookStore } from '@modules/books/state/book.slice';
 import UserBook from '@modules/books/components/user/user-book';
-import type { BookWithDetails } from '@modules/books/types/book.types';
 import { __URL__ } from '@modules/common/lib/common.constants';
+import { notFound, redirect } from 'next/navigation';
+import { ResolvingMetadata, Metadata } from 'next';
+import { getImagePublicUrl } from '@modules/images/lib/images.lib';
+import { prisma } from '@read-quill/database';
 
 interface UserBookPageProps {
   params: {
@@ -13,37 +12,38 @@ interface UserBookPageProps {
   };
 }
 
-const UserBookPage: React.FC<UserBookPageProps> = (props) => {
+export async function generateMetadata({ params }: UserBookPageProps, parent: ResolvingMetadata): Promise<Metadata> {
+  const bookId = params.bookId;
+
+  const book = await prisma.book.findUnique({ where: { id: bookId }, include: { image: true } });
+  if (!book) return {};
+
+  const previousImages = (await parent).openGraph?.images || [];
+
+  const bookImage = getImagePublicUrl('BookCovers', book.image.path);
+  const title = `${book.name}, ${book.author}`;
+
+  return {
+    title,
+    openGraph: {
+      title,
+      images: [bookImage, ...previousImages],
+    },
+  };
+}
+
+const UserBookPage: React.FC<UserBookPageProps> = async (props) => {
   const { params } = props;
   const { bookId } = params;
 
-  const { setBook, setIsLoading } = useBookStore();
-
-  useQuery<BookWithDetails>(['book-page', bookId], {
-    queryFn: async () => {
-      const url = new URL('/api/books', __URL__);
-      url.searchParams.set('bookId', bookId);
-
-      const response = await fetch(url, { method: 'GET' });
-      if (!response.ok) {
-        throw new Error('Failed to fetch book!');
-      }
-
-      const { book }: { book: BookWithDetails } = await response.json();
-      return book;
-    },
-    onSuccess(data) {
-      setBook(data);
-      setIsLoading(false);
-    },
-    onError() {
-      setIsLoading(false);
-    },
-  });
+  const bookCount = await prisma.book.count({ where: { id: bookId } });
+  if (bookCount === 0) {
+    return notFound();
+  }
 
   return (
     <div className="container my-4">
-      <UserBook />
+      <UserBook bookId={bookId} />
     </div>
   );
 };

@@ -1,9 +1,9 @@
 import { Skeleton } from '@read-quill/design-system';
 import React from 'react';
 
-const CommunityThreadPlaceholder: React.FC = () => {
+const CommunityThreadDetailsPlaceholder: React.FC = () => {
   return (
-    <section className="mx-auto flex flex-col gap-4">
+    <section className="mx-auto flex flex-col gap-4 w-full">
       <div className="p-4 border rounded-lg shadow flex flex-col">
         <Skeleton className="h-8 w-full my-4 md:my-8" />
         <div className="flex gap-2 mb-2 justify-between items-center">
@@ -21,4 +21,4 @@ const CommunityThreadPlaceholder: React.FC = () => {
   );
 };
 
-export default CommunityThreadPlaceholder;
+export default CommunityThreadDetailsPlaceholder;

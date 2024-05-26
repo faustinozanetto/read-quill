@@ -2,13 +2,12 @@ import React from 'react';
 
 import { Button, cn, LoadingIcon, EditIcon } from '@read-quill/design-system';
 
-import { useBookStore } from '@modules/books/state/book.slice';
-
 import BookForm from '@modules/books/components/forms/book-form';
 import { MultiStepFormStep } from '@modules/forms/hooks/use-multi-step-form';
 import { EditBookFormActionData } from '@modules/books/types/book-validations.types';
 import { BOOK_ACTIONS_VALIDATIONS_FORMS } from '@modules/books/validations/books.validations';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useBookStore } from '@modules/books/state/book.slice';
 
 const STEPS_DATA: MultiStepFormStep<EditBookFormActionData>[] = [
   {

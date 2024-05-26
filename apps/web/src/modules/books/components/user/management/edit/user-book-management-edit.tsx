@@ -11,16 +11,17 @@ import {
   EditIcon,
 } from '@read-quill/design-system';
 import { useMutation } from '@tanstack/react-query';
-import { useBookStore } from '@modules/books/state/book.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useUploadBookCover } from '@modules/books/hooks/use-upload-book-cover';
 import type { BookPatchResponse } from '@modules/api/types/books-api.types';
 import UserBookManagementEditForm from './user-book-management-edit-form';
 import { EditBookFormActionData } from '@modules/books/types/book-validations.types';
+import { useBookStore } from '@modules/books/state/book.slice';
 
 const UserBookManagementEdit: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
+
   const { toast } = useToast();
   const { queryClient } = useQueriesStore();
   const { book } = useBookStore();
@@ -28,10 +29,10 @@ const UserBookManagementEdit: React.FC = () => {
   const { uploadCover, isLoading } = useUploadBookCover();
 
   const { mutateAsync } = useMutation<BookPatchResponse, Error, EditBookFormActionData>({
+    mutationKey: ['book-edit', book?.id],
     mutationFn: async (data) => {
-      if (!book) return;
-
       try {
+        if (!book) return;
         const { coverImage, startedAt, finishedAt, ...rest } = data;
 
         let imageId: string | undefined;
@@ -65,10 +66,8 @@ const UserBookManagementEdit: React.FC = () => {
       }
     },
     onSuccess: async (data) => {
-      if (!book) return;
-
       if (data && data.book) {
-        await queryClient.refetchQueries(['book-page', book.id]);
+        await queryClient.refetchQueries(['book-page', data.book.id]);
 
         toast({ variant: 'success', content: `Book updated successfully!` });
       }

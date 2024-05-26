@@ -16,9 +16,11 @@ import { __URL__ } from '@modules/common/lib/common.constants';
 
 import CommunityThreadCommentManagementEditForm from './community-thread-comment-management-edit-form';
 import { ThreadCommentPatchResponse } from '@modules/api/types/community-api.types';
-import { useCommunityThreadStore } from '@modules/community/state/community-thread.slice';
+
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { EditThreadCommentFormActionData } from '@modules/community/types/community-thread-comments-validations.types';
+
+import { useThreadStore } from '@modules/community/state/thread/thread.slice';
 
 interface CommunityThreadCommentManagementEditProps {
   comment: ThreadCommentWithAuthor;
@@ -28,11 +30,12 @@ const CommunityThreadCommentManagementEdit: React.FC<CommunityThreadCommentManag
   const { comment } = props;
 
   const { toast } = useToast();
-  const { thread } = useCommunityThreadStore();
+  const { thread } = useThreadStore();
   const { queryClient } = useQueriesStore();
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const { mutateAsync } = useMutation<ThreadCommentPatchResponse, Error, EditThreadCommentFormActionData>({
+    mutationKey: ['thread-comment-edit', comment.id],
     mutationFn: async (data) => {
       try {
         const url = new URL('/api/community/thread/comment', __URL__);
@@ -56,9 +59,9 @@ const CommunityThreadCommentManagementEdit: React.FC<CommunityThreadCommentManag
         setDialogOpen(false);
       }
     },
-    onSuccess(data) {
+    async onSuccess(data) {
       if (data && data.success && thread) {
-        queryClient.refetchQueries(['thread-comments', 0, thread.id]);
+        await queryClient.refetchQueries(['thread-comments', 0, thread.id]);
         toast({ variant: 'success', content: `Comment updated successfully!` });
       }
     },

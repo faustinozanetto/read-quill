@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { useBookStore } from '@modules/books/state/book.slice';
 import { useIsBookOwner } from '@modules/books/hooks/use-is-book-owner';
 import UserBookManagement from '../management/user-book-management';
 import BookPagesBadge from '../../common/book-pages-badge';
@@ -11,13 +10,17 @@ import BookStartedAt from '../../common/book-started-at';
 import BookFinishedAt from '../../common/book-finished-at';
 import BookRating from '../../common/rating/book-rating';
 import UserBookCover from './cover/user-book-cover';
+
+import { useBookStore } from '@modules/books/state/book.slice';
 import UserBookDetailsPlaceholder from './user-book-details-placeholder';
 
 const UserBookDetails: React.FC = () => {
   const { book, isLoading } = useBookStore();
   const { isBookOwner } = useIsBookOwner();
 
-  if (isLoading || !book) return <UserBookDetailsPlaceholder />;
+  if (isLoading) return <UserBookDetailsPlaceholder />;
+
+  if (!book) return null;
 
   return (
     <div className="flex w-full flex-col gap-2 rounded-lg p-4 shadow md:flex-row border">

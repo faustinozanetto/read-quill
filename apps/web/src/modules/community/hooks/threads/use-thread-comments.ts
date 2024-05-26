@@ -17,7 +17,7 @@ export interface UseThreadCommentsReturn
 
 interface UseThreadCommentsParams {
   pageSize: number;
-  threadId: string;
+  threadId?: string;
 }
 
 const buildUrl = (threadId: string, page: number, pageSize: number): string => {
@@ -38,10 +38,13 @@ export const useThreadComments = (params: UseThreadCommentsParams): UseThreadCom
   const { data, isLoading, isFetching, isPreviousData } = useQuery<ThreadCommentsGetResponse>(
     ['thread-comments', page, threadId],
     {
+      enabled: threadId !== undefined,
       initialData: { comments: [], hasMore: false, pageCount: 0 },
       keepPreviousData: true,
       queryFn: async () => {
         try {
+          if (!threadId) return;
+
           const url = buildUrl(threadId, page, pageSize);
           const response = await fetch(url, { method: 'GET' });
 

@@ -3,7 +3,6 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 
-import { supabase } from '@modules/supabase/lib/supabase.lib';
 import { auth } from 'auth';
 import {
   BookDeleteResponse,
@@ -12,7 +11,7 @@ import {
   BookPostResponse,
 } from '@modules/api/types/books-api.types';
 import { BOOK_ACTIONS_VALIDATIONS_API } from '@modules/books/validations/books.validations';
-import { deleteImageFromSupabase, deleteImagesFromSupabase } from '@modules/uploads/lib/uploads.lib';
+import { deleteImageFromSupabase } from '@modules/uploads/lib/uploads.lib';
 
 // /api/books GET : Gets a book by a given bookId
 export async function GET(request: NextRequest): Promise<NextResponse<BookGetResponse>> {
@@ -26,7 +25,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<BookGetRes
 
     const book = await prisma.book.findUnique({ where: { id: bookId }, include: { reader: true, image: true } });
     if (!book) {
-      return new NextResponse('Could not find boko!', { status: 404 });
+      return new NextResponse('Could not find book!', { status: 404 });
     }
 
     return NextResponse.json({ book });

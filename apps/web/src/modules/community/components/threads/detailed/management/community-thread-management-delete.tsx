@@ -1,5 +1,7 @@
+'use client';
+
 import React from 'react';
-import { ThreadWithDetails } from '@modules/community/types/community.types';
+
 import { DeleteIcon, useToast } from '@read-quill/design-system';
 import { useMutation } from '@tanstack/react-query';
 import { __URL__ } from '@modules/common/lib/common.constants';
@@ -7,19 +9,19 @@ import ManagementDeleteObject from '@modules/common/components/management/manage
 import { ThreadDeleteResponse } from '@modules/api/types/community-api.types';
 import { useRouter } from 'next/navigation';
 
-interface CommunityThreadManagementDeleteProps {
-  thread: ThreadWithDetails;
-}
+import { useThreadStore } from '@modules/community/state/thread/thread.slice';
 
-const CommunityThreadManagementDelete: React.FC<CommunityThreadManagementDeleteProps> = (props) => {
-  const { thread } = props;
-
-  const { toast } = useToast();
+const CommunityThreadManagementDelete: React.FC = () => {
   const router = useRouter();
+  const { thread } = useThreadStore();
+  const { toast } = useToast();
 
-  const { mutateAsync } = useMutation({
+  const { mutateAsync } = useMutation<ThreadDeleteResponse, Error>({
+    mutationKey: ['thread-delete', thread?.id],
     mutationFn: async () => {
       try {
+        if (!thread) return;
+
         const url = new URL('/api/community/thread', __URL__);
         const body = JSON.stringify({
           threadId: thread.id,
@@ -30,7 +32,7 @@ const CommunityThreadManagementDelete: React.FC<CommunityThreadManagementDeleteP
           throw new Error('Could not delete thread!');
         }
 
-        return response.json() as Promise<ThreadDeleteResponse>;
+        return response.json();
       } catch (error) {
         let errorMessage = 'Could not delete thread!';
         if (error instanceof Error) errorMessage = error.message;
@@ -39,7 +41,7 @@ const CommunityThreadManagementDelete: React.FC<CommunityThreadManagementDeleteP
       }
     },
     onSuccess: (data) => {
-      if (data && data.success && thread) {
+      if (data && data.success) {
         toast({ variant: 'success', content: `Thread deleted successfully!` });
         router.push('/community');
       }

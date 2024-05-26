@@ -1,5 +1,4 @@
 import React from 'react';
-import { ThreadWithDetails } from '@modules/community/types/community.types';
 import {
   Button,
   DropdownMenu,
@@ -13,13 +12,7 @@ import {
 import CommunityThreadManagementEdit from './edit/community-thread-management-edit';
 import CommunityThreadManagementDelete from './community-thread-management-delete';
 
-interface CommunityThreadManagementProps {
-  thread: ThreadWithDetails;
-}
-
-const CommunityThreadManagement: React.FC<CommunityThreadManagementProps> = (props) => {
-  const { thread } = props;
-
+const CommunityThreadManagement: React.FC = () => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -31,8 +24,8 @@ const CommunityThreadManagement: React.FC<CommunityThreadManagementProps> = (pro
         <DropdownMenuLabel className="p-1">Manage Thread</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup className="flex flex-col gap-1">
-          <CommunityThreadManagementEdit thread={thread} />
-          <CommunityThreadManagementDelete thread={thread} />
+          <CommunityThreadManagementEdit />
+          <CommunityThreadManagementDelete />
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

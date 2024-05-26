@@ -12,13 +12,13 @@ import {
 } from '@read-quill/design-system';
 import { useMutation } from '@tanstack/react-query';
 import type { Annotation } from '@read-quill/database';
-import { useBookStore } from '@modules/books/state/book.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { __URL__ } from '@modules/common/lib/common.constants';
 
 import BookAnnotationManagementEditForm from './book-annotation-management-edit-form';
 import { BookAnnotationPatchResponse } from '@modules/api/types/books-api.types';
 import { EditAnnotationFormActionData } from '@modules/annotations/types/annotation-validations.types';
+import { useBookStore } from '@modules/books/state/book.slice';
 
 interface BookAnnotationManagementEditProps {
   annotation: Annotation;
@@ -34,6 +34,7 @@ const BookAnnotationManagementEdit: React.FC<BookAnnotationManagementEditProps> 
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const { mutateAsync } = useMutation<BookAnnotationPatchResponse, Error, EditAnnotationFormActionData>({
+    mutationKey: ['book-annotation-edit', annotation.id],
     mutationFn: async (data) => {
       try {
         const url = new URL('/api/books/annotations', __URL__);
@@ -58,9 +59,7 @@ const BookAnnotationManagementEdit: React.FC<BookAnnotationManagementEditProps> 
       }
     },
     onSuccess: async (data) => {
-      if (!book) return;
-
-      if (data && data.annotation) {
+      if (data && data.annotation && book) {
         await queryClient.refetchQueries(['book-annotations', book.id]);
 
         toast({ variant: 'success', content: `Book annotation edited successfully!` });

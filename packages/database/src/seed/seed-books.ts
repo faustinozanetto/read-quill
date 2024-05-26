@@ -12,7 +12,11 @@ void (async () => {
           const startedAt = faker.date.between({ from: faker.date.recent({ days: 120 }), to: new Date() });
           const finishedAt = faker.date.between({ from: startedAt, to: new Date() });
 
-          const image = await prisma.image.findFirst();
+          const image = await prisma.image.findFirst({
+            where: {
+              id: 'clwmtgkba0000lytbe1m71fun',
+            },
+          });
           if (!image) return;
 
           const book = await prisma.book.create({

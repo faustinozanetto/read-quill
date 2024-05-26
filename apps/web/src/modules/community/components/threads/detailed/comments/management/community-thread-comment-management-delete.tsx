@@ -5,8 +5,10 @@ import { useMutation } from '@tanstack/react-query';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import ManagementDeleteObject from '@modules/common/components/management/management-delete-object';
 import { ThreadCommentDeleteResponse } from '@modules/api/types/community-api.types';
-import { useCommunityThreadStore } from '@modules/community/state/community-thread.slice';
+
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
+
+import { useThreadStore } from '@modules/community/state/thread/thread.slice';
 
 interface CommunityThreadCommentManagementDeleteProps {
   comment: ThreadCommentWithAuthor;
@@ -17,9 +19,10 @@ const CommunityThreadCommentManagementDelete: React.FC<CommunityThreadCommentMan
 
   const { toast } = useToast();
   const { queryClient } = useQueriesStore();
-  const { thread } = useCommunityThreadStore();
+  const { thread } = useThreadStore();
 
   const { mutateAsync } = useMutation<ThreadCommentDeleteResponse, Error>({
+    mutationKey: ['thread-comment-delete', comment.id],
     mutationFn: async () => {
       try {
         const url = new URL('/api/community/thread/comment', __URL__);
@@ -40,9 +43,9 @@ const CommunityThreadCommentManagementDelete: React.FC<CommunityThreadCommentMan
         toast({ variant: 'error', content: errorMessage });
       }
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       if (data && data.success && thread) {
-        queryClient.refetchQueries(['thread-comments', 0, thread.id]);
+        await queryClient.refetchQueries(['thread-comments', 0, thread.id]);
         toast({ variant: 'success', content: `Comment deleted successfully!` });
       }
     },

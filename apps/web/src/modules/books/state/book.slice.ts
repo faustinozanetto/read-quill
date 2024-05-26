@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { BookWithDetails } from '../types/book.types';
+import { BookWithDetails } from '../types/book.types';
 
 export interface BookSliceState {
   isLoading: boolean;

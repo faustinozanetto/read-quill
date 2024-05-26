@@ -11,12 +11,12 @@ import {
   EditIcon,
 } from '@read-quill/design-system';
 import { useMutation } from '@tanstack/react-query';
-import { useBookStore } from '@modules/books/state/book.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import UserBookReviewManagementEditForm from './user-book-review-management-edit-form';
 import { BookReviewPatchResponse } from '@modules/api/types/books-api.types';
 import { EditBookReviewFormActionData } from '@modules/books/types/book-validations.types';
+import { useBookStore } from '@modules/books/state/book.slice';
 
 const UserBookReviewManagementEdit: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -25,10 +25,11 @@ const UserBookReviewManagementEdit: React.FC = () => {
   const { book } = useBookStore();
 
   const { mutateAsync } = useMutation<BookReviewPatchResponse, Error, EditBookReviewFormActionData>({
+    mutationKey: ['book-review-edit', book?.id],
     mutationFn: async (data) => {
-      if (!book) return;
-
       try {
+        if (!book) return;
+
         const url = new URL('/api/books/review', __URL__);
         const body = JSON.stringify({
           bookId: book.id,

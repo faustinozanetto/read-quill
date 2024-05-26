@@ -11,13 +11,13 @@ import {
   PlusIcon,
 } from '@read-quill/design-system';
 import { useMutation } from '@tanstack/react-query';
-import { useBookStore } from '@modules/books/state/book.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { __URL__ } from '@modules/common/lib/common.constants';
 
 import BookAnnotationManagementAddForm from './book-annotation-management-add-form';
 import { BookAnnotationPostResponse } from '@modules/api/types/books-api.types';
 import { CreateAnnotationFormActionData } from '@modules/annotations/types/annotation-validations.types';
+import { useBookStore } from '@modules/books/state/book.slice';
 
 const BookAnnotationManagementAdd: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -26,10 +26,11 @@ const BookAnnotationManagementAdd: React.FC = () => {
   const { book } = useBookStore();
 
   const { mutateAsync } = useMutation<BookAnnotationPostResponse, Error, CreateAnnotationFormActionData>({
+    mutationKey: ['book-annotation-add', book?.id],
     mutationFn: async (data) => {
-      if (!book) return;
-
       try {
+        if (!book) return;
+
         const url = new URL('/api/annotations', __URL__);
         const body = JSON.stringify({
           bookId: book.id,
@@ -52,8 +53,7 @@ const BookAnnotationManagementAdd: React.FC = () => {
       }
     },
     onSuccess: async (data) => {
-      if (!book) return;
-      if (data && data.annotation) {
+      if (data && data.annotation && book) {
         await queryClient.refetchQueries(['book-annotations', book.id]);
 
         toast({ variant: 'success', content: `Book annotation added successfully!` });

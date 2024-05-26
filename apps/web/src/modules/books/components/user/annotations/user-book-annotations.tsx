@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import UserBookAnnotationsHeader from './user-book-annotations-header';
 import { useBookAnnotations } from '@modules/books/hooks/use-book-annotations';

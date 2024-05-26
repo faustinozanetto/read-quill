@@ -18,9 +18,9 @@ import {
   EditIcon,
 } from '@read-quill/design-system';
 
-import { useBookStore } from '@modules/books/state/book.slice';
 import { EditBookReviewFormActionData } from '@modules/books/types/book-validations.types';
 import { BOOK_ACTIONS_VALIDATIONS_FORMS } from '@modules/books/validations/books.validations';
+import { useBookStore } from '@modules/books/state/book.slice';
 
 interface UserBookReviewManagementEditFormProps {
   onSubmit: (data: EditBookReviewFormActionData) => void;

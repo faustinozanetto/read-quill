@@ -3,10 +3,10 @@ import { useToast, DeleteIcon } from '@read-quill/design-system';
 import { useMutation } from '@tanstack/react-query';
 import type { Annotation } from '@read-quill/database';
 import ManagementDeleteObject from '@modules/common/components/management/management-delete-object';
-import { useBookStore } from '@modules/books/state/book.slice';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { BookAnnotationDeleteResponse } from '@modules/api/types/books-api.types';
+import { useBookStore } from '@modules/books/state/book.slice';
 
 interface BookAnnotationManagementDeleteProps {
   annotation: Annotation;
@@ -20,6 +20,7 @@ const BookAnnotationManagementDelete: React.FC<BookAnnotationManagementDeletePro
   const { queryClient } = useQueriesStore();
 
   const { mutateAsync } = useMutation<BookAnnotationDeleteResponse, Error>({
+    mutationKey: ['book-annotation-delete', annotation.id],
     mutationFn: async () => {
       try {
         const url = new URL('/api/books/annotations', __URL__);
@@ -41,9 +42,7 @@ const BookAnnotationManagementDelete: React.FC<BookAnnotationManagementDeletePro
       }
     },
     onSuccess: async (data) => {
-      if (!book) return;
-
-      if (data && data.success) {
+      if (data && data.success && book) {
         await queryClient.refetchQueries(['book-annotations', book.id]);
 
         toast({ variant: 'success', content: `Book annotation deleted successfully!` });

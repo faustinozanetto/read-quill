@@ -6,16 +6,18 @@ import { __URL__ } from '@modules/common/lib/common.constants';
 import { useToast } from '@read-quill/design-system';
 import { useMutation } from '@tanstack/react-query';
 import { ThreadCommentPostResponse } from '@modules/api/types/community-api.types';
-import { useCommunityThreadStore } from '@modules/community/state/community-thread.slice';
+
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { CreateThreadCommentFormActionData } from '@modules/community/types/community-thread-comments-validations.types';
+import { useThreadStore } from '@modules/community/state/thread/thread.slice';
 
 const CommunityThreadWriteComment: React.FC = () => {
   const { toast } = useToast();
-  const { thread } = useCommunityThreadStore();
+  const { thread } = useThreadStore();
   const { queryClient } = useQueriesStore();
 
   const { mutateAsync } = useMutation<ThreadCommentPostResponse, Error, CreateThreadCommentFormActionData>({
+    mutationKey: ['thread-comment-write', thread?.id],
     mutationFn: async (data) => {
       try {
         if (!thread) return;
@@ -39,9 +41,10 @@ const CommunityThreadWriteComment: React.FC = () => {
         toast({ variant: 'error', content: errorMessage });
       }
     },
-    onSuccess(data) {
+    async onSuccess(data) {
       if (data && data.success && thread) {
-        queryClient.refetchQueries(['thread-comments', 0, thread.id]);
+        await queryClient.refetchQueries(['thread-comments', 0, thread.id]);
+
         toast({ variant: 'success', content: `Comment created successfully!` });
       }
     },

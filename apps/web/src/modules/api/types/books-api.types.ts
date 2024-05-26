@@ -69,3 +69,7 @@ export interface BookGetResponse {
 export interface BookPostResponse {
   book: BookWithDetails;
 }
+
+export interface BookRatingPostResponse {
+  success: boolean;
+}
