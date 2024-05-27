@@ -20,11 +20,11 @@ import type { Row } from '@tanstack/react-table';
 import { __URL__ } from '@modules/common/lib/common.constants';
 
 interface DashboardReadRegistryDeleteProps {
-  row: Row<ReadRegistry>;
+  readRegistry: ReadRegistry;
 }
 
 const DashboardReadRegistryDelete: React.FC<DashboardReadRegistryDeleteProps> = (props) => {
-  const { row } = props;
+  const { readRegistry } = props;
 
   const [dialogOpen, setDialogOpen] = useState(false);
 
@@ -36,7 +36,7 @@ const DashboardReadRegistryDelete: React.FC<DashboardReadRegistryDeleteProps> = 
       try {
         const url = new URL('/api/dashboard/read-registries', __URL__);
         const body = JSON.stringify({
-          registryId: row.original.id,
+          registryId: readRegistry.id,
         });
 
         const response = await fetch(url, { method: 'DELETE', body });

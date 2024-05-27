@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { useThreadComments } from '@modules/community/hooks/threads/use-thread-comments';
+import { useThreadComments } from '@modules/community/hooks/threads/comments/use-thread-comments';
 import CommunityThreadWriteComment from './write/community-thread-write-comment';
 import CommunityThreadCommentPlaceholder from './community-thread-comment-placeholder';
 import CommunityThreadComment from './community-thread-comment';

@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
-import { DataTableColumnHeader, DataTableViewOptions } from '@read-quill/design-system';
+import React, { ChangeEvent, useMemo, useState } from 'react';
+import { DataTableColumnHeader, DataTableViewOptions, Input, SearchIcon } from '@read-quill/design-system';
 import type { ColumnDef, ColumnFiltersState, SortingState, VisibilityState } from '@tanstack/react-table';
 import { getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import { DataTable, DataTablePagination } from '@read-quill/design-system/src';
@@ -63,6 +63,21 @@ const DashboardReadRegistriesTable: React.FC = () => {
     ],
     []
   );
+  const handleBooksFilterChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+
+    const matchingBook = Object.entries(books).find(([bookId, bookName]) => bookName.includes(value));
+
+    const filterBy = value !== '' && matchingBook ? matchingBook[0] : undefined;
+    table.getColumn('bookId')?.setFilterValue(filterBy);
+  };
+
+  const books = useMemo(() => {
+    return data.readRegistries.reduce<Record<string, string>>((acc, curr) => {
+      acc[curr.bookId] = curr.book.name;
+      return acc;
+    }, {});
+  }, [data.readRegistries]);
 
   const table = useReactTable({
     data: data.readRegistries,
@@ -86,7 +101,13 @@ const DashboardReadRegistriesTable: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      <DataTableViewOptions table={table} />
+      <div className="flex sm:justify-between">
+        <div className="relative">
+          <SearchIcon className="absolute top-2 left-2" />
+          <Input placeholder="Filter books..." onChange={handleBooksFilterChange} className="pl-8" />
+        </div>
+        <DataTableViewOptions table={table} />
+      </div>
       <div className="max-h-[600px] overflow-y-auto">
         <DataTable table={table} />
       </div>

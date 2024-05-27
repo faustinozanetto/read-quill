@@ -153,8 +153,9 @@ model UserFavouriteThread {
 }
 
 model ThreadComment {
-  id      String @id @default(cuid())
-  content String
+  id       String  @id @default(cuid())
+  content  String
+  isEdited Boolean @default(false)
 
   author   User   @relation(fields: [authorId], references: [id])
   authorId String

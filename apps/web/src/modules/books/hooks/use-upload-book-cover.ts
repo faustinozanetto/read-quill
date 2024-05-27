@@ -6,16 +6,15 @@ import { __URL__ } from '@modules/common/lib/common.constants';
 import { BookCoverImageUpload } from '../types/book-validations.types';
 import { BookUploadPostResponse } from '@modules/api/types/books-api.types';
 
+type UploadBookCoverMutationResult = UseMutationResult<BookUploadPostResponse, Error, UploadBookCoverData>;
+
 interface UploadBookCoverData {
   coverImage: BookCoverImageUpload;
 }
 
 export interface UseUploadBookCoverReturn {
-  uploadCover: Pick<
-    UseMutationResult<BookUploadPostResponse, Error, UploadBookCoverData>,
-    'mutateAsync'
-  >['mutateAsync'];
-  isLoading: UseMutationResult<BookUploadPostResponse, Error, UploadBookCoverData>['isLoading'];
+  uploadCover: UploadBookCoverMutationResult['mutateAsync'];
+  isLoading: UploadBookCoverMutationResult['isLoading'];
 }
 
 export const useUploadBookCover = (): UseUploadBookCoverReturn => {

@@ -72,6 +72,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<ThreadCo
       },
       data: {
         content,
+        isEdited: true,
       },
     });
 

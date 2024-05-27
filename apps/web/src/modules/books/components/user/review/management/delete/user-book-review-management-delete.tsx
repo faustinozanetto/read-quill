@@ -1,44 +1,19 @@
 import React from 'react';
-import { useToast, DeleteIcon } from '@read-quill/design-system';
-import { useMutation } from '@tanstack/react-query';
+import { DeleteIcon, useToast } from '@read-quill/design-system';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
-import { __URL__ } from '@modules/common/lib/common.constants';
 import ManagementDeleteObject from '@modules/common/components/management/management-delete-object';
-import { BookReviewDeleteResponse } from '@modules/api/types/books-api.types';
 import { useBookStore } from '@modules/books/state/book.slice';
+import { useDeleteBookReview } from '@modules/books/hooks/review/use-delete-book-review';
 
 const UserBookReviewManagementDelete: React.FC = () => {
-  const { toast } = useToast();
   const { queryClient } = useQueriesStore();
   const { book } = useBookStore();
+  const { toast } = useToast();
 
-  const { mutateAsync } = useMutation<BookReviewDeleteResponse, Error>({
-    mutationKey: [book?.id],
-    mutationFn: async () => {
-      try {
-        if (!book) return;
-        const url = new URL('/api/books/review', __URL__);
-        const body = JSON.stringify({
-          bookId: book.id,
-        });
-
-        const response = await fetch(url, { method: 'DELETE', body });
-        if (!response.ok) {
-          throw new Error('Could not delete book review!');
-        }
-
-        return response.json();
-      } catch (error) {
-        let errorMessage = 'Could not delete book review!';
-        if (error instanceof Error) errorMessage = error.message;
-
-        toast({ variant: 'error', content: errorMessage });
-      }
-    },
+  const { deleteReview } = useDeleteBookReview({
+    book,
     onSuccess: async (data) => {
-      if (!book) return;
-
-      if (data && data.success) {
+      if (data && data.success && book) {
         await queryClient.refetchQueries(['book-page', book.id]);
         toast({ variant: 'success', content: `Book review deleted successfully!` });
       }
@@ -46,7 +21,7 @@ const UserBookReviewManagementDelete: React.FC = () => {
   });
 
   return (
-    <ManagementDeleteObject label="Delete Review" onDeleted={mutateAsync} size="sm" variant="outline-destructive">
+    <ManagementDeleteObject label="Delete Review" onDeleted={deleteReview} size="sm" variant="outline-destructive">
       <DeleteIcon className="mr-2 stroke-current" />
       Delete
     </ManagementDeleteObject>

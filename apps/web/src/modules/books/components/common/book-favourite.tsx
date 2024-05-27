@@ -11,10 +11,8 @@ import {
   buttonVariants,
   useToast,
 } from '@read-quill/design-system';
-import { useMutation } from '@tanstack/react-query';
-import { __URL__ } from '@modules/common/lib/common.constants';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
-import { BookFavouritePostResponse } from '@modules/api/types/books-api.types';
+import { useChangeBookFavourite } from '@modules/books/hooks/favourite/use-change-book-favourite';
 
 interface BookFavouriteProps {
   book: Book;
@@ -26,28 +24,8 @@ const BookFavourite: React.FC<BookFavouriteProps> = (props) => {
   const { queryClient } = useQueriesStore();
   const { toast } = useToast();
 
-  const { mutateAsync, isLoading } = useMutation<BookFavouritePostResponse>({
-    mutationFn: async () => {
-      try {
-        const url = new URL('/api/books/favourite', __URL__);
-        const body = JSON.stringify({
-          bookId: book.id,
-          isFavourite: !book.isFavourite,
-        });
-
-        const response = await fetch(url, { method: 'POST', body });
-        if (!response.ok) {
-          throw new Error('Could not update book favourite!');
-        }
-
-        return response.json();
-      } catch (error) {
-        let errorMessage = 'Could not update book favourite!';
-        if (error instanceof Error) errorMessage = error.message;
-
-        toast({ variant: 'error', content: errorMessage });
-      }
-    },
+  const { changeFavourite, isLoading } = useChangeBookFavourite({
+    book,
     onSuccess: async (data) => {
       if (data && data.success) {
         await queryClient.refetchQueries(['book-page', book.id]);
@@ -69,7 +47,7 @@ const BookFavourite: React.FC<BookFavouriteProps> = (props) => {
           aria-label={label}
           className={buttonVariants({ size: 'icon', className: 'aspect-square' })}
           disabled={isLoading}
-          onClick={async () => mutateAsync()}
+          onClick={async () => await changeFavourite()}
         >
           {isLoading ? <LoadingIcon /> : book.isFavourite ? <HeartMinusIcon /> : <HeartPlusIcon />}
         </TooltipTrigger>

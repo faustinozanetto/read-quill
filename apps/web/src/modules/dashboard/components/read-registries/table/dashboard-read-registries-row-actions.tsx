@@ -31,9 +31,9 @@ const DashboardReadRegistriesRowActions: React.FC<DashboardReadRegistriesRowActi
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DashboardReadRegistryEdit row={row} />
+        <DashboardReadRegistryEdit readRegistry={row.original} />
         <DropdownMenuSeparator />
-        <DashboardReadRegistryDelete row={row} />
+        <DashboardReadRegistryDelete readRegistry={row.original} />
       </DropdownMenuContent>
     </DropdownMenu>
   );

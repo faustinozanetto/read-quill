@@ -1,5 +1,5 @@
 import { BookWithDetails } from '@modules/books/types/book.types';
-import type { Annotation, Book, Image } from '@read-quill/database';
+import type { Annotation, Book, Image, ReadRegistry } from '@read-quill/database';
 
 export interface UserBooksGetResponse {
   books: BookWithDetails[];
@@ -72,4 +72,9 @@ export interface BookPostResponse {
 
 export interface BookRatingPostResponse {
   success: boolean;
+}
+
+export interface BookReadRegistriesGetResponse {
+  readRegistries: ReadRegistry[];
+  pageCount: number;
 }

@@ -17,14 +17,15 @@ const variants = cva('aspect-square', {
 
 interface CommunityThreadAuthorAvatarProps extends VariantProps<typeof variants> {
   author: ThreadWithDetails['author'];
+  className?: string;
 }
 
 const CommunityThreadAuthorAvatar: React.FC<CommunityThreadAuthorAvatarProps> = (props) => {
-  const { author, size } = props;
+  const { author, size, className } = props;
 
   return (
     <UserAvatar
-      className={variants({ size })}
+      className={variants({ size, className })}
       image={author.image}
       alt={`Thread ${author.name} Author`}
       name={author.name}

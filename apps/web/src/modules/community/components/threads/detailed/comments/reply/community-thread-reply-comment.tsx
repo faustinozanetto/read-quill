@@ -13,14 +13,11 @@ import {
   useToast,
 } from '@read-quill/design-system';
 import CommunityThreadReplyCommentForm from './community-thread-reply-comment-form';
-import { ThreadCommentReplyPostResponse } from '@modules/api/types/community-api.types';
-import { __URL__ } from '@modules/common/lib/common.constants';
 
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
-import { useMutation } from '@tanstack/react-query';
 import { ThreadCommentWithAuthor } from '@modules/community/types/community.types';
-import { ReplyThreadCommentFormActionData } from '@modules/community/types/community-thread-comments-validations.types';
 import { useThreadStore } from '@modules/community/state/thread/thread.slice';
+import { useReplyThreadComment } from '@modules/community/hooks/threads/comments/use-reply-thread-comment';
 
 interface CommunityThreadReplyCommentProps {
   comment: ThreadCommentWithAuthor;
@@ -34,38 +31,13 @@ const CommunityThreadReplyComment: React.FC<CommunityThreadReplyCommentProps> = 
   const { queryClient } = useQueriesStore();
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const { mutateAsync } = useMutation<ThreadCommentReplyPostResponse, Error, ReplyThreadCommentFormActionData>({
-    mutationKey: ['thread-comment-reply', comment.id],
-    mutationFn: async (data) => {
-      try {
-        if (!thread) return;
-
-        const url = new URL('/api/community/thread/comment/reply', __URL__);
-        const body = JSON.stringify({
-          commentId: comment.id,
-          threadId: thread.id,
-          content: data.content,
-        });
-
-        const response = await fetch(url, { method: 'POST', body });
-        if (!response.ok) {
-          throw new Error('Could not create comment reply!');
-        }
-
-        return response.json();
-      } catch (error) {
-        let errorMessage = 'Could not create comment reply!';
-        if (error instanceof Error) errorMessage = error.message;
-
-        toast({ variant: 'error', content: errorMessage });
-      } finally {
-        setDialogOpen(false);
-      }
-    },
-    async onSuccess(data) {
+  const { replyComment } = useReplyThreadComment({
+    thread,
+    comment,
+    onSuccess: async (data) => {
       if (data && data.success && thread) {
         await queryClient.refetchQueries(['thread-comments', 0, thread.id]);
-
+        setDialogOpen(false);
         toast({ variant: 'success', content: `Reply created successfully!` });
       }
     },
@@ -86,7 +58,7 @@ const CommunityThreadReplyComment: React.FC<CommunityThreadReplyCommentProps> = 
           <DialogDescription>Add your reply here..</DialogDescription>
         </DialogHeader>
 
-        <CommunityThreadReplyCommentForm onSubmit={mutateAsync} />
+        <CommunityThreadReplyCommentForm onSubmit={replyComment} />
       </DialogContent>
     </Dialog>
   );
