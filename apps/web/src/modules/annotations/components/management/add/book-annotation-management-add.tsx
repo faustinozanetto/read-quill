@@ -8,23 +8,29 @@ import {
   DialogTitle,
   DialogDescription,
   PlusIcon,
+  useToast,
 } from '@read-quill/design-system';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { __URL__ } from '@modules/common/lib/common.constants';
 
 import BookAnnotationManagementAddForm from './book-annotation-management-add-form';
 import { useBookStore } from '@modules/books/state/book.slice';
-import { useBookAnnotationAdd } from '@modules/annotations/hooks/use-book-annotation-add';
+import { useCreateBookAnnotation } from '@modules/annotations/hooks/use-create-book-annotation';
 
 const BookAnnotationManagementAdd: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const { queryClient } = useQueriesStore();
   const { book } = useBookStore();
+  const { toast } = useToast();
 
-  const { addAnnotation } = useBookAnnotationAdd({
+  const { createAnnotation } = useCreateBookAnnotation({
+    book,
     onSuccess: async (data) => {
-      if (data.annotation && book) await queryClient.refetchQueries(['book-annotations', book.id]);
-      setDialogOpen(false);
+      if (data.annotation && book) {
+        await queryClient.refetchQueries(['book-annotations', book.id]);
+        setDialogOpen(false);
+        toast({ variant: 'success', content: `Book annotation added successfully!` });
+      }
     },
   });
 
@@ -43,7 +49,7 @@ const BookAnnotationManagementAdd: React.FC = () => {
           <DialogDescription>Add a annotation of the book.</DialogDescription>
         </DialogHeader>
 
-        <BookAnnotationManagementAddForm onSubmit={addAnnotation} />
+        <BookAnnotationManagementAddForm onSubmit={createAnnotation} />
       </DialogContent>
     </Dialog>
   );

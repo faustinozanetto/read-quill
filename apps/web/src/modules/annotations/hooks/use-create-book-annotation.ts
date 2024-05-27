@@ -1,29 +1,38 @@
 import { BookAnnotationPostResponse } from '@modules/api/types/books-api.types';
-import { useBookStore } from '@modules/books/state/book.slice';
 
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useToast } from '@read-quill/design-system';
 import { UseMutationOptions, UseMutationResult, useMutation } from '@tanstack/react-query';
 import { CreateAnnotationFormActionData } from '../types/annotation-validations.types';
+import { BookWithDetails } from '@modules/books/types/book.types';
 
-interface UseBookAnnotationAddReturn {
-  addAnnotation: UseMutationResult<BookAnnotationPostResponse, Error, CreateAnnotationFormActionData>['mutateAsync'];
+type CreateBookAnnotationMutationResult = UseMutationResult<
+  BookAnnotationPostResponse,
+  Error,
+  CreateAnnotationFormActionData
+>;
+type CreateBookAnnotationMutationParams = UseMutationOptions<
+  BookAnnotationPostResponse,
+  Error,
+  CreateAnnotationFormActionData
+>;
+
+interface UseCreateBookAnnotationReturn {
+  createAnnotation: CreateBookAnnotationMutationResult['mutateAsync'];
 }
 
-interface UseBookAnnotationAddParams {
-  onSuccess: NonNullable<
-    UseMutationOptions<BookAnnotationPostResponse, Error, CreateAnnotationFormActionData>['onSuccess']
-  >;
+interface UseCreateBookAnnotationParams {
+  book: BookWithDetails | null;
+  onSuccess: NonNullable<CreateBookAnnotationMutationParams['onSuccess']>;
 }
 
-export const useBookAnnotationAdd = (params: UseBookAnnotationAddParams): UseBookAnnotationAddReturn => {
-  const { onSuccess } = params;
+export const useCreateBookAnnotation = (params: UseCreateBookAnnotationParams): UseCreateBookAnnotationReturn => {
+  const { book, onSuccess } = params;
 
   const { toast } = useToast();
-  const { book } = useBookStore();
 
   const { mutateAsync } = useMutation<BookAnnotationPostResponse, Error, CreateAnnotationFormActionData>({
-    mutationKey: ['book-annotation-add', book?.id],
+    mutationKey: ['create-book-annotation', book?.id],
     mutationFn: async (data) => {
       if (!book) return;
 
@@ -40,21 +49,13 @@ export const useBookAnnotationAdd = (params: UseBookAnnotationAddParams): UseBoo
 
       return response.json();
     },
-    onSuccess: async (data, variables, context) => {
-      if (!book) return;
-
-      if (data && data.annotation) {
-        onSuccess(data, variables, context);
-
-        toast({ variant: 'success', content: `Book annotation added successfully!` });
-      }
-    },
+    onSuccess,
     onError(error) {
       toast({ variant: 'error', content: error.message });
     },
   });
 
   return {
-    addAnnotation: mutateAsync,
+    createAnnotation: mutateAsync,
   };
 };

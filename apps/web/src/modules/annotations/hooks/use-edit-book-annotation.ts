@@ -1,5 +1,4 @@
 import { BookAnnotationPatchResponse } from '@modules/api/types/books-api.types';
-import { useBookStore } from '@modules/books/state/book.slice';
 
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useToast } from '@read-quill/design-system';
@@ -7,24 +6,33 @@ import { UseMutationOptions, UseMutationResult, useMutation } from '@tanstack/re
 import { EditAnnotationFormActionData } from '../types/annotation-validations.types';
 import { Annotation } from '@read-quill/database';
 
-interface UseBookAnnotationEditReturn {
-  editAnnotation: UseMutationResult<BookAnnotationPatchResponse, Error, EditAnnotationFormActionData>['mutateAsync'];
+type EditBookAnnotationMutationResult = UseMutationResult<
+  BookAnnotationPatchResponse,
+  Error,
+  EditAnnotationFormActionData
+>;
+type EditBookAnnotationMutationParams = UseMutationOptions<
+  BookAnnotationPatchResponse,
+  Error,
+  EditAnnotationFormActionData
+>;
+
+interface UseEditBookAnnotationReturn {
+  editAnnotation: EditBookAnnotationMutationResult['mutateAsync'];
 }
 
-interface UseBookAnnotationEditParams {
+interface UseEditBookAnnotationParams {
   annotation: Annotation;
-  onSuccess: NonNullable<
-    UseMutationOptions<BookAnnotationPatchResponse, Error, EditAnnotationFormActionData>['onSuccess']
-  >;
+  onSuccess: NonNullable<EditBookAnnotationMutationParams['onSuccess']>;
 }
 
-export const useBookAnnotationEdit = (params: UseBookAnnotationEditParams): UseBookAnnotationEditReturn => {
+export const useEditBookAnnotation = (params: UseEditBookAnnotationParams): UseEditBookAnnotationReturn => {
   const { annotation, onSuccess } = params;
 
   const { toast } = useToast();
 
   const { mutateAsync } = useMutation<BookAnnotationPatchResponse, Error, EditAnnotationFormActionData>({
-    mutationKey: ['book-annotation-edit', annotation.id],
+    mutationKey: ['edit-book-annotation', annotation.id],
     mutationFn: async (data) => {
       const url = new URL('/api/annotations', __URL__);
       const body = JSON.stringify({
@@ -39,13 +47,7 @@ export const useBookAnnotationEdit = (params: UseBookAnnotationEditParams): UseB
 
       return response.json();
     },
-    onSuccess: async (data, variables, context) => {
-      if (data && data.annotation) {
-        onSuccess(data, variables, context);
-
-        toast({ variant: 'success', content: `Book annotation edited successfully!` });
-      }
-    },
+    onSuccess,
     onError(error) {
       toast({ variant: 'error', content: error.message });
     },
