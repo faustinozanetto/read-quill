@@ -11,6 +11,7 @@ import DashboardBooksProgressFiltering from './filtering/dashboard-books-progres
 interface DashboardBooksProgressFeedProps extends PaginationControlsProps {
   booksProgress: DashboardBooksProgressGetResponse['booksProgress'];
   renderPlaceholder: () => React.ReactNode;
+  renderNoBooks: () => React.ReactNode;
 }
 
 const DashboardBooksProgressFeed: React.FC<DashboardBooksProgressFeedProps> = (props) => {
@@ -24,6 +25,7 @@ const DashboardBooksProgressFeed: React.FC<DashboardBooksProgressFeedProps> = (p
     previousPage,
     setPageIndex,
     renderPlaceholder,
+    renderNoBooks,
   } = props;
 
   const filterFunctions: UseFilterFilteringFunctions<DashboardBooksProgressGetResponse['booksProgress'][0]> = {
@@ -84,6 +86,7 @@ const DashboardBooksProgressFeed: React.FC<DashboardBooksProgressFeedProps> = (p
               })}
               {renderPlaceholder()}
             </div>
+            {renderNoBooks()}
             <PaginationControls
               getCanNextPage={getCanNextPage}
               getCanPreviousPage={getCanPreviousPage}

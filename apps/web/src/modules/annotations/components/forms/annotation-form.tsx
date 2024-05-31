@@ -25,7 +25,7 @@ const AnnotationForm = <T extends FieldValues>(props: AnnotationFormProps<T>) =>
       }}
       {...formProps}
     >
-      {(currentStep) => (
+      {(form, currentStep) => (
         <>
           {currentStep === 0 && <AnnotationFormsTitle />}
           {currentStep === 1 && <AnnotationFormsChapter />}

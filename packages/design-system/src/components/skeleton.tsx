@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { cn } from '..';
+import { cn } from '../lib/design-system.lib';
 
 export type SkeletonProps = React.ButtonHTMLAttributes<HTMLDivElement>;
 

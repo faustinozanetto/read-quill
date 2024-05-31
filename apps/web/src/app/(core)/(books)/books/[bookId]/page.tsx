@@ -18,8 +18,6 @@ export async function generateMetadata({ params }: UserBookPageProps, parent: Re
   const book = await prisma.book.findUnique({ where: { id: bookId }, include: { image: true } });
   if (!book) return {};
 
-  const previousImages = (await parent).openGraph?.images || [];
-
   const bookImage = getImagePublicUrl('BookCovers', book.image.path);
   const title = `${book.name}, ${book.author}`;
 
@@ -27,7 +25,7 @@ export async function generateMetadata({ params }: UserBookPageProps, parent: Re
     title,
     openGraph: {
       title,
-      images: [bookImage, ...previousImages],
+      images: [bookImage],
     },
   };
 }

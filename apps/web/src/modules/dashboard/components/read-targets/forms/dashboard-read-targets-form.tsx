@@ -25,7 +25,7 @@ const DashboardReadTargetsForm = <T extends FieldValues>(props: DashboardReadTar
       }}
       {...formProps}
     >
-      {(currentStep) => (
+      {(form, currentStep) => (
         <>
           {currentStep === 0 && <DashboardReadTargetsFormDaily />}
           {currentStep === 1 && <DashboardReadTargetsFormWeekly />}

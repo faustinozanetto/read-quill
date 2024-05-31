@@ -1,7 +1,8 @@
 import { forwardRef } from 'react';
-import { cn } from '../..';
+
 import type { BaseIconProps } from './base-icon';
 import { iconVariants } from './base-icon';
+import { cn } from '../../lib/design-system.lib';
 
 export type EditIconProps = BaseIconProps;
 

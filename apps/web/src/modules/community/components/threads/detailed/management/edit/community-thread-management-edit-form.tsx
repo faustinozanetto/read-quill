@@ -63,7 +63,7 @@ const CommunityThreadManagementEditForm: React.FC<CommunityThreadManagementEditF
         );
       }}
     >
-      {(currentStep) => (
+      {(form, currentStep) => (
         <>
           {currentStep === 0 && <ThreadFormsTitle />}
           {currentStep === 1 && <ThreadFormsKeywords />}

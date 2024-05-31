@@ -1,5 +1,10 @@
 import * as React from 'react';
-import { Badge, Button, Input, PlusIcon, XIcon, cn } from '..';
+
+import { cn } from '../lib/design-system.lib';
+import { Button } from './button';
+import { Badge } from './badge';
+import { XIcon, PlusIcon } from './icons';
+import { Input } from './input';
 
 interface MultiEntryEntryProps {
   value: string;

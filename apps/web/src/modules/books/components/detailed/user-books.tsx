@@ -55,18 +55,16 @@ const UserBooks: React.FC<UserBooksProps> = (props) => {
                 ))}
               </div>
             ) : null}
+
+            {!(isFetching || isLoading) && data.books.length === 0 ? (
+              <p className="m-auto">
+                Let&apos;s build your book collection! Click the{' '}
+                <span className="text-primary text-center font-bold underline">Create Book</span> button to get started.
+              </p>
+            ) : null}
           </UserBooksFeed>
         </div>
       </FilterProvider>
-
-      {!(isFetching || isLoading) && data.books.length === 0 ? (
-        <div className="rounded-lg p-4 shadow border space-y-4">
-          <p>
-            Let&apos;s build your book collection! Click the{' '}
-            <span className="text-primary font-bold underline">Create Book</span> button to get started.
-          </p>
-        </div>
-      ) : null}
     </div>
   );
 };

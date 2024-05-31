@@ -33,9 +33,7 @@ export * from './components/slider';
 export * from './components/switch';
 export * from './components/radio-group';
 export * from './components/separator';
-
+export * from './components/tabs';
+export * from './lib/design-system.lib';
 // Hook Expors
 export * from './hooks/use-toast';
-
-// Lib Exports
-export * from './lib/design-system.lib';

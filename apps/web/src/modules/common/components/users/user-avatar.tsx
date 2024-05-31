@@ -1,9 +1,10 @@
+'use client';
 import React from 'react';
 
 import Image, { ImageProps } from 'next/image';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '@read-quill/design-system';
 import { User } from '@read-quill/database';
+import { cn } from '@read-quill/design-system';
 
 const variants = cva('aspect-square', {
   variants: {

@@ -28,7 +28,7 @@ const BookForm = <T extends FieldValues>(props: BookFormProps<T>) => {
       }}
       {...formProps}
     >
-      {(currentStep) => (
+      {(form, currentStep) => (
         <>
           {currentStep === 0 && (
             <>
@@ -36,11 +36,7 @@ const BookForm = <T extends FieldValues>(props: BookFormProps<T>) => {
               <BookFormsAuthor />
             </>
           )}
-          {currentStep === 1 && (
-            <>
-              <BookFormsCoverImage />
-            </>
-          )}
+          {currentStep === 1 && <BookFormsCoverImage />}
           {currentStep === 2 && (
             <>
               <BookFormsLanguage />

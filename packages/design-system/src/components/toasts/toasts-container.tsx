@@ -4,9 +4,10 @@ import React from 'react';
 import { AnimatePresence } from 'framer-motion';
 import type { VariantProps } from 'class-variance-authority';
 import { cva } from 'class-variance-authority';
-import { cn } from '../..';
+
 import { useToastContext } from '../../hooks/use-toast-context';
 import Toast from './toast';
+import { cn } from '../../lib/design-system.lib';
 
 export const toastContainerVariants = cva('pointer-events-none fixed z-[999] flex flex-col w-full', {
   variants: {

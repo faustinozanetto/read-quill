@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { cn } from '../..';
+import { cn } from '../../lib/design-system.lib';
 import type { BaseIconProps } from './base-icon';
 import { iconVariants } from './base-icon';
 

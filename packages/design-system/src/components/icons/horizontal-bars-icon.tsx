@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 import type { BaseIconProps } from './base-icon';
 import { iconVariants } from './base-icon';
-import { cn } from '../..';
+import { cn } from '../../lib/design-system.lib';
 
 export type HorizontalBarsIconProps = BaseIconProps;
 

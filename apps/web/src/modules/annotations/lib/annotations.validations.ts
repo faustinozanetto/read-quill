@@ -34,17 +34,17 @@ const createBookAnnotationValidationSchemaApi = createBookAnnotationValidationSc
   bookId: BOOK_ATTRIBUTES_VALIDATIONS.id,
 });
 
-export const editBookAnnotationValidationSchemaBase = z.object({
+const editBookAnnotationValidationSchemaBase = z.object({
   title: ANNOATION_ATTRIBUTES_VALIDATIONS.title,
   chapter: ANNOATION_ATTRIBUTES_VALIDATIONS.chapter,
   content: ANNOATION_ATTRIBUTES_VALIDATIONS.content,
 });
 
-export const editBookAnnotationValidationSchemaApi = editBookAnnotationValidationSchemaBase.extend({
+const editBookAnnotationValidationSchemaApi = editBookAnnotationValidationSchemaBase.extend({
   annotationId: ANNOATION_ATTRIBUTES_VALIDATIONS.id,
 });
 
-export const deleteBookAnnotationValidationSchemaBase = z.object({
+const deleteBookAnnotationValidationSchemaBase = z.object({
   annotationId: ANNOATION_ATTRIBUTES_VALIDATIONS.id,
 });
 

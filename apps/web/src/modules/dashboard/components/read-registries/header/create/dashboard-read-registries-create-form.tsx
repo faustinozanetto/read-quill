@@ -54,7 +54,7 @@ const DashboardReadRegistriesCreateForm: React.FC<DashboardReadRegistriesCreateF
         );
       }}
     >
-      {(currentStep) => (
+      {(form, currentStep) => (
         <>
           {currentStep === 0 && <DashboardReadRegistriesFormPagesRead />}
           {currentStep === 1 && <DashboardReadRegistriesFormBook booksNames={data.booksNames} />}

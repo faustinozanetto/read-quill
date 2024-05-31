@@ -1,7 +1,11 @@
+'use client';
+
 import * as React from 'react';
 import { useMemo } from 'react';
-import { Button, DeleteIcon, FileIcon } from '..';
+
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tooltip';
+import { DeleteIcon, FileIcon } from './icons';
+import { Button } from './button';
 
 interface FileInputEntryProps {
   file: File;

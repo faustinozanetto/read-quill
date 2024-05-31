@@ -2,7 +2,8 @@
 
 import * as React from 'react';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
-import { XIcon, cn } from '..';
+import { cn } from '../lib/design-system.lib';
+import { XIcon } from './icons';
 
 const Dialog = DialogPrimitive.Root;
 

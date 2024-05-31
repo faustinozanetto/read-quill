@@ -3,7 +3,7 @@
 import React from 'react';
 import type { Table as TableType } from '@tanstack/react-table';
 import { flexRender } from '@tanstack/react-table';
-import { DataTableViewOptions, Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '../..';
+import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '../..';
 
 interface DataTableProps<TData> {
   table: TableType<TData>;

@@ -57,7 +57,7 @@ const CreateThreadForm: React.FC<CreateThreadFormProps> = (props) => {
         );
       }}
     >
-      {(currentStep) => (
+      {(form, currentStep) => (
         <>
           {currentStep === 0 && <ThreadFormsTitle />}
           {currentStep === 1 && <ThreadFormsKeywords />}

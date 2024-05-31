@@ -2,7 +2,7 @@
 
 import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
 import type { Table } from '@tanstack/react-table';
-import { AdjustmentsIcon, Button } from '../..';
+
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -10,6 +10,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from '../dropdown';
+import { Button } from '../button';
+import { AdjustmentsIcon } from '../icons';
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;

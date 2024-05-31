@@ -56,20 +56,22 @@ const DashboardBooksProgress: React.FC = () => {
                   <Skeleton className="h-48 w-full" key={`dashboard-books-progress-placeholder-${i}`} />
                 ));
             }}
+            renderNoBooks={() => {
+              if (!(isFetching || isLoading) && data.booksProgress.length === 0)
+                return (
+                  <DashboardNoDataMessage>
+                    <p>
+                      Start by adding your first book to track progress{' '}
+                      <Link className="font-bold text-primary underline" href="/books?add-book-modal=true">
+                        Here
+                      </Link>
+                    </p>
+                  </DashboardNoDataMessage>
+                );
+            }}
           />
         </div>
       </FilterProvider>
-
-      {!(isFetching || isLoading) && data.booksProgress.length === 0 ? (
-        <DashboardNoDataMessage>
-          <p>
-            Start by adding your first book to track progress{' '}
-            <Link className="font-bold text-primary underline" href="/books?add-book-modal=true">
-              Here
-            </Link>
-          </p>
-        </DashboardNoDataMessage>
-      ) : null}
     </div>
   );
 };

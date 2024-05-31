@@ -1,7 +1,13 @@
+import UserSettings from '@modules/users/components/settings/user-settings';
+import { Metadata } from 'next';
 import React from 'react';
 
+export const metadata: Metadata = {
+  title: 'Account Settings',
+};
+
 const SettingsPage: React.FC = async () => {
-  return <div className="container my-4"></div>;
+  return <UserSettings />;
 };
 
 export default SettingsPage;

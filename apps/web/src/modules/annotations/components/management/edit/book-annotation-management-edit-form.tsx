@@ -2,11 +2,12 @@ import React from 'react';
 
 import { Button, PencilIcon, cn, LoadingIcon } from '@read-quill/design-system';
 import type { Annotation } from '@read-quill/database';
-import { editBookAnnotationValidationSchemaBase } from '@modules/annotations/lib/annotations.validations';
+
 import AnnotationForm from '../../forms/annotation-form';
 import { MultiStepFormStep } from '@modules/forms/hooks/use-multi-step-form';
 import { EditAnnotationFormActionData } from '@modules/annotations/types/annotation-validations.types';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ANNOTATION_ACTIONS_VALIDATIONS_FORMS } from '@modules/annotations/lib/annotations.validations';
 
 const STEPS_DATA: MultiStepFormStep<EditAnnotationFormActionData>[] = [
   {
@@ -34,7 +35,7 @@ const BookAnnotationManagementEditForm: React.FC<BookAnnotationManagementEditFor
   return (
     <AnnotationForm
       data={STEPS_DATA}
-      resolver={zodResolver(editBookAnnotationValidationSchemaBase)}
+      resolver={zodResolver(ANNOTATION_ACTIONS_VALIDATIONS_FORMS.EDIT)}
       defaultValues={annotation}
       onSubmit={onSubmit}
     >

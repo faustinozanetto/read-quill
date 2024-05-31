@@ -2,7 +2,8 @@
 
 import * as React from 'react';
 import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
-import { CheckIcon, cn } from '..';
+import { cn } from '../lib/design-system.lib';
+import { CheckIcon } from './icons';
 
 const RadioGroup = React.forwardRef<
   React.ElementRef<typeof RadioGroupPrimitive.Root>,
