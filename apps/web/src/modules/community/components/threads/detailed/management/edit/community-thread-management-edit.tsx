@@ -1,5 +1,7 @@
+'use client';
+
 import React, { useState } from 'react';
-import { ThreadWithDetails } from '@modules/community/types/community.types';
+
 import {
   Button,
   Dialog,
@@ -11,52 +13,25 @@ import {
   EditIcon,
   useToast,
 } from '@read-quill/design-system';
-import { useMutation } from '@tanstack/react-query';
-import { __URL__ } from '@modules/common/lib/common.constants';
 
-import { CommunityThreadEditFormData } from './community-thread-management-edit-form';
-import { ThreadCommentPatchResponse } from '@modules/api/types/community-api.types';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import CommunityThreadManagementEditForm from './community-thread-management-edit-form';
+import { useThreadStore } from '@modules/community/state/thread/thread.slice';
+import { useEditThread } from '@modules/community/hooks/threads/use-edit-thread';
 
-interface CommunityThreadManagementEditProps {
-  thread: ThreadWithDetails;
-}
-
-const CommunityThreadManagementEdit: React.FC<CommunityThreadManagementEditProps> = (props) => {
-  const { thread } = props;
-
-  const { toast } = useToast();
-  const { queryClient } = useQueriesStore();
+const CommunityThreadManagementEdit: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const { mutateAsync } = useMutation({
-    mutationFn: async (data: CommunityThreadEditFormData) => {
-      try {
-        const url = new URL('/api/community/thread', __URL__);
-        const body = JSON.stringify({
-          threadId: thread.id,
-          ...data,
-        });
+  const { toast } = useToast();
+  const { thread } = useThreadStore();
+  const { queryClient } = useQueriesStore();
 
-        const response = await fetch(url, { method: 'PATCH', body });
-        if (!response.ok) {
-          throw new Error('Could not update thread!');
-        }
-
-        return response.json() as Promise<ThreadCommentPatchResponse>;
-      } catch (error) {
-        let errorMessage = 'Could not update thread!';
-        if (error instanceof Error) errorMessage = error.message;
-
-        toast({ variant: 'error', content: errorMessage });
-      } finally {
-        setDialogOpen(false);
-      }
-    },
-    onSuccess(data) {
+  const { editThread } = useEditThread({
+    thread,
+    onSuccess: async (data) => {
       if (data && data.success && thread) {
-        queryClient.invalidateQueries(['community-thread', thread.id]);
+        await queryClient.refetchQueries(['thread', thread.id]);
+        setDialogOpen(false);
         toast({ variant: 'success', content: `Thread updated successfully!` });
       }
     },
@@ -77,7 +52,7 @@ const CommunityThreadManagementEdit: React.FC<CommunityThreadManagementEditProps
           <DialogDescription>Update your thread details here..</DialogDescription>
         </DialogHeader>
 
-        <CommunityThreadManagementEditForm onSubmit={mutateAsync} thread={thread} />
+        {thread && <CommunityThreadManagementEditForm onSubmit={editThread} thread={thread} />}
       </DialogContent>
     </Dialog>
   );

@@ -11,6 +11,7 @@ import {
   AlertDialogFooter,
   AlertDialogCancel,
   AlertDialogAction,
+  buttonVariants,
 } from '@read-quill/design-system';
 
 interface ManagementDeleteObjectProps extends Omit<ButtonProps, 'onClick'> {
@@ -40,7 +41,9 @@ const ManagementDeleteObject: React.FC<ManagementDeleteObjectProps> = (props) =>
 
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={onDeleted}>Continue</AlertDialogAction>
+          <AlertDialogAction className={buttonVariants({ variant: 'destructive' })} onClick={onDeleted}>
+            Continue
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { FavouriteThreadsCommunityGetResponse } from '@modules/api/types/community-api.types';
 import { ThreadWithDetails } from '@modules/community/types/community.types.ts';
+import { getThreadViews } from '@modules/community/lib/community-thread-views.lib';
 
 // /api/community/threads/favourite GET : Gets user favourite community threads
 export async function GET(request: NextRequest): Promise<NextResponse<FavouriteThreadsCommunityGetResponse>> {
@@ -35,9 +36,12 @@ export async function GET(request: NextRequest): Promise<NextResponse<FavouriteT
     const hasMore = threads.length === pageSize;
     const nextCursor = hasMore ? threads[threads.length - 1].id : null;
 
-    const mappedThreads: ThreadWithDetails[] = threads.map((thread) => {
+    const threadViewsPromises = threads.map((thread) => getThreadViews(thread.id));
+    const threadViews = await Promise.all(threadViewsPromises);
+
+    const mappedThreads: ThreadWithDetails[] = threads.map((thread, index) => {
       const { comments, ...rest } = thread;
-      return { ...rest, commentsCount: comments.length };
+      return { ...rest, commentsCount: comments.length, views: threadViews[index] };
     });
 
     return NextResponse.json({ threads: mappedThreads, nextCursor, hasMore });

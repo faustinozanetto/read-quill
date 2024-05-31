@@ -16,4 +16,5 @@ export const THREADS_SORT_BY: Partial<Record<NestedKeyOf<ThreadWithDetails>, str
   createdAt: 'Created At',
   commentsCount: 'Comments Count',
   votes: 'Votes',
+  'views.total': 'Views Count',
 };

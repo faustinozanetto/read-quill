@@ -1,5 +1,5 @@
 {
   "extends": "@read-quill/typescript-config/base.json",
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "tsup.config.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "tsup.config.ts", "eslint.config.mjs"],
   "exclude": ["node_modules"]
 }

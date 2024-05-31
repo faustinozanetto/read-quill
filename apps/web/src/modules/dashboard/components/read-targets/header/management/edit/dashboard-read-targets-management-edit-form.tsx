@@ -5,8 +5,25 @@ import { editReadTargetsValidationSchema } from '@modules/dashboard/validations/
 import type { DashboardReadTargetsGetResponse } from '@modules/api/types/dashboard-api.types';
 
 import DashboardReadTargetsForm from '../../../forms/dashboard-read-targets-form';
+import { MultiStepFormStep } from '@modules/forms/hooks/use-multi-step-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 export type DashboardReadTargetsManagementEditFormData = z.infer<typeof editReadTargetsValidationSchema>;
+
+const STEPS_DATA: MultiStepFormStep<DashboardReadTargetsManagementEditFormData>[] = [
+  {
+    title: 'Daily Target',
+    fields: ['daily'],
+  },
+  {
+    title: 'Weekly Target',
+    fields: ['weekly'],
+  },
+  {
+    title: 'Monthly Target',
+    fields: ['monthly'],
+  },
+];
 
 interface DashboardReadTargetsManagementEditFormProps {
   initialData: NonNullable<DashboardReadTargetsGetResponse['result']>['targetReadTargets'];
@@ -17,7 +34,12 @@ const DashboardReadTargetsManagementEditForm: React.FC<DashboardReadTargetsManag
   const { initialData, onSubmit } = props;
 
   return (
-    <DashboardReadTargetsForm initialData={initialData} resolver={editReadTargetsValidationSchema} onSubmit={onSubmit}>
+    <DashboardReadTargetsForm
+      data={STEPS_DATA}
+      defaultValues={initialData}
+      resolver={zodResolver(editReadTargetsValidationSchema)}
+      onSubmit={onSubmit}
+    >
       {(form, getCanSubmit) => {
         const isFormLoading = form.formState.isSubmitting;
 

@@ -1,7 +1,9 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { createThreadCommentValidationBaseSchema } from '@modules/community/validations/community-comment.validations';
+import { CreateThreadCommentFormActionData } from '@modules/community/types/community-thread-comments-validations.types';
+import { THREAD_COMMENT_ACTIONS_VALIDATIONS_FORMS } from '@modules/community/validations/community-comment.validations';
+
 import {
   Button,
   Form,
@@ -17,19 +19,16 @@ import {
 } from '@read-quill/design-system';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-
-export type CommunityThreadWriteCommentFormData = z.infer<typeof createThreadCommentValidationBaseSchema>;
 
 interface CommunityThreadWriteCommentFormProps {
-  onSubmit: (data: CommunityThreadWriteCommentFormData) => void;
+  onSubmit: (data: CreateThreadCommentFormActionData) => void;
 }
 
 const CommunityThreadWriteCommentForm: React.FC<CommunityThreadWriteCommentFormProps> = (props) => {
   const { onSubmit } = props;
 
-  const form = useForm<CommunityThreadWriteCommentFormData>({
-    resolver: zodResolver(createThreadCommentValidationBaseSchema),
+  const form = useForm<CreateThreadCommentFormActionData>({
+    resolver: zodResolver(THREAD_COMMENT_ACTIONS_VALIDATIONS_FORMS.CREATE),
     mode: 'onBlur',
   });
 

@@ -17,11 +17,11 @@ const BookFormsCoverImage: React.FC = () => {
     <FormField
       control={form.control}
       name="coverImage"
-      render={({ field }) => (
+      render={({ field: { value = [], ...rest } }) => (
         <FormItem className="col-span-2">
           <FormLabel>Cover Image</FormLabel>
           <FormControl>
-            <FileInput {...field} />
+            <FileInput multiple={false} value={value} accept="image/*" {...rest} />
           </FormControl>
           <FormDescription>The cover of the book.</FormDescription>
           <FormMessage />

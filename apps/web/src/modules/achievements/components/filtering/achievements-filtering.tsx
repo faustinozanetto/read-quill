@@ -36,7 +36,7 @@ const AchievementsFiltering = <TData extends Achievement>(
   };
 
   return (
-    <div className="flex flex-col gap-4 h-full">
+    <div className="flex flex-col gap-2 h-full">
       <FiltersSortBy
         onResetFilter={resetSort}
         onSortByChanged={handleSortByChange}
@@ -49,7 +49,7 @@ const AchievementsFiltering = <TData extends Achievement>(
       {children}
       <Button
         aria-label="Reset Filters"
-        className="w-full"
+        className="w-full mt-auto"
         onClick={resetFilters}
         size="sm"
         variant="ghost-destructive"

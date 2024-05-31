@@ -7,52 +7,30 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-  useToast,
   PlusIcon,
+  useToast,
 } from '@read-quill/design-system';
-import { useMutation } from '@tanstack/react-query';
-import { useBookStore } from '@modules/books/state/book.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import type { BookAnnotationManagementAddFormData } from './book-annotation-management-add-form';
+
 import BookAnnotationManagementAddForm from './book-annotation-management-add-form';
+import { useBookStore } from '@modules/books/state/book.slice';
+import { useCreateBookAnnotation } from '@modules/annotations/hooks/use-create-book-annotation';
 
 const BookAnnotationManagementAdd: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const { toast } = useToast();
   const { queryClient } = useQueriesStore();
   const { book } = useBookStore();
+  const { toast } = useToast();
 
-  const { mutateAsync } = useMutation({
-    mutationFn: async (data: BookAnnotationManagementAddFormData) => {
-      if (!book) return;
-
-      try {
-        const url = new URL('/api/books/annotations', __URL__);
-        const body = JSON.stringify({
-          bookId: book.id,
-          ...data,
-        });
-
-        const response = await fetch(url, { method: 'POST', body });
-        if (!response.ok) {
-          throw new Error('Could not add book annotation!');
-        }
-
-        toast({ variant: 'success', content: `Book annotation added successfully!` });
-      } catch (error) {
-        let errorMessage = 'Could not add book annotation!';
-        if (error instanceof Error) errorMessage = error.message;
-
-        toast({ variant: 'error', content: errorMessage });
-      } finally {
+  const { createAnnotation } = useCreateBookAnnotation({
+    book,
+    onSuccess: async (data) => {
+      if (data.annotation && book) {
+        await queryClient.refetchQueries(['book-annotations', book.id]);
         setDialogOpen(false);
+        toast({ variant: 'success', content: `Book annotation added successfully!` });
       }
-    },
-    onSuccess: async () => {
-      if (!book) return;
-
-      await queryClient.invalidateQueries(['book-annotations', book.id]);
     },
   });
 
@@ -71,7 +49,7 @@ const BookAnnotationManagementAdd: React.FC = () => {
           <DialogDescription>Add a annotation of the book.</DialogDescription>
         </DialogHeader>
 
-        <BookAnnotationManagementAddForm onSubmit={mutateAsync} />
+        <BookAnnotationManagementAddForm onSubmit={createAnnotation} />
       </DialogContent>
     </Dialog>
   );

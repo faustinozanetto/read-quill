@@ -1,8 +1,6 @@
 import React from 'react';
 import { Button, ClearFilterIcon, Label, RadioGroupItem, SelectItem } from '@read-quill/design-system';
-import { ResetIcon } from '@read-quill/design-system/src/components/icons';
 import { useFilterActions } from '@modules/filters/hooks/use-filter-actions';
-import type { Book } from '@read-quill/database';
 import type { NestedKeyOf, UseFilterReturn } from '@modules/filters/hooks/use-filter-data';
 import FiltersSortBy from '@modules/filters/components/filters-sort-by';
 import { BOOKS_FAVOURITE_OPTIONS, BOOKS_SORT_BY } from '@modules/books/lib/book-filtering.lib';
@@ -10,22 +8,23 @@ import FilterTextInput from '@modules/filters/components/inputs/filter-text-inpu
 import FilterSelectInput from '@modules/filters/components/inputs/filter-select-input';
 import { BOOK_LANGUAGES } from '@modules/books/lib/book.constants';
 import FilterRadioGroupInput from '@modules/filters/components/inputs/filter-radio-group-input';
+import { BookWithDetails } from '@modules/books/types/book.types';
 
 interface UserBooksFilteringProps {
   /**
    * Filter sort data.
    */
-  sort: UseFilterReturn<Book>['sort'];
+  sort: UseFilterReturn<BookWithDetails>['sort'];
   /**
    * Filter filters data.
    */
-  filters: UseFilterReturn<Book>['filters'];
+  filters: UseFilterReturn<BookWithDetails>['filters'];
 }
 
 const UserBooksFiltering: React.FC<UserBooksFilteringProps> = (props) => {
   const { filters, sort } = props;
 
-  const { updateFilterValue, updateSort, resetFilter, resetFilters, resetSort } = useFilterActions<Book>();
+  const { updateFilterValue, updateSort, resetFilter, resetFilters, resetSort } = useFilterActions<BookWithDetails>();
 
   const handleFilterNameChange = (value: string): void => {
     updateFilterValue('name', value);
@@ -43,7 +42,7 @@ const UserBooksFiltering: React.FC<UserBooksFilteringProps> = (props) => {
     updateFilterValue('isFavourite', value);
   };
 
-  const handleSortByChange = (value: NestedKeyOf<Book>, ascending: boolean): void => {
+  const handleSortByChange = (value: NestedKeyOf<BookWithDetails>, ascending: boolean): void => {
     updateSort({ property: value, ascending });
   };
 

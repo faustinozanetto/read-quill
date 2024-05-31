@@ -10,13 +10,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuGroup,
   Button,
+  ButtonProps,
 } from '@read-quill/design-system';
 
-const UserBookManagement: React.FC = () => {
+interface UserBookManagementProps extends ButtonProps {}
+
+const UserBookManagement: React.FC<UserBookManagementProps> = (props) => {
+  const { size = 'icon', variant = 'outline', ...rest } = props;
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size="icon" variant="outline">
+        <Button size={size} variant={variant} {...rest}>
           <ManageIcon />
         </Button>
       </DropdownMenuTrigger>

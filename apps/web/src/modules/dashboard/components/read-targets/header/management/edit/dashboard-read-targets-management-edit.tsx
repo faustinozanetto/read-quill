@@ -10,12 +10,10 @@ import {
   EditIcon,
   useToast,
 } from '@read-quill/design-system';
-import { useMutation } from '@tanstack/react-query';
-import { __URL__ } from '@modules/common/lib/common.constants';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import type { DashboardReadTargetsGetResponse } from '@modules/api/types/dashboard-api.types';
 import DashboardReadTargetsEditForm from './dashboard-read-targets-management-edit-form';
-import type { DashboardReadTargetsManagementEditFormData } from './dashboard-read-targets-management-edit-form';
+import { useEditReadTargets } from '@modules/dashboard/hooks/read-targets/use-edit-read-targets';
 
 interface DashboardReadTargetsManagementEditProps {
   readTargets: NonNullable<DashboardReadTargetsGetResponse['result']>;
@@ -28,31 +26,13 @@ const DashboardReadTargetsManagementEdit: React.FC<DashboardReadTargetsManagemen
   const { toast } = useToast();
   const { queryClient } = useQueriesStore();
 
-  const { mutateAsync } = useMutation({
-    mutationFn: async (data: DashboardReadTargetsManagementEditFormData) => {
-      try {
-        const url = new URL('/api/dashboard/read-targets', __URL__);
-        const body = JSON.stringify({
-          ...data,
-        });
-
-        const response = await fetch(url, { method: 'PATCH', body });
-        if (!response.ok) {
-          throw new Error('Could not update targets!');
-        }
-
-        toast({ variant: 'success', content: 'Read Targets edited successfully!' });
-      } catch (error) {
-        let errorMessage = 'Could not create edited targets!';
-        if (error instanceof Error) errorMessage = error.message;
-
-        toast({ variant: 'error', content: errorMessage });
-      } finally {
+  const { editReadTargets } = useEditReadTargets({
+    onSuccess: async (data) => {
+      if (data.targetReadTargets) {
+        await queryClient.refetchQueries(['dashboard-read-targets']);
         setDialogOpen(false);
+        toast({ variant: 'success', content: 'Read Targets edited successfully!' });
       }
-    },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries(['dashboard-read-targets']);
     },
   });
 
@@ -71,7 +51,7 @@ const DashboardReadTargetsManagementEdit: React.FC<DashboardReadTargetsManagemen
           <DialogDescription>Edit your read targets here.</DialogDescription>
         </DialogHeader>
 
-        <DashboardReadTargetsEditForm initialData={readTargets.targetReadTargets} onSubmit={mutateAsync} />
+        <DashboardReadTargetsEditForm initialData={readTargets.targetReadTargets} onSubmit={editReadTargets} />
       </DialogContent>
     </Dialog>
   );

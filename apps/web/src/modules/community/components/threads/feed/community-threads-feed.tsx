@@ -37,6 +37,7 @@ const CommunityThreadsFeed: React.FC<CommunityThreadsFeedProps> = (props) => {
     },
     commentsCount: (a, b) => (a.commentsCount > b.commentsCount ? 1 : -1),
     votes: (a, b) => (a.votes > b.votes ? 1 : -1),
+    'views.total': (a, b) => (a.views.total > b.views.total ? 1 : -1),
   };
 
   const { filteredData, filters, sort, noResults } = useFilterData<ThreadWithDetails>({
@@ -53,7 +54,7 @@ const CommunityThreadsFeed: React.FC<CommunityThreadsFeedProps> = (props) => {
       }}
     >
       <div className="p-4 grow flex flex-col justify-between gap-4">
-        <span className="font-medium">Showing {filteredData.length} Threads</span>
+        {threads.length > 0 && <span className="font-medium">Showing {filteredData.length} Threads</span>}
         {noResults ? (
           <p className="my-auto text-center">
             It looks like there are <strong>no threads</strong> that match your current filters, try adjusting your
@@ -64,11 +65,15 @@ const CommunityThreadsFeed: React.FC<CommunityThreadsFeedProps> = (props) => {
             {filteredData.map((thread) => {
               return (
                 <CommunityThreadCard.Root key={`thread-${thread.id}`} thread={thread}>
-                  <CommunityThreadCard.Metadata thread={thread}>
-                    <CommunityThreadCard.Votes thread={thread} />
+                  <CommunityThreadCard.Metadata>
+                    <CommunityThreadCard.Votes />
                   </CommunityThreadCard.Metadata>
-                  <CommunityThreadCard.KeywordsComments thread={thread} />
-                  <CommunityThreadCard.Content>{thread.content}</CommunityThreadCard.Content>
+                  <CommunityThreadCard.Keywords />
+                  <CommunityThreadCard.Content />
+                  <div className="flex gap-2 items-center">
+                    <CommunityThreadCard.Comments />
+                    <CommunityThreadCard.Views />
+                  </div>
                 </CommunityThreadCard.Root>
               );
             })}

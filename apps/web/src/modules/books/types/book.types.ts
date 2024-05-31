@@ -1,9 +1,6 @@
-import type { Book, User } from '@read-quill/database';
-import type { z } from 'zod';
-import type { createBookValidationSchemaForm } from '../validations/books.validations';
+import type { Book, User, Image } from '@read-quill/database';
 
-export interface BookWithReader extends Book {
-  reader: User | null;
+export interface BookWithDetails extends Book {
+  reader: User;
+  image: Image;
 }
-
-export type UserBooksManagementCreateFormData = z.infer<typeof createBookValidationSchemaForm>;

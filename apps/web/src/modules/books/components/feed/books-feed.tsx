@@ -2,6 +2,7 @@ import React from 'react';
 import type { Book } from '@read-quill/database';
 import BookCard, { BookCardStyleProps } from '../cards/book-card';
 import { cva } from 'class-variance-authority';
+import { BookWithDetails } from '@modules/books/types/book.types';
 
 const variants = cva('gap-2.5', {
   variants: {
@@ -13,7 +14,7 @@ const variants = cva('gap-2.5', {
 });
 
 interface BooksFeedProps {
-  books: Book[];
+  books: BookWithDetails[];
   cardVariant?: BookCardStyleProps['variant'];
 }
 

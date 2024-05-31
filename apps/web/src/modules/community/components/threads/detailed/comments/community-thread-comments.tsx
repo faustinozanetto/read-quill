@@ -1,21 +1,17 @@
 'use client';
 
-import React, { lazy } from 'react';
-import { ThreadWithDetails } from '@modules/community/types/community.types.ts';
-import { useThreadComments } from '@modules/community/hooks/threads/use-thread-comments';
+import React from 'react';
+
+import { useThreadComments } from '@modules/community/hooks/threads/comments/use-thread-comments';
 import CommunityThreadWriteComment from './write/community-thread-write-comment';
 import CommunityThreadCommentPlaceholder from './community-thread-comment-placeholder';
+import CommunityThreadComment from './community-thread-comment';
 
-const CommunityThreadComment = lazy(() => import('./community-thread-comment'));
+import { useThreadStore } from '@modules/community/state/thread/thread.slice';
 
-interface CommunityThreadCommentsProps {
-  thread: ThreadWithDetails;
-}
-
-const CommunityThreadComments: React.FC<CommunityThreadCommentsProps> = (props) => {
-  const { thread } = props;
-
-  const { data, isFetching, isLoading } = useThreadComments({ pageSize: 1000, threadId: thread.id });
+const CommunityThreadComments: React.FC = () => {
+  const { thread } = useThreadStore();
+  const { data, isFetching, isLoading } = useThreadComments({ pageSize: 1000, threadId: thread?.id });
 
   return (
     <div className="flex flex-col gap-2">

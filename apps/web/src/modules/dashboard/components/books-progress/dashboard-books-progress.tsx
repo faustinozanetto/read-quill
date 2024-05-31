@@ -33,37 +33,33 @@ const DashboardBooksProgress: React.FC = () => {
         Track your literary journey with the Books Progress section. Visualize the percentage of each book you&apos;ve
         conquered on your reading adventure.
       </p>
-      {isFetching || isLoading ? (
-        <div className="space-y-2">
-          <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-4 mt-2">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <Skeleton className="h-48 w-full" key={`dashboard-books-progress-placeholder-${i}`} />
-            ))}
-          </div>
-          <Skeleton className="h-12 w-full" />
+
+      <FilterProvider
+        initialState={{
+          initialFilters: BOOKS_PROGRESS_INITIAL_FILTERS,
+          initialSort: BOOKS_PROGRESS_INITIAL_SORT,
+        }}
+      >
+        <div className="rounded-lg shadow border space-y-4">
+          <DashboardBooksProgressFeed
+            booksProgress={data.booksProgress}
+            getCanNextPage={getCanNextPage}
+            getCanPreviousPage={getCanPreviousPage}
+            nextPage={nextPage}
+            page={page}
+            pageCount={data.pageCount}
+            previousPage={previousPage}
+            setPageIndex={setPageIndex}
+            renderPlaceholder={() => {
+              if (isFetching || isLoading)
+                return Array.from({ length: 4 }).map((_, i) => (
+                  <Skeleton className="h-48 w-full" key={`dashboard-books-progress-placeholder-${i}`} />
+                ));
+            }}
+          />
         </div>
-      ) : null}
-      {!(isFetching || isLoading) && data.booksProgress.length > 0 ? (
-        <FilterProvider
-          initialState={{
-            initialFilters: BOOKS_PROGRESS_INITIAL_FILTERS,
-            initialSort: BOOKS_PROGRESS_INITIAL_SORT,
-          }}
-        >
-          <div className="rounded-lg shadow border space-y-4">
-            <DashboardBooksProgressFeed
-              booksProgress={data.booksProgress}
-              getCanNextPage={getCanNextPage}
-              getCanPreviousPage={getCanPreviousPage}
-              nextPage={nextPage}
-              page={page}
-              pageCount={data.pageCount}
-              previousPage={previousPage}
-              setPageIndex={setPageIndex}
-            />
-          </div>
-        </FilterProvider>
-      ) : null}
+      </FilterProvider>
+
       {!(isFetching || isLoading) && data.booksProgress.length === 0 ? (
         <DashboardNoDataMessage>
           <p>

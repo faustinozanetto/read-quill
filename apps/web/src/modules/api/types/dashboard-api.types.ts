@@ -1,4 +1,4 @@
-import type { ReadRegistry, ReadTargets } from '@read-quill/database';
+import type { Image, ReadRegistry, ReadTargets } from '@read-quill/database';
 
 export type DashboardReadRegistry = ReadRegistry & {
   book: {
@@ -47,7 +47,7 @@ export interface DashboardBooksProgressGetResponse {
   booksProgress: {
     id: string;
     progress: number;
-    cover: string;
+    cover: Image;
     name: string;
   }[];
   pageCount: number;

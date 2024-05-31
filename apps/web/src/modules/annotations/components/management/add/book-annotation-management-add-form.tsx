@@ -1,20 +1,41 @@
 import React from 'react';
-import type { z } from 'zod';
-import { Button, PencilIcon, cn, LoadingIcon } from '@read-quill/design-system';
-import { createBookAnnotationValidationSchemaBase } from '@modules/annotations/lib/annotations.validations';
-import AnnotationForm from '../../forms/annotation-form';
 
-export type BookAnnotationManagementAddFormData = z.infer<typeof createBookAnnotationValidationSchemaBase>;
+import { Button, PencilIcon, cn, LoadingIcon } from '@read-quill/design-system';
+
+import AnnotationForm from '../../forms/annotation-form';
+import { MultiStepFormStep } from '@modules/forms/hooks/use-multi-step-form';
+import { CreateAnnotationFormActionData } from '@modules/annotations/types/annotation-validations.types';
+import { ANNOTATION_ACTIONS_VALIDATIONS_FORMS } from '@modules/annotations/lib/annotations.validations';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const STEPS_DATA: MultiStepFormStep<CreateAnnotationFormActionData>[] = [
+  {
+    title: 'Title',
+    fields: ['title'],
+  },
+  {
+    title: 'Chapter',
+    fields: ['chapter'],
+  },
+  {
+    title: 'Content',
+    fields: ['content'],
+  },
+];
 
 interface BookAnnotationManagementAddFormProps {
-  onSubmit: (data: BookAnnotationManagementAddFormData) => void;
+  onSubmit: (data: CreateAnnotationFormActionData) => void;
 }
 
 const BookAnnotationManagementAddForm: React.FC<BookAnnotationManagementAddFormProps> = (props) => {
   const { onSubmit } = props;
 
   return (
-    <AnnotationForm resolver={createBookAnnotationValidationSchemaBase} onSubmit={onSubmit}>
+    <AnnotationForm
+      data={STEPS_DATA}
+      resolver={zodResolver(ANNOTATION_ACTIONS_VALIDATIONS_FORMS.CREATE)}
+      onSubmit={onSubmit}
+    >
       {(form, getCanSubmit) => {
         const isFormLoading = form.formState.isSubmitting;
         return (

@@ -1,24 +1,25 @@
 import React from 'react';
 
 import { __URL__ } from '@modules/common/lib/common.constants';
-import { ThreadWithDetails, VoteThreadValidationSchema } from '@modules/community/types/community.types';
+import { ThreadWithDetails } from '@modules/community/types/community.types';
 import { Button } from '@read-quill/design-system';
-import { useThreadVote } from '@modules/community/hooks/threads/use-thread-vote';
+import { useThreadVote } from '@modules/community/hooks/threads/vote/use-thread-vote';
 import { capitalize } from '@modules/common/lib/common.lib';
+import { VoteThreadType } from '@modules/community/types/community-thread-validations.types';
 
 interface CommnuityThreadVoteOptionProps {
   thread: ThreadWithDetails;
-  type: VoteThreadValidationSchema['type'];
+  type: VoteThreadType;
   icon: React.ReactNode;
 }
 
 const CommnuityThreadVoteOption: React.FC<CommnuityThreadVoteOptionProps> = (props) => {
   const { thread, type, icon } = props;
 
-  const { mutateAsync, isLoading } = useThreadVote();
+  const { voteThread, isLoading } = useThreadVote();
 
   const handleVote = async () => {
-    await mutateAsync({ threadId: thread.id, type });
+    await voteThread({ threadId: thread.id, type });
   };
 
   return (

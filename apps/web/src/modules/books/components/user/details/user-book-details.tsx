@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { useBookStore } from '@modules/books/state/book.slice';
 import { useIsBookOwner } from '@modules/books/hooks/use-is-book-owner';
 import UserBookManagement from '../management/user-book-management';
 import BookPagesBadge from '../../common/book-pages-badge';
@@ -11,21 +10,29 @@ import BookStartedAt from '../../common/book-started-at';
 import BookFinishedAt from '../../common/book-finished-at';
 import BookRating from '../../common/rating/book-rating';
 import UserBookCover from './cover/user-book-cover';
+
+import { useBookStore } from '@modules/books/state/book.slice';
 import UserBookDetailsPlaceholder from './user-book-details-placeholder';
 
 const UserBookDetails: React.FC = () => {
   const { book, isLoading } = useBookStore();
   const { isBookOwner } = useIsBookOwner();
 
-  if (isLoading || !book) return <UserBookDetailsPlaceholder />;
+  if (isLoading) return <UserBookDetailsPlaceholder />;
+
+  if (!book) return null;
 
   return (
     <div className="flex w-full flex-col gap-2 rounded-lg p-4 shadow md:flex-row border">
-      <UserBookCover coverUrl={book.coverImage} />
+      <UserBookCover image={book.image} />
+
       <div className="flex-1 flex-col pl-2">
         <div className="flex justify-between">
           <h1 className="text-xl font-bold md:text-2xl">{book.name}</h1>
-          {isBookOwner ? <BookFavourite book={book} /> : null}
+          <div className="flex gap-2">
+            {isBookOwner ? <BookFavourite book={book} /> : null}
+            {isBookOwner ? <UserBookManagement /> : null}
+          </div>
         </div>
         <h2 className="md:text-lg">{book.author}</h2>
         <BookPagesBadge className="mr-2" pageCount={book.pageCount} />
@@ -36,7 +43,6 @@ const UserBookDetails: React.FC = () => {
         </div>
         <BookRating book={book} />
       </div>
-      {isBookOwner ? <UserBookManagement /> : null}
     </div>
   );
 };

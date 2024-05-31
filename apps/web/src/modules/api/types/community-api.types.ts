@@ -1,4 +1,11 @@
-import { CommunityTopUser, ThreadCommentNode, ThreadWithDetails } from '@modules/community/types/community.types';
+import {
+  CommunityTopUser,
+  ThreadAttachmentWithImage,
+  ThreadCommentNode,
+  ThreadViews,
+  ThreadWithDetails,
+} from '@modules/community/types/community.types';
+import { Image, ThreadAttachment } from '@read-quill/database';
 
 export interface ThreadsCommunityGetResponse {
   threads: ThreadWithDetails[];
@@ -20,6 +27,10 @@ export interface ThreadGetResponse {
 
 export interface ThreadPatchResponse {
   success: boolean;
+}
+
+export interface ThreadPostResponse {
+  thread: ThreadWithDetails;
 }
 
 export interface ThreadDeleteResponse {
@@ -76,4 +87,24 @@ export interface FavouriteThreadsCommunityGetResponse {
   threads: ThreadWithDetails[];
   nextCursor: string | null;
   hasMore: boolean;
+}
+
+export interface ThreadAttachmentUploadPostResponse {
+  attachmentImages: Image[];
+}
+
+export interface ThreadAttachmentsGetResponse {
+  attachments: ThreadAttachmentWithImage[];
+}
+
+export interface ThreadAttachmentDeleteResponse {
+  success: boolean;
+}
+
+export interface ThreadViewGetResponse {
+  views: ThreadViews;
+}
+
+export interface ThreadViewPostResponse {
+  success: boolean;
 }

@@ -8,7 +8,7 @@ export type EditIconProps = BaseIconProps;
 const EditIcon = forwardRef<SVGSVGElement, EditIconProps>(({ className, size, ...props }, ref) => {
   return (
     <svg
-      className={cn(iconVariants({ size }), className)}
+      className={cn(iconVariants({ size }), 'stroke-current', className)}
       fill="none"
       ref={ref}
       strokeLinecap="round"

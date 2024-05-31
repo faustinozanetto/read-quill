@@ -93,7 +93,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<Dashboard
     // Check if user already created read targets.
     const count = await prisma.readTargets.count({ where: { user: { id: session.user.id } } });
     if (count > 0) {
-      return NextResponse.json({ message: 'User already created read targets!' }, { status: 409 });
+      return new NextResponse('User already created read targets!', { status: 409 });
     }
 
     const json = await request.json();
@@ -133,7 +133,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<Dashboar
     });
 
     if (!userReadTargets) {
-      return NextResponse.json({ message: 'User did not create read targets!' }, { status: 409 });
+      return new NextResponse('User did not create read targets yet!', { status: 409 });
     }
 
     const json = await request.json();

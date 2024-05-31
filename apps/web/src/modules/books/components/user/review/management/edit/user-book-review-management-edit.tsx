@@ -7,52 +7,29 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-  useToast,
   EditIcon,
+  useToast,
 } from '@read-quill/design-system';
-import { useMutation } from '@tanstack/react-query';
-import { useBookStore } from '@modules/books/state/book.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
-import { __URL__ } from '@modules/common/lib/common.constants';
-import type { UserBookReviewManagementEditFormData } from './user-book-review-management-edit-form';
 import UserBookReviewManagementEditForm from './user-book-review-management-edit-form';
+
+import { useBookStore } from '@modules/books/state/book.slice';
+import { useEditBookReview } from '@modules/books/hooks/review/use-edit-book-review';
 
 const UserBookReviewManagementEdit: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const { toast } = useToast();
   const { queryClient } = useQueriesStore();
   const { book } = useBookStore();
+  const { toast } = useToast();
 
-  const { mutateAsync } = useMutation({
-    mutationFn: async (data: UserBookReviewManagementEditFormData) => {
-      if (!book) return;
-
-      try {
-        const url = new URL('/api/books/review', __URL__);
-        const body = JSON.stringify({
-          bookId: book.id,
-          review: data.review,
-        });
-
-        const response = await fetch(url, { method: 'PATCH', body });
-        if (!response.ok) {
-          throw new Error('Could not update book review!');
-        }
-
-        toast({ variant: 'success', content: `Book review updated successfully!` });
-      } catch (error) {
-        let errorMessage = 'Could not update book review!';
-        if (error instanceof Error) errorMessage = error.message;
-
-        toast({ variant: 'error', content: errorMessage });
-      } finally {
+  const { editReview } = useEditBookReview({
+    book,
+    onSuccess: async (data) => {
+      if (data && data.review && book) {
+        await queryClient.refetchQueries(['book-page', book.id]);
         setDialogOpen(false);
+        toast({ variant: 'success', content: `Book review edited successfully!` });
       }
-    },
-    onSuccess: async () => {
-      if (!book) return;
-
-      await queryClient.invalidateQueries(['book-page', book.id]);
     },
   });
 
@@ -71,7 +48,7 @@ const UserBookReviewManagementEdit: React.FC = () => {
           <DialogDescription>Update your personal review of the book.</DialogDescription>
         </DialogHeader>
 
-        <UserBookReviewManagementEditForm onSubmit={mutateAsync} />
+        <UserBookReviewManagementEditForm onSubmit={editReview} />
       </DialogContent>
     </Dialog>
   );

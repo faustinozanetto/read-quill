@@ -4,8 +4,25 @@ import { Button, PlusIcon, cn, LoadingIcon } from '@read-quill/design-system';
 import { createReadTargetsValidationSchema } from '@modules/dashboard/validations/dashboard.validations';
 
 import DashboardReadTargetsForm from '../../forms/dashboard-read-targets-form';
+import { MultiStepFormStep } from '@modules/forms/hooks/use-multi-step-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 export type DashboardReadTargetsCreateFormData = z.infer<typeof createReadTargetsValidationSchema>;
+
+const STEPS_DATA: MultiStepFormStep<DashboardReadTargetsCreateFormData>[] = [
+  {
+    title: 'Daily Target',
+    fields: ['daily'],
+  },
+  {
+    title: 'Weekly Target',
+    fields: ['weekly'],
+  },
+  {
+    title: 'Monthly Target',
+    fields: ['monthly'],
+  },
+];
 
 interface DashboardReadTargetsCreateFormProps {
   onSubmit: (data: DashboardReadTargetsCreateFormData) => void;
@@ -15,7 +32,11 @@ const DashboardReadTargetsCreateForm: React.FC<DashboardReadTargetsCreateFormPro
   const { onSubmit } = props;
 
   return (
-    <DashboardReadTargetsForm resolver={createReadTargetsValidationSchema} onSubmit={onSubmit}>
+    <DashboardReadTargetsForm
+      data={STEPS_DATA}
+      resolver={zodResolver(createReadTargetsValidationSchema)}
+      onSubmit={onSubmit}
+    >
       {(form, getCanSubmit) => {
         const isFormLoading = form.formState.isSubmitting;
         return (

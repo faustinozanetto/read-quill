@@ -21,11 +21,11 @@ import DashboardReadRegistryEditForm from './dashboard-read-registry-edit-form';
 import type { DashboardReadRegistryEditFormData } from './dashboard-read-registry-edit-form';
 
 interface DashboardReadRegistryEditProps {
-  row: Row<ReadRegistry>;
+  readRegistry: ReadRegistry;
 }
 
 const DashboardReadRegistryEdit: React.FC<DashboardReadRegistryEditProps> = (props) => {
-  const { row } = props;
+  const { readRegistry } = props;
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const { toast } = useToast();
@@ -55,9 +55,9 @@ const DashboardReadRegistryEdit: React.FC<DashboardReadRegistryEditProps> = (pro
       }
     },
     onSuccess: async () => {
-      await queryClient.invalidateQueries(['dashboard-read-targets']);
-      await queryClient.invalidateQueries(['dashboard-read-registries']);
-      await queryClient.invalidateQueries(['dashboard-books-progress']);
+      await queryClient.refetchQueries(['dashboard-read-targets']);
+      await queryClient.refetchQueries(['dashboard-read-registries']);
+      await queryClient.refetchQueries(['dashboard-books-progress']);
     },
   });
 
@@ -80,7 +80,7 @@ const DashboardReadRegistryEdit: React.FC<DashboardReadRegistryEditProps> = (pro
           <DialogDescription>Edit your read pages here.</DialogDescription>
         </DialogHeader>
 
-        <DashboardReadRegistryEditForm initialData={row.original} onSubmit={mutateAsync} />
+        <DashboardReadRegistryEditForm initialData={readRegistry} onSubmit={mutateAsync} />
       </DialogContent>
     </Dialog>
   );

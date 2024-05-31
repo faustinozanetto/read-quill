@@ -23,7 +23,7 @@ const DashboardReadTargetsManagement: React.FC<DashboardReadTargetsManagementPro
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size="icon" variant="outline" className="h-8 w-8">
+        <Button size="icon" variant="outline">
           <ManageIcon />
         </Button>
       </DropdownMenuTrigger>

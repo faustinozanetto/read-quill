@@ -21,7 +21,7 @@ export default function GlobalError({ error }: { error: Error & { digest?: strin
             We apologize for the inconvenience, but it seems that an error has occurred. Our team has been notified and
             is working diligently to resolve the issue.
           </p>
-          <p className="text-destructive max-w-lg text-center font-bold md:text-lg">{error.message}</p>
+          <p className="text-destructive-foreground max-w-lg text-center font-bold md:text-lg">{error.message}</p>
           <div className="flex w-full flex-col gap-2">
             <Button asChild>
               <Link href="/">Go Home</Link>

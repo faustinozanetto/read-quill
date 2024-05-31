@@ -4,11 +4,13 @@ import React from 'react';
 import Image from 'next/image';
 import { useCountUp } from '@modules/common/hooks/use-count-up';
 import Link from 'next/link';
+import { Image as DBImage } from '@read-quill/database';
+import { getImagePublicUrl } from '@modules/images/lib/images.lib';
 
 interface DashboardBooksProgressCardProps {
   id: string;
   name: string;
-  cover: string;
+  cover: DBImage;
   progress: number;
 }
 
@@ -26,7 +28,7 @@ const DashboardBooksProgressCard: React.FC<DashboardBooksProgressCardProps> = (p
           alt={`${name} progress image`}
           className="h-40 w-full rounded-t-lg object-cover object-center"
           height={200}
-          src={cover}
+          src={getImagePublicUrl('BookCovers', cover.path)}
           width={200}
         />
         <div

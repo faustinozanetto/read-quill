@@ -2,9 +2,8 @@ import React from 'react';
 
 import { ThreadWithDetails } from '@modules/community/types/community.types';
 
-import Image from 'next/image';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { cn } from '@read-quill/design-system';
+import UserAvatar from '@modules/common/components/users/user-avatar';
 
 const variants = cva('aspect-square', {
   variants: {
@@ -18,40 +17,21 @@ const variants = cva('aspect-square', {
 
 interface CommunityThreadAuthorAvatarProps extends VariantProps<typeof variants> {
   author: ThreadWithDetails['author'];
+  className?: string;
 }
 
 const CommunityThreadAuthorAvatar: React.FC<CommunityThreadAuthorAvatarProps> = (props) => {
-  const { author, size } = props;
-
-  const authorInitials =
-    author.name &&
-    author.name
-      .split(' ')
-      .map((char) => char.charAt(0).toUpperCase())
-      .join('');
+  const { author, size, className } = props;
 
   return (
-    <>
-      {author.image && (
-        <Image
-          src={author.image}
-          alt="Thread Autor Image"
-          width={50}
-          height={50}
-          className={cn('rounded-full shadow border', variants({ size }))}
-        />
-      )}
-      {!author.image && author.name && (
-        <div
-          className={cn(
-            'w-12 h-12 rounded-full shadow border text-lg font-bold flex items-center justify-center aspect-square text-primary',
-            variants({ size })
-          )}
-        >
-          {authorInitials}
-        </div>
-      )}
-    </>
+    <UserAvatar
+      className={variants({ size, className })}
+      image={author.image}
+      alt={`Thread ${author.name} Author`}
+      name={author.name}
+      width={75}
+      height={75}
+    />
   );
 };
 

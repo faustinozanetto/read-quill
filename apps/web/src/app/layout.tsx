@@ -8,6 +8,7 @@ import type { Metadata } from 'next';
 import { siteConfig } from '@config/config';
 import Providers from './providers';
 import { auth } from 'auth';
+import UmaniAnalytics from '@modules/analytics/components/umani-analytics';
 
 const rubikFont = Rubik({
   variable: '--font-sans',
@@ -100,6 +101,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className="bg-background font-sans subpixel-antialiased scroll-smooth">
         <Providers session={session}>
           {children}
+          <UmaniAnalytics />
           <Analytics />
           <ToastsContainer />
         </Providers>

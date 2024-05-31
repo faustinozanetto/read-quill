@@ -1,19 +1,26 @@
+'use client';
+
 import React from 'react';
-import { ThreadWithDetails } from '@modules/community/types/community.types.ts';
 import CommunityThreadComments from './comments/community-thread-comments';
 import CommunityThreadDetails from './details/community-thread-details';
+import CommunityThreadAttachments from '../attachments/community-thread-attachments';
+
+import { useFetchThread } from '@modules/community/hooks/threads/use-fetch-thread';
 
 interface CommunityThreadProps {
-  thread: ThreadWithDetails;
+  threadId: string;
 }
 
 const CommunityThread: React.FC<CommunityThreadProps> = (props) => {
-  const { thread } = props;
+  const { threadId } = props;
+
+  useFetchThread({ threadId });
 
   return (
     <section className="mx-auto flex flex-col gap-4">
-      <CommunityThreadDetails thread={thread} />
-      <CommunityThreadComments thread={thread} />
+      <CommunityThreadDetails />
+      <CommunityThreadAttachments />
+      <CommunityThreadComments />
     </section>
   );
 };

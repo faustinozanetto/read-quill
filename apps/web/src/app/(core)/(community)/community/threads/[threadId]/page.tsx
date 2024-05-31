@@ -1,11 +1,9 @@
-'use client';
-
 import { __URL__ } from '@modules/common/lib/common.constants';
 import CommunityThread from '@modules/community/components/threads/detailed/community-thread';
-import CommunityThreadPlaceholder from '@modules/community/components/threads/detailed/community-thread-placeholder';
-import { useCommunityThreadStore } from '@modules/community/state/state/community-thread.slice';
-import { ThreadWithDetails } from '@modules/community/types/community.types';
-import { useQuery } from '@tanstack/react-query';
+import { prisma } from '@read-quill/database';
+import { Metadata, ResolvingMetadata } from 'next';
+import { notFound } from 'next/navigation';
+
 import React from 'react';
 
 interface CommunityThreadPageProps {
@@ -14,34 +12,39 @@ interface CommunityThreadPageProps {
   };
 }
 
-const CommunityThreadPage: React.FC<CommunityThreadPageProps> = (props) => {
+export async function generateMetadata(
+  { params }: CommunityThreadPageProps,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const threadId = params.threadId;
+
+  const thread = await prisma.thread.findUnique({ where: { id: threadId } });
+  if (!thread) return {};
+
+  const previousImages = (await parent).openGraph?.images || [];
+  const title = thread.title;
+
+  return {
+    title,
+    openGraph: {
+      title,
+      images: [...previousImages],
+    },
+  };
+}
+
+const CommunityThreadPage: React.FC<CommunityThreadPageProps> = async (props) => {
   const { params } = props;
   const { threadId } = params;
 
-  const { setThread, thread } = useCommunityThreadStore();
-
-  const { isFetching, isLoading } = useQuery<ThreadWithDetails>(['community-thread', threadId], {
-    queryFn: async () => {
-      const url = new URL('/api/community/thread', __URL__);
-      url.searchParams.set('threadId', threadId);
-
-      const response = await fetch(url, { method: 'GET' });
-      if (!response.ok) {
-        throw new Error('Failed to fetch thread!');
-      }
-
-      const { thread }: { thread: ThreadWithDetails } = await response.json();
-      return thread;
-    },
-    onSuccess(data) {
-      setThread(data);
-    },
-  });
+  const threadCount = await prisma.thread.count({ where: { id: threadId } });
+  if (threadCount === 0) {
+    return notFound();
+  }
 
   return (
     <div className="container mt-4">
-      {(isFetching || isLoading) && <CommunityThreadPlaceholder />}
-      {!(isFetching || isLoading) && thread && <CommunityThread thread={thread} />}
+      <CommunityThread threadId={threadId} />
     </div>
   );
 };

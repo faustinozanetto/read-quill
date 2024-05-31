@@ -1,36 +1,63 @@
 import { z } from 'zod';
+import { THREAD_ATTRIBUTES_VALIDATIONS } from './community-thread.validations';
 
-export const createThreadCommentValidationBaseSchema = z.object({
-  content: z
-    .string({ required_error: 'Please provide the content!' })
-    .max(250, { message: 'Content max characters is 250!' }),
+/* Atributes Validation */
+const threadCommentContentValidationSchema = z
+  .string({ required_error: 'Please provide the content!' })
+  .max(250, { message: 'Content max characters is 250!' });
+
+const threadCommentIdValidationSchema = z.string({ required_error: 'ThreadId is required!' });
+
+type ThreadCommentAttributesValidations = {
+  id: typeof threadCommentIdValidationSchema;
+  content: typeof threadCommentContentValidationSchema;
+};
+
+export const THREAD_COMMENT_ATTRIBUTES_VALIDATIONS: ThreadCommentAttributesValidations = {
+  id: threadCommentIdValidationSchema,
+  content: threadCommentContentValidationSchema,
+};
+
+/* Actions Validations */
+const createThreadCommentValidationBaseSchema = z.object({
+  content: THREAD_COMMENT_ATTRIBUTES_VALIDATIONS.content,
 });
 
-export const createThreadCommentValidationApiSchema = createThreadCommentValidationBaseSchema.extend({
-  threadId: z.string({ required_error: 'ThreadId is required!' }),
+const createThreadCommentValidationApiSchema = createThreadCommentValidationBaseSchema.extend({
+  threadId: THREAD_ATTRIBUTES_VALIDATIONS.id,
 });
 
-export const editThreadCommentValidationBaseSchema = z.object({
-  content: z
-    .string({ required_error: 'Please provide the content!' })
-    .max(250, { message: 'Content max characters is 250!' }),
+const editThreadCommentValidationBaseSchema = z.object({
+  content: THREAD_COMMENT_ATTRIBUTES_VALIDATIONS.content,
 });
 
-export const editThreadCommentValidationApiSchema = editThreadCommentValidationBaseSchema.extend({
-  commentId: z.string({ required_error: 'CommentId is required!' }),
+const editThreadCommentValidationApiSchema = editThreadCommentValidationBaseSchema.extend({
+  commentId: THREAD_COMMENT_ATTRIBUTES_VALIDATIONS.id,
 });
 
-export const deleteThreadCommentValidationApiSchema = z.object({
-  commentId: z.string({ required_error: 'CommentId is required!' }),
+const deleteThreadCommentValidationApiSchema = z.object({
+  commentId: THREAD_COMMENT_ATTRIBUTES_VALIDATIONS.id,
 });
 
-export const threadCommentReplyValidationBaseSchema = z.object({
-  content: z
-    .string({ required_error: 'Please provide the content!' })
-    .max(250, { message: 'Content max characters is 250!' }),
+const threadCommentReplyValidationBaseSchema = z.object({
+  content: THREAD_COMMENT_ATTRIBUTES_VALIDATIONS.content,
 });
 
-export const threadCommentReplyValidationApichema = threadCommentReplyValidationBaseSchema.extend({
-  commentId: z.string({ required_error: 'CommentId is required!' }),
-  threadId: z.string({ required_error: 'ThreadId is required!' }),
+const threadCommentReplyValidationApichema = threadCommentReplyValidationBaseSchema.extend({
+  commentId: THREAD_COMMENT_ATTRIBUTES_VALIDATIONS.id,
+  threadId: THREAD_ATTRIBUTES_VALIDATIONS.id,
 });
+
+export const THREAD_COMMENT_ACTIONS_VALIDATIONS_API = {
+  CREATE: createThreadCommentValidationApiSchema,
+  DELETE: deleteThreadCommentValidationApiSchema,
+  EDIT: editThreadCommentValidationApiSchema,
+  REPLY: threadCommentReplyValidationApichema,
+};
+
+export const THREAD_COMMENT_ACTIONS_VALIDATIONS_FORMS = {
+  CREATE: createThreadCommentValidationBaseSchema,
+  DELETE: deleteThreadCommentValidationApiSchema,
+  EDIT: editThreadCommentValidationBaseSchema,
+  REPLY: threadCommentReplyValidationBaseSchema,
+};

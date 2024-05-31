@@ -3,8 +3,9 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { ThreadVoteGetResponse, ThreadVotePostResponse } from '@modules/api/types/community-api.types';
 import { auth } from 'auth';
-import { voteThreadValidationSchema } from '@modules/community/validations/community-thread.validations';
+
 import { storeUserThreadVoteInRedis } from '@modules/community/lib/community-thread-vote.lib';
+import { THREAD_ACTIONS_VALIDATIONS_API } from '@modules/community/validations/community-thread.validations';
 
 // /api/community/thread/vote GET : Gets the thread vote count
 export async function GET(request: NextRequest): Promise<NextResponse<ThreadVoteGetResponse>> {
@@ -48,7 +49,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadVot
     }
 
     const json = await request.json();
-    const { threadId, type } = voteThreadValidationSchema.parse(json);
+    const { threadId, type } = THREAD_ACTIONS_VALIDATIONS_API.VOTE.parse(json);
 
     // Use redis to avoid users voting multiple times.
     const voteResult = await storeUserThreadVoteInRedis(threadId, session.user.id, type);
