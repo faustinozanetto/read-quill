@@ -50,7 +50,7 @@
   "devDependencies": {
     "@testing-library/jest-dom": "6.1.5",
     "@testing-library/react": "14.1.2",
-    "@next/eslint-plugin-next": "14.1.0",
+    "@next/eslint-plugin-next": "14.2.3",
     "@prisma/nextjs-monorepo-workaround-plugin": "5.14.0",
     "@read-quill/eslint-config": "workspace:*",
     "@read-quill/tailwind-config": "workspace:*",
