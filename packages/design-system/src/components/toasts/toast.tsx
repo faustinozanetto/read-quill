@@ -62,10 +62,10 @@ const Toast: React.FC<ToastProps> = (props) => {
     >
       <div
         className={clsx(
-          'flex items-center overflow-hidden rounded-lg p-4 text-background backdrop-blur-md border',
-          toast.variant === 'success' && 'bg-success/85',
-          toast.variant === 'error' && 'bg-destructive/85',
-          toast.variant === 'info' && 'bg-informative/85'
+          'flex items-center overflow-hidden rounded-lg p-4 backdrop-blur-md border',
+          toast.variant === 'success' && 'bg-success text-success-foreground',
+          toast.variant === 'error' && 'bg-destructive text-destructive-foreground',
+          toast.variant === 'info' && 'bg-info text-info-foreground'
         )}
       >
         <div className="mr-2 flex-shrink-0">{getToastIcon()}</div>

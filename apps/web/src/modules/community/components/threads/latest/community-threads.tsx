@@ -11,14 +11,10 @@ import { Button, LoadingIcon, PlusIcon } from '@read-quill/design-system';
 
 const CommunityThreads: React.FC = () => {
   const { data, isLoading, isFetching, fetchNextPage, isFetchingNextPage, hasNextPage } = useCommunityThreads({
-    pageSize: 10,
+    pageSize: 4,
   });
 
   const threads = data?.pages.flatMap((v) => v.threads) ?? [];
-
-  const handleLoadMore = async () => {
-    await fetchNextPage();
-  };
 
   return (
     <div className="flex w-full flex-col gap-2">
@@ -34,18 +30,23 @@ const CommunityThreads: React.FC = () => {
           <CommunityThreadsFeed threads={threads}>
             {isFetchingNextPage || isLoading || isFetching ? (
               <div className="flex flex-col gap-2">
-                {Array.from({ length: 6 }).map((_, i) => (
+                {Array.from({ length: 4 }).map((_, i) => (
                   <CommunityThreadCardPlaceholder key={`thread-placeholder-${i}`} />
                 ))}
               </div>
             ) : null}
             {hasNextPage && (
-              <Button className="w-fit min-w-60 mx-auto" onClick={handleLoadMore} disabled={isFetchingNextPage}>
+              <Button
+                className="w-fit min-w-60 mx-auto"
+                onClick={async () => await fetchNextPage()}
+                disabled={isFetchingNextPage}
+              >
                 {isFetchingNextPage ? <LoadingIcon className="mr-2" /> : <PlusIcon className="mr-2" />} Load More
               </Button>
             )}
+
             {!(isFetching || isLoading) && threads.length === 0 ? (
-              <p>
+              <p className="m-auto text-center">
                 No threads found! Be the first one by clicking the{' '}
                 <span className="text-primary font-bold underline">Start a Thread</span> button to get started.
               </p>

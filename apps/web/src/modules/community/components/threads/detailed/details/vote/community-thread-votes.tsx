@@ -3,7 +3,7 @@ import React from 'react';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { ThreadWithDetails } from '@modules/community/types/community.types';
 import { ArrowDownIcon, ArrowUpIcon } from '@read-quill/design-system';
-import { useThreadVoteCount } from '@modules/community/hooks/threads/use-thread-vote-count';
+import { useThreadVoteCount } from '@modules/community/hooks/threads/vote/use-thread-vote-count';
 import CommnuityThreadVoteOption from './community-thread-vote-option';
 import { Skeleton } from '@read-quill/design-system';
 

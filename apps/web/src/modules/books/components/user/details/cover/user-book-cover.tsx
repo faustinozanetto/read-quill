@@ -1,13 +1,17 @@
 import React from 'react';
 import Image from 'next/image';
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from '@read-quill/design-system';
+import { Image as DBImage } from '@read-quill/database';
+import { getImagePublicUrl } from '@modules/images/lib/images.lib';
 
 interface UserBookCoverProps {
-  coverUrl: string;
+  image: DBImage;
 }
 
 const UserBookCover: React.FC<UserBookCoverProps> = (props) => {
-  const { coverUrl } = props;
+  const { image } = props;
+
+  const completeUrl = getImagePublicUrl('BookCovers', image.path);
 
   return (
     <Dialog>
@@ -19,7 +23,7 @@ const UserBookCover: React.FC<UserBookCoverProps> = (props) => {
           draggable={false}
           height={512}
           priority
-          src={coverUrl}
+          src={completeUrl}
           width={512}
         />
       </DialogTrigger>
@@ -33,7 +37,7 @@ const UserBookCover: React.FC<UserBookCoverProps> = (props) => {
           className="w-full rounded-lg border shadow object-cover object-center"
           draggable={false}
           height={1024}
-          src={coverUrl}
+          src={completeUrl}
           width={1024}
         />
       </DialogContent>

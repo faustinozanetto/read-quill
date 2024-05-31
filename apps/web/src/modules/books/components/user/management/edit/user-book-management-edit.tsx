@@ -7,65 +7,30 @@ import {
   DialogHeader,
   DialogTitle,
   DialogDescription,
-  useToast,
   EditIcon,
+  useToast,
 } from '@read-quill/design-system';
-import { useMutation } from '@tanstack/react-query';
-import { useBookStore } from '@modules/books/state/book.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
-import { __URL__ } from '@modules/common/lib/common.constants';
-import { useUploadBookCover } from '@modules/books/hooks/use-upload-book-cover';
-import type { BooksUploadPostResponse } from '@modules/api/types/books-api.types';
-import type { UserBookManagementEditFormData } from './user-book-management-edit-form';
 import UserBookManagementEditForm from './user-book-management-edit-form';
+import { useBookStore } from '@modules/books/state/book.slice';
+import { useEditBook } from '@modules/books/hooks/use-edit-book';
 
 const UserBookManagementEdit: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const { toast } = useToast();
+
   const { queryClient } = useQueriesStore();
   const { book } = useBookStore();
+  const { toast } = useToast();
 
-  const { uploadBookCover, isBookCoverUploading } = useUploadBookCover();
-
-  const { mutateAsync } = useMutation({
-    mutationFn: async (data: UserBookManagementEditFormData) => {
-      if (!book) return;
-
-      try {
-        const { coverImage, startedAt, finishedAt, ...rest } = data;
-
-        // Handle cover image updated, then upload.
-        let coverFile: BooksUploadPostResponse | null = null;
-        if (coverImage.length > 0) coverFile = await uploadBookCover(coverImage[0]);
-
-        const url = new URL('/api/books', __URL__);
-        const body = JSON.stringify({
-          bookId: book.id,
-          startedAt: startedAt ? new Date(startedAt) : book.startedAt,
-          finishedAt: finishedAt ? new Date(finishedAt) : book.finishedAt,
-          coverImage: coverFile?.fileUrl,
-          ...rest,
-        });
-
-        const response = await fetch(url, { method: 'PATCH', body });
-        if (!response.ok) {
-          throw new Error('Could not update book!');
-        }
-
-        toast({ variant: 'success', content: `Book updated successfully!` });
-      } catch (error) {
-        let errorMessage = 'Could not update book!';
-        if (error instanceof Error) errorMessage = error.message;
-
-        toast({ variant: 'error', content: errorMessage });
-      } finally {
+  const { editBook, isCoverUploading } = useEditBook({
+    book,
+    onSuccess: async (data) => {
+      if (data && data.book) {
+        await queryClient.refetchQueries(['book-page', data.book.id]);
         setDialogOpen(false);
-      }
-    },
-    onSuccess: async () => {
-      if (!book) return;
 
-      await queryClient.invalidateQueries(['book-page', book.id]);
+        toast({ variant: 'success', content: `Book ${data.book.name} edited successfully!` });
+      }
     },
   });
 
@@ -84,7 +49,7 @@ const UserBookManagementEdit: React.FC = () => {
           <DialogDescription>Update your book details here..</DialogDescription>
         </DialogHeader>
 
-        <UserBookManagementEditForm isBookCoverUploading={isBookCoverUploading} onSubmit={mutateAsync} />
+        <UserBookManagementEditForm isBookCoverUploading={isCoverUploading} onSubmit={editBook} />
       </DialogContent>
     </Dialog>
   );

@@ -10,49 +10,26 @@ import {
   EditIcon,
   useToast,
 } from '@read-quill/design-system';
-import { useMutation } from '@tanstack/react-query';
-import { useBookStore } from '@modules/books/state/book.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
-import { __URL__ } from '@modules/common/lib/common.constants';
-import type { UserBookReviewManagementAddFormData } from './user-book-review-management-add-form';
 import UserBookReviewManagementAddForm from './user-book-review-management-add-form';
+
+import { useBookStore } from '@modules/books/state/book.slice';
+import { useCreateBookReview } from '@modules/books/hooks/review/use-create-book-review';
 
 const UserBookReviewManagementAdd: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const { toast } = useToast();
   const { queryClient } = useQueriesStore();
   const { book } = useBookStore();
+  const { toast } = useToast();
 
-  const { mutateAsync } = useMutation({
-    mutationFn: async (data: UserBookReviewManagementAddFormData) => {
-      if (!book) return;
-
-      try {
-        const url = new URL('/api/books/review', __URL__);
-        const body = JSON.stringify({
-          bookId: book.id,
-          review: data.review,
-        });
-
-        const response = await fetch(url, { method: 'POST', body });
-        if (!response.ok) {
-          throw new Error('Could not add book review!');
-        }
-
-        toast({ variant: 'success', content: `Book review added successfully!` });
-      } catch (error) {
-        let errorMessage = 'Could not add book review!';
-        if (error instanceof Error) errorMessage = error.message;
-
-        toast({ variant: 'error', content: errorMessage });
-      } finally {
+  const { addReview } = useCreateBookReview({
+    book,
+    onSuccess: async (data) => {
+      if (data.review && book) {
+        await queryClient.refetchQueries(['book-page', book.id]);
         setDialogOpen(false);
+        toast({ variant: 'success', content: `Book review added successfully!` });
       }
-    },
-    onSuccess: async () => {
-      if (!book) return;
-
-      await queryClient.invalidateQueries(['book-page', book.id]);
     },
   });
 
@@ -71,7 +48,7 @@ const UserBookReviewManagementAdd: React.FC = () => {
           <DialogDescription>Add your personal review of the book.</DialogDescription>
         </DialogHeader>
 
-        <UserBookReviewManagementAddForm onSubmit={mutateAsync} />
+        <UserBookReviewManagementAddForm onSubmit={addReview} />
       </DialogContent>
     </Dialog>
   );

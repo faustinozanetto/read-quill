@@ -4,8 +4,9 @@ import { NextResponse } from 'next/server';
 import { z } from 'zod';
 
 import { auth } from 'auth';
-import { favouriteThreadValidationSchema } from '@modules/community/validations/community-thread.validations';
+
 import { ThreadFavouriteGetResponse, ThreadFavouritePostResponse } from '@modules/api/types/community-api.types';
+import { THREAD_ACTIONS_VALIDATIONS_API } from '@modules/community/validations/community-thread.validations';
 
 // /api/community/thread/favourite GET : Gets if a thread is favourite or not for the user
 export async function GET(request: NextRequest): Promise<NextResponse<ThreadFavouriteGetResponse>> {
@@ -48,7 +49,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadFav
     }
 
     const json = await request.json();
-    const { threadId, isFavourite: isFavouriteAction } = favouriteThreadValidationSchema.parse(json);
+    const { threadId, isFavourite: isFavouriteAction } = THREAD_ACTIONS_VALIDATIONS_API.FAVOURITE.parse(json);
 
     const isThreadFavourite = await prisma.userFavouriteThread.findFirst({
       where: { userId: session.user.id, threadId },

@@ -10,42 +10,22 @@ import {
   PlusIcon,
   useToast,
 } from '@read-quill/design-system';
-import { useMutation } from '@tanstack/react-query';
-import { __URL__ } from '@modules/common/lib/common.constants';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import DashboardReadTargetsCreateForm from './dashboard-read-targets-create-form';
-import type { DashboardReadTargetsCreateFormData } from './dashboard-read-targets-create-form';
+import { useCreateReadTargets } from '@modules/dashboard/hooks/read-targets/use-create-read-targets';
 
 const DashboardReadTargetsCreate: React.FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const { toast } = useToast();
   const { queryClient } = useQueriesStore();
 
-  const { mutateAsync } = useMutation({
-    mutationFn: async (data: DashboardReadTargetsCreateFormData) => {
-      try {
-        const url = new URL('/api/dashboard/read-targets', __URL__);
-        const body = JSON.stringify({
-          ...data,
-        });
-
-        const response = await fetch(url, { method: 'POST', body });
-        if (!response.ok) {
-          throw new Error('Could not update book!');
-        }
-
-        toast({ variant: 'success', content: 'Read Targets created successfully!' });
-      } catch (error) {
-        let errorMessage = 'Could not create read targets!';
-        if (error instanceof Error) errorMessage = error.message;
-
-        toast({ variant: 'error', content: errorMessage });
-      } finally {
+  const { createReadTargets } = useCreateReadTargets({
+    onSuccess: async (data) => {
+      if (data.success) {
         setDialogOpen(false);
+        await queryClient.refetchQueries(['dashboard-read-targets']);
+        toast({ variant: 'success', content: 'Read Targets created successfully!' });
       }
-    },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries(['dashboard-read-targets-created']);
     },
   });
 
@@ -64,7 +44,7 @@ const DashboardReadTargetsCreate: React.FC = () => {
           <DialogDescription>Setup your read targets here.</DialogDescription>
         </DialogHeader>
 
-        <DashboardReadTargetsCreateForm onSubmit={mutateAsync} />
+        <DashboardReadTargetsCreateForm onSubmit={createReadTargets} />
       </DialogContent>
     </Dialog>
   );

@@ -6,11 +6,10 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tool
 interface FileInputEntryProps {
   file: File;
   onDelete: (name: string) => void;
+  showDeleteItemButton: boolean;
 }
 
-const FileInputEntry: React.FC<FileInputEntryProps> = (props) => {
-  const { file, onDelete } = props;
-
+const FileInputEntry: React.FC<FileInputEntryProps> = ({ file, onDelete, showDeleteItemButton }) => {
   const url = useMemo(() => URL.createObjectURL(file), [file]);
 
   return (
@@ -25,49 +24,41 @@ const FileInputEntry: React.FC<FileInputEntryProps> = (props) => {
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-      <span className="text-sm mr-auto text-wrap line-clamp-1">{file.name}</span>
-      <Button
-        onClick={() => {
-          onDelete(file.name);
-        }}
-        size="icon"
-        variant="destructive"
-        className="aspect-square"
-      >
-        <DeleteIcon className="stroke-current" />
-      </Button>
+      <span className="text-sm mr-auto text-wrap max-w-72 line-clamp-1">{file.name}</span>
+      {showDeleteItemButton && (
+        <Button onClick={() => onDelete(file.name)} size="icon" variant="destructive" className="aspect-square">
+          <DeleteIcon className="stroke-current" />
+        </Button>
+      )}
     </div>
   );
 };
 
 export interface FileInputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'onChange' | 'value' | 'className'> {
-  value: File | File[];
+  value: File[];
   onChange: (files: File[]) => void;
+  showDeleteItemButton?: boolean;
 }
 
 const FileInput = React.forwardRef<HTMLInputElement, FileInputProps>((props, _ref) => {
-  const { multiple, value = [], onChange, ...rest } = props;
+  const { multiple, value, onChange, showDeleteItemButton = true, ...rest } = props;
   const hiddenFileInput = React.useRef<HTMLInputElement | null>(null);
-
-  const [files, setFiles] = React.useState<File[]>(value instanceof Array ? value : [value]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     if (event.target.validity && event.target.files) {
       const eventFiles = Array.from(event.target.files);
-      setFiles((prev) => prev.concat(eventFiles));
+      onChange(value.concat(eventFiles));
     }
   };
 
-  const handleChooseFile = (_event: React.MouseEvent<HTMLButtonElement>): void => {
-    if (!hiddenFileInput?.current) return;
-
-    hiddenFileInput.current.click();
+  const handleChooseFile = (): void => {
+    hiddenFileInput.current?.click();
   };
 
-  React.useEffect(() => {
-    onChange(files);
-  }, [files, onChange]);
+  const handleDeleteFile = (name: string): void => {
+    onChange(value.filter((file) => file.name !== name));
+  };
 
   return (
     <div className="flex flex-col gap-2">
@@ -83,19 +74,15 @@ const FileInput = React.forwardRef<HTMLInputElement, FileInputProps>((props, _re
         type="file"
         {...rest}
       />
-      <div className="flex flex-col gap-1 p-2 border border-dashed rounded-md">
-        {files.length === 0 && <p className="text-sm">No files selected!</p>}
-        {files.length > 0 &&
-          files.map((file) => (
+      <div className="flex flex-col gap-1 p-2 border-2 border-dashed rounded-md">
+        {value.length === 0 && <p className="text-sm">No files selected!</p>}
+        {value.length > 0 &&
+          value.map((file) => (
             <FileInputEntry
               file={file}
               key={file.name}
-              onDelete={(name) => {
-                setFiles((prev) => {
-                  const filtered = prev.filter((f) => f.name !== name);
-                  return filtered;
-                });
-              }}
+              onDelete={handleDeleteFile}
+              showDeleteItemButton={showDeleteItemButton}
             />
           ))}
       </div>

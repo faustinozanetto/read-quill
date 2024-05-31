@@ -1,8 +1,8 @@
 import { useRef } from 'react';
-import { AuthStore, AuthStoreState, createAuthStore } from '../store/auth.slice';
+import { AuthStore, AuthSliceState, createAuthStore } from '../store/auth.slice';
 import { AuthContext } from '../store/auth-context';
 
-interface AuthProviderProps extends Partial<AuthStoreState> {
+interface AuthProviderProps extends Partial<AuthSliceState> {
   children: React.ReactNode;
 }
 

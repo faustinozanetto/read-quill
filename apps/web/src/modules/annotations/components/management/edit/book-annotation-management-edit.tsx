@@ -10,13 +10,12 @@ import {
   EditIcon,
   useToast,
 } from '@read-quill/design-system';
-import { useMutation } from '@tanstack/react-query';
 import type { Annotation } from '@read-quill/database';
-import { useBookStore } from '@modules/books/state/book.slice';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
-import { __URL__ } from '@modules/common/lib/common.constants';
-import type { BookAnnotationManagementEditFormData } from './book-annotation-management-edit-form';
+
 import BookAnnotationManagementEditForm from './book-annotation-management-edit-form';
+import { useBookStore } from '@modules/books/state/book.slice';
+import { useEditBookAnnotation } from '@modules/annotations/hooks/use-edit-book-annotation';
 
 interface BookAnnotationManagementEditProps {
   annotation: Annotation;
@@ -25,40 +24,20 @@ interface BookAnnotationManagementEditProps {
 const BookAnnotationManagementEdit: React.FC<BookAnnotationManagementEditProps> = (props) => {
   const { annotation } = props;
 
-  const { toast } = useToast();
-  const { queryClient } = useQueriesStore();
-  const { book } = useBookStore();
-
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const { mutateAsync } = useMutation({
-    mutationFn: async (data: BookAnnotationManagementEditFormData) => {
-      try {
-        const url = new URL('/api/books/annotations', __URL__);
-        const body = JSON.stringify({
-          annotationId: annotation.id,
-          ...data,
-        });
+  const { queryClient } = useQueriesStore();
+  const { book } = useBookStore();
+  const { toast } = useToast();
 
-        const response = await fetch(url, { method: 'PATCH', body });
-        if (!response.ok) {
-          throw new Error('Could not edit book annotation!');
-        }
-
-        toast({ variant: 'success', content: `Book annotation edited successfully!` });
-      } catch (error) {
-        let errorMessage = 'Could not edit book annotation!';
-        if (error instanceof Error) errorMessage = error.message;
-
-        toast({ variant: 'error', content: errorMessage });
-      } finally {
+  const { editAnnotation } = useEditBookAnnotation({
+    annotation,
+    onSuccess: async (data) => {
+      if (data.annotation && book) {
+        await queryClient.refetchQueries(['book-annotations', book.id]);
         setDialogOpen(false);
+        toast({ variant: 'success', content: `Book annotation edited successfully!` });
       }
-    },
-    onSuccess: async () => {
-      if (!book) return;
-
-      await queryClient.invalidateQueries(['book-annotations', book.id]);
     },
   });
 
@@ -76,7 +55,7 @@ const BookAnnotationManagementEdit: React.FC<BookAnnotationManagementEditProps> 
           <DialogDescription>Edit a annotation of the book.</DialogDescription>
         </DialogHeader>
 
-        <BookAnnotationManagementEditForm annotation={annotation} onSubmit={mutateAsync} />
+        <BookAnnotationManagementEditForm annotation={annotation} onSubmit={editAnnotation} />
       </DialogContent>
     </Dialog>
   );

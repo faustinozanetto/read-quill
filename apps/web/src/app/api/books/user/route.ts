@@ -20,6 +20,10 @@ export async function GET(request: NextRequest): Promise<NextResponse<UserBooksG
       where: { readerId: userId },
       skip: pageSize * pageIndex,
       take: pageSize,
+      include: {
+        image: true,
+        reader: true,
+      },
     });
 
     // Fetch the total count of books

@@ -10,7 +10,7 @@ const DashboardReadTimeDistribution: React.FC = () => {
   const { data, isFetching, isLoading } = useReadInsightsTimeDistribution();
 
   return (
-    <div className="rounded-lg border p-4 shadow flex flex-col gap-2">
+    <div className="rounded-lg border p-4 shadow flex flex-col gap-2 h-fit">
       <h3 className="text-xl font-bold">Read Time Distribution</h3>
       <p>
         Explore your reading patterns with the Read Time Distribution graph, revealing the accumulated pages read

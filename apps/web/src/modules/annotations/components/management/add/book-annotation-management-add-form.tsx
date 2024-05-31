@@ -1,49 +1,56 @@
 import React from 'react';
-import type { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { Button, DialogFooter, Form, PencilIcon, cn, LoadingIcon } from '@read-quill/design-system';
-import { createBookAnnotationValidationSchemaBase } from '@modules/annotations/lib/annotations.validations';
-import AnnotationFormsTitle from '../../forms/annotation-forms-title';
-import AnnotationFormsChapter from '../../forms/annotation-forms-chapter';
-import AnnotationFormsContent from '../../forms/annotation-forms-content';
 
-export type BookAnnotationManagementAddFormData = z.infer<typeof createBookAnnotationValidationSchemaBase>;
+import { Button, PencilIcon, cn, LoadingIcon } from '@read-quill/design-system';
+
+import AnnotationForm from '../../forms/annotation-form';
+import { MultiStepFormStep } from '@modules/forms/hooks/use-multi-step-form';
+import { CreateAnnotationFormActionData } from '@modules/annotations/types/annotation-validations.types';
+import { ANNOTATION_ACTIONS_VALIDATIONS_FORMS } from '@modules/annotations/lib/annotations.validations';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const STEPS_DATA: MultiStepFormStep<CreateAnnotationFormActionData>[] = [
+  {
+    title: 'Title',
+    fields: ['title'],
+  },
+  {
+    title: 'Chapter',
+    fields: ['chapter'],
+  },
+  {
+    title: 'Content',
+    fields: ['content'],
+  },
+];
 
 interface BookAnnotationManagementAddFormProps {
-  onSubmit: (data: BookAnnotationManagementAddFormData) => void;
+  onSubmit: (data: CreateAnnotationFormActionData) => void;
 }
 
 const BookAnnotationManagementAddForm: React.FC<BookAnnotationManagementAddFormProps> = (props) => {
   const { onSubmit } = props;
 
-  const form = useForm<BookAnnotationManagementAddFormData>({
-    resolver: zodResolver(createBookAnnotationValidationSchemaBase),
-    mode: 'onBlur',
-  });
-
-  const isFormLoading = form.formState.isSubmitting;
-
   return (
-    <Form {...form}>
-      <form className="flex flex-col gap-4" onSubmit={form.handleSubmit(onSubmit)}>
-        <AnnotationFormsTitle />
-        <AnnotationFormsChapter />
-        <AnnotationFormsContent />
-
-        <DialogFooter>
+    <AnnotationForm
+      data={STEPS_DATA}
+      resolver={zodResolver(ANNOTATION_ACTIONS_VALIDATIONS_FORMS.CREATE)}
+      onSubmit={onSubmit}
+    >
+      {(form, getCanSubmit) => {
+        const isFormLoading = form.formState.isSubmitting;
+        return (
           <Button
-            aria-label="Add Annotation"
-            className={cn('w-full', isFormLoading && 'cursor-not-allowed')}
-            disabled={isFormLoading}
+            aria-label="Create Annotation"
+            className={cn(isFormLoading && 'cursor-not-allowed')}
+            disabled={isFormLoading || !getCanSubmit()}
             type="submit"
           >
             {isFormLoading ? <LoadingIcon className="mr-2" /> : <PencilIcon className="mr-2" />}
-            Add
+            Create
           </Button>
-        </DialogFooter>
-      </form>
-    </Form>
+        );
+      }}
+    </AnnotationForm>
   );
 };
 

@@ -18,6 +18,7 @@ export * from './components/calendar';
 export * from './components/popover';
 export * from './components/command';
 export * from './components/table';
+export * from './components/multi-input';
 export * from './components/data-table/data-table';
 export * from './components/data-table/data-table-column-header';
 export * from './components/data-table/data-table-pagination';
@@ -31,6 +32,7 @@ export * from './components/toggle-group';
 export * from './components/slider';
 export * from './components/switch';
 export * from './components/radio-group';
+export * from './components/separator';
 
 // Hook Expors
 export * from './hooks/use-toast';

@@ -1,11 +1,9 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { EditThreadCommentFormActionData } from '@modules/community/types/community-thread-comments-validations.types';
 import { ThreadCommentWithAuthor } from '@modules/community/types/community.types';
-import {
-  createThreadCommentValidationBaseSchema,
-  editThreadCommentValidationBaseSchema,
-} from '@modules/community/validations/community-comment.validations';
+import { THREAD_COMMENT_ACTIONS_VALIDATIONS_FORMS } from '@modules/community/validations/community-comment.validations';
 import {
   Button,
   Form,
@@ -21,20 +19,17 @@ import {
 } from '@read-quill/design-system';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-
-export type CommunityThreadEditCommentFormData = z.infer<typeof editThreadCommentValidationBaseSchema>;
 
 interface CommunityThreadCommentManagementEditFormProps {
   comment: ThreadCommentWithAuthor;
-  onSubmit: (data: CommunityThreadEditCommentFormData) => void;
+  onSubmit: (data: EditThreadCommentFormActionData) => void;
 }
 
 const CommunityThreadCommentManagementEditForm: React.FC<CommunityThreadCommentManagementEditFormProps> = (props) => {
   const { comment, onSubmit } = props;
 
-  const form = useForm<CommunityThreadEditCommentFormData>({
-    resolver: zodResolver(createThreadCommentValidationBaseSchema),
+  const form = useForm<EditThreadCommentFormActionData>({
+    resolver: zodResolver(THREAD_COMMENT_ACTIONS_VALIDATIONS_FORMS.EDIT),
     mode: 'onBlur',
     defaultValues: {
       content: comment.content,

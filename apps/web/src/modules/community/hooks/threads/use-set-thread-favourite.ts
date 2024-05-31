@@ -1,5 +1,5 @@
-import { DefinedUseQueryResult, UseMutationResult, useMutation } from '@tanstack/react-query';
-import { ThreadFavouriteGetResponse, ThreadFavouritePostResponse } from '@modules/api/types/community-api.types';
+import { UseMutationResult, useMutation } from '@tanstack/react-query';
+import { ThreadFavouritePostResponse } from '@modules/api/types/community-api.types';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useToast } from '@read-quill/design-system';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
@@ -20,12 +20,7 @@ export const useSetThreadFavourite = (): UseSetThreadFavouriteReturn => {
   const { toast } = useToast();
   const { queryClient } = useQueriesStore();
 
-  const { mutateAsync, isLoading } = useMutation<
-    ThreadFavouritePostResponse,
-    unknown,
-    UseSetThreadFavouriteParams,
-    unknown
-  >({
+  const { mutateAsync, isLoading } = useMutation<ThreadFavouritePostResponse, Error, UseSetThreadFavouriteParams>({
     mutationFn: async (data) => {
       try {
         const { currentThreadFavourite, threadId } = data;
@@ -58,7 +53,7 @@ export const useSetThreadFavourite = (): UseSetThreadFavouriteReturn => {
       toast({ variant: 'success', content: `Thread ${threadFavourite ? 'added to' : 'removed from'} favourites!` });
 
       const { threadId, userId } = variables;
-      await queryClient.invalidateQueries(['thread-favourite', threadId, userId]);
+      await queryClient.refetchQueries(['thread-favourite', threadId, userId]);
     },
   });
 

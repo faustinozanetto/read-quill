@@ -1,8 +1,8 @@
-import { Thread, ThreadComment, User } from '@read-quill/database';
-import { voteThreadValidationSchema } from '../validations/community-thread.validations';
-import { z } from 'zod';
+import { Image, Thread, ThreadAttachment, ThreadComment, User } from '@read-quill/database';
 
-export interface ThreadWithDetails extends Thread, ThreadAuthor, ThreadCommentsCount {}
+export interface ThreadWithDetails extends Thread, ThreadAuthor, ThreadCommentsCount {
+  views: ThreadViews;
+}
 
 export interface ThreadAuthor {
   author: {
@@ -16,14 +16,21 @@ export interface ThreadCommentsCount {
   commentsCount: number;
 }
 
+export interface ThreadViews {
+  unique: number;
+  total: number;
+}
+
 export interface ThreadCommentWithAuthor extends Omit<ThreadComment, 'authorId'>, ThreadAuthor {}
+
+export interface ThreadAttachmentWithImage extends ThreadAttachment {
+  image: Image;
+}
 
 export interface ThreadCommentNode {
   comment: ThreadCommentWithAuthor;
   replies: ThreadCommentNode[];
 }
-
-export type VoteThreadValidationSchema = z.infer<typeof voteThreadValidationSchema>;
 
 export interface CommunityTopUser {
   user: Omit<User, 'emailVerified' | 'email'>;

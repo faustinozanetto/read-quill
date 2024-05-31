@@ -1,5 +1,5 @@
 import React from 'react';
-import type { z } from 'zod';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import {
@@ -17,19 +17,18 @@ import {
   cn,
   LoadingIcon,
 } from '@read-quill/design-system';
-import { bookReviewValidationSchemaForm } from '@modules/books/validations/books.validations';
-
-export type UserBookReviewManagementAddFormData = z.infer<typeof bookReviewValidationSchemaForm>;
+import { CreateBookReviewFormActionData } from '@modules/books/types/book-validations.types';
+import { BOOK_ACTIONS_VALIDATIONS_FORMS } from '@modules/books/validations/books.validations';
 
 interface UserBookReviewManagementAddFormProps {
-  onSubmit: (data: UserBookReviewManagementAddFormData) => void;
+  onSubmit: (data: CreateBookReviewFormActionData) => void;
 }
 
 const UserBookReviewManagementAddForm: React.FC<UserBookReviewManagementAddFormProps> = (props) => {
   const { onSubmit } = props;
 
-  const form = useForm<UserBookReviewManagementAddFormData>({
-    resolver: zodResolver(bookReviewValidationSchemaForm),
+  const form = useForm<CreateBookReviewFormActionData>({
+    resolver: zodResolver(BOOK_ACTIONS_VALIDATIONS_FORMS.CREATE_REVIEW),
     mode: 'onBlur',
   });
 

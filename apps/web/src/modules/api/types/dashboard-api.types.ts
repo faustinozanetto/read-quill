@@ -1,4 +1,4 @@
-import type { ReadRegistry, ReadTargets } from '@read-quill/database';
+import type { Image, ReadRegistry, ReadTargets } from '@read-quill/database';
 
 export type DashboardReadRegistry = ReadRegistry & {
   book: {
@@ -9,8 +9,22 @@ export type DashboardReadRegistry = ReadRegistry & {
 };
 
 export interface DashboardReadTargetsGetResponse {
+  result: {
+    targetReadTargets: Pick<ReadTargets, 'daily' | 'weekly' | 'monthly'>;
+    readTargets: Pick<ReadTargets, 'daily' | 'weekly' | 'monthly'>;
+  } | null;
+}
+
+export interface DashboardReadTargetsPostResponse {
+  success: boolean;
+}
+
+export interface DashboardReadTargetsPatchResponse {
   targetReadTargets: Pick<ReadTargets, 'daily' | 'weekly' | 'monthly'>;
-  readTargets: Pick<ReadTargets, 'daily' | 'weekly' | 'monthly'>;
+}
+
+export interface DashboardReadTargetsDeleteResponse {
+  success: boolean;
 }
 
 export interface DashboardReadTargetsCreatedGetResponse {
@@ -33,7 +47,7 @@ export interface DashboardBooksProgressGetResponse {
   booksProgress: {
     id: string;
     progress: number;
-    cover: string;
+    cover: Image;
     name: string;
   }[];
   pageCount: number;

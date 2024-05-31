@@ -25,7 +25,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
     // Fetch read registries for the current page
     const readRegistries = await prisma.readRegistry.findMany({
       where: { book: { reader: { id: session.user.id } } },
-      include: { book: { select: { pageCount: true, coverImage: true, name: true } } },
+      include: { book: { select: { pageCount: true, image: true, name: true } } },
       skip: pageSize * pageIndex,
       take: pageSize,
     });

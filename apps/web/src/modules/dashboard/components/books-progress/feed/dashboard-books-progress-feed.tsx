@@ -10,11 +10,21 @@ import DashboardBooksProgressFiltering from './filtering/dashboard-books-progres
 
 interface DashboardBooksProgressFeedProps extends PaginationControlsProps {
   booksProgress: DashboardBooksProgressGetResponse['booksProgress'];
+  renderPlaceholder: () => React.ReactNode;
 }
 
 const DashboardBooksProgressFeed: React.FC<DashboardBooksProgressFeedProps> = (props) => {
-  const { booksProgress, page, pageCount, getCanNextPage, getCanPreviousPage, nextPage, previousPage, setPageIndex } =
-    props;
+  const {
+    booksProgress,
+    page,
+    pageCount,
+    getCanNextPage,
+    getCanPreviousPage,
+    nextPage,
+    previousPage,
+    setPageIndex,
+    renderPlaceholder,
+  } = props;
 
   const filterFunctions: UseFilterFilteringFunctions<DashboardBooksProgressGetResponse['booksProgress'][0]> = {
     name: (item, value) => item.name.toLowerCase().includes((value as string).toLowerCase()),
@@ -41,7 +51,7 @@ const DashboardBooksProgressFeed: React.FC<DashboardBooksProgressFeedProps> = (p
       }}
     >
       <div className="p-4 grow flex flex-col justify-between gap-4">
-        <span className="font-medium">Showing {filteredData.length} Books</span>
+        {booksProgress.length > 0 && <span className="font-medium">Showing {filteredData.length} Books</span>}
 
         {noResults ? (
           <p className="my-auto text-center">
@@ -62,6 +72,7 @@ const DashboardBooksProgressFeed: React.FC<DashboardBooksProgressFeedProps> = (p
                   />
                 );
               })}
+              {renderPlaceholder()}
             </div>
             <PaginationControls
               getCanNextPage={getCanNextPage}

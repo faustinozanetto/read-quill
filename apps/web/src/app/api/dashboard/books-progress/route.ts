@@ -1,4 +1,4 @@
-import { prisma } from '@read-quill/database';
+import { Image, prisma } from '@read-quill/database';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import type { DashboardBooksProgressGetResponse } from '@modules/api/types/dashboard-api.types';
@@ -37,11 +37,11 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardB
     const bookIds = books.map((book) => book.id);
     const readRegistries = await prisma.readRegistry.findMany({
       where: { bookId: { in: bookIds } },
-      include: { book: { select: { name: true, pageCount: true, coverImage: true } } },
+      include: { book: { select: { name: true, pageCount: true, image: true } } },
     });
 
     // Calculate the progress for each book
-    const booksProgress = readRegistries.reduce<Record<string, { progress: number; cover: string; name: string }>>(
+    const booksProgress = readRegistries.reduce<Record<string, { progress: number; cover: Image; name: string }>>(
       (acc, curr) => {
         const { bookId, pagesRead, book } = curr;
         const bookPageCount = book.pageCount;
@@ -49,7 +49,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardB
         if (!acc[bookId]) {
           acc[bookId] = {
             progress: (pagesRead / bookPageCount) * 100,
-            cover: book.coverImage,
+            cover: book.image,
             name: book.name,
           };
         } else {

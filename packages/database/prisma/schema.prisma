@@ -59,7 +59,6 @@ model Book {
   id          String    @id @default(cuid())
   name        String
   author      String
-  coverImage  String
   language    String
   pageCount   Int
   startedAt   DateTime?
@@ -67,6 +66,9 @@ model Book {
   isFavourite Boolean   @default(false)
   review      String?
   rating      Int?
+
+  image   Image  @relation(fields: [imageId], references: [id], onDelete: NoAction)
+  imageId String
 
   reader   User   @relation(fields: [readerId], references: [id], onDelete: Cascade)
   readerId String
@@ -134,6 +136,7 @@ model Thread {
 
   comments             ThreadComment[]
   userFavouriteThreads UserFavouriteThread[]
+  attachments          ThreadAttachment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -150,8 +153,9 @@ model UserFavouriteThread {
 }
 
 model ThreadComment {
-  id      String @id @default(cuid())
-  content String
+  id       String  @id @default(cuid())
+  content  String
+  isEdited Boolean @default(false)
 
   author   User   @relation(fields: [authorId], references: [id])
   authorId String
@@ -162,6 +166,28 @@ model ThreadComment {
   replyToId String?
   replyTo   ThreadComment?  @relation("ThreadCommentReplies", fields: [replyToId], references: [id], onDelete: Cascade)
   replies   ThreadComment[] @relation("ThreadCommentReplies")
+
+  createdAt DateTime @default(now())
+}
+
+model ThreadAttachment {
+  id          String @id @default(cuid())
+  description String
+  image       Image  @relation(fields: [imageId], references: [id], onDelete: Cascade)
+  imageId     String
+
+  thread   Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  threadId String
+
+  createdAt DateTime @default(now())
+}
+
+model Image {
+  id   String @id @default(cuid())
+  path String
+
+  threadAttachments ThreadAttachment[]
+  books             Book[]
 
   createdAt DateTime @default(now())
 }

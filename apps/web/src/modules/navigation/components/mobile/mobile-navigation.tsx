@@ -1,12 +1,11 @@
 import React from 'react';
-import { UserIcon } from '@read-quill/design-system';
 import Link from 'next/link';
 import ThemeToggler from '@modules/theme/components/theme-toggler';
 import { NAVIGATION_LINKS } from '@modules/navigation/data/navigation-lib';
 import MarketingLogoSimple from '@modules/marketing/components/logos/marketing-logo-simple';
 import NavigationLink from '../navigation-link';
-import NavigationLogout from '../auth/navigation-logout';
 import { auth } from 'auth';
+import MobileUserNavigation from './mobile-user-navigation';
 
 const MobileNavigation: React.FC = async () => {
   const session = await auth();
@@ -22,12 +21,7 @@ const MobileNavigation: React.FC = async () => {
             return <NavigationLink href={link.href} icon={link.icon} key={link.href} size="icon" />;
           })}
 
-          {session && (
-            <>
-              <NavigationLink href={`/users/${session.user.id}`} icon={<UserIcon />} size="icon" />
-              <NavigationLogout size="icon" />
-            </>
-          )}
+          {session && <MobileUserNavigation session={session} />}
         </nav>
         <ThemeToggler size="icon" variant="ghost" />
       </div>

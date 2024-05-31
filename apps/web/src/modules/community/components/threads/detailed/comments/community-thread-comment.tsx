@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ThreadCommentNode } from '@modules/community/types/community.types';
 import CommunityThreadAuthorAvatar from '../../common/community-thread-author-avatar';
 import Link from 'next/link';
-import { cn } from '@read-quill/design-system';
+import { Badge, EditIcon, cn } from '@read-quill/design-system';
 import CommunityThreadCommentManagement from './management/community-thread-comment-management';
 import CommunityThreadReplyComment from './reply/community-thread-reply-comment';
 import { useAuthContext } from '@modules/auth/hooks/use-auth-context';
@@ -36,7 +36,7 @@ const CommunityThreadComment: React.FC<CommunityThreadCommentProps> = (props) =>
           <div className="space-y-1 grow">
             {/* Details */}
             <div className="flex gap-2 items-center">
-              <CommunityThreadAuthorAvatar author={comment.author} size="sm" />
+              <CommunityThreadAuthorAvatar className="self-start" author={comment.author} size="sm" />
               <div className="flex flex-col sm:items-center sm:gap-2 sm:flex-row">
                 <Link href={`/users/${comment.author.id}`} className="font-medium leading-[12px] sm:leading-normal">
                   {comment.author.name}
@@ -50,6 +50,12 @@ const CommunityThreadComment: React.FC<CommunityThreadCommentProps> = (props) =>
                     minute: 'numeric',
                   })}
                 </span>
+                {comment.isEdited && (
+                  <Badge className="w-fit" variant="outline">
+                    <EditIcon className="mr-1 w-4 h-4 fill-current/80" />
+                    edited
+                  </Badge>
+                )}
               </div>
               {/* Management */}
               {user?.id === commentNode.comment.author.id && (

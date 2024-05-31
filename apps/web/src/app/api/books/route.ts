@@ -2,16 +2,19 @@ import { prisma } from '@read-quill/database';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import {
-  createBookValidationSchemaAPI,
-  deleteBookValidationSchemaForm,
-  editBookValidationSchemaAPI,
-} from '@modules/books/validations/books.validations';
-import { supabase } from '@modules/supabase/lib/supabase.lib';
+
 import { auth } from 'auth';
+import {
+  BookDeleteResponse,
+  BookGetResponse,
+  BookPatchResponse,
+  BookPostResponse,
+} from '@modules/api/types/books-api.types';
+import { BOOK_ACTIONS_VALIDATIONS_API } from '@modules/books/validations/books.validations';
+import { deleteImageFromSupabase } from '@modules/uploads/lib/uploads.lib';
 
 // /api/books GET : Gets a book by a given bookId
-export async function GET(request: NextRequest): Promise<NextResponse> {
+export async function GET(request: NextRequest): Promise<NextResponse<BookGetResponse>> {
   try {
     const { searchParams } = new URL(request.url);
     const bookId = searchParams.get('bookId');
@@ -20,7 +23,11 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
       return new NextResponse('Book ID is missing', { status: 400 });
     }
 
-    const book = await prisma.book.findUnique({ where: { id: bookId }, include: { reader: true } });
+    const book = await prisma.book.findUnique({ where: { id: bookId }, include: { reader: true, image: true } });
+    if (!book) {
+      return new NextResponse('Could not find book!', { status: 404 });
+    }
+
     return NextResponse.json({ book });
   } catch (error) {
     let errorMessage = 'An error occurred!';
@@ -30,8 +37,8 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
   }
 }
 
-// /api/books POST : creates a book
-export async function POST(request: NextRequest): Promise<NextResponse> {
+// /api/books POST : Creates a book
+export async function POST(request: NextRequest): Promise<NextResponse<BookPostResponse>> {
   try {
     const session = await auth();
 
@@ -42,8 +49,8 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     const email = session.user.email;
 
     const json = await request.json();
-    const { name, author, coverImage, language, pageCount, startedAt, finishedAt } =
-      createBookValidationSchemaAPI.parse(json);
+    const { name, author, imageId, language, pageCount, startedAt, finishedAt } =
+      BOOK_ACTIONS_VALIDATIONS_API.CREATE.parse(json);
 
     const book = await prisma.book.create({
       data: {
@@ -51,7 +58,6 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         author,
         language,
         pageCount,
-        coverImage,
         startedAt,
         finishedAt,
         reader: {
@@ -59,9 +65,15 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             email,
           },
         },
+        image: {
+          connect: {
+            id: imageId,
+          },
+        },
       },
       include: {
         reader: true,
+        image: true,
       },
     });
 
@@ -76,7 +88,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 }
 
 // /api/books PATCH : updates a book
-export async function PATCH(request: NextRequest): Promise<NextResponse> {
+export async function PATCH(request: NextRequest): Promise<NextResponse<BookPatchResponse>> {
   try {
     const session = await auth();
 
@@ -85,9 +97,46 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
     }
 
     const json = await request.json();
-    const { bookId, ...updateData } = editBookValidationSchemaAPI.parse(json);
+    const { bookId, imageId: newImageId, ...updateData } = BOOK_ACTIONS_VALIDATIONS_API.EDIT.parse(json);
 
-    const book = await prisma.book.update({
+    const book = await prisma.book.findUnique({
+      where: {
+        id: bookId,
+      },
+      include: {
+        image: true,
+      },
+    });
+
+    if (!book) {
+      return new NextResponse('Could not find boko!', { status: 404 });
+    }
+
+    // If imageId is not undefined, we are updating book cover.
+    if (newImageId !== undefined) {
+      await prisma.book.update({
+        where: {
+          id: bookId,
+        },
+        data: {
+          imageId: newImageId,
+        },
+      });
+
+      // Delete old image and remove it from supabase.
+      const image = await prisma.image.delete({
+        where: {
+          id: book.image.id,
+        },
+      });
+
+      const { error } = await deleteImageFromSupabase('BookCovers', image.path);
+      if (error) {
+        throw new NextResponse('Could not delete book!', { status: 500 });
+      }
+    }
+
+    const updatedBook = await prisma.book.update({
       where: {
         id: bookId,
       },
@@ -96,10 +145,11 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
       },
       include: {
         reader: true,
+        image: true,
       },
     });
 
-    return NextResponse.json({ book });
+    return NextResponse.json({ book: updatedBook });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
@@ -110,7 +160,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse> {
 }
 
 // /api/books DELETE : deletes a book
-export async function DELETE(request: NextRequest): Promise<NextResponse> {
+export async function DELETE(request: NextRequest): Promise<NextResponse<BookDeleteResponse>> {
   try {
     const session = await auth();
 
@@ -119,17 +169,27 @@ export async function DELETE(request: NextRequest): Promise<NextResponse> {
     }
 
     const json = await request.json();
-    const { bookId } = deleteBookValidationSchemaForm.parse(json);
+    const { bookId } = BOOK_ACTIONS_VALIDATIONS_API.DELETE.parse(json);
 
     const book = await prisma.book.delete({
       where: {
         id: bookId,
       },
+      include: {
+        image: true,
+      },
     });
 
-    // Extract supabase image name from the complete url.
-    const supabaseCoverPath = book.coverImage.split('/').slice(-1).toString();
-    await supabase.storage.from('BookCovers').remove([supabaseCoverPath]);
+    const { error } = await deleteImageFromSupabase('BookCovers', book.image.path);
+    if (error) {
+      throw new NextResponse('Could not delete book!', { status: 500 });
+    }
+
+    await prisma.image.delete({
+      where: {
+        id: book.image.id,
+      },
+    });
 
     return NextResponse.json({ success: true });
   } catch (error) {

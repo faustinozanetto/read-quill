@@ -8,16 +8,20 @@ import { CommunityThreadCard } from '../card/community-thread-card';
 
 const CommunityTrendingThreads: React.FC = () => {
   const { data, isLoading, isFetching } = useCommunityTrendingThreads({
-    pageSize: 6,
+    pageSize: 4,
   });
 
   return (
-    <div className="flex w-full flex-col border p-4 rounded-lg shadow">
+    <div className="flex w-full flex-col border p-4 rounded-lg shadow space-y-2">
       <h1 className="text-2xl font-bold">🔥Trending Threads</h1>
-      <p className="mb-2">Check out the most upvoted threads in the past weeks!</p>
+      <p>
+        {data && data.threads.length === 0 && !(isLoading || isFetching)
+          ? 'Trending threads will appear here once people write some!'
+          : 'Check out the latest trending threads!'}
+      </p>
 
       {(isFetching || isLoading) && (
-        <div className="grid xl:grid-cols-2 2xl:grid-cols-1 gap-2">
+        <div className="grid gap-2">
           {Array.from({ length: 4 }).map((_, i) => (
             <CommunityThreadCardPlaceholder key={`thread-placeholder-${i}`} />
           ))}
@@ -25,26 +29,23 @@ const CommunityTrendingThreads: React.FC = () => {
       )}
 
       {!(isFetching || isLoading) && data && data.threads.length > 0 && (
-        <div className="grid xl:grid-cols-2 2xl:grid-cols-1 gap-2">
+        <div className="grid gap-2">
           {data.threads.map((thread) => {
             return (
               <CommunityThreadCard.Root key={`trending-thread-${thread.id}`} thread={thread}>
-                <CommunityThreadCard.Metadata thread={thread}>
-                  <CommunityThreadCard.Votes thread={thread} />
+                <CommunityThreadCard.Metadata>
+                  <CommunityThreadCard.Votes />
                 </CommunityThreadCard.Metadata>
-                <CommunityThreadCard.Content className="line-clamp-1">{thread.content}</CommunityThreadCard.Content>
+                <CommunityThreadCard.Content className="line-clamp-1" />
+                <div className="flex gap-2 items-center">
+                  <CommunityThreadCard.Comments />
+                  <CommunityThreadCard.Views />
+                </div>
               </CommunityThreadCard.Root>
             );
           })}
         </div>
       )}
-
-      {!(isFetching || isLoading) && data && data.threads.length === 0 ? (
-        <p>
-          No threads found! Be the first one by clicking the{' '}
-          <span className="text-primary font-bold underline">Start a Thread</span> button to get started.
-        </p>
-      ) : null}
     </div>
   );
 };

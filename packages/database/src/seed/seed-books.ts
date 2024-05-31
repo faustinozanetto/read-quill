@@ -12,12 +12,18 @@ void (async () => {
           const startedAt = faker.date.between({ from: faker.date.recent({ days: 120 }), to: new Date() });
           const finishedAt = faker.date.between({ from: startedAt, to: new Date() });
 
+          const image = await prisma.image.findFirst({
+            where: {
+              id: 'clwmtgkba0000lytbe1m71fun',
+            },
+          });
+          if (!image) return;
+
           const book = await prisma.book.create({
             data: {
               id: faker.string.uuid(),
               name: faker.lorem.words(),
               author: faker.person.fullName(),
-              coverImage: faker.image.url(),
               language: faker.helpers.arrayElement(['English', 'Spanish', 'French']),
               pageCount: faker.number.int({
                 min: SEED_BOOKS_CONFIG.PAGE_COUNT.MIN,
@@ -29,6 +35,7 @@ void (async () => {
               review: faker.lorem.paragraph(),
               rating: faker.number.int({ min: 1, max: 5 }),
               readerId: user.id,
+              imageId: image.id,
             },
           });
 

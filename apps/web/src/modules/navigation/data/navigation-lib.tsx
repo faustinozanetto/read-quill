@@ -31,11 +31,11 @@ export const NAVIGATION_LINKS: Omit<NavigationLinkProps, 'isCompact'>[] = [
     children: 'Achievements',
     icon: <MedalIcon className="stroke-current" />,
   },
-  {
-    href: '/challenges',
-    children: 'Challenges',
-    icon: <TargetIcon className="stroke-current" />,
-  },
+  // {
+  //   href: '/challenges',
+  //   children: 'Challenges',
+  //   icon: <TargetIcon className="stroke-current" />,
+  // },
   {
     href: '/community',
     children: 'Community',
