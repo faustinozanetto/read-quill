@@ -18,10 +18,12 @@ import { BookWithDetails } from '@modules/books/types/book.types';
 
 interface UserBooksFeedProps extends PaginationControlsProps {
   books: BookWithDetails[];
+  children: React.ReactNode;
 }
 
 const UserBooksFeed: React.FC<UserBooksFeedProps> = (props) => {
-  const { books, page, pageCount, getCanNextPage, getCanPreviousPage, nextPage, previousPage, setPageIndex } = props;
+  const { books, page, pageCount, getCanNextPage, getCanPreviousPage, nextPage, previousPage, setPageIndex, children } =
+    props;
 
   const [cardVariant, setCardVariant] = useState<'vertical' | 'landscape'>('vertical');
 
@@ -98,16 +100,21 @@ const UserBooksFeed: React.FC<UserBooksFeedProps> = (props) => {
           </p>
         ) : (
           <>
-            <BooksFeed books={filteredData} cardVariant={cardVariant} />
-            <PaginationControls
-              getCanNextPage={getCanNextPage}
-              getCanPreviousPage={getCanPreviousPage}
-              nextPage={nextPage}
-              page={page}
-              pageCount={pageCount}
-              previousPage={previousPage}
-              setPageIndex={setPageIndex}
-            />
+            {books.length > 0 && (
+              <>
+                <BooksFeed className="flex-1" books={filteredData} cardVariant={cardVariant} />
+                <PaginationControls
+                  getCanNextPage={getCanNextPage}
+                  getCanPreviousPage={getCanPreviousPage}
+                  nextPage={nextPage}
+                  page={page}
+                  pageCount={pageCount}
+                  previousPage={previousPage}
+                  setPageIndex={setPageIndex}
+                />
+              </>
+            )}
+            {children}
           </>
         )}
       </div>

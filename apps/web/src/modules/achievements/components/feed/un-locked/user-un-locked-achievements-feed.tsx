@@ -51,7 +51,7 @@ const UserUnLockedAchievementsFeed: React.FC<UserUnLockedAchievementsFeedProps> 
         return <UserUnLockedAchievementsFiltering filters={filters} sort={sort} />;
       }}
     >
-      <div className="max-h-[600px] overflow-y-auto grid gap-4 p-4 sm:grid-cols-3 xl:grid-cols-4 grow h-fit">
+      <div className="max-h-[600px] overflow-y-auto grid gap-2.5 p-4 grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 grow h-fit">
         {filteredData.map((userAchievement) => {
           return (
             <UnLockedAchievementCard

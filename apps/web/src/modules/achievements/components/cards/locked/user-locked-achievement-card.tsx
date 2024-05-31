@@ -24,9 +24,9 @@ const UserLockedAchievementCard: React.FC<UserLockedAchievementCardProps> = (pro
       <ThropyIcon className="w-14 h-14 sm:w-16 sm:h-16 bg-primary p-2 rounded-lg shadow mb-1" />
       <span className="font-bold uppercase block">{userAchievement.name}</span>
       {userAchievement.criteria ? (
-        <ul className="flex gap-1.5 my-auto justify-between items-center">
+        <ul className="flex flex-wrap gap-1.5 my-auto justify-center items-center">
           {Object.entries(userAchievement.criteria).map(([criteriaName, criteriaValue]) => (
-            <Badge key={criteriaName}>
+            <Badge key={criteriaName} className="text-pretty">
               {ACHIEVEMENT_DISPLAY_CRITERIAS[criteriaName] || criteriaName} {criteriaValue}
             </Badge>
           ))}

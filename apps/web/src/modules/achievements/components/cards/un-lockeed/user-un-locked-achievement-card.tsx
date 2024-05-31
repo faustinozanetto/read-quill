@@ -44,9 +44,9 @@ const UserUnLockedAchievementCard: React.FC<UserUnLockedAchievementCardProps> = 
       </TooltipProvider>
 
       {userAchievement.criteria ? (
-        <ul className="flex gap-1.5 my-auto justify-center flex-wrap items-center">
+        <ul className="flex flex-wrap gap-1.5 my-auto justify-center items-center">
           {Object.entries(userAchievement.criteria).map(([criteriaName, criteriaValue]) => (
-            <Badge key={criteriaName}>
+            <Badge key={criteriaName} className="text-pretty">
               {ACHIEVEMENT_DISPLAY_CRITERIAS[criteriaName] || criteriaName} {criteriaValue}
             </Badge>
           ))}

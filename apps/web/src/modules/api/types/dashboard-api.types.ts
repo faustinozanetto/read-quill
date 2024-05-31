@@ -1,3 +1,4 @@
+import { BookProgressEntry } from '@modules/dashboard/types/dashboard.types';
 import type { Image, ReadRegistry, ReadTargets } from '@read-quill/database';
 
 export type DashboardReadRegistry = ReadRegistry & {
@@ -44,12 +45,7 @@ export interface DashboardReadInsightsTrendsGetResponse {
 }
 
 export interface DashboardBooksProgressGetResponse {
-  booksProgress: {
-    id: string;
-    progress: number;
-    cover: Image;
-    name: string;
-  }[];
+  booksProgress: BookProgressEntry[];
   pageCount: number;
   hasMore: boolean;
 }

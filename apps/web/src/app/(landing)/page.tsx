@@ -7,7 +7,7 @@ import HomeCta from '@modules/landing/components/sections/cta/home-cta';
 import HomeTestimonials from '@modules/landing/components/sections/testimonials/home-testimonials';
 import { getLandingStats } from '@modules/landing/lib/landing.lib';
 
-export const revalidate = 0;
+export const dynamic = 'force-dynamic';
 
 export default async function Page(): Promise<React.JSX.Element> {
   const stats = await getLandingStats();

@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserIcon } from '@read-quill/design-system';
+import { SettingsIcon, UserIcon } from '@read-quill/design-system';
 import Link from 'next/link';
 import ThemeToggler from '@modules/theme/components/theme-toggler';
 import { NAVIGATION_LINKS } from '@modules/navigation/data/navigation-lib';
@@ -35,6 +35,9 @@ const DesktopNavigation: React.FC = async () => {
               icon={<UserIcon className="mr-2" />}
             >
               {session.user.name}
+            </NavigationLink>
+            <NavigationLink className="w-full justify-start" href="/settings" icon={<SettingsIcon className="mr-2" />}>
+              Settings
             </NavigationLink>
             <NavigationLogout className="w-full justify-start">Logout</NavigationLogout>
           </>

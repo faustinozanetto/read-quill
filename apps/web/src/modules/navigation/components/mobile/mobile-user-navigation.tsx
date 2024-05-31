@@ -1,6 +1,6 @@
 'use client';
 
-import { LogOutIcon } from '@read-quill/design-system';
+import { LogOutIcon, SettingsIcon } from '@read-quill/design-system';
 import { buttonVariants } from '@read-quill/design-system';
 import {
   DropdownMenu,
@@ -15,6 +15,7 @@ import { Session } from 'next-auth';
 import Link from 'next/link';
 import React from 'react';
 import NavigationLogout from '../auth/navigation-logout';
+import NavigationLink from '../navigation-link';
 
 interface MobileUserNavigationProps {
   session: Session;
@@ -38,7 +39,14 @@ const MobileUserNavigation: React.FC<MobileUserNavigationProps> = (props) => {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <NavigationLogout className="w-full justify-start font-normal">Logout</NavigationLogout>
+          <Link href="/settings">
+            <SettingsIcon className="mr-2" />
+            Settings
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <NavigationLogout className="w-full justify-start font-normal h-8">Logout</NavigationLogout>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

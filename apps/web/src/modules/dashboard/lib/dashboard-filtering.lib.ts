@@ -4,6 +4,7 @@ import type { Filter, NestedKeyOf, Sort } from '@modules/filters/hooks/use-filte
 export const BOOKS_PROGRESS_INITIAL_FILTERS: Filter<DashboardBooksProgressGetResponse['booksProgress'][0]>[] = [
   { property: 'name', value: '', shouldEnable: (value) => value !== '' },
   { property: 'progress', value: 0, shouldEnable: (value) => value !== 0 },
+  { property: 'completed', value: 'All', shouldEnable: (value) => value !== 'All' },
 ];
 
 export const BOOKS_PROGRESS_INITIAL_SORT: Sort<DashboardBooksProgressGetResponse['booksProgress'][0]> = {

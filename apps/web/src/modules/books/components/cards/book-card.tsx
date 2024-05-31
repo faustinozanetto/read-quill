@@ -30,7 +30,7 @@ const metadataVariants = cva('', {
   },
 });
 
-const imageVariants = cva(' shadow object-cover object-center', {
+const imageVariants = cva('shadow object-cover object-center', {
   variants: {
     variant: {
       landscape: 'aspect-square w-24 rounded-l-lg ',
@@ -63,7 +63,7 @@ const BookCard: React.FC<BookCardProps> = (props) => {
           />
         )}
         <div className={metadataVariants({ variant })}>
-          <span className="font-bold uppercase blockt truncate  line-clamp-1">{book.name}</span>
+          <span className="font-bold uppercase blockt text-ellipsis line-clamp-1">{book.name}</span>
           <span className="font-medium text-sm block">{book.author}</span>
           <div className="mt-auto">
             <BookPagesBadge className="mr-2" pageCount={book.pageCount} />

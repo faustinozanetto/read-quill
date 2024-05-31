@@ -9,6 +9,7 @@ import FilterSelectInput from '@modules/filters/components/inputs/filter-select-
 import { BOOK_LANGUAGES } from '@modules/books/lib/book.constants';
 import FilterRadioGroupInput from '@modules/filters/components/inputs/filter-radio-group-input';
 import { BookWithDetails } from '@modules/books/types/book.types';
+import FilterRadioGroupInputEntry from '@modules/filters/components/inputs/filter-radio-group-input-entry';
 
 interface UserBooksFilteringProps {
   /**
@@ -109,10 +110,9 @@ const UserBooksFiltering: React.FC<UserBooksFilteringProps> = (props) => {
       >
         {Object.entries(BOOKS_FAVOURITE_OPTIONS).map((option) => {
           return (
-            <div className="flex items-center space-x-3 space-y-0" key={`filter-favourite-${option[0]}`}>
-              <RadioGroupItem value={option[0]} />
-              <Label className="font-normal">{option[1]}</Label>
-            </div>
+            <FilterRadioGroupInputEntry key={`filter-favourite-${option[0]}`} value={option[0]}>
+              {option[1]}
+            </FilterRadioGroupInputEntry>
           );
         })}
       </FilterRadioGroupInput>

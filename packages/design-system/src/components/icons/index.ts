@@ -57,3 +57,4 @@ export * from './users-icon';
 export * from './layout-grid-icon';
 export * from './layout-list-icon';
 export * from './messages-icon';
+export * from './settings-icon';

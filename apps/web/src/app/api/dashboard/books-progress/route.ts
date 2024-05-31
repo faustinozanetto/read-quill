@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import type { DashboardBooksProgressGetResponse } from '@modules/api/types/dashboard-api.types';
 import { auth } from 'auth';
+import { BookProgressEntry } from '@modules/dashboard/types/dashboard.types';
 
 // /api/dashboard/books-progress GET : Gets the reading progress of the user books
 export async function GET(request: NextRequest): Promise<NextResponse<DashboardBooksProgressGetResponse>> {
@@ -41,27 +42,27 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardB
     });
 
     // Calculate the progress for each book
-    const booksProgress = readRegistries.reduce<Record<string, { progress: number; cover: Image; name: string }>>(
-      (acc, curr) => {
-        const { bookId, pagesRead, book } = curr;
-        const bookPageCount = book.pageCount;
+    const booksProgress = readRegistries.reduce<Record<string, Omit<BookProgressEntry, 'id'>>>((acc, curr) => {
+      const { bookId, pagesRead, book } = curr;
+      const bookPageCount = book.pageCount;
 
-        if (!acc[bookId]) {
-          acc[bookId] = {
-            progress: (pagesRead / bookPageCount) * 100,
-            cover: book.image,
-            name: book.name,
-          };
-        } else {
-          acc[bookId].progress += (pagesRead / bookPageCount) * 100;
-        }
+      if (!acc[bookId]) {
+        acc[bookId] = {
+          progress: (pagesRead / bookPageCount) * 100,
+          cover: book.image,
+          name: book.name,
+          completed: false,
+        };
+      } else {
+        acc[bookId].progress += (pagesRead / bookPageCount) * 100;
+      }
 
-        acc[bookId].progress = Math.round(acc[bookId].progress);
+      acc[bookId].completed = acc[bookId].progress >= 100;
 
-        return acc;
-      },
-      {}
-    );
+      acc[bookId].progress = Math.round(acc[bookId].progress);
+
+      return acc;
+    }, {});
 
     const mappedBooksProgress = Object.entries(booksProgress).map((entry) => {
       return {

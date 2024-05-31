@@ -29,6 +29,16 @@ const DashboardBooksProgressFeed: React.FC<DashboardBooksProgressFeedProps> = (p
   const filterFunctions: UseFilterFilteringFunctions<DashboardBooksProgressGetResponse['booksProgress'][0]> = {
     name: (item, value) => item.name.toLowerCase().includes((value as string).toLowerCase()),
     progress: (item, value) => (value as number) >= item.progress,
+    completed: (item, value) => {
+      switch (value) {
+        case 'yes':
+          return item.completed;
+        case 'no':
+          return !item.completed;
+        default:
+          return true;
+      }
+    },
   };
 
   const sortFunctions: UseFilterSortingFunctions<DashboardBooksProgressGetResponse['booksProgress'][0]> = {

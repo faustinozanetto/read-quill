@@ -1,5 +1,4 @@
 import React from 'react';
-import type { Book } from '@read-quill/database';
 import BookCard, { BookCardStyleProps } from '../cards/book-card';
 import { cva } from 'class-variance-authority';
 import { BookWithDetails } from '@modules/books/types/book.types';
@@ -16,13 +15,14 @@ const variants = cva('gap-2.5', {
 interface BooksFeedProps {
   books: BookWithDetails[];
   cardVariant?: BookCardStyleProps['variant'];
+  className?: string;
 }
 
 const BooksFeed: React.FC<BooksFeedProps> = (props) => {
-  const { books, cardVariant = 'vertical' } = props;
+  const { books, cardVariant = 'vertical', className } = props;
 
   return (
-    <div className={variants({ variant: cardVariant })}>
+    <div className={variants({ variant: cardVariant, className })}>
       {books.map((book) => {
         return <BookCard book={book} key={`book-${book.id}`} variant={cardVariant} />;
       })}

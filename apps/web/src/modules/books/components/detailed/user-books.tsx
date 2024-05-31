@@ -31,40 +31,33 @@ const UserBooks: React.FC<UserBooksProps> = (props) => {
     <div className="flex w-full flex-col gap-2">
       <UserBooksHeader />
 
-      {isFetching || isLoading ? (
-        <div
-          className="grid gap-4 p-4 border rounded-lg shadow"
-          style={{
-            gridTemplateColumns: 'repeat(auto-fill, minmax(275px, 1fr))',
-          }}
-        >
-          {Array.from({ length: 6 }).map((_, i) => (
-            <BookCardPlaceholder key={`user-book-placeholder-${i}`} />
-          ))}
+      <FilterProvider
+        initialState={{
+          initialFilters: BOOKS_INITIAL_FILTERS,
+          initialSort: BOOKS_INITIAL_SORT,
+        }}
+      >
+        <div className="rounded-lg shadow border space-y-4">
+          <UserBooksFeed
+            books={data.books}
+            getCanNextPage={getCanNextPage}
+            getCanPreviousPage={getCanPreviousPage}
+            nextPage={nextPage}
+            page={page}
+            pageCount={data.pageCount}
+            previousPage={previousPage}
+            setPageIndex={setPageIndex}
+          >
+            {isFetching || isLoading ? (
+              <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <BookCardPlaceholder key={`user-book-placeholder-${i}`} />
+                ))}
+              </div>
+            ) : null}
+          </UserBooksFeed>
         </div>
-      ) : null}
-
-      {!(isFetching || isLoading) && data.books.length > 0 ? (
-        <FilterProvider
-          initialState={{
-            initialFilters: BOOKS_INITIAL_FILTERS,
-            initialSort: BOOKS_INITIAL_SORT,
-          }}
-        >
-          <div className="rounded-lg shadow border space-y-4">
-            <UserBooksFeed
-              books={data.books}
-              getCanNextPage={getCanNextPage}
-              getCanPreviousPage={getCanPreviousPage}
-              nextPage={nextPage}
-              page={page}
-              pageCount={data.pageCount}
-              previousPage={previousPage}
-              setPageIndex={setPageIndex}
-            />
-          </div>
-        </FilterProvider>
-      ) : null}
+      </FilterProvider>
 
       {!(isFetching || isLoading) && data.books.length === 0 ? (
         <div className="rounded-lg p-4 shadow border space-y-4">
