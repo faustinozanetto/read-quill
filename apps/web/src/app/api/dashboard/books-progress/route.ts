@@ -1,4 +1,4 @@
-import { Image, prisma } from '@read-quill/database';
+import { prisma } from '@read-quill/database';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import type { DashboardBooksProgressGetResponse } from '@modules/api/types/dashboard-api.types';

@@ -14,7 +14,7 @@ void (async () => {
 
           const image = await prisma.image.findFirst({
             where: {
-              id: 'clwmtgkba0000lytbe1m71fun',
+              id: 'clwwksxkt0000no6gxfixuwa1',
             },
           });
           if (!image) return;
@@ -32,10 +32,14 @@ void (async () => {
               startedAt,
               finishedAt,
               isFavourite: faker.datatype.boolean(),
-              review: faker.lorem.paragraph(),
               rating: faker.number.int({ min: 1, max: 5 }),
               readerId: user.id,
               imageId: image.id,
+              review: {
+                create: {
+                  content: faker.lorem.paragraph(),
+                },
+              },
             },
           });
 

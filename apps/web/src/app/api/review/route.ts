@@ -2,16 +2,43 @@ import { prisma } from '@read-quill/database';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { BOOK_ACTIONS_VALIDATIONS_API } from '@modules/books/validations/books.validations';
-import { auth } from 'auth';
-import {
-  BookReviewDeleteResponse,
-  BookReviewPatchResponse,
-  BookReviewPostResponse,
-} from '@modules/api/types/books-api.types';
 
-// /api/books/rewiew POST : creates a book review
-export async function POST(request: NextRequest): Promise<NextResponse<BookReviewPostResponse>> {
+import { auth } from 'auth';
+
+import {
+  ReviewDeleteResponse,
+  ReviewGetResponse,
+  ReviewPatchResponse,
+  ReviewPostResponse,
+} from '@modules/api/types/reviews-api.types';
+import { REVIEW_ACTIONS_VALIDATIONS_API } from '@modules/review/validations/reviews.validations';
+
+// /api/review GET : Gets a review by a given reviewId
+export async function GET(request: NextRequest): Promise<NextResponse<ReviewGetResponse>> {
+  try {
+    const { searchParams } = new URL(request.url);
+    const reviewId = searchParams.get('reviewId');
+
+    if (!reviewId) {
+      return new NextResponse('Review ID is missing', { status: 400 });
+    }
+
+    const review = await prisma.review.findUnique({ where: { id: reviewId } });
+    if (!review) {
+      throw new NextResponse('Review not found!', { status: 404 });
+    }
+
+    return NextResponse.json({ review });
+  } catch (error) {
+    let errorMessage = 'An error occurred!';
+    if (error instanceof Error) errorMessage = error.message;
+
+    return new NextResponse(errorMessage, { status: 500 });
+  }
+}
+
+// /api/rewiew POST : Creates a book review
+export async function POST(request: NextRequest): Promise<NextResponse<ReviewPostResponse>> {
   try {
     const session = await auth();
 
@@ -20,14 +47,12 @@ export async function POST(request: NextRequest): Promise<NextResponse<BookRevie
     }
 
     const json = await request.json();
-    const { bookId, review } = BOOK_ACTIONS_VALIDATIONS_API.CREATE_REVIEW.parse(json);
+    const { bookId, content } = REVIEW_ACTIONS_VALIDATIONS_API.CREATE.parse(json);
 
-    await prisma.book.update({
-      where: {
-        id: bookId,
-      },
+    const review = await prisma.review.create({
       data: {
-        review,
+        content,
+        bookId,
       },
     });
 
@@ -41,8 +66,8 @@ export async function POST(request: NextRequest): Promise<NextResponse<BookRevie
   }
 }
 
-// /api/books/rewiew PATCH : Update a book review
-export async function PATCH(request: NextRequest): Promise<NextResponse<BookReviewPatchResponse>> {
+// /api/rewiew PATCH : Update a book review
+export async function PATCH(request: NextRequest): Promise<NextResponse<ReviewPatchResponse>> {
   try {
     const session = await auth();
 
@@ -51,14 +76,14 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<BookRevi
     }
 
     const json = await request.json();
-    const { bookId, review } = BOOK_ACTIONS_VALIDATIONS_API.EDIT_REVIEW.parse(json);
+    const { reviewId, content } = REVIEW_ACTIONS_VALIDATIONS_API.EDIT.parse(json);
 
-    await prisma.book.update({
+    const review = await prisma.review.update({
       where: {
-        id: bookId,
+        id: reviewId,
       },
       data: {
-        review,
+        content,
       },
     });
 
@@ -73,7 +98,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<BookRevi
 }
 
 // /api/books/rewiew DELETE : Delete a book review
-export async function DELETE(request: NextRequest): Promise<NextResponse<BookReviewDeleteResponse>> {
+export async function DELETE(request: NextRequest): Promise<NextResponse<ReviewDeleteResponse>> {
   try {
     const session = await auth();
 
@@ -82,14 +107,11 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<BookRev
     }
 
     const json = await request.json();
-    const { bookId } = BOOK_ACTIONS_VALIDATIONS_API.DELETE_REVIEW.parse(json);
+    const { reviewId } = REVIEW_ACTIONS_VALIDATIONS_API.DELETE.parse(json);
 
-    await prisma.book.update({
+    await prisma.review.delete({
       where: {
-        id: bookId,
-      },
-      data: {
-        review: { set: null },
+        id: reviewId,
       },
     });
 

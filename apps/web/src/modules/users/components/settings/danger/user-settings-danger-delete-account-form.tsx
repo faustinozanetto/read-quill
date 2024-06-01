@@ -18,7 +18,7 @@ import MultiStepFormWrapper from '@modules/forms/components/multi-step-form-wrap
 import { cn } from '@read-quill/design-system';
 import { LoadingIcon } from '@read-quill/design-system';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { USER_SETTINGS_ACTIONS_VALIDATIONS_FORMS } from '@modules/users/lib/user-settings.validations';
+import { USER_SETTINGS_ACTIONS_VALIDATIONS_FORMS } from '@modules/users/validations/user-settings.validations';
 
 const STEPS_DATA: MultiStepFormStep<DeleteAccountFormActionData>[] = [
   {

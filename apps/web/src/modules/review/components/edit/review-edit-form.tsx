@@ -13,23 +13,29 @@ import {
   FormLabel,
   FormMessage,
   Textarea,
-  PencilIcon,
   cn,
   LoadingIcon,
+  EditIcon,
 } from '@read-quill/design-system';
-import { CreateBookReviewFormActionData } from '@modules/books/types/book-validations.types';
-import { BOOK_ACTIONS_VALIDATIONS_FORMS } from '@modules/books/validations/books.validations';
 
-interface UserBookReviewManagementAddFormProps {
-  onSubmit: (data: CreateBookReviewFormActionData) => void;
+import { EditReviewFormActionData } from '@modules/review/types/review-validations.types';
+import { REVIEW_ACTIONS_VALIDATIONS_FORMS } from '@modules/review/validations/reviews.validations';
+import { Review } from '@read-quill/database';
+
+interface ReviewEditFormProps {
+  initialData?: Review;
+  onSubmit: (data: EditReviewFormActionData) => void;
 }
 
-const UserBookReviewManagementAddForm: React.FC<UserBookReviewManagementAddFormProps> = (props) => {
-  const { onSubmit } = props;
+const ReviewEditForm: React.FC<ReviewEditFormProps> = (props) => {
+  const { onSubmit, initialData } = props;
 
-  const form = useForm<CreateBookReviewFormActionData>({
-    resolver: zodResolver(BOOK_ACTIONS_VALIDATIONS_FORMS.CREATE_REVIEW),
+  const form = useForm<EditReviewFormActionData>({
+    resolver: zodResolver(REVIEW_ACTIONS_VALIDATIONS_FORMS.EDIT),
     mode: 'onBlur',
+    defaultValues: {
+      ...initialData,
+    },
   });
 
   const isFormLoading = form.formState.isSubmitting;
@@ -39,7 +45,7 @@ const UserBookReviewManagementAddForm: React.FC<UserBookReviewManagementAddFormP
       <form className="flex flex-col gap-4" onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
-          name="review"
+          name="content"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Review</FormLabel>
@@ -54,13 +60,17 @@ const UserBookReviewManagementAddForm: React.FC<UserBookReviewManagementAddFormP
 
         <DialogFooter>
           <Button
-            aria-label="Add Review"
+            aria-label="Edit Review"
             className={cn('w-full', isFormLoading && 'cursor-not-allowed')}
             disabled={isFormLoading}
             type="submit"
           >
-            {isFormLoading ? <LoadingIcon className="mr-2" /> : <PencilIcon className="mr-2" />}
-            Add
+            {isFormLoading ? (
+              <LoadingIcon className="mr-2 stroke-current" />
+            ) : (
+              <EditIcon className="mr-2 stroke-current" />
+            )}
+            Edit
           </Button>
         </DialogFooter>
       </form>
@@ -68,4 +78,4 @@ const UserBookReviewManagementAddForm: React.FC<UserBookReviewManagementAddFormP
   );
 };
 
-export default UserBookReviewManagementAddForm;
+export default ReviewEditForm;

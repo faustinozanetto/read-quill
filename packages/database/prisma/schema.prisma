@@ -69,8 +69,9 @@ model Book {
   startedAt   DateTime?
   finishedAt  DateTime?
   isFavourite Boolean   @default(false)
-  review      String?
-  rating      Int?
+  review      Review?
+
+  rating Int?
 
   image   Image  @relation(fields: [imageId], references: [id], onDelete: NoAction)
   imageId String
@@ -80,6 +81,17 @@ model Book {
 
   annotations    Annotation[]
   readRegistries ReadRegistry[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Review {
+  id      String @id @default(cuid())
+  content String
+
+  book   Book   @relation(fields: [bookId], references: [id])
+  bookId String @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

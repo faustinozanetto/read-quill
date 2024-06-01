@@ -50,18 +50,6 @@ export interface BookPatchResponse {
   book: BookWithDetails;
 }
 
-export interface BookReviewPostResponse {
-  review: string;
-}
-
-export interface BookReviewPatchResponse {
-  review: string;
-}
-
-export interface BookReviewDeleteResponse {
-  success: boolean;
-}
-
 export interface BookGetResponse {
   book: BookWithDetails;
 }

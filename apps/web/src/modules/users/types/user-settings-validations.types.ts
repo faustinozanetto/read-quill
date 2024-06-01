@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { USER_SETTINGS_ACTIONS_VALIDATIONS_FORMS } from '../lib/user-settings.validations';
+import { USER_SETTINGS_ACTIONS_VALIDATIONS_FORMS } from '../validations/user-settings.validations';
 
 /* Attributes */
 

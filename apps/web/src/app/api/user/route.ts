@@ -1,5 +1,5 @@
 import { UserDeleteResponse, UserGetResponse } from '@modules/api/types/users-api.types';
-import { USER_SETTINGS_ACTIONS_VALIDATIONS_API } from '@modules/users/lib/user-settings.validations';
+import { USER_SETTINGS_ACTIONS_VALIDATIONS_API } from '@modules/users/validations/user-settings.validations';
 import { prisma } from '@read-quill/database';
 import { auth } from 'auth';
 import type { NextRequest } from 'next/server';
