@@ -1,6 +1,17 @@
-import React from 'react';
-import { DeleteIcon, useToast } from '@read-quill/design-system';
-import ManagementDeleteObject from '@modules/common/components/management/management-delete-object';
+import React, { useState } from 'react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  buttonVariants,
+  useToast,
+} from '@read-quill/design-system';
 
 import { UseDeleteReviewParams, useDeleteReview } from '@modules/review/hooks/use-delete-review';
 
@@ -14,22 +25,44 @@ const ReviewDelete: React.FC<ReviewCreateProps> = (props) => {
   const { deleteButton, onSuccess, reviewId } = props;
 
   const { toast } = useToast();
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const { deleteReview } = useDeleteReview({
-    reviewId,
     onSuccess: async (data, variables, context) => {
       if (data.success) {
-        onSuccess(data, variables, context);
+        await onSuccess(data, variables, context);
+        setDialogOpen(false);
         toast({ variant: 'success', content: `Book review deleted successfully!` });
       }
     },
   });
 
   return (
-    <ManagementDeleteObject label="Delete Review" onDeleted={deleteReview} size="sm" variant="outline-destructive">
-      <DeleteIcon className="mr-2 stroke-current" />
-      Delete
-    </ManagementDeleteObject>
+    <AlertDialog onOpenChange={setDialogOpen} open={dialogOpen}>
+      <AlertDialogTrigger asChild>{deleteButton}</AlertDialogTrigger>
+
+      <AlertDialogContent className="sm:max-w-[425px]">
+        <AlertDialogHeader>
+          <AlertDialogTitle>Delete Review</AlertDialogTitle>
+          <AlertDialogDescription>
+            Are you sure you want to delete it?. This action cannot be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            className={buttonVariants({ variant: 'destructive' })}
+            onClick={async () => {
+              if (!reviewId) return;
+              await deleteReview({ reviewId });
+            }}
+          >
+            Continue
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 

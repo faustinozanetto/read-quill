@@ -14,26 +14,6 @@ export interface BooksNamesGetResponse {
   }[];
 }
 
-export interface BookAnnotationsGetResponse {
-  annotations: Annotation[];
-}
-
-export interface BookAnnotationGetResponse {
-  annotation: Annotation;
-}
-
-export interface BookAnnotationPostResponse {
-  annotation: Annotation;
-}
-
-export interface BookAnnotationPatchResponse {
-  annotation: Annotation;
-}
-
-export interface BookAnnotationDeleteResponse {
-  success: boolean;
-}
-
 export interface BookUploadPostResponse {
   coverImage: Image;
 }

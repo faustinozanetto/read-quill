@@ -21,7 +21,7 @@ interface UseUserBooksParams {
 }
 
 const buildUrl = (page: number, pageSize: number, userId: string): string => {
-  const url = new URL('/api/books/user', __URL__);
+  const url = new URL('/api/book/user', __URL__);
   url.searchParams.set('pageIndex', String(page));
   url.searchParams.set('pageSize', String(pageSize));
   url.searchParams.set('userId', userId);

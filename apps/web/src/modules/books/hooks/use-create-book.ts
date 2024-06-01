@@ -29,7 +29,7 @@ export const useCreateBook = (params: UseCreateBookParams): UseCreateBookReturn 
       // First upload cover book to vercel blob storage.
       const coverFile = await uploadCover({ coverImage: data.coverImage });
 
-      const url = new URL('/api/books', __URL__);
+      const url = new URL('/api/book', __URL__);
       const body = JSON.stringify({
         name: data.name,
         author: data.author,

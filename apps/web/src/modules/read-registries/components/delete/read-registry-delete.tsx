@@ -34,7 +34,7 @@ const ReadRegistryDelete: React.FC<ReadRegistryDeleteProps> = (props) => {
   const { deleteReadRegistry } = useDeleteReadRegistry({
     onSuccess: async (data, variables, context) => {
       if (data.success) {
-        onSuccess(data, variables, context);
+        await onSuccess(data, variables, context);
         setDialogOpen(false);
         toast({ variant: 'success', content: 'Read registry deleted successfully!' });
       }

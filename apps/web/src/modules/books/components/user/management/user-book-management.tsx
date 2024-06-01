@@ -1,6 +1,4 @@
 import React from 'react';
-import UserBookManagementEdit from './edit/user-book-management-edit';
-import UserBookManagementDelete from './delete/user-book-management-delete';
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -8,15 +6,35 @@ import {
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuGroup,
   Button,
   ButtonProps,
+  DropdownMenuItem,
+  DeleteIcon,
+  EditIcon,
 } from '@read-quill/design-system';
+import BookDelete from '../../delete/book-delete';
+import { BookWithDetails } from '@modules/books/types/book.types';
+import BookEdit from '../../edit/book-edit';
+import { useQueriesStore } from '@modules/queries/state/queries.slice';
+import { useRouter } from 'next/navigation';
 
-interface UserBookManagementProps extends ButtonProps {}
+interface UserBookManagementProps extends ButtonProps {
+  book: BookWithDetails;
+}
 
 const UserBookManagement: React.FC<UserBookManagementProps> = (props) => {
-  const { size = 'icon', variant = 'outline', ...rest } = props;
+  const { book, size = 'icon', variant = 'outline', ...rest } = props;
+
+  const router = useRouter();
+  const { queryClient } = useQueriesStore();
+
+  const handleOnBookDeleted = () => {
+    router.push('/library');
+  };
+
+  const handleOnBookEdited = async () => {
+    await queryClient.refetchQueries(['book', book.id]);
+  };
 
   return (
     <DropdownMenu>
@@ -25,13 +43,32 @@ const UserBookManagement: React.FC<UserBookManagementProps> = (props) => {
           <ManageIcon />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="p-2 mt-4" side="left">
-        <DropdownMenuLabel className="p-1">Manage Book</DropdownMenuLabel>
+      <DropdownMenuContent side="left">
+        <DropdownMenuLabel>Manage Book</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuGroup className="flex flex-col gap-1">
-          <UserBookManagementEdit />
-          <UserBookManagementDelete />
-        </DropdownMenuGroup>
+        <BookEdit
+          book={book}
+          onSuccess={handleOnBookEdited}
+          editButton={
+            <DropdownMenuItem aria-label="Update Book" onSelect={(e) => e.preventDefault()}>
+              <EditIcon className="mr-2 stroke-current" />
+              Update
+            </DropdownMenuItem>
+          }
+        />
+        <BookDelete
+          bookId={book.id}
+          onSuccess={handleOnBookDeleted}
+          deleteButton={
+            <DropdownMenuItem
+              className="focus:bg-destructive focus:text-destructive-foreground"
+              onSelect={(e) => e.preventDefault()}
+            >
+              <DeleteIcon className="mr-2 stroke-current" />
+              Delete
+            </DropdownMenuItem>
+          }
+        />
       </DropdownMenuContent>
     </DropdownMenu>
   );

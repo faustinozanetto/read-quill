@@ -10,36 +10,36 @@ import { useFetchReviewFromBook } from '@modules/review/hooks/use-fetch-review-f
 const UserBookReview: React.FC = () => {
   const { book } = useBookStore();
   const { isBookOwner } = useIsBookOwner();
-
   const { data, isFetching, isLoading } = useFetchReviewFromBook({ bookId: book?.id });
-  const readerWrittenReview = Boolean(data?.review);
 
-  const contentLoading = isFetching || isLoading;
+  const isLoadingContent = isFetching || isLoading;
+  const hasReview = Boolean(data?.review);
 
   return (
     <div className="flex flex-col rounded-lg p-4 gap-2 shadow border">
       <UserBookReviewHeader
-        readerWrittenReview={readerWrittenReview}
-        contentLoading={contentLoading}
+        readerWrittenReview={hasReview}
+        contentLoading={isLoadingContent}
         review={data?.review ?? null}
       />
 
-      {contentLoading && <Skeleton className="h-20 w-full" />}
-      {!contentLoading && readerWrittenReview && data?.review && (
+      {isLoadingContent && <Skeleton className="h-20 w-full" />}
+
+      {!isLoadingContent && hasReview && (
         <p className="first-letter:text-6xl first-letter:font-bold first-letter:text-primary first-letter:mr-3 first-letter:float-left">
-          {data.review.content}
+          {data?.review?.content}
         </p>
       )}
 
-      {!contentLoading && !readerWrittenReview && !data?.review && (
+      {!isLoadingContent && !hasReview && (
         <p>
           {isBookOwner ? (
             <>
-              No review found, add one by clicking the <span className="text-primary font-bold underline">Add</span>{' '}
+              No review found. Add one by clicking the <span className="text-primary font-bold underline">Add</span>{' '}
               button to get started.
             </>
           ) : (
-            <>This use has not written a review yet!</>
+            <>This user has not written a review yet!</>
           )}
         </p>
       )}

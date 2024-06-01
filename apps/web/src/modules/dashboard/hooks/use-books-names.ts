@@ -13,7 +13,7 @@ export const useBooksNames = (): UseBooksNamesReturn => {
     initialData: { booksNames: [] },
     queryFn: async () => {
       try {
-        const url = new URL('/api/books/names/', __URL__);
+        const url = new URL('/api/book/names/', __URL__);
 
         const response = await fetch(url, { method: 'GET' });
         if (!response.ok) {

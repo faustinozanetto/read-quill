@@ -97,7 +97,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<ReviewPa
   }
 }
 
-// /api/books/rewiew DELETE : Delete a book review
+// /api/book/rewiew DELETE : Delete a book review
 export async function DELETE(request: NextRequest): Promise<NextResponse<ReviewDeleteResponse>> {
   try {
     const session = await auth();

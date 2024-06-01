@@ -30,7 +30,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<UserGetRes
   }
 }
 
-// /api/books DELETE : deletes a book
+// /api/book DELETE : deletes a book
 export async function DELETE(request: NextRequest): Promise<NextResponse<UserDeleteResponse>> {
   try {
     const session = await auth();

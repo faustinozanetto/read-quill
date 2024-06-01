@@ -25,21 +25,7 @@ const bookRatingValidationSchema = z
   .max(BOOK_MAX_RATING, `Max rating is ${BOOK_MAX_RATING}!`);
 const bookFavouriteValidationSchema = z.boolean({ required_error: 'Favourite is required!' });
 
-type BookAttributesValidations = {
-  name: typeof bookNameValidationSchema;
-  author: typeof bookAuthorValidationSchema;
-  language: typeof bookLanguageValidationSchema;
-  id: typeof bookIdValidationSchema;
-  pageCount: typeof bookPageCountValidationSchema;
-  startedAt: typeof bookFinishedAtValidationSchema;
-  finishedAt: typeof bookFinishedAtValidationSchema;
-  coverImageUpload: typeof bookCoverImageUploadValidationSchema;
-  imageId: typeof bookCoverImageIdValidationSchema;
-  rating: typeof bookRatingValidationSchema;
-  favourite: typeof bookFavouriteValidationSchema;
-};
-
-export const BOOK_ATTRIBUTES_VALIDATIONS: BookAttributesValidations = {
+export const BOOK_ATTRIBUTES_VALIDATIONS = {
   id: bookIdValidationSchema,
   name: bookNameValidationSchema,
   author: bookAuthorValidationSchema,

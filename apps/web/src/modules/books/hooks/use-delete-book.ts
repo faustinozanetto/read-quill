@@ -3,33 +3,30 @@ import { BookDeleteResponse } from '@modules/api/types/books-api.types';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useToast } from '@read-quill/design-system';
 import { UseMutationOptions, UseMutationResult, useMutation } from '@tanstack/react-query';
-import { BookWithDetails } from '../types/book.types';
+import { DeleteBookApiActionData } from '../types/book-validations.types';
 
-type DeleteBookMutationResult = UseMutationResult<BookDeleteResponse, Error, void>;
-type DeleteBookMutationParams = UseMutationOptions<BookDeleteResponse, Error, void>;
+type DeleteBookMutationResult = UseMutationResult<BookDeleteResponse, Error, DeleteBookApiActionData>;
+type DeleteBookMutationParams = UseMutationOptions<BookDeleteResponse, Error, DeleteBookApiActionData>;
 
 interface UseDeletBookeReturn {
   deleteBook: DeleteBookMutationResult['mutateAsync'];
 }
 
-interface UseDeleteBookParams {
-  book: BookWithDetails | null;
+export interface UseDeleteBookParams {
   onSuccess: NonNullable<DeleteBookMutationParams['onSuccess']>;
 }
 
 export const useDeleteBook = (params: UseDeleteBookParams): UseDeletBookeReturn => {
-  const { book, onSuccess } = params;
+  const { onSuccess } = params;
 
   const { toast } = useToast();
 
-  const { mutateAsync } = useMutation<BookDeleteResponse, Error, void>({
-    mutationKey: ['book-delete', book?.id],
-    mutationFn: async () => {
-      if (!book) return;
-
-      const url = new URL('/api/books', __URL__);
+  const { mutateAsync } = useMutation<BookDeleteResponse, Error, DeleteBookApiActionData>({
+    mutationKey: ['book-delete'],
+    mutationFn: async (data) => {
+      const url = new URL('/api/book', __URL__);
       const body = JSON.stringify({
-        bookId: book.id,
+        ...data,
       });
 
       const response = await fetch(url, { method: 'DELETE', body });

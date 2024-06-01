@@ -28,7 +28,7 @@ export const useChangeBookFavourite = (params: UseChangeBookFavouriteParams): Us
     mutationFn: async () => {
       if (!book) return;
 
-      const url = new URL('/api/books/favourite', __URL__);
+      const url = new URL('/api/book/favourite', __URL__);
       const body = JSON.stringify({
         bookId: book.id,
         isFavourite: !book.isFavourite,

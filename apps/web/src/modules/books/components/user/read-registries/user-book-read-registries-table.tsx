@@ -109,7 +109,7 @@ const UserBookReadRegistriesTable: React.FC<UserBookReadRegistriesTableProps> = 
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      <div className="flex justify-between">
+      <div className="flex justify-between items-center">
         {(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected()) && (
           <ReadRegistryDeleteMultiple
             registryIds={selectedRowsIds}
@@ -117,7 +117,7 @@ const UserBookReadRegistriesTable: React.FC<UserBookReadRegistriesTableProps> = 
             deleteButton={
               <Button variant="outline-destructive">
                 <DeleteIcon className="mr-2 stroke-current" size="sm" />
-                Delete Selected Registries
+                Delete Selected
               </Button>
             }
           />

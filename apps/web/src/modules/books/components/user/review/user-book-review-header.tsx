@@ -18,7 +18,7 @@ const UserBookReviewHeader: React.FC<UserBookReviewHeaderProps> = (props) => {
   const { isBookOwner } = useIsBookOwner();
 
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex justify-between">
       <h2 className="text-2xl font-bold">User Review</h2>
 
       {!contentLoading && isBookOwner && book && (

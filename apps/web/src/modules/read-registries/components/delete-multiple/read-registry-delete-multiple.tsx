@@ -35,7 +35,7 @@ const ReadRegistryDeleteMultiple: React.FC<ReadRegistryDeleteMultipleProps> = (p
   const { deleteReadRegistries } = useDeleteReadRegistries({
     onSuccess: async (data, variables, context) => {
       if (data.success) {
-        onSuccess(data, variables, context);
+        await onSuccess(data, variables, context);
         setDialogOpen(false);
         toast({ variant: 'success', content: 'Read registries deleted successfully!' });
       }

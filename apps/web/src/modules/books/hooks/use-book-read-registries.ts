@@ -42,7 +42,7 @@ export const useBookReadRegistries = (
         try {
           if (!bookId) return;
 
-          const url = new URL('/api/books/read-registries', __URL__);
+          const url = new URL('/api/book/read-registries', __URL__);
           url.searchParams.set('bookId', bookId);
           url.searchParams.set('pageIndex', String(pagination.pageIndex));
           url.searchParams.set('pageSize', String(pagination.pageSize));

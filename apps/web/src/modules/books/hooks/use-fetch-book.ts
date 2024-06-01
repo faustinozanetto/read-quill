@@ -13,9 +13,9 @@ export const useFetchBook = (params: UseFetchBookParams) => {
 
   const { setBook, setIsLoading } = useBookStore();
   const { data, isFetching, isLoading } = useQuery<BookGetResponse>({
-    queryKey: ['book-page', bookId],
+    queryKey: ['book', bookId],
     queryFn: async () => {
-      const url = new URL('/api/books', __URL__);
+      const url = new URL('/api/book', __URL__);
       url.searchParams.set('bookId', bookId);
 
       const response = await fetch(url, { method: 'GET' });

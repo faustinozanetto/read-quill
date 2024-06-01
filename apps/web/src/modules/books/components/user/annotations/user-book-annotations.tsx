@@ -3,31 +3,35 @@
 import React from 'react';
 import UserBookAnnotationsHeader from './user-book-annotations-header';
 import { useBookAnnotations } from '@modules/books/hooks/use-book-annotations';
-import BookAnnotationCardPlaceholder from '@modules/annotations/components/cards/book-annotation-card-placeholder';
-import BookAnnotationsFeed from '@modules/annotations/components/feed/books-annotations-feed';
+
 import { useIsBookOwner } from '@modules/books/hooks/use-is-book-owner';
+import AnnotationCardPlaceholder from '@modules/annotations/components/cards/annotation-card-placeholder';
+import AnnotationsFeed from '@modules/annotations/components/feed/annotations-feed';
+import { useBookStore } from '@modules/books/state/book.slice';
 
 const UserBookAnnotations: React.FC = () => {
-  const { data, isFetching, isLoading } = useBookAnnotations();
+  const { book } = useBookStore();
   const { isBookOwner } = useIsBookOwner();
+  const { data, isLoading } = useBookAnnotations({
+    pageSize: 6,
+    bookId: book?.id,
+  });
 
   return (
     <div className="flex flex-col rounded-lg p-4 shadow border gap-2">
       <UserBookAnnotationsHeader />
 
-      {(isFetching || isLoading) && (
+      {isLoading && (
         <div className="grid gap-4 sm:grid-cols-2">
           {Array.from({ length: 2 }).map((_, i) => (
-            <BookAnnotationCardPlaceholder key={`book-annotation-placeholder-${i}`} />
+            <AnnotationCardPlaceholder key={`book-annotation-placeholder-${i}`} />
           ))}
         </div>
       )}
 
-      {!(isFetching || isLoading) && data && data.annotations.length > 0 && (
-        <BookAnnotationsFeed annotations={data.annotations} />
-      )}
+      {!isLoading && data && data.annotations.length > 0 && <AnnotationsFeed annotations={data.annotations} />}
 
-      {!(isFetching || isLoading) && data && data.annotations.length === 0 ? (
+      {!isLoading && data && !data.annotations.length ? (
         <p>
           {isBookOwner ? (
             <>

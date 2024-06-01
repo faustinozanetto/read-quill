@@ -28,7 +28,7 @@ const BookFavourite: React.FC<BookFavouriteProps> = (props) => {
     book,
     onSuccess: async (data) => {
       if (data && data.success) {
-        await queryClient.refetchQueries(['book-page', book.id]);
+        await queryClient.refetchQueries(['book', book.id]);
 
         toast({
           variant: 'success',

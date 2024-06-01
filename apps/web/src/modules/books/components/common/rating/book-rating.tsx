@@ -22,7 +22,7 @@ const BookRating: React.FC<BookRatingProps> = (props) => {
     book,
     onSuccess: async (data) => {
       if (data && data.success) {
-        await queryClient.refetchQueries(['book-page', book.id]);
+        await queryClient.refetchQueries(['book', book.id]);
         toast({
           variant: 'success',
           content: 'Book rating updated successfully!',

@@ -2,24 +2,11 @@ import React from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import {
-  Button,
-  DialogFooter,
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-  Textarea,
-  PencilIcon,
-  cn,
-  LoadingIcon,
-} from '@read-quill/design-system';
+import { Button, DialogFooter, Form, PencilIcon, cn, LoadingIcon } from '@read-quill/design-system';
 
 import { REVIEW_ACTIONS_VALIDATIONS_FORMS } from '@modules/review/validations/reviews.validations';
 import { CreateReviewFormActionData } from '@modules/review/types/review-validations.types';
+import ReviewFormContent from '../forms/review-form-content';
 
 interface ReviewCreateFormProps {
   onSubmit: (data: CreateReviewFormActionData) => void;
@@ -38,21 +25,7 @@ const ReviewCreateForm: React.FC<ReviewCreateFormProps> = (props) => {
   return (
     <Form {...form}>
       <form className="flex flex-col gap-4" onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
-          control={form.control}
-          name="content"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Review</FormLabel>
-              <FormControl>
-                <Textarea placeholder="It was a great book, but the end was not what i was expecting..." {...field} />
-              </FormControl>
-              <FormDescription>Your personal review.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
+        <ReviewFormContent />
         <DialogFooter>
           <Button
             aria-label="Add Review"

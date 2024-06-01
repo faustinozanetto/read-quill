@@ -65,3 +65,5 @@ export * from './number-three-icon';
 export * from './number-four-icon';
 export * from './number-five-icon';
 export * from './number-six-icon';
+
+export * from './dot-icon';

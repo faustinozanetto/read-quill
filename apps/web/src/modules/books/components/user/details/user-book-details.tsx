@@ -30,7 +30,7 @@ const UserBookDetails: React.FC = () => {
           <h1 className="text-xl font-bold md:text-2xl">{book.name}</h1>
           <div className="flex gap-2">
             {isBookOwner ? <BookFavourite book={book} /> : null}
-            {isBookOwner ? <UserBookManagement /> : null}
+            {isBookOwner && book ? <UserBookManagement book={book} /> : null}
           </div>
         </div>
         <h2 className="md:text-lg">{book.author}</h2>

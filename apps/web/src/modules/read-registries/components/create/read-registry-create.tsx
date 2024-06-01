@@ -20,10 +20,11 @@ import ReadRegistryCreateForm from './read-registry-create-form';
 interface ReadRegistryCreateProps {
   onSuccess: UseCreateReadRegistryParams['onSuccess'];
   createButton: React.ReactNode;
+  bookId?: string;
 }
 
 const ReadRegistryCreate: React.FC<ReadRegistryCreateProps> = (props) => {
-  const { createButton, onSuccess } = props;
+  const { createButton, onSuccess, bookId } = props;
 
   const { toast } = useToast();
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -31,7 +32,8 @@ const ReadRegistryCreate: React.FC<ReadRegistryCreateProps> = (props) => {
   const { createReadRegistry } = useCreateReadRegistry({
     onSuccess: async (data, variables, context) => {
       if (data && data.readRegistry) {
-        onSuccess(data, variables, context);
+        await onSuccess(data, variables, context);
+        setDialogOpen(false);
         toast({ variant: 'success', content: 'Read registry created successfully!' });
       }
     },
@@ -47,7 +49,7 @@ const ReadRegistryCreate: React.FC<ReadRegistryCreateProps> = (props) => {
           <DialogDescription>Register your read pages here.</DialogDescription>
         </DialogHeader>
 
-        <ReadRegistryCreateForm onSubmit={createReadRegistry} />
+        <ReadRegistryCreateForm onSubmit={createReadRegistry} bookId={bookId} />
       </DialogContent>
     </Dialog>
   );

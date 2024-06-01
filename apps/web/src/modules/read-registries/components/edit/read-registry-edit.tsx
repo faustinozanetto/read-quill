@@ -31,7 +31,7 @@ const ReadRegistryEdit: React.FC<ReadRegistryEditProps> = (props) => {
   const { editReadRegistry } = useEditReadRegistry({
     onSuccess: async (data, variables, context) => {
       if (data && data.readRegistry) {
-        onSuccess(data, variables, context);
+        await onSuccess(data, variables, context);
         setDialogOpen(false);
         toast({ variant: 'success', content: 'Read registry edited successfully!' });
       }

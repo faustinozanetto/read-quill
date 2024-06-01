@@ -28,7 +28,7 @@ export const useChangeBookRating = (params: UseChangeBookRatingParams): UseChang
     mutationFn: async (data) => {
       if (!book) return;
 
-      const url = new URL('/api/books/rating', __URL__);
+      const url = new URL('/api/book/rating', __URL__);
       const body = JSON.stringify({
         bookId: book.id,
         rating: data.rating,

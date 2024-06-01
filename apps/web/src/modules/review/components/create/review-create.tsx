@@ -29,7 +29,7 @@ const ReviewCreate: React.FC<ReviewCreateProps> = (props) => {
     bookId,
     onSuccess: async (data, variables, context) => {
       if (data.review) {
-        onSuccess(data, variables, context);
+        await onSuccess(data, variables, context);
         setDialogOpen(false);
         toast({ variant: 'success', content: `Book review added successfully!` });
       }

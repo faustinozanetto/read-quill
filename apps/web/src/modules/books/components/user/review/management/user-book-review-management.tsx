@@ -1,7 +1,17 @@
 import React from 'react';
 
 import ReviewCreate from '@modules/review/components/create/review-create';
-import { Button } from '@read-quill/design-system';
+import {
+  Button,
+  DeleteIcon,
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+  ManageIcon,
+} from '@read-quill/design-system';
 import { EditIcon } from '@read-quill/design-system';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import ReviewDelete from '@modules/review/components/delete/review-delete';
@@ -24,21 +34,42 @@ const UserBookReviewManagement: React.FC<UserBookReviewManagementProps> = (props
   };
 
   return (
-    <div className="flex flex-col gap-2">
+    <>
       {readerWrittenReview && review ? (
-        <div className="grid grid-cols-2 gap-2 w-full">
-          <ReviewEdit
-            review={review}
-            onSuccess={handleOnReviewChanged}
-            editButton={
-              <Button aria-label="Update Review" size="sm" variant="outline">
-                <EditIcon className="mr-2 stroke-current" />
-                Update
-              </Button>
-            }
-          />
-          <ReviewDelete reviewId={review.id} onSuccess={handleOnReviewChanged} deleteButton={<h1>hi</h1>} />
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="icon">
+              <ManageIcon />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent side="left">
+            <DropdownMenuLabel>Manage Review</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <ReviewEdit
+              review={review}
+              onSuccess={handleOnReviewChanged}
+              editButton={
+                <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                  <EditIcon className="mr-2 stroke-current" />
+                  Update
+                </DropdownMenuItem>
+              }
+            />
+            <ReviewDelete
+              reviewId={review.id}
+              onSuccess={handleOnReviewChanged}
+              deleteButton={
+                <DropdownMenuItem
+                  className="focus:bg-destructive focus:text-destructive-foreground"
+                  onSelect={(e) => e.preventDefault()}
+                >
+                  <DeleteIcon className="mr-2 stroke-current" />
+                  Delete
+                </DropdownMenuItem>
+              }
+            />
+          </DropdownMenuContent>
+        </DropdownMenu>
       ) : (
         <ReviewCreate
           bookId={bookId}
@@ -51,7 +82,7 @@ const UserBookReviewManagement: React.FC<UserBookReviewManagementProps> = (props
           }
         />
       )}
-    </div>
+    </>
   );
 };
 

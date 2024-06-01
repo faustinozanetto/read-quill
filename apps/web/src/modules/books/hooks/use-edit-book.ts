@@ -14,7 +14,7 @@ interface UseEditBookReturn {
   isCoverUploading: boolean;
 }
 
-interface UseEditBookParams {
+export interface UseEditBookParams {
   book: BookWithDetails | null;
   onSuccess: NonNullable<EditBookMutationParams['onSuccess']>;
 }
@@ -37,7 +37,7 @@ export const useEditBook = (params: UseEditBookParams): UseEditBookReturn => {
         imageId = coverFile.coverImage.id;
       }
 
-      const url = new URL('/api/books', __URL__);
+      const url = new URL('/api/book', __URL__);
       const body = JSON.stringify({
         bookId: book.id,
         startedAt: startedAt ? new Date(startedAt) : undefined,

@@ -30,7 +30,7 @@ export const useUploadBookCover = (): UseUploadBookCoverReturn => {
       const formData = new FormData();
       formData.append('coverFile', image);
 
-      const url = new URL('/api/books/upload', __URL__);
+      const url = new URL('/api/book/upload', __URL__);
       const response = await fetch(url, {
         method: 'POST',
         body: formData,
