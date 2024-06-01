@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import BookCard, { BookCardStyleProps } from '../cards/book-card';
 import { cva } from 'class-variance-authority';
 import { BookWithDetails } from '@modules/books/types/book.types';
+import BookCardPlaceholder from '../cards/book-card-placeholder';
 
 const variants = cva('gap-2.5', {
   variants: {

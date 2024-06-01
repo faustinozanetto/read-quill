@@ -24,8 +24,7 @@ const UserBookDetails: React.FC = () => {
 
   return (
     <div className="flex w-full flex-col gap-2 rounded-lg p-4 shadow md:flex-row border">
-      <UserBookCover image={book.image} />
-
+      <UserBookCover image={book.image} placeholderImage={book.placeholderImage} />
       <div className="flex-1 flex-col pl-2">
         <div className="flex justify-between">
           <h1 className="text-xl font-bold md:text-2xl">{book.name}</h1>

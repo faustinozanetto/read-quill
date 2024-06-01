@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
 
-import { auth, signOut } from 'auth';
+import { auth } from 'auth';
 import {
   BookDeleteResponse,
   BookGetResponse,
@@ -12,6 +12,9 @@ import {
 } from '@modules/api/types/books-api.types';
 import { BOOK_ACTIONS_VALIDATIONS_API } from '@modules/books/validations/books.validations';
 import { deleteImageFromSupabase } from '@modules/uploads/lib/uploads.lib';
+import { generatePlaceholderImage } from '@modules/images/lib/image-placeholder.lib';
+import { getImagePublicUrl } from '@modules/images/lib/images.lib';
+import { BookWithDetails } from '@modules/books/types/book.types';
 
 // /api/books GET : Gets a book by a given bookId
 export async function GET(request: NextRequest): Promise<NextResponse<BookGetResponse>> {
@@ -28,7 +31,16 @@ export async function GET(request: NextRequest): Promise<NextResponse<BookGetRes
       return new NextResponse('Could not find book!', { status: 404 });
     }
 
-    return NextResponse.json({ book });
+    const base64PlaceholderBuffer = await generatePlaceholderImage(getImagePublicUrl('BookCovers', book.image.path));
+
+    const mappedBook = {
+      ...book,
+      placeholderImage: {
+        blurUrl: base64PlaceholderBuffer,
+      },
+    };
+
+    return NextResponse.json({ book: mappedBook });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
@@ -77,7 +89,16 @@ export async function POST(request: NextRequest): Promise<NextResponse<BookPostR
       },
     });
 
-    return NextResponse.json({ book });
+    const base64PlaceholderBuffer = await generatePlaceholderImage(getImagePublicUrl('BookCovers', book.image.path));
+
+    const mappedBook: BookWithDetails = {
+      ...book,
+      placeholderImage: {
+        blurUrl: base64PlaceholderBuffer,
+      },
+    };
+
+    return NextResponse.json({ book: mappedBook });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
@@ -149,7 +170,16 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<BookPatc
       },
     });
 
-    return NextResponse.json({ book: updatedBook });
+    const base64PlaceholderBuffer = await generatePlaceholderImage(getImagePublicUrl('BookCovers', book.image.path));
+
+    const mappedBook: BookWithDetails = {
+      ...updatedBook,
+      placeholderImage: {
+        blurUrl: base64PlaceholderBuffer,
+      },
+    };
+
+    return NextResponse.json({ book: mappedBook });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;

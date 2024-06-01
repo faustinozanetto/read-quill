@@ -1,7 +1,9 @@
-const { PrismaPlugin } = require('@prisma/nextjs-monorepo-workaround-plugin');
-const { withSentryConfig } = require('@sentry/nextjs');
+import { PrismaPlugin } from '@prisma/nextjs-monorepo-workaround-plugin';
+import { withSentryConfig } from '@sentry/nextjs';
 
-/** @type {import('next').NextConfig} */
+/**
+ * @type {import('next').NextConfig}
+ */
 const nextJsConfig = {
   reactStrictMode: true,
   images: {
@@ -21,7 +23,7 @@ const nextJsConfig = {
   },
 };
 
-module.exports = withSentryConfig(
+export default withSentryConfig(
   nextJsConfig,
   {
     // For all available options, see:

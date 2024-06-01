@@ -12,8 +12,8 @@
       "@utils/*": ["utils/*"],
       "@config/*": ["config/*"],
       "@state/*": ["state/*"],
-      "@modules/*": ["modules/*"],
-    },
+      "@modules/*": ["modules/*"]
+    }
   },
   "include": [
     "next-env.d.ts",
@@ -21,11 +21,11 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "next.config.js",
-    "next.config.js",
+    "next.config.mjs",
+    "next.config.mjs",
     "tailwind.config.js",
     "src/modules/dashboard/components/read-activity/dashboard-read-activity-indicators-tsx",
-    "jest.setup.js",
+    "jest.setup.js"
   ],
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules"]
 }
