@@ -85,10 +85,10 @@ const UserBooksFeed: React.FC<UserBooksFeedProps> = (props) => {
               if (value) setCardVariant(value);
             }}
           >
-            <ToggleGroupItem value="vertical">
+            <ToggleGroupItem value="vertical" title="Layout Grid">
               <LayoutGridIcon />
             </ToggleGroupItem>
-            <ToggleGroupItem value="landscape">
+            <ToggleGroupItem value="landscape" title="Layout List">
               <LayoutListIcon />
             </ToggleGroupItem>
           </ToggleGroup>

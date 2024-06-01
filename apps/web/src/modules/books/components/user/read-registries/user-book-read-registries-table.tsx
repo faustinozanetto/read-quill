@@ -1,14 +1,16 @@
 'use client';
 
 import React, { useMemo, useState } from 'react';
-import { DataTableColumnHeader, DataTableViewOptions } from '@read-quill/design-system';
+import { Button, Checkbox, DataTableColumnHeader, DataTableViewOptions, DeleteIcon } from '@read-quill/design-system';
 import type { ColumnDef, ColumnFiltersState, SortingState, VisibilityState } from '@tanstack/react-table';
 import { getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import { DataTable, DataTablePagination } from '@read-quill/design-system/src';
 
-import DashboardReadRegistriesRowActions from '@modules/dashboard/components/read-registries/table/dashboard-read-registries-row-actions';
 import { UseBookReadRegistriesReturn } from '@modules/books/hooks/use-book-read-registries';
 import { ReadRegistry } from '@read-quill/database';
+import UserBookReadRegistriesRowActions from './user-book-read-registries-row-actions';
+import ReadRegistryDeleteMultiple from '@modules/read-registries/components/delete-multiple/read-registry-delete-multiple';
+import { useQueriesStore } from '@modules/queries/state/queries.slice';
 
 interface UserBookReadRegistriesTableProps
   extends Pick<UseBookReadRegistriesReturn, 'data' | 'pagination' | 'setPagination'> {}
@@ -16,12 +18,34 @@ interface UserBookReadRegistriesTableProps
 const UserBookReadRegistriesTable: React.FC<UserBookReadRegistriesTableProps> = (props) => {
   const { data, pagination, setPagination } = props;
 
+  const { queryClient } = useQueriesStore();
+
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = useState({});
 
   const columns: ColumnDef<ReadRegistry>[] = useMemo(
     () => [
+      {
+        id: 'select',
+        header: ({ table }) => (
+          <Checkbox
+            checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && 'indeterminate')}
+            onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+            aria-label="Select all"
+          />
+        ),
+        cell: ({ row }) => (
+          <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(value) => row.toggleSelected(!!value)}
+            aria-label="Select row"
+          />
+        ),
+        enableSorting: false,
+        enableHiding: false,
+      },
       {
         accessorKey: 'pagesRead',
         header: ({ column }) => <DataTableColumnHeader column={column} title="Pages Read" />,
@@ -47,7 +71,7 @@ const UserBookReadRegistriesTable: React.FC<UserBookReadRegistriesTableProps> = 
         id: 'actions',
         enableHiding: false,
         cell: ({ row }) => {
-          return <DashboardReadRegistriesRowActions row={row} />;
+          return <UserBookReadRegistriesRowActions row={row} />;
         },
       },
     ],
@@ -63,6 +87,7 @@ const UserBookReadRegistriesTable: React.FC<UserBookReadRegistriesTableProps> = 
       sorting,
       columnFilters,
       columnVisibility,
+      rowSelection,
     },
     manualPagination: true,
     onPaginationChange: setPagination,
@@ -72,11 +97,33 @@ const UserBookReadRegistriesTable: React.FC<UserBookReadRegistriesTableProps> = 
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
   });
+
+  const selectedRowsIds = table.getSelectedRowModel().rows.map((selectedRow) => selectedRow.original.id);
+
+  const onSelectedRegistriesDeleted = async () => {
+    await queryClient.refetchQueries(['book-read-registries']);
+    table.resetRowSelection();
+  };
 
   return (
     <div className="flex flex-col gap-2 w-full">
-      <DataTableViewOptions table={table} />
+      <div className="flex justify-between">
+        {(table.getIsSomeRowsSelected() || table.getIsAllRowsSelected()) && (
+          <ReadRegistryDeleteMultiple
+            registryIds={selectedRowsIds}
+            onSuccess={onSelectedRegistriesDeleted}
+            deleteButton={
+              <Button variant="outline-destructive">
+                <DeleteIcon className="mr-2 stroke-current" size="sm" />
+                Delete Selected Registries
+              </Button>
+            }
+          />
+        )}
+        <DataTableViewOptions table={table} />
+      </div>
       <div className="max-h-[600px] overflow-y-auto">
         <DataTable table={table} />
       </div>

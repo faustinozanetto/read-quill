@@ -14,50 +14,30 @@ import {
   DropdownMenuItem,
   buttonVariants,
 } from '@read-quill/design-system';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { ReadRegistry } from '@read-quill/database';
-import type { Row } from '@tanstack/react-table';
-import { __URL__ } from '@modules/common/lib/common.constants';
+import {
+  UseDeleteReadRegistryParams,
+  useDeleteReadRegistry,
+} from '@modules/read-registries/hooks/use-delete-read-registry';
 
-interface DashboardReadRegistryDeleteProps {
+interface ReadRegistryDeleteProps {
   readRegistry: ReadRegistry;
+  onSuccess: UseDeleteReadRegistryParams['onSuccess'];
 }
 
-const DashboardReadRegistryDelete: React.FC<DashboardReadRegistryDeleteProps> = (props) => {
-  const { readRegistry } = props;
-
-  const [dialogOpen, setDialogOpen] = useState(false);
+const ReadRegistryDelete: React.FC<ReadRegistryDeleteProps> = (props) => {
+  const { readRegistry, onSuccess } = props;
 
   const { toast } = useToast();
-  const queryClient = useQueryClient();
+  const [dialogOpen, setDialogOpen] = useState(false);
 
-  const { mutateAsync } = useMutation({
-    mutationFn: async () => {
-      try {
-        const url = new URL('/api/dashboard/read-registries', __URL__);
-        const body = JSON.stringify({
-          registryId: readRegistry.id,
-        });
-
-        const response = await fetch(url, { method: 'DELETE', body });
-        if (!response.ok) {
-          throw new Error('Could not delete read registry!');
-        }
-
-        toast({ variant: 'success', content: 'Read registry deleted successfully!' });
-      } catch (error) {
-        let errorMessage = 'Could not delete read registry!';
-        if (error instanceof Error) errorMessage = error.message;
-
-        toast({ variant: 'error', content: errorMessage });
-      } finally {
+  const { deleteReadRegistry } = useDeleteReadRegistry({
+    onSuccess: async (data, variables, context) => {
+      if (data.success) {
+        onSuccess(data, variables, context);
         setDialogOpen(false);
+        toast({ variant: 'success', content: 'Read registry deleted successfully!' });
       }
-    },
-    onSuccess: async () => {
-      await queryClient.refetchQueries(['dashboard-read-targets']);
-      await queryClient.refetchQueries(['dashboard-read-registries']);
-      await queryClient.refetchQueries(['dashboard-books-progress']);
     },
   });
 
@@ -87,7 +67,7 @@ const DashboardReadRegistryDelete: React.FC<DashboardReadRegistryDeleteProps> = 
           <AlertDialogAction
             className={buttonVariants({ variant: 'destructive' })}
             onClick={async () => {
-              await mutateAsync();
+              await deleteReadRegistry({ registryId: readRegistry.id });
             }}
           >
             Continue
@@ -98,4 +78,4 @@ const DashboardReadRegistryDelete: React.FC<DashboardReadRegistryDeleteProps> = 
   );
 };
 
-export default DashboardReadRegistryDelete;
+export default ReadRegistryDelete;

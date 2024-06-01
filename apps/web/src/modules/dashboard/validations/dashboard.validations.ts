@@ -12,18 +12,3 @@ export const editReadTargetsValidationSchema = z.object({
   weekly: z.number().min(0, { message: 'Weekly min is 0!' }).optional(),
   monthly: z.number().min(0, { message: 'Monthly min is 0!' }).optional(),
 });
-
-/* Read Registries */
-export const createReadRegistryValidationSchema = z.object({
-  pagesRead: z.number({ required_error: 'Pages read is required!' }).min(0, { message: 'Pages read min is 0!' }),
-  bookId: z.string({ required_error: 'Book id is required!' }),
-});
-
-export const editReadRegistryValidationSchema = z.object({
-  pagesRead: z.number().min(0, { message: 'Pages read min is 0!' }).optional(),
-  registryId: z.string({ required_error: 'Registry id is required!' }),
-});
-
-export const deleteReadRegistryValidationSchema = z.object({
-  registryId: z.string({ required_error: 'Book id is required!' }),
-});

@@ -14,7 +14,7 @@ const DesktopNavigation: React.FC = async () => {
   return (
     <aside className="hidden md:block drop-shadow-xl sticky inset-y-0 left-0 h-screen z-[100]">
       <div className="bg-primary float-left flex h-full flex-col gap-2 rounded-r-lg p-4 items-start">
-        <Link href="/">
+        <Link href="/" title="Home">
           <MarketingLogo />
         </Link>
         <nav className="flex grow flex-col gap-2 mt-4 w-full">

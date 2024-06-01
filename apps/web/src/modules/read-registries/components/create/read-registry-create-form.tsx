@@ -1,19 +1,17 @@
 import React from 'react';
-import type { z } from 'zod';
 
 import { MultiStepFormStep } from '@modules/forms/hooks/use-multi-step-form';
 
-import { createReadRegistryValidationSchema } from '@modules/dashboard/validations/dashboard.validations';
 import { Button, LoadingIcon, PlusIcon, cn } from '@read-quill/design-system';
-import DashboardReadRegistriesFormPagesRead from '@modules/dashboard/components/forms/read-registries/dashboard-read-registries-page-count';
-import DashboardReadRegistriesFormBook from '@modules/dashboard/components/forms/read-registries/dashboard-read-registries-book';
 import { useBooksNames } from '@modules/dashboard/hooks/use-books-names';
 import MultiStepFormWrapper from '@modules/forms/components/multi-step-form-wrapper';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { CreateReadRegistryFormActionData } from '@modules/read-registries/types/read-registries-validations.types';
+import { READ_REGISTRY_ACTIONS_VALIDATIONS_FORMS } from '@modules/read-registries/lib/read-registries.validations';
+import ReadRegistryFormPagesRead from '../forms/read-registry-form-pages-read';
+import ReadRegistryFormBook from '../forms/read-registry-form-book';
 
-export type DashboardReadRegistriesCreateFormData = z.infer<typeof createReadRegistryValidationSchema>;
-
-const STEPS_DATA: MultiStepFormStep<DashboardReadRegistriesCreateFormData>[] = [
+const STEPS_DATA: MultiStepFormStep<CreateReadRegistryFormActionData>[] = [
   {
     title: 'Pages Read',
     fields: ['pagesRead'],
@@ -24,11 +22,11 @@ const STEPS_DATA: MultiStepFormStep<DashboardReadRegistriesCreateFormData>[] = [
   },
 ];
 
-interface DashboardReadRegistriesCreateFormProps {
-  onSubmit: (data: DashboardReadRegistriesCreateFormData) => void;
+interface ReadRegistryCreateFormProps {
+  onSubmit: (data: CreateReadRegistryFormActionData) => void;
 }
 
-const DashboardReadRegistriesCreateForm: React.FC<DashboardReadRegistriesCreateFormProps> = (props) => {
+const ReadRegistryCreateForm: React.FC<ReadRegistryCreateFormProps> = (props) => {
   const { onSubmit } = props;
 
   const { data } = useBooksNames();
@@ -36,7 +34,7 @@ const DashboardReadRegistriesCreateForm: React.FC<DashboardReadRegistriesCreateF
   return (
     <MultiStepFormWrapper
       data={STEPS_DATA}
-      resolver={zodResolver(createReadRegistryValidationSchema)}
+      resolver={zodResolver(READ_REGISTRY_ACTIONS_VALIDATIONS_FORMS.CREATE)}
       onSubmit={onSubmit}
       renderSubmitButton={(form, getCanSubmit) => {
         const isFormLoading = form.formState.isSubmitting;
@@ -56,12 +54,12 @@ const DashboardReadRegistriesCreateForm: React.FC<DashboardReadRegistriesCreateF
     >
       {(form, currentStep) => (
         <>
-          {currentStep === 0 && <DashboardReadRegistriesFormPagesRead />}
-          {currentStep === 1 && <DashboardReadRegistriesFormBook booksNames={data.booksNames} />}
+          {currentStep === 0 && <ReadRegistryFormPagesRead />}
+          {currentStep === 1 && <ReadRegistryFormBook booksNames={data.booksNames} />}
         </>
       )}
     </MultiStepFormWrapper>
   );
 };
 
-export default DashboardReadRegistriesCreateForm;
+export default ReadRegistryCreateForm;

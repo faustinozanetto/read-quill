@@ -1,25 +1,22 @@
 import React from 'react';
-import type { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { Button, DialogFooter, Form, cn, LoadingIcon, EditIcon } from '@read-quill/design-system';
 import type { ReadRegistry } from '@read-quill/database';
-import { editReadRegistryValidationSchema } from '@modules/dashboard/validations/dashboard.validations';
 import DashboardReadRegistriesFormPagesRead from '@modules/dashboard/components/forms/read-registries/dashboard-read-registries-page-count';
-import { __URL__ } from '@modules/common/lib/common.constants';
+import { EditReadRegistryFormActionData } from '@modules/read-registries/types/read-registries-validations.types';
+import { READ_REGISTRY_ACTIONS_VALIDATIONS_FORMS } from '@modules/read-registries/lib/read-registries.validations';
 
-export type DashboardReadRegistryEditFormData = z.infer<typeof editReadRegistryValidationSchema>;
-
-interface DashboardReadRegistryEditFormProps {
+interface ReadRegistryEditFormProps {
   initialData: ReadRegistry;
-  onSubmit: (data: DashboardReadRegistryEditFormData) => void;
+  onSubmit: (data: EditReadRegistryFormActionData) => void;
 }
 
-const DashboardReadRegistryEditForm: React.FC<DashboardReadRegistryEditFormProps> = (props) => {
+const ReadRegistryEditForm: React.FC<ReadRegistryEditFormProps> = (props) => {
   const { initialData, onSubmit } = props;
 
-  const form = useForm<DashboardReadRegistryEditFormData>({
-    resolver: zodResolver(editReadRegistryValidationSchema),
+  const form = useForm<EditReadRegistryFormActionData>({
+    resolver: zodResolver(READ_REGISTRY_ACTIONS_VALIDATIONS_FORMS.EDIT),
     mode: 'onBlur',
     defaultValues: {
       pagesRead: initialData.pagesRead,
@@ -50,4 +47,4 @@ const DashboardReadRegistryEditForm: React.FC<DashboardReadRegistryEditFormProps
   );
 };
 
-export default DashboardReadRegistryEditForm;
+export default ReadRegistryEditForm;

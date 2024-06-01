@@ -6,19 +6,17 @@ import type { ReadRegistry } from '@read-quill/database';
 import ReadRegistryActions from '@modules/read-registries/components/read-registry-actions';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 
-interface DashboardReadRegistriesRowActionsProps {
+interface UserBookReadRegistriesRowActionsProps {
   row: Row<ReadRegistry>;
 }
 
-const DashboardReadRegistriesRowActions: React.FC<DashboardReadRegistriesRowActionsProps> = (props) => {
+const UserBookReadRegistriesRowActions: React.FC<UserBookReadRegistriesRowActionsProps> = (props) => {
   const { row } = props;
 
   const { queryClient } = useQueriesStore();
 
   const handleOnReadRegistryModified = async () => {
-    await queryClient.refetchQueries(['dashboard-read-targets']);
-    await queryClient.refetchQueries(['dashboard-read-registries']);
-    await queryClient.refetchQueries(['dashboard-books-progress']);
+    await queryClient.refetchQueries(['book-read-registries']);
   };
 
   return (
@@ -30,4 +28,4 @@ const DashboardReadRegistriesRowActions: React.FC<DashboardReadRegistriesRowActi
   );
 };
 
-export default DashboardReadRegistriesRowActions;
+export default UserBookReadRegistriesRowActions;
