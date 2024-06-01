@@ -15,8 +15,6 @@ const UserBookDetailsPlaceholder: React.FC = () => {
           <Skeleton className="h-5 w-1/3" />
         </div>
       </div>
-
-      <Skeleton className="h-20 w-full md:w-1/5" />
     </div>
   );
 };

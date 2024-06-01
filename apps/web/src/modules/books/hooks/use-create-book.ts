@@ -13,7 +13,7 @@ interface UseCreateBookReturn {
   isCoverUploading: boolean;
 }
 
-interface UseCreateBookParams {
+export interface UseCreateBookParams {
   onSuccess: NonNullable<CreateBookMutationParams['onSuccess']>;
 }
 

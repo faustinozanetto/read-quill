@@ -22,8 +22,8 @@ export const NAVIGATION_LINKS: Omit<NavigationLinkProps, 'isCompact'>[] = [
     ),
   },
   {
-    href: '/books',
-    children: 'Books',
+    href: '/library',
+    children: 'Library',
     icon: <BookIcon className="stroke-current" />,
   },
   {

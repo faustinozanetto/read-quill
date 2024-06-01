@@ -13,7 +13,7 @@ const DashboardReadActivityGraphEntry: React.FC<DashboardReadActivityGraphEntryP
       const today = new Date();
       const activityDateIsToday = today.toISOString().split('T')[0] === activity.date;
 
-      if (activityDateIsToday) return { backgroundColor: 'hsl(var(--destructive))' };
+      if (activityDateIsToday) return { backgroundColor: 'hsl(var(--destructive-foreground))' };
 
       if (activity.level > 0) return { backgroundColor: `hsl(var(--primary) / ${(1 / activity.level).toFixed(2)})` };
 

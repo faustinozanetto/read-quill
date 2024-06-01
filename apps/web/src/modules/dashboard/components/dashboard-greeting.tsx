@@ -6,7 +6,7 @@ import { Skeleton } from '@read-quill/design-system';
 import { useAuthContext } from '@modules/auth/hooks/use-auth-context';
 
 const DashboardGreeting: React.FC = () => {
-  const user = useAuthContext((s) => s.user);
+  const { user } = useAuthContext();
 
   return (
     <div className="rounded-lg border p-4 shadow">

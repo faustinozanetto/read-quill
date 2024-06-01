@@ -11,7 +11,7 @@ import FilterRadioGroupInput from '@modules/filters/components/inputs/filter-rad
 import { BookWithDetails } from '@modules/books/types/book.types';
 import FilterRadioGroupInputEntry from '@modules/filters/components/inputs/filter-radio-group-input-entry';
 
-interface UserBooksFilteringProps {
+interface UserLibraryBooksFilteringProps {
   /**
    * Filter sort data.
    */
@@ -22,7 +22,7 @@ interface UserBooksFilteringProps {
   filters: UseFilterReturn<BookWithDetails>['filters'];
 }
 
-const UserBooksFiltering: React.FC<UserBooksFilteringProps> = (props) => {
+const UserLibraryBooksFiltering: React.FC<UserLibraryBooksFilteringProps> = (props) => {
   const { filters, sort } = props;
 
   const { updateFilterValue, updateSort, resetFilter, resetFilters, resetSort } = useFilterActions<BookWithDetails>();
@@ -130,4 +130,4 @@ const UserBooksFiltering: React.FC<UserBooksFilteringProps> = (props) => {
   );
 };
 
-export default UserBooksFiltering;
+export default UserLibraryBooksFiltering;

@@ -27,12 +27,12 @@ const STEPS_DATA: MultiStepFormStep<CreateBookFormActionData>[] = [
   },
 ];
 
-interface UserBooksManagementCreateFormProps {
+interface BookCreateFormProps {
   isBookCoverUploading: boolean;
   onSubmit: (data: CreateBookFormActionData) => void;
 }
 
-const UserBooksManagementCreateForm: React.FC<UserBooksManagementCreateFormProps> = (props) => {
+const BookCreateForm: React.FC<BookCreateFormProps> = (props) => {
   const { onSubmit, isBookCoverUploading } = props;
 
   return (
@@ -55,4 +55,4 @@ const UserBooksManagementCreateForm: React.FC<UserBooksManagementCreateFormProps
   );
 };
 
-export default UserBooksManagementCreateForm;
+export default BookCreateForm;

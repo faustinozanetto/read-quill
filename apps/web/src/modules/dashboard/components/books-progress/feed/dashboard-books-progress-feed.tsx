@@ -10,8 +10,7 @@ import DashboardBooksProgressFiltering from './filtering/dashboard-books-progres
 
 interface DashboardBooksProgressFeedProps extends PaginationControlsProps {
   booksProgress: DashboardBooksProgressGetResponse['booksProgress'];
-  renderPlaceholder: () => React.ReactNode;
-  renderNoBooks: () => React.ReactNode;
+  children: React.ReactNode;
 }
 
 const DashboardBooksProgressFeed: React.FC<DashboardBooksProgressFeedProps> = (props) => {
@@ -24,8 +23,7 @@ const DashboardBooksProgressFeed: React.FC<DashboardBooksProgressFeedProps> = (p
     nextPage,
     previousPage,
     setPageIndex,
-    renderPlaceholder,
-    renderNoBooks,
+    children,
   } = props;
 
   const filterFunctions: UseFilterFilteringFunctions<DashboardBooksProgressGetResponse['booksProgress'][0]> = {
@@ -72,30 +70,33 @@ const DashboardBooksProgressFeed: React.FC<DashboardBooksProgressFeedProps> = (p
           </p>
         ) : (
           <>
-            <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-3 mt-2">
-              {filteredData.map((bookProgress) => {
-                return (
-                  <DashboardBooksProgressCard
-                    cover={bookProgress.cover}
-                    id={bookProgress.id}
-                    key={`dashboard-books-progress-${bookProgress.id}`}
-                    name={bookProgress.name}
-                    progress={bookProgress.progress}
-                  />
-                );
-              })}
-              {renderPlaceholder()}
-            </div>
-            {renderNoBooks()}
-            <PaginationControls
-              getCanNextPage={getCanNextPage}
-              getCanPreviousPage={getCanPreviousPage}
-              nextPage={nextPage}
-              page={page}
-              pageCount={pageCount}
-              previousPage={previousPage}
-              setPageIndex={setPageIndex}
-            />
+            {filteredData.length > 0 && (
+              <>
+                <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-3 mt-2">
+                  {filteredData.map((bookProgress) => {
+                    return (
+                      <DashboardBooksProgressCard
+                        cover={bookProgress.cover}
+                        id={bookProgress.id}
+                        key={`dashboard-books-progress-${bookProgress.id}`}
+                        name={bookProgress.name}
+                        progress={bookProgress.progress}
+                      />
+                    );
+                  })}
+                </div>
+                <PaginationControls
+                  getCanNextPage={getCanNextPage}
+                  getCanPreviousPage={getCanPreviousPage}
+                  nextPage={nextPage}
+                  page={page}
+                  pageCount={pageCount}
+                  previousPage={previousPage}
+                  setPageIndex={setPageIndex}
+                />
+              </>
+            )}
+            {children}
           </>
         )}
       </div>

@@ -8,7 +8,7 @@ import { useCommunityFavouriteThreads } from '@modules/community/hooks/use-commu
 import { useAuthContext } from '@modules/auth/hooks/use-auth-context';
 
 const CommunityFavouriteThreads: React.FC = () => {
-  const user = useAuthContext((s) => s.user);
+  const { user } = useAuthContext();
   const { data, isLoading, isFetching } = useCommunityFavouriteThreads({
     pageSize: 4,
     userId: user?.id,

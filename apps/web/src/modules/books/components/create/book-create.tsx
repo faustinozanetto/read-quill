@@ -2,29 +2,33 @@ import React, { useState } from 'react';
 import {
   Dialog,
   DialogTrigger,
-  Button,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogDescription,
-  PlusIcon,
   useToast,
 } from '@read-quill/design-system';
-import { useRouter, useSearchParams } from 'next/navigation';
-import UserBooksManagementCreateForm from './user-books-management-create-form';
-import { useCreateBook } from '@modules/books/hooks/use-create-book';
+import { useSearchParams } from 'next/navigation';
+import BookCreateForm from './book-create-form';
+import { UseCreateBookParams, useCreateBook } from '@modules/books/hooks/use-create-book';
 
-const UserBooksManagementCreate: React.FC = () => {
-  const router = useRouter();
+interface BookCreateProps {
+  onSuccess: UseCreateBookParams['onSuccess'];
+  createButton: React.ReactNode;
+}
+
+const BookCreate: React.FC<BookCreateProps> = (props) => {
+  const { createButton, onSuccess } = props;
+
   const searchParams = useSearchParams();
   const addBookModalParam = searchParams.get('add-book-modal') === 'true';
   const { toast } = useToast();
 
   const [dialogOpen, setDialogOpen] = useState(addBookModalParam);
   const { createBook, isCoverUploading } = useCreateBook({
-    onSuccess: async (data) => {
+    onSuccess: async (data, variables, context) => {
       if (data && data.book) {
-        router.push(`/books/${data.book.id}`);
+        onSuccess(data, variables, context);
         toast({ variant: 'success', content: `Book ${data.book.name} created successfully!` });
       }
     },
@@ -32,23 +36,16 @@ const UserBooksManagementCreate: React.FC = () => {
 
   return (
     <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
-      <DialogTrigger asChild>
-        <Button aria-label="Create Book" size="sm">
-          <PlusIcon className="mr-2 stroke-current" />
-          Create Book
-        </Button>
-      </DialogTrigger>
-
+      <DialogTrigger asChild>{createButton}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Create Book</DialogTitle>
           <DialogDescription>Register a book you started reading here.</DialogDescription>
         </DialogHeader>
-
-        <UserBooksManagementCreateForm isBookCoverUploading={isCoverUploading} onSubmit={createBook} />
+        <BookCreateForm isBookCoverUploading={isCoverUploading} onSubmit={createBook} />
       </DialogContent>
     </Dialog>
   );
 };
 
-export default UserBooksManagementCreate;
+export default BookCreate;

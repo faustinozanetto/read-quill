@@ -17,7 +17,7 @@ export interface UseUserBooksReturn
 
 interface UseUserBooksParams {
   pageSize: number;
-  userId: string;
+  userId?: string;
 }
 
 const buildUrl = (page: number, pageSize: number, userId: string): string => {
@@ -38,8 +38,11 @@ export const useUserBooks = (params: UseUserBooksParams): UseUserBooksReturn => 
   const { data, isLoading, isFetching, isPreviousData } = useQuery<UserBooksGetResponse>(['user-books', page, userId], {
     initialData: { books: [], hasMore: false, pageCount: 0 },
     keepPreviousData: true,
+    enabled: !!userId,
     queryFn: async () => {
       try {
+        if (!userId) return;
+
         const url = buildUrl(page, pageSize, userId);
         const response = await fetch(url, { method: 'GET' });
 

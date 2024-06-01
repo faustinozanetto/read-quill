@@ -50,26 +50,26 @@ const DashboardBooksProgress: React.FC = () => {
             pageCount={data.pageCount}
             previousPage={previousPage}
             setPageIndex={setPageIndex}
-            renderPlaceholder={() => {
-              if (isFetching || isLoading)
-                return Array.from({ length: 4 }).map((_, i) => (
+          >
+            {(isFetching || isLoading) && (
+              <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-3 mt-2">
+                {Array.from({ length: 4 }).map((_, i) => (
                   <Skeleton className="h-48 w-full" key={`dashboard-books-progress-placeholder-${i}`} />
-                ));
-            }}
-            renderNoBooks={() => {
-              if (!(isFetching || isLoading) && data.booksProgress.length === 0)
-                return (
-                  <DashboardNoDataMessage>
-                    <p>
-                      Start by adding your first book to track progress{' '}
-                      <Link className="font-bold text-primary underline" href="/books?add-book-modal=true">
-                        Here
-                      </Link>
-                    </p>
-                  </DashboardNoDataMessage>
-                );
-            }}
-          />
+                ))}
+              </div>
+            )}
+
+            {!(isFetching || isLoading) && data.booksProgress.length === 0 && (
+              <DashboardNoDataMessage className="m-auto">
+                <p>
+                  No books found, start by adding your first book to track progress{' '}
+                  <Link className="font-bold text-primary underline" href="/books?add-book-modal=true">
+                    Here
+                  </Link>
+                </p>
+              </DashboardNoDataMessage>
+            )}
+          </DashboardBooksProgressFeed>
         </div>
       </FilterProvider>
     </div>

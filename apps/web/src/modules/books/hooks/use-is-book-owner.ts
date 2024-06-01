@@ -7,7 +7,7 @@ interface UseIsBookOwnerReturn {
 }
 
 export const useIsBookOwner = (): UseIsBookOwnerReturn => {
-  const user = useAuthContext((s) => s.user);
+  const { user } = useAuthContext();
   const { book } = useBookStore();
 
   const isBookOwner = Boolean(user?.id === book?.readerId);

@@ -23,7 +23,7 @@ interface CommnuityThreadFavouriteProps {
 const CommnuityThreadFavourite: React.FC<CommnuityThreadFavouriteProps> = (props) => {
   const { thread } = props;
 
-  const user = useAuthContext((s) => s.user);
+  const { user } = useAuthContext();
   const {
     data: { isFavourite: isCurrentThreadFavourite },
     isLoading,

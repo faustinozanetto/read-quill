@@ -6,7 +6,7 @@ import { useAuthContext } from '@modules/auth/hooks/use-auth-context';
 import { useUserContext } from '@modules/users/hooks/use-user-context';
 
 const UserProfileThreadsHeader: React.FC = () => {
-  const authUser = useAuthContext((s) => s.user);
+  const { user: authUser } = useAuthContext();
   const { user } = useUserContext((s) => s);
 
   const isProfileOwner = Boolean(authUser && user.email === authUser.email);

@@ -21,7 +21,7 @@ const CommunityThreadComment: React.FC<CommunityThreadCommentProps> = (props) =>
   const { commentNode, depth = 0, index = 0, isDepthZeroLastReply = false, isRecursiveDepthLastReply = false } = props;
   const { comment, replies } = commentNode;
 
-  const user = useAuthContext((s) => s.user);
+  const { user } = useAuthContext();
   const [lastReplyHeight, setLastReplyHeight] = useState<number | null>(null);
 
   return (

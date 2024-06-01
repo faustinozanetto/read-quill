@@ -1,11 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
-import { Button, ManageIcon, Skeleton } from '@read-quill/design-system';
+import { Button, ManageIcon } from '@read-quill/design-system';
 import { useAuthContext } from '@modules/auth/hooks/use-auth-context';
 import { useUserContext } from '@modules/users/hooks/use-user-context';
 
 const UserProfileBooksHeader: React.FC = () => {
-  const authUser = useAuthContext((s) => s.user);
+  const { user: authUser } = useAuthContext();
   const { user } = useUserContext((s) => s);
 
   const isProfileOwner = Boolean(authUser && user.email === authUser.email);
@@ -16,7 +16,7 @@ const UserProfileBooksHeader: React.FC = () => {
 
       {isProfileOwner ? (
         <Button aria-label="Manage Containers" asChild className="md:w-auto" size="sm" variant="outline">
-          <Link className="md:w-auto" href="/books">
+          <Link className="md:w-auto" href="/library">
             <ManageIcon className="mr-2" />
             Manage Books
           </Link>

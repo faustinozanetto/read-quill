@@ -8,20 +8,20 @@ import {
 import FiltersShell from '@modules/filters/components/filters-shell';
 import type { PaginationControlsProps } from '@modules/common/components/pagination/pagination-controls';
 import PaginationControls from '@modules/common/components/pagination/pagination-controls';
-import BooksFeed from '../../feed/books-feed';
-import UserBooksFiltering from './user-books-feed-filtering';
+import UserBooksFiltering from './user-library-books-feed-filtering';
 import { LayoutListIcon } from '@read-quill/design-system';
 import { ToggleGroup } from '@read-quill/design-system';
 import { ToggleGroupItem } from '@read-quill/design-system';
 import { LayoutGridIcon } from '@read-quill/design-system';
 import { BookWithDetails } from '@modules/books/types/book.types';
+import BooksFeed from '@modules/books/components/feed/books-feed';
 
-interface UserBooksFeedProps extends PaginationControlsProps {
+interface UserLibraryBooksFeedProps extends PaginationControlsProps {
   books: BookWithDetails[];
   children: React.ReactNode;
 }
 
-const UserBooksFeed: React.FC<UserBooksFeedProps> = (props) => {
+const UserLibraryBooksFeed: React.FC<UserLibraryBooksFeedProps> = (props) => {
   const { books, page, pageCount, getCanNextPage, getCanPreviousPage, nextPage, previousPage, setPageIndex, children } =
     props;
 
@@ -76,11 +76,12 @@ const UserBooksFeed: React.FC<UserBooksFeedProps> = (props) => {
     >
       <div className="p-4 grow flex flex-col justify-between gap-4">
         <div className="flex items-center justify-between">
-          <span className="font-medium">Showing {filteredData.length} Books</span>
+          {books.length > 0 && <span className="font-medium">Showing {filteredData.length} Books</span>}
           <ToggleGroup
             type="single"
             variant="outline"
             value={cardVariant}
+            className="ml-auto"
             onValueChange={(value: 'vertical' | 'landscape') => {
               if (value) setCardVariant(value);
             }}
@@ -122,4 +123,4 @@ const UserBooksFeed: React.FC<UserBooksFeedProps> = (props) => {
   );
 };
 
-export default UserBooksFeed;
+export default UserLibraryBooksFeed;

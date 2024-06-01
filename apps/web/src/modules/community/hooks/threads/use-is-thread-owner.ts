@@ -6,7 +6,7 @@ interface UseIsThreadOwnerReturn {
 }
 
 export const useIsThreadOwner = (): UseIsThreadOwnerReturn => {
-  const user = useAuthContext((s) => s.user);
+  const { user } = useAuthContext();
   const { thread } = useThreadStore();
 
   const isThreadOwner = Boolean(user?.id === thread?.authorId);

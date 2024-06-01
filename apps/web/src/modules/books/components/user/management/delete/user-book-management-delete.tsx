@@ -15,7 +15,7 @@ const UserBookManagementDelete: React.FC = () => {
     book,
     onSuccess: async (data) => {
       if (data && data.success) {
-        router.push('/books');
+        router.push('/library');
         toast({ variant: 'success', content: `Book deleted successfully!` });
       }
     },
