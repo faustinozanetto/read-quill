@@ -25,7 +25,7 @@ const FiltersShell: React.FC<FiltersShellProps> = (props) => {
   const { children, filtersContainerClassNames, onRenderFilters } = props;
 
   return (
-    <div className="flex flex-col relative">
+    <div className="flex flex-col relative flex-shrink-0">
       <Sheet>
         <SheetTrigger className={buttonVariants({ className: 'flex lg:hidden ml-auto mt-4 mr-4' })}>
           <SortAscIcon className="mr-2" /> Filters & Sort

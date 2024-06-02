@@ -17,9 +17,8 @@ const CommunityThreads: React.FC = () => {
   const threads = data?.pages.flatMap((v) => v.threads) ?? [];
 
   return (
-    <div className="flex w-full flex-col gap-2">
+    <div className="flex w-full flex-col gap-4 min-h-full">
       <CommunityThreadsHeader />
-
       <FilterProvider
         initialState={{
           initialFilters: THREADS_INITIAL_FILTERS,

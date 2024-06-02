@@ -41,7 +41,7 @@ const DashboardReadTimeDistributionChart: React.FC<DashboardReadTimeDistribution
         palette: 'palette1',
         monochrome: {
           enabled: true,
-          color: '#f97316',
+          color: '#74981b',
           shadeTo: theme === 'dark' ? 'dark' : 'light',
         },
       },

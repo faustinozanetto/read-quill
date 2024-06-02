@@ -5,13 +5,13 @@ import React from 'react';
 import { useBookReadRegistries } from '@modules/books/hooks/use-book-read-registries';
 import { useBookStore } from '@modules/books/state/book.slice';
 import UserBookReadRegistriesTable from './user-book-read-registries-table';
-import { Badge, Button, PlusIcon } from '@read-quill/design-system';
+import { Badge, Button, PlusIcon, Skeleton } from '@read-quill/design-system';
 import ReadRegistryCreate from '@modules/read-registries/components/create/read-registry-create';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 
 const UserBookReadRegistries: React.FC = () => {
   const { book } = useBookStore();
-  const { data, isFetching, isLoading, pagination, setPagination } = useBookReadRegistries({
+  const { data, isLoading, pagination, setPagination } = useBookReadRegistries({
     bookId: book?.id,
     pageSize: 8,
   });
@@ -42,7 +42,11 @@ const UserBookReadRegistries: React.FC = () => {
       </div>
 
       <p>Manage and view the read registries for your book here.</p>
-      <UserBookReadRegistriesTable data={data} pagination={pagination} setPagination={setPagination} />
+      {isLoading && !data && <Skeleton className="h-40 w-full" />}
+
+      {!isLoading && data && (
+        <UserBookReadRegistriesTable data={data} pagination={pagination} setPagination={setPagination} />
+      )}
     </div>
   );
 };

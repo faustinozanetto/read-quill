@@ -1,5 +1,5 @@
 import React from 'react';
-import { Skeleton } from '@read-quill/design-system';
+import { Skeleton, cn } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { DashboardReadTargetsGetResponse } from '@modules/api/types/dashboard-api.types';
 import DashboardReadTargetsCreate from './create/dashboard-read-targets-create';
@@ -16,7 +16,9 @@ const DashboardReadTargetsHeader: React.FC<DashboardReadTargetsHeaderProps> = (p
   const { isFetching, isLoading, targetsCreated, data } = props;
 
   return (
-    <div className="flex gap-2 items-center justify-between">
+    <div
+      className={cn('flex gap-2 items-center justify-between', !targetsCreated && 'flex-col sm:flex-row items-start')}
+    >
       <h2 className="text-2xl font-bold">🎯 Read Targets</h2>
       {isFetching || isLoading ? <Skeleton className="h-10 w-10" /> : null}
 

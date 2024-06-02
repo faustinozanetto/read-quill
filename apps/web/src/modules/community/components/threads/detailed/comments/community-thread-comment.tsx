@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ElementRef, useEffect, useRef, useState } from 'react';
 import { ThreadCommentNode } from '@modules/community/types/community.types';
 import CommunityThreadAuthorAvatar from '../../common/community-thread-author-avatar';
 import Link from 'next/link';
@@ -6,6 +6,7 @@ import { Badge, EditIcon, cn } from '@read-quill/design-system';
 import CommunityThreadCommentManagement from './management/community-thread-comment-management';
 import CommunityThreadReplyComment from './reply/community-thread-reply-comment';
 import { useAuthContext } from '@modules/auth/hooks/use-auth-context';
+import { WINDOW } from '@sentry/nextjs';
 
 const REPLIES_SPACING_PX = 8;
 
@@ -22,7 +23,19 @@ const CommunityThreadComment: React.FC<CommunityThreadCommentProps> = (props) =>
   const { comment, replies } = commentNode;
 
   const { user } = useAuthContext();
+  const lastReplyRef = useRef<ElementRef<'div'>>(null);
   const [lastReplyHeight, setLastReplyHeight] = useState<number | null>(null);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setLastReplyHeight(lastReplyRef.current?.clientHeight ?? 0);
+    };
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return (
     <div
@@ -111,9 +124,8 @@ const CommunityThreadComment: React.FC<CommunityThreadCommentProps> = (props) =>
                 key={`${comment.id}-reply-${reply.comment.id}`}
                 className="relative"
                 // Store the last reply height if the current reply is the last one to render.
-                ref={i === replies.length - 1 ? (node) => setLastReplyHeight(node?.clientHeight ?? 0) : undefined}
+                ref={i === replies.length - 1 ? lastReplyRef : undefined}
               >
-                {/* Nested comment */}
                 <CommunityThreadComment
                   commentNode={reply}
                   isDepthZeroLastReply={isDepthZeroLastReply}

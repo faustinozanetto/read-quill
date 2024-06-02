@@ -27,7 +27,7 @@ const DashboardBooksRatingsChart: React.FC<DashboardBooksRatingsChartProps> = (p
         palette: 'palette1',
         monochrome: {
           enabled: true,
-          color: '#f97316',
+          color: '#74981b',
           shadeTo: theme === 'dark' ? 'dark' : 'light',
         },
       },

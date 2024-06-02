@@ -24,7 +24,7 @@ const CommunityTopUserCard: React.FC<CommunityTopUserCardProps> = (props) => {
             #{position}
           </div>
           <div className="hidden absolute inset-0 group-hover:flex items-center justify-center group-hover:backdrop-blur-md transition-all duration-300">
-            <h3 className="text-center font-bold text-primary bg-background">{user.name}</h3>
+            <h3 className="text-center font-bold text-primary-foreground bg-primary">{user.name}</h3>
           </div>
           <UserAvatar
             image={user.image}
@@ -32,12 +32,12 @@ const CommunityTopUserCard: React.FC<CommunityTopUserCardProps> = (props) => {
             alt={`Top User ${user.name} Avatar`}
             width={250}
             height={250}
-            className="rounded-t-lg rounded-b-none h-full w-full object-cover"
+            className="rounded-t-lg rounded-b-none max-h-32 h-full w-full object-cover"
           />
         </div>
         <p className="text-center font-medium mt-1">{threadsCount} Threads</p>
-        <Badge variant="outline" className="mx-auto my-1 border-primary text-primary">
-          <ThumbsUpIcon className="mr-1 stroke-primary" />
+        <Badge className="mx-auto my-1">
+          <ThumbsUpIcon className="mr-1" />
           <p className="text-sm">{totalVotes}</p>
         </Badge>
       </div>

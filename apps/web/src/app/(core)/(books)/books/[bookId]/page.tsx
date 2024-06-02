@@ -5,6 +5,7 @@ import { notFound, redirect } from 'next/navigation';
 import { ResolvingMetadata, Metadata } from 'next';
 import { getImagePublicUrl } from '@modules/images/lib/images.lib';
 import { prisma } from '@read-quill/database';
+import { auth } from 'auth';
 
 interface UserBookPageProps {
   params: {
@@ -39,9 +40,13 @@ const UserBookPage: React.FC<UserBookPageProps> = async (props) => {
     return notFound();
   }
 
+  const session = await auth();
+  const book = await prisma.book.findUnique({ where: { id: bookId } });
+  const isBookOwner = session?.user.id === book?.readerId;
+
   return (
     <div className="container my-4">
-      <UserBook bookId={bookId} />
+      <UserBook bookId={bookId} isBookOwner={isBookOwner} />
     </div>
   );
 };

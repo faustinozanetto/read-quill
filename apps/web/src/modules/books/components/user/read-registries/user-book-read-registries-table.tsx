@@ -11,9 +11,11 @@ import { ReadRegistry } from '@read-quill/database';
 import UserBookReadRegistriesRowActions from './user-book-read-registries-row-actions';
 import ReadRegistryDeleteMultiple from '@modules/read-registries/components/delete-multiple/read-registry-delete-multiple';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
+import { BookReadRegistriesGetResponse } from '@modules/api/types/books-api.types';
 
-interface UserBookReadRegistriesTableProps
-  extends Pick<UseBookReadRegistriesReturn, 'data' | 'pagination' | 'setPagination'> {}
+interface UserBookReadRegistriesTableProps extends Pick<UseBookReadRegistriesReturn, 'pagination' | 'setPagination'> {
+  data: BookReadRegistriesGetResponse;
+}
 
 const UserBookReadRegistriesTable: React.FC<UserBookReadRegistriesTableProps> = (props) => {
   const { data, pagination, setPagination } = props;

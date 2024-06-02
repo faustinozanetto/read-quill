@@ -110,7 +110,7 @@ const MultiStepFormWrapper = <T extends FieldValues>(props: MultiStepFormWrapper
                     )}
                   >
                     {React.createElement(FORM_STEP_ICONS[index + 1], {
-                      className: cn('h-8 w-8', isStepCompleted ? 'stroke-background' : 'stroke-primary'),
+                      className: cn('h-8 w-8', isStepCompleted ? 'stroke-primary-foreground' : 'stroke-primary'),
                     })}
                   </div>
                 </div>
