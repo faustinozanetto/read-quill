@@ -23,11 +23,14 @@ export async function generateMetadata(
 
   const previousImages = (await parent).openGraph?.images || [];
   const title = thread.title;
+  const description = `${thread.content.slice(0, 250)}...`;
 
   return {
     title,
+    description,
     openGraph: {
       title,
+      description,
       images: [...previousImages],
     },
   };
