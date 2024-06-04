@@ -1,5 +1,5 @@
 import { BookProgressEntry } from '@modules/dashboard/types/dashboard.types';
-import type { Image, ReadRegistry, ReadTargets } from '@read-quill/database';
+import type { ReadRegistry, ReadTargets } from '@read-quill/database';
 
 export type DashboardReadRegistry = ReadRegistry & {
   book: {
@@ -37,7 +37,7 @@ export interface DashboardReadRegistriesGetResponse {
   pageCount: number;
 }
 
-export interface DashboardReadInsightsTrendsGetResponse {
+export interface DashboardReadTrendsGetResponse {
   trends: {
     date: string;
     registries: ReadRegistry[];
@@ -50,7 +50,7 @@ export interface DashboardBooksProgressGetResponse {
   hasMore: boolean;
 }
 
-export interface DashboardReadInsightsTimeDistributionGetResponse {
+export interface DashboardReadTimeDistributionGetResponse {
   timeDistribution: {
     date: string;
     pagesRead: number;

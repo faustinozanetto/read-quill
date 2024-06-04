@@ -3,8 +3,8 @@ import { Image } from '@read-quill/database';
 export const DASHBOARD_READ_TARGETS = ['daily', 'weekly', 'monthly'] as const;
 export type DashboardReadTargetsType = (typeof DASHBOARD_READ_TARGETS)[number];
 
-export const dashboardReadInsightsReadTrendsIntervals = ['daily', 'weekly', 'monthly'] as const;
-export type DashboardReadInsightsReadTrendsIntervalType = (typeof dashboardReadInsightsReadTrendsIntervals)[number];
+export const dashboardReadTrendsIntervals = ['daily', 'weekly', 'monthly'] as const;
+export type DashboardReadTrendsIntervalType = (typeof dashboardReadTrendsIntervals)[number];
 
 export const dashboardAverageReadingTimeIntervals = ['daily', 'weekly', 'monthly'] as const;
 export type DashboardAverageReadingTimeIntervalType = (typeof dashboardAverageReadingTimeIntervals)[number];

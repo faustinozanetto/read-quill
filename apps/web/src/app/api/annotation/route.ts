@@ -48,6 +48,20 @@ export async function POST(request: NextRequest): Promise<NextResponse<Annotatio
     const json = await request.json();
     const { bookId, content, chapter, title } = ANNOTATION_ACTIONS_VALIDATIONS_API.CREATE.parse(json);
 
+    const book = await prisma.book.findUnique({
+      where: {
+        id: bookId,
+      },
+    });
+    if (!book) {
+      return new NextResponse('Book not found!', { status: 404 });
+    }
+
+    const isBookOwner = book.readerId === session.user.id;
+    if (!isBookOwner) {
+      return new NextResponse('Unauthorized', { status: 403 });
+    }
+
     const annotation = await prisma.annotation.create({
       data: {
         bookId,
@@ -79,7 +93,26 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<Annotati
     const json = await request.json();
     const { annotationId, content, chapter, title } = ANNOTATION_ACTIONS_VALIDATIONS_API.EDIT.parse(json);
 
-    const annotation = await prisma.annotation.update({
+    const annotation = await prisma.annotation.findUnique({
+      where: {
+        id: annotationId,
+      },
+      include: {
+        book: {
+          select: { readerId: true },
+        },
+      },
+    });
+    if (!annotation) {
+      return new NextResponse('Annotation not found!', { status: 404 });
+    }
+
+    const isAnnotationOwner = annotation.book?.readerId === session.user.id;
+    if (!isAnnotationOwner) {
+      return new NextResponse('Unauthorized', { status: 403 });
+    }
+
+    const updatedAnnotation = await prisma.annotation.update({
       where: {
         id: annotationId,
       },
@@ -90,7 +123,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<Annotati
       },
     });
 
-    return NextResponse.json({ annotation });
+    return NextResponse.json({ annotation: updatedAnnotation });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
@@ -111,6 +144,25 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<Annotat
 
     const json = await request.json();
     const { annotationId } = ANNOTATION_ACTIONS_VALIDATIONS_API.DELETE.parse(json);
+
+    const annotation = await prisma.annotation.findUnique({
+      where: {
+        id: annotationId,
+      },
+      include: {
+        book: {
+          select: { readerId: true },
+        },
+      },
+    });
+    if (!annotation) {
+      return new NextResponse('Annotation not found!', { status: 404 });
+    }
+
+    const isAnnotationOwner = annotation.book?.readerId === session.user.id;
+    if (!isAnnotationOwner) {
+      return new NextResponse('Unauthorized', { status: 403 });
+    }
 
     await prisma.annotation.delete({
       where: {

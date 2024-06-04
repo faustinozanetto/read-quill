@@ -49,6 +49,19 @@ export async function POST(request: NextRequest): Promise<NextResponse<ReviewPos
     const json = await request.json();
     const { bookId, content } = REVIEW_ACTIONS_VALIDATIONS_API.CREATE.parse(json);
 
+    const book = await prisma.book.findUnique({
+      where: { id: bookId },
+    });
+
+    if (!book) {
+      return new NextResponse('Book not found!', { status: 404 });
+    }
+
+    const isBookOwner = book.readerId === session.user.id;
+    if (!isBookOwner) {
+      return new NextResponse('Unauthorized', { status: 403 });
+    }
+
     const review = await prisma.review.create({
       data: {
         content,
@@ -78,7 +91,27 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<ReviewPa
     const json = await request.json();
     const { reviewId, content } = REVIEW_ACTIONS_VALIDATIONS_API.EDIT.parse(json);
 
-    const review = await prisma.review.update({
+    const review = await prisma.review.findUnique({
+      where: { id: reviewId },
+      include: {
+        book: {
+          select: {
+            readerId: true,
+          },
+        },
+      },
+    });
+
+    if (!review) {
+      return new NextResponse('Review not found!', { status: 404 });
+    }
+
+    const isReviewOwner = review.book.readerId === session.user.id;
+    if (!isReviewOwner) {
+      return new NextResponse('Unauthorized', { status: 403 });
+    }
+
+    const updatedReview = await prisma.review.update({
       where: {
         id: reviewId,
       },
@@ -87,7 +120,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<ReviewPa
       },
     });
 
-    return NextResponse.json({ review });
+    return NextResponse.json({ review: updatedReview });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
@@ -108,6 +141,26 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<ReviewD
 
     const json = await request.json();
     const { reviewId } = REVIEW_ACTIONS_VALIDATIONS_API.DELETE.parse(json);
+
+    const review = await prisma.review.findUnique({
+      where: { id: reviewId },
+      include: {
+        book: {
+          select: {
+            readerId: true,
+          },
+        },
+      },
+    });
+
+    if (!review) {
+      return new NextResponse('Review not found!', { status: 404 });
+    }
+
+    const isReviewOwner = review.book.readerId === session.user.id;
+    if (!isReviewOwner) {
+      return new NextResponse('Unauthorized', { status: 403 });
+    }
 
     await prisma.review.delete({
       where: {

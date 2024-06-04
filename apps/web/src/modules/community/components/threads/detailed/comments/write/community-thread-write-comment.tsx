@@ -17,7 +17,7 @@ const CommunityThreadWriteComment: React.FC = () => {
   const { createComment } = useCreateThreadComment({
     thread,
     onSuccess: async (data) => {
-      if (data && data.success && thread) {
+      if (data.threadComment && thread) {
         await queryClient.refetchQueries(['thread-comments', 0, thread.id]);
         toast({ variant: 'success', content: `Comment created successfully!` });
       }

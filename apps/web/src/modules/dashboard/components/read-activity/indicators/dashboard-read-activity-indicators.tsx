@@ -11,7 +11,7 @@ const DashboardReadActivityIndicators: React.FC = () => {
         <span>Today</span>
         <div className="h-[14px] w-[14px] rounded-sm bg-accent" />
       </div>
-      <div className="flex gap-2 items-center">
+      <div className="flex gap-1 items-center">
         <span>Less</span>
         {ACTIVITY_THRESHOLDS.map((threshold, i) => {
           const thresholdLevel = ACTIVITY_THRESHOLDS.length - i;

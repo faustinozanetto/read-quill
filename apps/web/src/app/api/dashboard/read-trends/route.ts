@@ -2,8 +2,8 @@ import type { ReadRegistry } from '@read-quill/database';
 import { prisma } from '@read-quill/database';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import type { DashboardReadInsightsReadTrendsIntervalType } from '@modules/dashboard/types/dashboard.types';
-import type { DashboardReadInsightsTrendsGetResponse } from '@modules/api/types/dashboard-api.types';
+import type { DashboardReadTrendsIntervalType } from '@modules/dashboard/types/dashboard.types';
+import type { DashboardReadTrendsGetResponse } from '@modules/api/types/dashboard-api.types';
 import { auth } from 'auth';
 
 const sortTrendsByDate = (trends: Record<string, ReadRegistry[]>): { date: string; registries: ReadRegistry[] }[] => {
@@ -14,8 +14,8 @@ const sortTrendsByDate = (trends: Record<string, ReadRegistry[]>): { date: strin
   return sortedTrends;
 };
 
-// /api/dashboard/read-insights/trends GET : Gets the read trends of the user
-export async function GET(request: NextRequest): Promise<NextResponse<DashboardReadInsightsTrendsGetResponse>> {
+// /api/dashboard/read-trends GET : Gets the read trends of the user
+export async function GET(request: NextRequest): Promise<NextResponse<DashboardReadTrendsGetResponse>> {
   try {
     const session = await auth();
 
@@ -24,7 +24,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardR
     }
 
     const { searchParams } = new URL(request.url);
-    const interval = (searchParams.get('interval') ?? 'daily') as DashboardReadInsightsReadTrendsIntervalType;
+    const interval = (searchParams.get('interval') ?? 'daily') as DashboardReadTrendsIntervalType;
 
     const readRegistries = await prisma.readRegistry.findMany({
       where: {
@@ -57,7 +57,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardR
   }
 }
 
-const calculateGroupKey = (date: Date, interval: DashboardReadInsightsReadTrendsIntervalType): string => {
+const calculateGroupKey = (date: Date, interval: DashboardReadTrendsIntervalType): string => {
   switch (interval) {
     case 'daily':
       return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;

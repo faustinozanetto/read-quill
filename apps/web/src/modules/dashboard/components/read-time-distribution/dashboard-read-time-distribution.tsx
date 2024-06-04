@@ -2,15 +2,23 @@
 
 import React from 'react';
 import { Skeleton } from '@read-quill/design-system';
-import { useReadInsightsTimeDistribution } from '@modules/dashboard/hooks/use-read-insights-time-distribution';
-import DashboardNoDataMessage from '../../common/dashboard-no-data-message';
-import DashboardReadTimeDistributionChart from './dashboard-read-time-distribution-chart';
 
-const DashboardReadTimeDistribution: React.FC = () => {
-  const { data, isFetching, isLoading } = useReadInsightsTimeDistribution();
+import DashboardReadTimeDistributionChart from './dashboard-read-time-distribution-chart';
+import { useReadsTimeDistribution } from '@modules/dashboard/hooks/use-read-time-distribution';
+import DashboardNoDataMessage from '../common/dashboard-no-data-message';
+import { cn } from '@read-quill/design-system';
+
+interface DashboardReadTimeDistributionProps {
+  className?: string;
+}
+
+const DashboardReadTimeDistribution: React.FC<DashboardReadTimeDistributionProps> = (props) => {
+  const { className } = props;
+
+  const { data, isFetching, isLoading } = useReadsTimeDistribution();
 
   return (
-    <div className="rounded-lg border p-4 shadow flex flex-col gap-2 h-fit">
+    <div className={cn('rounded-lg border p-4 shadow flex flex-col gap-2 h-fit', className)}>
       <h3 className="text-xl font-bold">Read Time Distribution</h3>
       <p>
         Explore your reading patterns with the Read Time Distribution graph, revealing the accumulated pages read

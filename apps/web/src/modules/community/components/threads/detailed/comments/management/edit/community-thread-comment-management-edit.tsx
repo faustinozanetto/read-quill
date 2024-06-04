@@ -35,7 +35,7 @@ const CommunityThreadCommentManagementEdit: React.FC<CommunityThreadCommentManag
   const { editComment } = useEditThreadComment({
     comment,
     onSuccess: async (data) => {
-      if (data && data.success && thread) {
+      if (data.threadComment && thread) {
         await queryClient.refetchQueries(['thread-comments', 0, thread.id]);
         setDialogOpen(false);
         toast({ variant: 'success', content: `Comment updated successfully!` });

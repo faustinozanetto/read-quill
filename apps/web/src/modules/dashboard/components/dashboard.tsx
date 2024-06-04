@@ -4,14 +4,15 @@ import DashboardGreeting from './dashboard-greeting';
 import DashboardReadTargets from './read-targets/dashboard-read-targets';
 import DashboardReadRegistries from './read-registries/dashboard-read-registries';
 import DashboardBooksProgress from './books-progress/dashboard-books-progress';
-import DashboardReadInsights from './read-insights/dashboard-read-insights';
 import DashboardReadActivity from './read-activity/dashboard-read-activity';
 import DashboardBooksRatings from './books-ratings/dashboard-books-ratings';
 import DashboardAverageReadingTime from './average-reading-time/dashboard-average-reading-time';
+import DashboardReadTrends from './read-trends/dashboard-read-trends';
+import DashboardReadTimeDistribution from './read-time-distribution/dashboard-read-time-distribution';
 
 const Dashboard: React.FC = () => {
   return (
-    <section className="mx-auto flex flex-col gap-4">
+    <section className="mx-auto flex flex-col gap-4 my-4">
       <DashboardGreeting />
       <div className="flex gap-4 2xl:flex-row flex-col">
         <DashboardReadTargets />
@@ -19,8 +20,12 @@ const Dashboard: React.FC = () => {
       </div>
       <DashboardReadRegistries />
       <DashboardBooksProgress />
-      <DashboardReadActivity />
-      <DashboardBooksRatings />
+      <div className="grid gap-4 xl:grid-cols-2">
+        <DashboardReadTrends />
+        <DashboardReadTimeDistribution />
+        <DashboardReadActivity />
+        <DashboardBooksRatings />
+      </div>
     </section>
   );
 };

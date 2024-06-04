@@ -9,17 +9,14 @@ import {
   DropdownMenuContent,
   Calendar,
 } from '@read-quill/design-system';
+import { ReadTrendsDailyRange } from '@modules/dashboard/hooks/use-read-trends';
 
-import { ReadInsightsTrendsDailyRange } from '@modules/dashboard/hooks/use-read-insights-trends';
-
-interface DashboardReadInsightTrendsDailyRangeSelectProps {
-  dailyRange: ReadInsightsTrendsDailyRange;
-  setDailyRange: (dailyRange: ReadInsightsTrendsDailyRange) => void;
+interface DashboardReadTrendsDailyRangeSelectProps {
+  dailyRange: ReadTrendsDailyRange;
+  setDailyRange: (dailyRange: ReadTrendsDailyRange) => void;
 }
 
-const DashboardReadInsightTrendsDailyRangeSelect: React.FC<DashboardReadInsightTrendsDailyRangeSelectProps> = (
-  props
-) => {
+const DashboardReadTrendsDailyRangeSelect: React.FC<DashboardReadTrendsDailyRangeSelectProps> = (props) => {
   const { dailyRange, setDailyRange } = props;
 
   return (
@@ -45,4 +42,4 @@ const DashboardReadInsightTrendsDailyRangeSelect: React.FC<DashboardReadInsightT
   );
 };
 
-export default DashboardReadInsightTrendsDailyRangeSelect;
+export default DashboardReadTrendsDailyRangeSelect;

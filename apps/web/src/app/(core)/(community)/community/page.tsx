@@ -4,7 +4,7 @@ import Community from '@modules/community/components/community';
 export const metadata: Metadata = {
   title: 'Community',
   description:
-    'Discover Your Library at ReadQuill. Dive into your personalized collection, explore your bookshelf, and revel in the joy of your literary journey. Your books, your stories, all in one place – welcome to the Books page at ReadQuill.',
+    'Join the vibrant ReadQuill Community to stay updated with the latest threads and trending discussions. Engage with fellow readers, share your thoughts, and explore diverse literary topics. Whether you are seeking recommendations or looking to dive into in-depth book discussions, the ReadQuill Community is your hub for all things literary.',
 };
 
 export default function CommunityPage(): React.JSX.Element {

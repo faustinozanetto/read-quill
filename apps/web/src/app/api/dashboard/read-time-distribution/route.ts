@@ -1,13 +1,11 @@
 import { prisma } from '@read-quill/database';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import type { DashboardReadInsightsTimeDistributionGetResponse } from '@modules/api/types/dashboard-api.types';
+import type { DashboardReadTimeDistributionGetResponse } from '@modules/api/types/dashboard-api.types';
 import { auth } from 'auth';
 
-// /api/dashboard/read-insights/time-distribution GET : Gets the read time distribution of the user.
-export async function GET(
-  request: NextRequest
-): Promise<NextResponse<DashboardReadInsightsTimeDistributionGetResponse>> {
+// /api/dashboard/read-time-distribution GET : Gets the read time distribution of the user.
+export async function GET(request: NextRequest): Promise<NextResponse<DashboardReadTimeDistributionGetResponse>> {
   try {
     const session = await auth();
 

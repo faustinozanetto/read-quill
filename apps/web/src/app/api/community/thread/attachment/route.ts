@@ -32,9 +32,8 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<ThreadA
         image: true,
       },
     });
-
     if (!threadAttachment) {
-      return new NextResponse('Thread attachment not found', { status: 404 });
+      return new NextResponse('Thread Attachment not found!', { status: 404 });
     }
 
     const isThreadOwner = threadAttachment.thread.authorId === session.user.id;

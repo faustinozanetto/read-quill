@@ -128,9 +128,13 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<BookPatc
         image: true,
       },
     });
-
     if (!book) {
-      return new NextResponse('Could not find boko!', { status: 404 });
+      return new NextResponse('Book not found!', { status: 404 });
+    }
+
+    const isBookOwner = book.readerId === session.user.id;
+    if (!isBookOwner) {
+      return new NextResponse('Unauthorized', { status: 403 });
     }
 
     // If imageId is not undefined, we are updating book cover.
@@ -201,7 +205,24 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<BookDel
     const json = await request.json();
     const { bookId } = BOOK_ACTIONS_VALIDATIONS_API.DELETE.parse(json);
 
-    const book = await prisma.book.delete({
+    const book = await prisma.book.findUnique({
+      where: {
+        id: bookId,
+      },
+      include: {
+        image: true,
+      },
+    });
+    if (!book) {
+      return new NextResponse('Book not found!', { status: 404 });
+    }
+
+    const isBookOwner = book.readerId === session.user.id;
+    if (!isBookOwner) {
+      return new NextResponse('Unauthorized', { status: 403 });
+    }
+
+    await prisma.book.delete({
       where: {
         id: bookId,
       },

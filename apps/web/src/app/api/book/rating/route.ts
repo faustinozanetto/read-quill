@@ -19,6 +19,20 @@ export async function POST(request: NextRequest): Promise<NextResponse<BookRatin
     const json = await request.json();
     const { bookId, rating } = BOOK_ACTIONS_VALIDATIONS_API.RATING.parse(json);
 
+    const book = await prisma.book.findUnique({
+      where: {
+        id: bookId,
+      },
+    });
+    if (!book) {
+      return new NextResponse('Book not found!', { status: 404 });
+    }
+
+    const isBookOwner = book.readerId === session.user.id;
+    if (!isBookOwner) {
+      return new NextResponse('Unauthorized', { status: 403 });
+    }
+
     await prisma.book.update({
       where: {
         id: bookId,

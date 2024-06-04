@@ -4,12 +4,12 @@ import React, { useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import type { ApexOptions } from 'apexcharts';
 import { useTheme } from 'next-theme-kit';
-import type { DashboardReadInsightsTimeDistributionGetResponse } from '@modules/api/types/dashboard-api.types';
+import type { DashboardReadTimeDistributionGetResponse } from '@modules/api/types/dashboard-api.types';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 interface DashboardReadTimeDistributionChartProps {
-  timeDistribution: DashboardReadInsightsTimeDistributionGetResponse['timeDistribution'];
+  timeDistribution: DashboardReadTimeDistributionGetResponse['timeDistribution'];
 }
 
 const DashboardReadTimeDistributionChart: React.FC<DashboardReadTimeDistributionChartProps> = (props) => {

@@ -23,6 +23,19 @@ export async function POST(request: NextRequest): Promise<NextResponse<ReadRegis
     const json = await request.json();
     const { bookId, pagesRead } = READ_REGISTRY_ACTIONS_VALIDATIONS_API.CREATE.parse(json);
 
+    const book = await prisma.book.findUnique({
+      where: { id: bookId },
+    });
+
+    if (!book) {
+      return new NextResponse('Book not found!', { status: 404 });
+    }
+
+    const isBookOwner = book.readerId === session.user.id;
+    if (!isBookOwner) {
+      return new NextResponse('Unauthorized', { status: 403 });
+    }
+
     const readRegistry = await prisma.readRegistry.create({
       data: {
         bookId,
@@ -52,14 +65,30 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<ReadRegi
     const json = await request.json();
     const { registryId, pagesRead } = READ_REGISTRY_ACTIONS_VALIDATIONS_API.EDIT.parse(json);
 
-    const readRegistry = await prisma.readRegistry.update({
+    const readRegistry = await prisma.readRegistry.findUnique({
+      where: { id: registryId },
+      include: {
+        book: { select: { readerId: true } },
+      },
+    });
+
+    if (!readRegistry) {
+      return new NextResponse('Read Registry not found!', { status: 404 });
+    }
+
+    const isReadRegistryOwner = readRegistry.book.readerId === session.user.id;
+    if (!isReadRegistryOwner) {
+      return new NextResponse('Unauthorized', { status: 403 });
+    }
+
+    const updatedReadRegistry = await prisma.readRegistry.update({
       where: { id: registryId },
       data: {
         pagesRead,
       },
     });
 
-    return NextResponse.json({ readRegistry });
+    return NextResponse.json({ readRegistry: updatedReadRegistry });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
@@ -80,6 +109,22 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<ReadReg
 
     const json = await request.json();
     const { registryId } = READ_REGISTRY_ACTIONS_VALIDATIONS_API.DELETE.parse(json);
+
+    const readRegistry = await prisma.readRegistry.findUnique({
+      where: { id: registryId },
+      include: {
+        book: { select: { readerId: true } },
+      },
+    });
+
+    if (!readRegistry) {
+      return new NextResponse('Read Registry not found!', { status: 404 });
+    }
+
+    const isReadRegistryOwner = readRegistry.book.readerId === session.user.id;
+    if (!isReadRegistryOwner) {
+      return new NextResponse('Unauthorized', { status: 403 });
+    }
 
     await prisma.readRegistry.delete({
       where: { id: registryId },

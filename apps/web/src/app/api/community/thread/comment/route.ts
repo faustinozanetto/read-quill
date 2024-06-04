@@ -30,7 +30,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadCom
       },
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ threadComment });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
@@ -66,7 +66,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<ThreadCo
       return new NextResponse('Unauthorized', { status: 403 });
     }
 
-    await prisma.threadComment.update({
+    const updatedThreadComment = await prisma.threadComment.update({
       where: {
         id: commentId,
       },
@@ -76,7 +76,7 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<ThreadCo
       },
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ threadComment: updatedThreadComment });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;

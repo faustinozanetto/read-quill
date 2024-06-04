@@ -2,18 +2,25 @@
 
 import React from 'react';
 import { Skeleton } from '@read-quill/design-system';
-import { useReadInsightsTrends } from '@modules/dashboard/hooks/use-read-insights-trends';
-import DashboardNoDataMessage from '../../common/dashboard-no-data-message';
-import DashboardReadInsightTrendsIntervalSelect from './dashboard-read-insights-trends-interval-select';
-import DashboardReadInsightTrendsChart from './dashboard-read-insights-trends-chart';
-import DashboardReadInsightTrendsDailyRangeSelect from './dashboard-read-insights-trends-daily-range-select';
+import { useReadsTrends } from '@modules/dashboard/hooks/use-read-trends';
+import DashboardNoDataMessage from '../common/dashboard-no-data-message';
+import DashboardReadTrendsChart from './dashboard-read-trends-chart';
+import DashboardReadTrendsDailyRangeSelect from './dashboard-read-trends-daily-range-select';
+import DashboardReadTrendsIntervalSelect from './dashboard-read-trends-interval-select';
+import { cn } from '@read-quill/design-system';
 
-const DashboardReadInsightTrends: React.FC = () => {
+interface DashboardReadTrendsProps {
+  className?: string;
+}
+
+const DashboardReadTrends: React.FC<DashboardReadTrendsProps> = (props) => {
+  const { className } = props;
+
   const { data, filteredData, isLoading, isFetching, interval, setInterval, dailyRange, setDailyRange } =
-    useReadInsightsTrends();
+    useReadsTrends();
 
   return (
-    <div className="rounded-lg border p-4 shadow flex flex-col gap-2 h-fit">
+    <div className={cn('rounded-lg border p-4 shadow flex flex-col gap-2 h-fit', className)}>
       <div className="flex flex-col gap-2">
         <h3 className="text-xl font-bold">Read Trends</h3>
         <p>
@@ -24,9 +31,9 @@ const DashboardReadInsightTrends: React.FC = () => {
         {data.trends.length > 0 && (
           <div className="ml-auto space-x-2">
             {interval === 'daily' && (
-              <DashboardReadInsightTrendsDailyRangeSelect dailyRange={dailyRange} setDailyRange={setDailyRange} />
+              <DashboardReadTrendsDailyRangeSelect dailyRange={dailyRange} setDailyRange={setDailyRange} />
             )}
-            <DashboardReadInsightTrendsIntervalSelect interval={interval} setInterval={setInterval} />
+            <DashboardReadTrendsIntervalSelect interval={interval} setInterval={setInterval} />
           </div>
         )}
       </div>
@@ -34,7 +41,7 @@ const DashboardReadInsightTrends: React.FC = () => {
       {isFetching || isLoading ? <Skeleton className="h-48 w-full" /> : null}
 
       {!(isFetching || isLoading) && filteredData.trends.length > 0 ? (
-        <DashboardReadInsightTrendsChart interval={interval} trends={filteredData.trends} />
+        <DashboardReadTrendsChart interval={interval} trends={filteredData.trends} />
       ) : null}
 
       {!(isFetching || isLoading) && data.trends.length === 0 ? (
@@ -46,4 +53,4 @@ const DashboardReadInsightTrends: React.FC = () => {
   );
 };
 
-export default DashboardReadInsightTrends;
+export default DashboardReadTrends;

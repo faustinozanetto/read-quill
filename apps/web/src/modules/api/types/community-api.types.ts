@@ -5,7 +5,7 @@ import {
   ThreadViews,
   ThreadWithDetails,
 } from '@modules/community/types/community.types';
-import { Image, ThreadAttachment } from '@read-quill/database';
+import { Image, ThreadAttachment, ThreadComment } from '@read-quill/database';
 
 export interface ThreadsCommunityGetResponse {
   threads: ThreadWithDetails[];
@@ -44,11 +44,11 @@ export interface ThreadCommentsGetResponse {
 }
 
 export interface ThreadCommentPostResponse {
-  success: boolean;
+  threadComment: ThreadComment;
 }
 
 export interface ThreadCommentPatchResponse {
-  success: boolean;
+  threadComment: ThreadComment;
 }
 
 export interface ThreadCommentDeleteResponse {

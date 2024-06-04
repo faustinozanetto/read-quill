@@ -4,8 +4,8 @@ import React, { useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import type { ApexOptions } from 'apexcharts';
 import { useTheme } from 'next-theme-kit';
-import type { DashboardReadInsightsReadTrendsIntervalType } from '@modules/dashboard/types/dashboard.types';
-import type { DashboardReadInsightsTrendsGetResponse } from '@modules/api/types/dashboard-api.types';
+import type { DashboardReadTrendsIntervalType } from '@modules/dashboard/types/dashboard.types';
+import type { DashboardReadTrendsGetResponse } from '@modules/api/types/dashboard-api.types';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -17,12 +17,12 @@ const getWeekNumber = (date: Date): number => {
   return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
 };
 
-interface DashboardReadInsightTrendsChartProps {
-  trends: DashboardReadInsightsTrendsGetResponse['trends'];
-  interval: DashboardReadInsightsReadTrendsIntervalType;
+interface DashboardReadTrendsChartProps {
+  trends: DashboardReadTrendsGetResponse['trends'];
+  interval: DashboardReadTrendsIntervalType;
 }
 
-const DashboardReadInsightTrendsChart: React.FC<DashboardReadInsightTrendsChartProps> = (props) => {
+const DashboardReadTrendsChart: React.FC<DashboardReadTrendsChartProps> = (props) => {
   const { trends, interval } = props;
 
   const { theme } = useTheme();
@@ -137,4 +137,4 @@ const DashboardReadInsightTrendsChart: React.FC<DashboardReadInsightTrendsChartP
   return <ReactApexChart height={350} options={options} series={series} type="bar" width="100%" />;
 };
 
-export default DashboardReadInsightTrendsChart;
+export default DashboardReadTrendsChart;

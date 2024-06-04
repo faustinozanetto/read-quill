@@ -12,16 +12,16 @@ import {
   DropdownMenuCheckboxItem,
 } from '@read-quill/design-system';
 import {
-  dashboardReadInsightsReadTrendsIntervals,
-  type DashboardReadInsightsReadTrendsIntervalType,
+  DashboardReadTrendsIntervalType,
+  dashboardReadTrendsIntervals,
 } from '@modules/dashboard/types/dashboard.types';
 
-interface DashboardReadInsightTrendsIntervalSelectProps {
-  interval: DashboardReadInsightsReadTrendsIntervalType;
-  setInterval: (interval: DashboardReadInsightsReadTrendsIntervalType) => void;
+interface DashboardReadTrendsIntervalSelectProps {
+  interval: DashboardReadTrendsIntervalType;
+  setInterval: (interval: DashboardReadTrendsIntervalType) => void;
 }
 
-const DashboardReadInsightTrendsIntervalSelect: React.FC<DashboardReadInsightTrendsIntervalSelectProps> = (props) => {
+const DashboardReadTrendsIntervalSelect: React.FC<DashboardReadTrendsIntervalSelectProps> = (props) => {
   const { setInterval, interval } = props;
 
   return (
@@ -35,7 +35,7 @@ const DashboardReadInsightTrendsIntervalSelect: React.FC<DashboardReadInsightTre
       <DropdownMenuContent align="end" className="w-[150px]">
         <DropdownMenuLabel>Time Interval</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {dashboardReadInsightsReadTrendsIntervals.map((trendInterval) => {
+        {dashboardReadTrendsIntervals.map((trendInterval) => {
           return (
             <DropdownMenuCheckboxItem
               checked={interval === trendInterval}
@@ -54,4 +54,4 @@ const DashboardReadInsightTrendsIntervalSelect: React.FC<DashboardReadInsightTre
   );
 };
 
-export default DashboardReadInsightTrendsIntervalSelect;
+export default DashboardReadTrendsIntervalSelect;
