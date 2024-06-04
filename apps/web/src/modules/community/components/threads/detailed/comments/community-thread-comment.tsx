@@ -1,4 +1,4 @@
-import React, { ElementRef, useEffect, useRef, useState } from 'react';
+import React, { ElementRef, useCallback, useEffect, useRef, useState } from 'react';
 import { ThreadCommentNode } from '@modules/community/types/community.types';
 import CommunityThreadAuthorAvatar from '../../common/community-thread-author-avatar';
 import Link from 'next/link';
@@ -26,16 +26,18 @@ const CommunityThreadComment: React.FC<CommunityThreadCommentProps> = (props) =>
   const lastReplyRef = useRef<ElementRef<'div'>>(null);
   const [lastReplyHeight, setLastReplyHeight] = useState<number | null>(null);
 
+  const handleResize = useCallback(() => {
+    setLastReplyHeight(lastReplyRef.current?.clientHeight ?? 0);
+  }, [lastReplyRef, setLastReplyHeight]);
+
   useEffect(() => {
-    const handleResize = () => {
-      setLastReplyHeight(lastReplyRef.current?.clientHeight ?? 0);
-    };
+    setLastReplyHeight(lastReplyRef.current?.clientHeight ?? 0);
     window.addEventListener('resize', handleResize);
 
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [lastReplyRef]);
 
   return (
     <div

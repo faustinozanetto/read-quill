@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic';
 import type { ApexOptions } from 'apexcharts';
 import { useTheme } from 'next-theme-kit';
 import type { DashboardBooksRatingsGetResponse } from '@modules/api/types/dashboard-api.types';
+import { hslToHex } from '@modules/common/lib/common.lib';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -24,10 +25,8 @@ const DashboardBooksRatingsChart: React.FC<DashboardBooksRatingsChartProps> = (p
     () => ({
       theme: {
         mode: theme === 'dark' ? 'dark' : 'light',
-        palette: 'palette1',
         monochrome: {
           enabled: true,
-          color: '#74981b',
           shadeTo: theme === 'dark' ? 'dark' : 'light',
         },
       },

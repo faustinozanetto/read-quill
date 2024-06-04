@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,6 +9,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
+  LoadingIcon,
   buttonVariants,
   useToast,
 } from '@read-quill/design-system';
@@ -23,24 +24,20 @@ interface AnnotationDeleteProps {
 const AnnotationDelete: React.FC<AnnotationDeleteProps> = (props) => {
   const { annotationId, deleteButton, onSuccess } = props;
 
-  const [dialogOpen, setDialogOpen] = useState(false);
-
   const { toast } = useToast();
 
-  const { deleteAnnotation } = useDeleteAnnotation({
+  const { deleteAnnotation, isLoading } = useDeleteAnnotation({
     onSuccess: async (data, variables, context) => {
       if (data && data.success) {
         await onSuccess(data, variables, context);
-        setDialogOpen(false);
         toast({ variant: 'success', content: `Annotation deleted successfully!` });
       }
     },
   });
 
   return (
-    <AlertDialog onOpenChange={setDialogOpen} open={dialogOpen}>
+    <AlertDialog>
       <AlertDialogTrigger asChild>{deleteButton}</AlertDialogTrigger>
-
       <AlertDialogContent className="sm:max-w-[425px]">
         <AlertDialogHeader>
           <AlertDialogTitle>Delete Annotation</AlertDialogTitle>
@@ -48,15 +45,17 @@ const AnnotationDelete: React.FC<AnnotationDeleteProps> = (props) => {
             Are you sure you want to delete it?. This action cannot be undone.
           </AlertDialogDescription>
         </AlertDialogHeader>
-
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             className={buttonVariants({ variant: 'destructive' })}
-            onClick={async () => {
+            disabled={isLoading}
+            onClick={async (e) => {
+              e.preventDefault();
               await deleteAnnotation({ annotationId });
             }}
           >
+            {isLoading && <LoadingIcon className="mr-2" />}
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>

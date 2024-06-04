@@ -48,10 +48,8 @@ const DashboardReadInsightTrendsChart: React.FC<DashboardReadInsightTrendsChartP
     () => ({
       theme: {
         mode: theme === 'dark' ? 'dark' : 'light',
-        palette: 'palette1',
         monochrome: {
           enabled: true,
-          color: '#74981b',
           shadeTo: theme === 'dark' ? 'dark' : 'light',
         },
       },

@@ -12,7 +12,7 @@ const DashboardNoDataMessage: React.FC<DashboardNoDataMessageProps> = (props) =>
   return (
     <div className={cn('flex items-center justify-center gap-2', className)}>
       <div className="bg-primary p-2 rounded-lg border">
-        <ExclamationIcon />
+        <ExclamationIcon className="stroke-primary-foreground" />
       </div>
       {children}
     </div>

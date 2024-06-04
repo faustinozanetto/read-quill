@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DropdownMenuItem,
   EditIcon,
   useToast,
 } from '@read-quill/design-system';
@@ -39,10 +40,10 @@ const DashboardReadTargetsManagementEdit: React.FC<DashboardReadTargetsManagemen
   return (
     <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
       <DialogTrigger asChild>
-        <Button aria-label="Edit Read Targets" size="sm" variant="outline">
+        <DropdownMenuItem aria-label="Edit Read Targets" onSelect={(e) => e.preventDefault()}>
           <EditIcon className="mr-2 stroke-current" />
-          Edit Targets
-        </Button>
+          Update
+        </DropdownMenuItem>
       </DialogTrigger>
 
       <DialogContent>

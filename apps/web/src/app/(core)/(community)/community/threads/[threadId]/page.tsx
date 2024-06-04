@@ -45,11 +45,7 @@ const CommunityThreadPage: React.FC<CommunityThreadPageProps> = async (props) =>
     return notFound();
   }
 
-  return (
-    <div className="container mt-4">
-      <CommunityThread threadId={threadId} />
-    </div>
-  );
+  return <CommunityThread threadId={threadId} />;
 };
 
 export default CommunityThreadPage;

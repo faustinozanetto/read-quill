@@ -12,6 +12,7 @@ import {
   DeleteIcon,
   ButtonProps,
   Button,
+  LoadingIcon,
 } from '@read-quill/design-system';
 
 import AnnotationEdit from '../edit/annotation-edit';
@@ -44,12 +45,12 @@ const AnnotationManagement: React.FC<AnnotationManagementProps> = (props) => {
         <AnnotationEdit
           annotation={annotation}
           onSuccess={handleOnAnnotationChanged}
-          editButton={
-            <DropdownMenuItem aria-label="Update Annotation" onSelect={(e) => e.preventDefault()}>
-              <EditIcon className="mr-2 stroke-current" />
+          editButton={(isLoading) => (
+            <DropdownMenuItem aria-label="Update Annotation" onSelect={(e) => e.preventDefault()} disabled={isLoading}>
+              {isLoading ? <LoadingIcon className="mr-2" /> : <EditIcon className="mr-2 stroke-current" />}
               Update
             </DropdownMenuItem>
-          }
+          )}
         />
         <AnnotationDelete
           annotationId={annotation.id}

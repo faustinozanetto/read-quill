@@ -9,14 +9,14 @@ const LandingFooter: React.FC = () => {
       <div className="container mx-auto max-w-5xl py-4 md:py-6 lg:py-10">
         <div className="mb-4 grid grid-cols-2 gap-6 sm:grid-cols-3 md:mb-8 lg:grid-cols-4">
           <div className="col-span-full lg:col-span-1">
-            <MarketingLogo />
+            <MarketingLogo textClassName="fill-primary-foreground" />
           </div>
           {FOOTER_CATEGORIES.map((category) => {
             return <LandingFooterCategory key={category.title} {...category} />;
           })}
         </div>
 
-        <span className="text-sm">© 2023 Faustino Zanetto. All rights reserved</span>
+        <span className="text-sm text-primary-foreground">© 2024 Faustino Zanetto. All rights reserved</span>
       </div>
     </footer>
   );

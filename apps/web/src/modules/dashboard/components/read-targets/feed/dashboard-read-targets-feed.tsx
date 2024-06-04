@@ -12,7 +12,7 @@ const DashboardReadTargetsFeed: React.FC<DashboardReadTargetsFeedProps> = (props
   const { targetReadTargets, readTargets } = data;
 
   return (
-    <div className="grid gap-2 md:grid-cols-3 mt-2">
+    <div className="flex gap-2 overflow-x-auto justify-evenly items-stretch">
       {DASHBOARD_READ_TARGETS.map((type) => {
         return (
           <DashboardReadTargetsCard

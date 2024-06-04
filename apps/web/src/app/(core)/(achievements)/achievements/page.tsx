@@ -13,9 +13,5 @@ export default async function AchievementsPage(): Promise<React.JSX.Element> {
   const url = new URL('/api/achievements/check', __URL__);
   await fetch(url, { method: 'POST', headers: { Cookie: cookies().toString() } });
 
-  return (
-    <div className="container my-4">
-      <Achievements />
-    </div>
-  );
+  return <Achievements />;
 }

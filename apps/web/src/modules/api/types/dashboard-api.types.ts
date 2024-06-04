@@ -67,3 +67,20 @@ export interface DashboardBooksRatingsGetResponse {
     count: number;
   }[];
 }
+
+export interface AverageReadingTimeGetResponse {
+  readingTimes: {
+    daily: {
+      current: number;
+      past: number;
+    };
+    weekly: {
+      current: number;
+      past: number;
+    };
+    monthly: {
+      current: number;
+      past: number;
+    };
+  };
+}

@@ -1,6 +1,20 @@
 import React from 'react';
-import { DeleteIcon, useToast } from '@read-quill/design-system';
-import ManagementDeleteObject from '@modules/common/components/management/management-delete-object';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  DeleteIcon,
+  DropdownMenuItem,
+  LoadingIcon,
+  buttonVariants,
+  useToast,
+} from '@read-quill/design-system';
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { useDeleteReadTargets } from '@modules/dashboard/hooks/read-targets/use-delete-read-targets';
 
@@ -8,7 +22,7 @@ const DashboardReadTargetsManagementDelete: React.FC = () => {
   const { toast } = useToast();
   const { queryClient } = useQueriesStore();
 
-  const { deleteReadTargets } = useDeleteReadTargets({
+  const { isLoading, deleteReadTargets } = useDeleteReadTargets({
     onSuccess: async (data) => {
       if (data.success) {
         await queryClient.refetchQueries(['dashboard-read-targets-created']);
@@ -19,14 +33,41 @@ const DashboardReadTargetsManagementDelete: React.FC = () => {
   });
 
   return (
-    <ManagementDeleteObject
-      label="Delete Targets"
-      onDeleted={deleteReadTargets}
-      variant="outline-destructive"
-      size="sm"
-    >
-      <DeleteIcon className="stroke-current mr-2" /> Delete Targets
-    </ManagementDeleteObject>
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <DropdownMenuItem
+          className="focus:bg-destructive focus:text-destructive-foreground"
+          onSelect={(e) => e.preventDefault()}
+        >
+          <DeleteIcon className="mr-2 stroke-current" />
+          Delete
+        </DropdownMenuItem>
+      </AlertDialogTrigger>
+
+      <AlertDialogContent className="sm:max-w-[425px]">
+        <AlertDialogHeader>
+          <AlertDialogTitle>Delete Read Targets</AlertDialogTitle>
+          <AlertDialogDescription>
+            Are you sure you want to delete it?. This action cannot be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            className={buttonVariants({ variant: 'destructive' })}
+            disabled={isLoading}
+            onClick={async (e) => {
+              e.preventDefault();
+              await deleteReadTargets();
+            }}
+          >
+            {isLoading && <LoadingIcon className="mr-2" />}
+            Continue
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 

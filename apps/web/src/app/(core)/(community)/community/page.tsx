@@ -8,9 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function CommunityPage(): React.JSX.Element {
-  return (
-    <div className="my-4 px-4">
-      <Community />
-    </div>
-  );
+  return <Community />;
 }

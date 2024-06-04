@@ -9,6 +9,7 @@ type DeleteReadTargetsMutationResult = UseMutationResult<DashboardReadTargetsDel
 type DeleteReadTargetsMutationParams = UseMutationOptions<DashboardReadTargetsDeleteResponse, Error, void>;
 
 interface UseDeleteReadTargetsReturn {
+  isLoading: DeleteReadTargetsMutationResult['isLoading'];
   deleteReadTargets: DeleteReadTargetsMutationResult['mutateAsync'];
 }
 
@@ -21,7 +22,7 @@ export const useDeleteReadTargets = (params: UseDeleteReadTargetsParams): UseDel
 
   const { toast } = useToast();
 
-  const { mutateAsync } = useMutation<DashboardReadTargetsDeleteResponse, Error, void>({
+  const { mutateAsync, isLoading } = useMutation<DashboardReadTargetsDeleteResponse, Error, void>({
     mutationKey: ['delete-read-targets'],
     mutationFn: async () => {
       const url = new URL('/api/dashboard/read-targets', __URL__);
@@ -38,7 +39,5 @@ export const useDeleteReadTargets = (params: UseDeleteReadTargetsParams): UseDel
     },
   });
 
-  return {
-    deleteReadTargets: mutateAsync,
-  };
+  return { isLoading, deleteReadTargets: mutateAsync };
 };

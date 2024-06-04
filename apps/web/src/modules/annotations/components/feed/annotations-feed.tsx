@@ -10,7 +10,7 @@ const AnnotationsFeed: React.FC<AnnotationsFeedProps> = (props) => {
   const { annotations } = props;
 
   return (
-    <div className="grid gap-4 sm:grid-cols-2">
+    <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
       {annotations.map((annotation) => {
         return <AnnotationCard annotation={annotation} key={`annotation-${annotation.id}`} />;
       })}

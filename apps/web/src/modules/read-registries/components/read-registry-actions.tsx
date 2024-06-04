@@ -7,6 +7,9 @@ import {
   DropdownMenuContent,
   DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuItem,
+  DeleteIcon,
+  EditIcon,
 } from '@read-quill/design-system';
 import type { ReadRegistry } from '@read-quill/database';
 import ReadRegistryEdit from './edit/read-registry-edit';
@@ -34,9 +37,29 @@ const ReadRegistryActions: React.FC<ReadRegistryActionsProps> = (props) => {
       <DropdownMenuContent align="end">
         <DropdownMenuLabel>Actions</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <ReadRegistryEdit readRegistry={readRegistry} onSuccess={onEdited} />
-        <DropdownMenuSeparator />
-        <ReadRegistryDelete readRegistry={readRegistry} onSuccess={onDeleted} />
+        <ReadRegistryEdit
+          editButton={
+            <DropdownMenuItem aria-label="Update Annotation" onSelect={(e) => e.preventDefault()}>
+              <EditIcon className="mr-2 stroke-current" />
+              Update
+            </DropdownMenuItem>
+          }
+          readRegistry={readRegistry}
+          onSuccess={onEdited}
+        />
+        <ReadRegistryDelete
+          deleteButton={
+            <DropdownMenuItem
+              className="focus:bg-destructive focus:text-destructive-foreground"
+              onSelect={(e) => e.preventDefault()}
+            >
+              <DeleteIcon className="mr-2 stroke-current" />
+              Delete
+            </DropdownMenuItem>
+          }
+          readRegistry={readRegistry}
+          onSuccess={onDeleted}
+        />
       </DropdownMenuContent>
     </DropdownMenu>
   );

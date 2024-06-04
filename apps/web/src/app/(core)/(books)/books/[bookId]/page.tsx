@@ -44,11 +44,7 @@ const UserBookPage: React.FC<UserBookPageProps> = async (props) => {
   const book = await prisma.book.findUnique({ where: { id: bookId } });
   const isBookOwner = session?.user.id === book?.readerId;
 
-  return (
-    <div className="container my-4">
-      <UserBook bookId={bookId} isBookOwner={isBookOwner} />
-    </div>
-  );
+  return <UserBook bookId={bookId} isBookOwner={isBookOwner} />;
 };
 
 export default UserBookPage;

@@ -8,8 +8,6 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DropdownMenuItem,
-  EditIcon,
   useToast,
 } from '@read-quill/design-system';
 import type { ReadRegistry } from '@read-quill/database';
@@ -19,11 +17,12 @@ import { UseEditReadRegistryParams, useEditReadRegistry } from '@modules/read-re
 
 interface ReadRegistryEditProps {
   readRegistry: ReadRegistry;
+  editButton: React.ReactNode;
   onSuccess: UseEditReadRegistryParams['onSuccess'];
 }
 
 const ReadRegistryEdit: React.FC<ReadRegistryEditProps> = (props) => {
-  const { readRegistry, onSuccess } = props;
+  const { readRegistry, editButton, onSuccess } = props;
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const { toast } = useToast();
@@ -40,16 +39,7 @@ const ReadRegistryEdit: React.FC<ReadRegistryEditProps> = (props) => {
 
   return (
     <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
-      <DialogTrigger asChild>
-        <DropdownMenuItem
-          onSelect={(e) => {
-            e.preventDefault();
-          }}
-        >
-          <EditIcon className="mr-2 stroke-current" size="sm" />
-          Edit Registry
-        </DropdownMenuItem>
-      </DialogTrigger>
+      <DialogTrigger asChild>{editButton}</DialogTrigger>
 
       <DialogContent>
         <DialogHeader>

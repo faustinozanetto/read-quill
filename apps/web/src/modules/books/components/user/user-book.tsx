@@ -18,7 +18,7 @@ const UserBook: React.FC<UserBookProps> = (props) => {
   useFetchBook({ bookId });
 
   return (
-    <section className="mx-auto flex max-w-6xl flex-col gap-4">
+    <section className="space-y-4">
       <UserBookDetails />
       <UserBookReview />
       <UserBookAnnotations />

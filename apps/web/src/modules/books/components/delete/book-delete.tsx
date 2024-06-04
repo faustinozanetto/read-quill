@@ -9,6 +9,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
+  LoadingIcon,
   buttonVariants,
   useToast,
 } from '@read-quill/design-system';
@@ -23,22 +24,19 @@ interface BookDeleteProps {
 const BookDelete: React.FC<BookDeleteProps> = (props) => {
   const { bookId, deleteButton, onSuccess } = props;
 
-  const [dialogOpen, setDialogOpen] = useState(false);
-
   const { toast } = useToast();
 
-  const { deleteBook } = useDeleteBook({
+  const { isLoading, deleteBook } = useDeleteBook({
     onSuccess: async (data, variables, context) => {
-      if (data && data.success) {
+      if (data.success) {
         await onSuccess(data, variables, context);
-        setDialogOpen(false);
         toast({ variant: 'success', content: `Book deleted successfully!` });
       }
     },
   });
 
   return (
-    <AlertDialog onOpenChange={setDialogOpen} open={dialogOpen}>
+    <AlertDialog>
       <AlertDialogTrigger asChild>{deleteButton}</AlertDialogTrigger>
 
       <AlertDialogContent className="sm:max-w-[425px]">
@@ -53,10 +51,13 @@ const BookDelete: React.FC<BookDeleteProps> = (props) => {
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             className={buttonVariants({ variant: 'destructive' })}
-            onClick={async () => {
+            disabled={isLoading}
+            onClick={async (e) => {
+              e.preventDefault();
               await deleteBook({ bookId });
             }}
           >
+            {isLoading && <LoadingIcon className="mr-2" />}
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>

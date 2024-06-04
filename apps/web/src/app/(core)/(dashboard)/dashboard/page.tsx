@@ -9,9 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function DashboardPage(): React.JSX.Element {
-  return (
-    <div className="container my-4">
-      <Dashboard />
-    </div>
-  );
+  return <Dashboard />;
 }

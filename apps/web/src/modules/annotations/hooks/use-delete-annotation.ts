@@ -13,6 +13,7 @@ type DeleteAnnotationMutationParams = UseMutationOptions<
 
 interface UseDeleteAnnotationReturn {
   deleteAnnotation: DeleteAnnotationMutationResult['mutateAsync'];
+  isLoading: DeleteAnnotationMutationResult['isLoading'];
 }
 
 export interface UseDeleteAnnotationParams {
@@ -24,7 +25,7 @@ export const useDeleteAnnotation = (params: UseDeleteAnnotationParams): UseDelet
 
   const { toast } = useToast();
 
-  const { mutateAsync } = useMutation<AnnotationDeleteResponse, Error, DeleteAnnotationApiActionData>({
+  const { mutateAsync, isLoading } = useMutation<AnnotationDeleteResponse, Error, DeleteAnnotationApiActionData>({
     mutationKey: ['delete-annotation'],
     mutationFn: async (data) => {
       const url = new URL('/api/annotation', __URL__);
@@ -47,5 +48,6 @@ export const useDeleteAnnotation = (params: UseDeleteAnnotationParams): UseDelet
 
   return {
     deleteAnnotation: mutateAsync,
+    isLoading,
   };
 };

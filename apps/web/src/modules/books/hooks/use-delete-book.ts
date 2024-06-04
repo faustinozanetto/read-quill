@@ -10,6 +10,7 @@ type DeleteBookMutationParams = UseMutationOptions<BookDeleteResponse, Error, De
 
 interface UseDeletBookeReturn {
   deleteBook: DeleteBookMutationResult['mutateAsync'];
+  isLoading: DeleteBookMutationResult['isLoading'];
 }
 
 export interface UseDeleteBookParams {
@@ -21,8 +22,8 @@ export const useDeleteBook = (params: UseDeleteBookParams): UseDeletBookeReturn 
 
   const { toast } = useToast();
 
-  const { mutateAsync } = useMutation<BookDeleteResponse, Error, DeleteBookApiActionData>({
-    mutationKey: ['book-delete'],
+  const { mutateAsync, isLoading } = useMutation<BookDeleteResponse, Error, DeleteBookApiActionData>({
+    mutationKey: ['delete-book'],
     mutationFn: async (data) => {
       const url = new URL('/api/book', __URL__);
       const body = JSON.stringify({
@@ -44,5 +45,6 @@ export const useDeleteBook = (params: UseDeleteBookParams): UseDeletBookeReturn 
 
   return {
     deleteBook: mutateAsync,
+    isLoading,
   };
 };
