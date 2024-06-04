@@ -9,6 +9,7 @@ type EditAnnotationMutationParams = UseMutationOptions<AnnotationPatchResponse, 
 
 interface UseEditAnnotationReturn {
   editAnnotation: EditAnnotationMutationResult['mutateAsync'];
+  isLoading: EditAnnotationMutationResult['isLoading'];
 }
 
 export interface UseEditAnnotationParams {
@@ -20,7 +21,7 @@ export const useEditAnnotation = (params: UseEditAnnotationParams): UseEditAnnot
 
   const { toast } = useToast();
 
-  const { mutateAsync } = useMutation<AnnotationPatchResponse, Error, EditAnnotationApiActionData>({
+  const { mutateAsync, isLoading } = useMutation<AnnotationPatchResponse, Error, EditAnnotationApiActionData>({
     mutationKey: ['edit-annotation'],
     mutationFn: async (data) => {
       const url = new URL('/api/annotation', __URL__);
@@ -43,5 +44,6 @@ export const useEditAnnotation = (params: UseEditAnnotationParams): UseEditAnnot
 
   return {
     editAnnotation: mutateAsync,
+    isLoading,
   };
 };

@@ -26,7 +26,7 @@ const UserSettings: React.FC = async () => {
   };
 
   return (
-    <div className="mx-auto flex flex-col gap-4 max-w-6xl container my-4">
+    <div className="mx-auto flex flex-col gap-4 max-w-6xl container max-w-[100rem] my-4">
       <div className="border rounded-lg p-4 flex items-center gap-4">
         <UserAvatar image={session.user.image} name={session.user.name} width={250} height={250} alt="User Avatar" />
         <h1 className="text-xl sm:text-2xl font-bold">Account Settings</h1>

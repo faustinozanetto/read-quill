@@ -25,7 +25,7 @@ const HomeStats: React.FC<HomeStatsProps> = (props) => {
     <section className="bg-primary w-full" id="stats">
       <div className="mx-auto w-full max-w-screen-2xl px-4 py-10 md:px-20 md:py-24">
         <motion.h2
-          className="mb-4 text-start text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl"
+          className="mb-4 text-start text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl text-primary-foreground"
           initial={{ opacity: 0, translateY: -20 }}
           transition={{ delay: 0.15, duration: 0.35 }}
           viewport={{ once: true }}
@@ -35,7 +35,7 @@ const HomeStats: React.FC<HomeStatsProps> = (props) => {
         </motion.h2>
 
         <motion.p
-          className="mb-4 md:mb-8 md:text-lg"
+          className="mb-4 md:mb-8 md:text-lg text-primary-foreground"
           initial={{ opacity: 0, translateX: -20 }}
           transition={{ delay: 0.25, duration: 0.35 }}
           viewport={{ once: true }}

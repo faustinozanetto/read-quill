@@ -38,11 +38,7 @@ const UserPage: React.FC<UserPageProps> = async (props) => {
     return notFound();
   }
 
-  return (
-    <div className="container my-4">
-      <UserProfile user={user} />
-    </div>
-  );
+  return <UserProfile user={user} />;
 };
 
 export default UserPage;

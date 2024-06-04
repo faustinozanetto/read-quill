@@ -36,7 +36,7 @@ const HomeFaq: React.FC = () => {
   return (
     <section className="w-full" id="faq">
       <div className="bg-primary">
-        <div className="mx-auto w-full max-w-5xl px-4 pt-10 md:px-20 md:pt-20 pb-10">
+        <div className="mx-auto w-full max-w-5xl px-4 pt-10 md:px-20 md:pt-20 pb-10 text-primary-foreground">
           <motion.h2
             className="mb-4 text-start text-3xl font-extrabold tracking-tight sm:text-4xl md:text-5xl"
             initial={{ opacity: 0, translateY: -20 }}

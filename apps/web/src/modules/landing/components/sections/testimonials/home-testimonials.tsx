@@ -52,7 +52,7 @@ const HomeTestimonials: React.FC = () => {
   return (
     <section className="w-full bg-primary" id="testimonials">
       <div className="mx-auto w-full max-w-screen-2xl py-10 md:px-20 md:py-24 relative">
-        <div className="relative mx-auto max-w-2xl px-4 text-center z-20 mb-6">
+        <div className="relative mx-auto max-w-2xl px-4 text-center z-20 mb-6 text-primary-foreground">
           <motion.h2
             className="font-display text-4xl font-extrabold sm:text-5xl"
             initial={{ opacity: 0, translateX: 20 }}

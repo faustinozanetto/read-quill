@@ -9,9 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default async function LibraryPage() {
-  return (
-    <div className="container my-4">
-      <UserLibrary />
-    </div>
-  );
+  return <UserLibrary />;
 }

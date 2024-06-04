@@ -31,7 +31,7 @@ const HomeCta: React.FC = () => {
                   fillRule="evenodd"
                 />
               </svg>
-              <span className="z-10 relative">Today!</span>
+              <span className="z-10 relative text-primary-foreground">Today!</span>
             </div>
           </motion.h2>
 

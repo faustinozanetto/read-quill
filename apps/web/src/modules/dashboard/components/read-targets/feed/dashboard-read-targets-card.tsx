@@ -6,6 +6,7 @@ import type { TConductorInstance } from 'react-canvas-confetti/dist/types';
 import type { DashboardReadTargetsType } from '@modules/dashboard/types/dashboard.types';
 import { capitalize } from '@modules/common/lib/common.lib';
 import { useCountUp } from '@modules/common/hooks/use-count-up';
+import { cn } from '@read-quill/design-system';
 
 interface DashboardReadTargetsCardProps {
   type: DashboardReadTargetsType;
@@ -33,22 +34,17 @@ const DashboardReadTargetsCard: React.FC<DashboardReadTargetsCardProps> = (props
     conductor.shoot();
   };
 
+  const isCompleted = value >= target;
+
   return (
-    <div className="rounded-lg border p-4 shadow" ref={ref}>
-      <div className="flex justify-between">
-        <h3 className="font-bold uppercase text-lg underline decoration-primary decoration-4 mb-2">
-          {capitalize(type)}
-        </h3>
-        <span className="font-bold text-end">
-          {value}/{target} pages
-        </span>
-      </div>
+    <div className="rounded-lg border p-4 shadow min-w-56 w-full" ref={ref}>
+      <h3 className="font-bold text-lg underline decoration-primary decoration-4 mb-2">{capitalize(type)}</h3>
 
-      {value >= target ? <Fireworks onInit={onInitConfetti} /> : null}
+      {isCompleted ? <Fireworks onInit={onInitConfetti} /> : null}
 
-      <svg className="m-auto mt-4" height="128" width="128" xmlns="http://www.w3.org/2000/svg">
+      <svg className="m-auto mt-2" height="128" width="128" xmlns="http://www.w3.org/2000/svg">
         <circle
-          className="stroke-primary fill-transparent -rotate-90 origin-center"
+          className={cn('fill-transparent stroke-primary -rotate-90 origin-center')}
           cx="50%"
           cy="50%"
           r={radius}
@@ -60,7 +56,7 @@ const DashboardReadTargetsCard: React.FC<DashboardReadTargetsCardProps> = (props
         />
         <text
           alignmentBaseline="middle"
-          className="font-extrabold text-2xl fill-foreground"
+          className="font-extrabold text-2xl tabular-nums fill-foreground"
           textAnchor="middle"
           x="50%"
           y="50%"
@@ -68,6 +64,10 @@ const DashboardReadTargetsCard: React.FC<DashboardReadTargetsCardProps> = (props
           {count.toFixed(0)}%
         </text>
       </svg>
+
+      <p className="font-bold block tabular-nums text-center mx-auto">
+        {value}/{target} <span className="text-sm font-medium text-muted-foreground">pages</span>
+      </p>
     </div>
   );
 };

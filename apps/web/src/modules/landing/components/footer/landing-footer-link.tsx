@@ -11,7 +11,9 @@ const LandingFooterLink: React.FC<LandingFooterLinkProps> = (props) => {
 
   return (
     <li>
-      <Link href={href}>{label}</Link>
+      <Link href={href} className="text-primary-foreground">
+        {label}
+      </Link>
     </li>
   );
 };

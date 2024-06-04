@@ -12,7 +12,7 @@ const LandingFooterCategory: React.FC<LandingFooterCategoryProps> = (props) => {
 
   return (
     <div>
-      <span className="text-lg font-semibold">{title}</span>
+      <span className="text-lg font-semibold text-primary-foreground">{title}</span>
       <ul className="mt-3 grid space-y-2 text-sm">
         {links.map((link) => {
           return <FooterLink key={link.label} {...link} />;

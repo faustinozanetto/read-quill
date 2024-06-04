@@ -39,7 +39,7 @@ const HomeHero: React.FC = () => {
                     fillRule="evenodd"
                   />
                 </svg>
-                <span className="z-10 relative">Reading</span>
+                <span className="z-10 relative text-primary-foreground">Reading</span>
               </div>{' '}
               with Read Quill
             </motion.h1>

@@ -17,21 +17,18 @@ import { EditAnnotationFormActionData } from '@modules/annotations/types/annotat
 interface AnnotationEditProps {
   annotation: Annotation;
   onSuccess: UseEditAnnotationParams['onSuccess'];
-  editButton: React.ReactNode;
+  editButton: (isLoading: boolean) => React.ReactNode;
 }
 
 const AnnotationEdit: React.FC<AnnotationEditProps> = (props) => {
   const { annotation, editButton, onSuccess } = props;
 
-  const [dialogOpen, setDialogOpen] = useState(false);
-
   const { toast } = useToast();
 
-  const { editAnnotation } = useEditAnnotation({
+  const { isLoading, editAnnotation } = useEditAnnotation({
     onSuccess: async (data, variables, context) => {
       if (data.annotation) {
         await onSuccess(data, variables, context);
-        setDialogOpen(false);
         toast({ variant: 'success', content: `Book annotation edited successfully!` });
       }
     },
@@ -45,9 +42,8 @@ const AnnotationEdit: React.FC<AnnotationEditProps> = (props) => {
   };
 
   return (
-    <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
-      <DialogTrigger asChild>{editButton}</DialogTrigger>
-
+    <Dialog>
+      <DialogTrigger asChild>{editButton(isLoading)}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit Annotation</DialogTitle>
