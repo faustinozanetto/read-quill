@@ -19,6 +19,7 @@ const DashboardReadRegistriesRowActions: React.FC<DashboardReadRegistriesRowActi
     await queryClient.refetchQueries(['dashboard-read-targets']);
     await queryClient.refetchQueries(['dashboard-read-registries']);
     await queryClient.refetchQueries(['dashboard-books-progress']);
+    await queryClient.refetchQueries(['dashboard-average-reading-time']);
   };
 
   return (

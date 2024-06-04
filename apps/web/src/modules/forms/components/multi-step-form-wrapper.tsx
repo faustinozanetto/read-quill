@@ -76,7 +76,7 @@ const MultiStepFormWrapper = <T extends FieldValues>(props: MultiStepFormWrapper
   return (
     <div className="space-y-2.5">
       <div className="flex justify-between items-center">
-        <div
+        <ol
           className="grid justify-center items-center w-full"
           style={{
             gridTemplateColumns: `repeat(${totalSteps}, 1fr)`,
@@ -88,7 +88,7 @@ const MultiStepFormWrapper = <T extends FieldValues>(props: MultiStepFormWrapper
             const isLastStep = index === totalSteps - 1;
             const isStepCompleted = index <= currentStep;
             return (
-              <div
+              <li
                 key={`multi-form-${index}`}
                 className={cn(
                   'flex justify-center items-center flex-col gap-1 text-center mb-auto',
@@ -117,10 +117,10 @@ const MultiStepFormWrapper = <T extends FieldValues>(props: MultiStepFormWrapper
                 <Label htmlFor={`multi-step-${index}-title`} className="text-xs text-wrap">
                   {formProps.data[index].title}
                 </Label>
-              </div>
+              </li>
             );
           })}
-        </div>
+        </ol>
       </div>
       <Separator />
       <Form {...form}>

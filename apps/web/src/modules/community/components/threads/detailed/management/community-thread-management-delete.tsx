@@ -30,7 +30,7 @@ const CommunityThreadManagementDelete: React.FC = () => {
 
   const { deleteThread, isLoading } = useDeleteThread({
     onSuccess: async (data) => {
-      if (data && data.success) {
+      if (data.success) {
         router.push('/community');
         toast({ variant: 'success', content: `Thread deleted successfully!` });
       }
