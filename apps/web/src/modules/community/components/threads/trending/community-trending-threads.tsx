@@ -23,7 +23,7 @@ const CommunityTrendingThreads: React.FC = () => {
         </div>
       )}
 
-      {!isLoading && data && data.threads.length && (
+      {!isLoading && data && data.threads.length ? (
         <div className="grid gap-2">
           {data.threads.map((thread) => {
             return (
@@ -40,7 +40,7 @@ const CommunityTrendingThreads: React.FC = () => {
             );
           })}
         </div>
-      )}
+      ) : null}
 
       <p>
         {!isLoading && data && !data.threads.length

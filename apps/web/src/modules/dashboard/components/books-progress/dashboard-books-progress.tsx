@@ -50,7 +50,7 @@ const DashboardBooksProgress: React.FC = () => {
               </div>
             )}
 
-            {!isLoading && data && !data.booksProgress.length && (
+            {!isLoading && data && !data.booksProgress.length ? (
               <DashboardNoDataMessage className="m-auto">
                 <p>
                   No books found, start by adding your first book to track progress{' '}
@@ -59,7 +59,7 @@ const DashboardBooksProgress: React.FC = () => {
                   </Link>
                 </p>
               </DashboardNoDataMessage>
-            )}
+            ) : null}
           </DashboardBooksProgressFeed>
         </div>
       </FilterProvider>

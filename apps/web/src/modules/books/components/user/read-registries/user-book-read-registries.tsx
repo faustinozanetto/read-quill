@@ -44,9 +44,9 @@ const UserBookReadRegistries: React.FC = () => {
       <p>Manage and view the read registries for your book here.</p>
       {isLoading && <Skeleton className="h-40 w-full" />}
 
-      {!isLoading && data && data.readRegistries.length && (
+      {!isLoading && data && data.readRegistries.length ? (
         <UserBookReadRegistriesTable data={data} pagination={pagination} setPagination={setPagination} />
-      )}
+      ) : null}
     </div>
   );
 };

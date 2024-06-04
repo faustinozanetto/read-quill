@@ -21,7 +21,7 @@ const CommunityTopUsers: React.FC = () => {
         </div>
       )}
 
-      {!isLoading && data && data.topUsers.length && (
+      {!isLoading && data && data.topUsers.length ? (
         <div className="grid gap-2 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
           {data.topUsers.map((topUser, index) => (
             <CommunityTopUserCard
@@ -31,7 +31,7 @@ const CommunityTopUsers: React.FC = () => {
             />
           ))}
         </div>
-      )}
+      ) : null}
 
       {!isLoading && data && !data.topUsers.length ? (
         <p>

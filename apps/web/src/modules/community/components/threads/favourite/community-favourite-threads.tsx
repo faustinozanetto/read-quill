@@ -28,7 +28,7 @@ const CommunityFavouriteThreads: React.FC = () => {
         </div>
       )}
 
-      {!isLoading && threads.length && (
+      {!isLoading && threads.length ? (
         <div className="grid gap-2">
           {threads.map((thread) => {
             return (
@@ -45,7 +45,7 @@ const CommunityFavouriteThreads: React.FC = () => {
             );
           })}
         </div>
-      )}
+      ) : null}
 
       <p>
         {!isLoading && !threads.length

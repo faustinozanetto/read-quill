@@ -27,7 +27,7 @@ const UserProfilThreads: React.FC = () => {
         </div>
       ) : null}
 
-      {!isLoading && threads.length && (
+      {!isLoading && threads.length ? (
         <div className="flex flex-col gap-2">
           {threads.map((thread) => {
             return (
@@ -45,7 +45,7 @@ const UserProfilThreads: React.FC = () => {
             );
           })}
         </div>
-      )}
+      ) : null}
 
       {!isLoading && !threads.length ? <p>It looks like this user hasn't posted threads yet!</p> : null}
     </div>
