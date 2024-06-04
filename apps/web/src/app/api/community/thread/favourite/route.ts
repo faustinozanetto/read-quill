@@ -26,7 +26,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<ThreadFavo
     const userFavouriteThread = await prisma.userFavouriteThread.findMany({
       where: { threadId, userId },
     });
-    if (userFavouriteThread.length === 0) {
+    if (!userFavouriteThread.length) {
       return NextResponse.json({ isFavourite: false });
     }
 

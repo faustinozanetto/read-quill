@@ -16,7 +16,7 @@ const UserLibraryBooks: React.FC = () => {
     data,
     getCanNextPage,
     getCanPreviousPage,
-    isFetching,
+
     isLoading,
     nextPage,
     page,
@@ -39,16 +39,16 @@ const UserLibraryBooks: React.FC = () => {
       >
         <div className="rounded-lg shadow border space-y-4">
           <UserLibraryBooksFeed
-            books={data.books}
+            books={data?.books ?? []}
             getCanNextPage={getCanNextPage}
             getCanPreviousPage={getCanPreviousPage}
             nextPage={nextPage}
             page={page}
-            pageCount={data.pageCount}
+            pageCount={data?.pageCount ?? 0}
             previousPage={previousPage}
             setPageIndex={setPageIndex}
           >
-            {isFetching || isLoading ? (
+            {isLoading ? (
               <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
                 {Array.from({ length: 6 }).map((_, i) => (
                   <BookCardPlaceholder key={`user-book-placeholder-${i}`} />
@@ -56,7 +56,7 @@ const UserLibraryBooks: React.FC = () => {
               </div>
             ) : null}
 
-            {!(isFetching || isLoading) && data.books.length === 0 ? (
+            {!isLoading && data && !data.books.length ? (
               <p className="m-auto">
                 Let&apos;s build your book collection! Click the{' '}
                 <span className="text-primary text-center font-bold underline">Create Book</span> button to get started.

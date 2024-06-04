@@ -1,12 +1,11 @@
-import type { DefinedUseQueryResult } from '@tanstack/react-query';
+import type { DefinedUseQueryResult, UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
 import { useToast } from '@read-quill/design-system/src';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { UserBooksGetResponse } from '@modules/api/types/books-api.types';
 
-export interface UseUserBooksReturn
-  extends Pick<DefinedUseQueryResult<UserBooksGetResponse>, 'data' | 'isLoading' | 'isFetching'> {
+export interface UseUserBooksReturn extends Pick<UseQueryResult<UserBooksGetResponse>, 'data' | 'isLoading'> {
   page: number;
   setPageIndex: (index: number) => void;
   nextPage: () => void;
@@ -36,7 +35,6 @@ export const useUserBooks = (params: UseUserBooksParams): UseUserBooksReturn => 
   const [page, setPage] = useState(0);
 
   const { data, isLoading, isFetching, isPreviousData } = useQuery<UserBooksGetResponse>(['user-books', page, userId], {
-    initialData: { books: [], hasMore: false, pageCount: 0 },
     keepPreviousData: true,
     enabled: !!userId,
     queryFn: async () => {
@@ -62,16 +60,18 @@ export const useUserBooks = (params: UseUserBooksParams): UseUserBooksReturn => 
   }, []);
 
   const nextPage = useCallback(() => {
-    if (!isPreviousData && data.hasMore) {
+    if (!isPreviousData && data?.hasMore) {
       setPage((old) => old + 1);
     }
-  }, [data.hasMore, isPreviousData]);
+  }, [data?.hasMore, isPreviousData]);
 
   const setPageIndex = useCallback(
     (index: number) => {
+      if (!data?.pageCount) return;
+
       if (index >= 0 && index <= data.pageCount) setPage(index);
     },
-    [data.pageCount]
+    [data?.pageCount]
   );
 
   const getCanPreviousPage = useCallback(() => {
@@ -84,8 +84,7 @@ export const useUserBooks = (params: UseUserBooksParams): UseUserBooksReturn => 
 
   return {
     data,
-    isLoading,
-    isFetching,
+    isLoading: isLoading || isFetching,
     page,
     getCanPreviousPage,
     getCanNextPage,

@@ -1,11 +1,11 @@
-import type { DefinedUseQueryResult } from '@tanstack/react-query';
+import type { DefinedUseQueryResult, UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { useToast } from '@read-quill/design-system/src';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { ThreadAttachmentsGetResponse } from '@modules/api/types/community-api.types';
 
 export interface UseThreadAttachmentsReturn
-  extends Pick<DefinedUseQueryResult<ThreadAttachmentsGetResponse>, 'data' | 'isLoading' | 'isFetching'> {}
+  extends Pick<UseQueryResult<ThreadAttachmentsGetResponse>, 'data' | 'isLoading'> {}
 
 interface UseThreadAttachmentsParams {
   threadId?: string;
@@ -23,7 +23,6 @@ export const useThreadAttachments = (params: UseThreadAttachmentsParams): UseThr
   const { toast } = useToast();
 
   const { data, isLoading, isFetching } = useQuery<ThreadAttachmentsGetResponse>(['thread-attachments', threadId], {
-    initialData: { attachments: [] },
     keepPreviousData: true,
     enabled: threadId !== undefined,
     queryFn: async () => {
@@ -46,7 +45,6 @@ export const useThreadAttachments = (params: UseThreadAttachmentsParams): UseThr
 
   return {
     data,
-    isLoading,
-    isFetching,
+    isLoading: isLoading || isFetching,
   };
 };

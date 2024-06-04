@@ -6,7 +6,7 @@ interface UseFetchReviewParams {
   reviewId: string;
 }
 
-interface UseFetchReviewReturn extends Pick<UseQueryResult<ReviewGetResponse>, 'data' | 'isLoading' | 'isFetching'> {}
+interface UseFetchReviewReturn extends Pick<UseQueryResult<ReviewGetResponse>, 'data' | 'isLoading'> {}
 
 export const useFetchReview = (params: UseFetchReviewParams): UseFetchReviewReturn => {
   const { reviewId } = params;
@@ -26,5 +26,5 @@ export const useFetchReview = (params: UseFetchReviewParams): UseFetchReviewRetu
     },
   });
 
-  return { data, isFetching, isLoading };
+  return { data, isLoading: isLoading || isFetching };
 };

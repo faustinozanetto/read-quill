@@ -29,7 +29,7 @@ const UserBookAnnotations: React.FC = () => {
         </div>
       )}
 
-      {!isLoading && data && data.annotations.length > 0 && <AnnotationsFeed annotations={data.annotations} />}
+      {!isLoading && data && data.annotations.length && <AnnotationsFeed annotations={data.annotations} />}
 
       {!isLoading && data && !data.annotations.length ? (
         <p>

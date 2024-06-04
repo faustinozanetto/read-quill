@@ -1,21 +1,20 @@
-import type { DefinedUseQueryResult } from '@tanstack/react-query';
+import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { useToast } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { DashboardReadTimeDistributionGetResponse } from '@modules/api/types/dashboard-api.types';
 
 type UseReadTimeDistributionReturn = Pick<
-  DefinedUseQueryResult<DashboardReadTimeDistributionGetResponse>,
-  'data' | 'isLoading' | 'isFetching'
+  UseQueryResult<DashboardReadTimeDistributionGetResponse>,
+  'data' | 'isLoading'
 >;
 
 export const useReadsTimeDistribution = (): UseReadTimeDistributionReturn => {
   const { toast } = useToast();
 
-  const { data, isFetching, isLoading } = useQuery<DashboardReadTimeDistributionGetResponse>(
+  const { data, isLoading, isFetching } = useQuery<DashboardReadTimeDistributionGetResponse>(
     ['dashboard-read-time-distribution'],
     {
-      initialData: { timeDistribution: [] },
       queryFn: async () => {
         try {
           const url = new URL('/api/dashboard/read-time-distribution', __URL__);
@@ -34,5 +33,5 @@ export const useReadsTimeDistribution = (): UseReadTimeDistributionReturn => {
     }
   );
 
-  return { data, isFetching, isLoading };
+  return { data, isLoading: isLoading || isFetching };
 };

@@ -174,20 +174,22 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<ThreadP
       },
     });
 
-    const deleteAttachmentPromises: Promise<void>[] = threadAttachments.map(async (threadAttachment) => {
-      await prisma.threadAttachment.delete({
-        where: {
-          id: threadAttachment.id,
-        },
+    if (threadAttachments.length) {
+      const deleteAttachmentPromises: Promise<void>[] = threadAttachments.map(async (threadAttachment) => {
+        await prisma.threadAttachment.delete({
+          where: {
+            id: threadAttachment.id,
+          },
+        });
+        await prisma.image.delete({ where: { id: threadAttachment.image.id } });
       });
-      await prisma.image.delete({ where: { id: threadAttachment.image.id } });
-    });
-    await Promise.all(deleteAttachmentPromises);
+      await Promise.all(deleteAttachmentPromises);
 
-    const attachmentsImagePaths = threadAttachments.map((attachment) => attachment.image.path);
-    const { error } = await deleteImagesFromSupabase('ThreadAttachments', attachmentsImagePaths);
-    if (error) {
-      throw new NextResponse('Could not delete thread!', { status: 500 });
+      const attachmentsImagePaths = threadAttachments.map((attachment) => attachment.image.path);
+      const { error } = await deleteImagesFromSupabase('ThreadAttachments', attachmentsImagePaths);
+      if (error) {
+        throw new NextResponse('Could not delete thread!', { status: 500 });
+      }
     }
 
     await prisma.thread.delete({

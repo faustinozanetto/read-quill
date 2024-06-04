@@ -13,7 +13,8 @@ interface DashboardBooksRatingsProps {
 
 const DashboardBooksRatings: React.FC<DashboardBooksRatingsProps> = (props) => {
   const { className } = props;
-  const { data, isLoading, isFetching } = useBooksRatings();
+
+  const { data, isLoading } = useBooksRatings();
 
   return (
     <div className={cn('rounded-lg border p-4 shadow flex flex-col gap-2 h-fit', className)}>
@@ -23,13 +24,13 @@ const DashboardBooksRatings: React.FC<DashboardBooksRatingsProps> = (props) => {
         in your collection, from high-rated favourites to hidden gems. Uncover insights into your reading preferences
         effortlessly.
       </p>
-      {(isFetching || isLoading) && <Skeleton className="h-40 w-full" />}
+      {isLoading && <Skeleton className="h-40 w-full" />}
 
-      {!(isFetching || isLoading) && data.booksRatings.length > 0 ? (
+      {!isLoading && data && data.booksRatings.length ? (
         <DashboardBooksRatingsChart booksRatings={data.booksRatings} />
       ) : null}
 
-      {!(isFetching || isLoading) && data.booksRatings.length === 0 ? (
+      {!isLoading && data && !data.booksRatings.length ? (
         <DashboardNoDataMessage>
           <p>No book ratings found. Rate your finished books for better insights.</p>
         </DashboardNoDataMessage>

@@ -61,7 +61,7 @@ const ReadRegistryCreateForm: React.FC<ReadRegistryCreateFormProps> = (props) =>
       {(form, currentStep) => (
         <>
           {currentStep === 0 && <ReadRegistryFormPagesRead />}
-          {!bookId && currentStep === 1 && <ReadRegistryFormBook booksNames={data.booksNames} />}
+          {!bookId && currentStep === 1 && <ReadRegistryFormBook booksNames={data?.booksNames ?? []} />}
         </>
       )}
     </MultiStepFormWrapper>

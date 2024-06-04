@@ -1,15 +1,15 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 
 import {
-  Button,
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DropdownMenuItem,
   EditIcon,
   useToast,
 } from '@read-quill/design-system';
@@ -20,8 +20,6 @@ import { useThreadStore } from '@modules/community/state/thread/thread.slice';
 import { useEditThread } from '@modules/community/hooks/threads/use-edit-thread';
 
 const CommunityThreadManagementEdit: React.FC = () => {
-  const [dialogOpen, setDialogOpen] = useState(false);
-
   const { toast } = useToast();
   const { thread } = useThreadStore();
   const { queryClient } = useQueriesStore();
@@ -31,19 +29,19 @@ const CommunityThreadManagementEdit: React.FC = () => {
     onSuccess: async (data) => {
       if (data && data.success && thread) {
         await queryClient.refetchQueries(['thread', thread.id]);
-        setDialogOpen(false);
+
         toast({ variant: 'success', content: `Thread updated successfully!` });
       }
     },
   });
 
   return (
-    <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
+    <Dialog>
       <DialogTrigger asChild>
-        <Button aria-label="Update Thread" size="sm" variant="outline">
+        <DropdownMenuItem aria-label="Update Thread" onSelect={(e) => e.preventDefault()}>
           <EditIcon className="mr-2 stroke-current" />
-          Update Thread
-        </Button>
+          Update
+        </DropdownMenuItem>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px]">

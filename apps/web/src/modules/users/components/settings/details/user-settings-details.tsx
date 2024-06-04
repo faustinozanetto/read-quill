@@ -13,11 +13,7 @@ interface UserSettingsDetailsProps {
 const UserSettingsDetails: React.FC<UserSettingsDetailsProps> = (props) => {
   const { session } = props;
 
-  const {
-    data: memberSince,
-    isFetching: isMemberSinceFetching,
-    isLoading: isMemberSinceLoading,
-  } = useUserMemberSince({
+  const { data: memberSince, isLoading: isMemberSinceLoading } = useUserMemberSince({
     userId: session.user.id,
   });
 
@@ -34,8 +30,8 @@ const UserSettingsDetails: React.FC<UserSettingsDetailsProps> = (props) => {
         </div>
         <div>
           <Label className="block">Member Since</Label>
-          {(isMemberSinceFetching || isMemberSinceLoading) && <Skeleton className="h-4 w-24" />}
-          {!(isMemberSinceFetching || isMemberSinceLoading) && memberSince?.memberSince && (
+          {isMemberSinceLoading && <Skeleton className="h-4 w-24" />}
+          {!isMemberSinceLoading && memberSince?.memberSince && (
             <span className="text-sm">
               {new Date(memberSince.memberSince).toLocaleDateString('en-US', { dateStyle: 'full' })}
             </span>

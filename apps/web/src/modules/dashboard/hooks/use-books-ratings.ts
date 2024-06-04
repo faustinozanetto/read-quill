@@ -1,19 +1,15 @@
-import type { DefinedUseQueryResult } from '@tanstack/react-query';
+import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { useToast } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { DashboardBooksRatingsGetResponse } from '@modules/api/types/dashboard-api.types';
 
-type UseBooksRatingsReturn = Pick<
-  DefinedUseQueryResult<DashboardBooksRatingsGetResponse>,
-  'data' | 'isLoading' | 'isFetching'
->;
+type UseBooksRatingsReturn = Pick<UseQueryResult<DashboardBooksRatingsGetResponse>, 'data' | 'isLoading'>;
 
 export const useBooksRatings = (): UseBooksRatingsReturn => {
   const { toast } = useToast();
 
   const { data, isFetching, isLoading } = useQuery<DashboardBooksRatingsGetResponse>(['dashboard-books-ratings'], {
-    initialData: { booksRatings: [] },
     queryFn: async () => {
       try {
         const url = new URL('/api/dashboard/books-ratings', __URL__);
@@ -30,5 +26,5 @@ export const useBooksRatings = (): UseBooksRatingsReturn => {
     },
   });
 
-  return { data, isFetching, isLoading };
+  return { data, isLoading: isLoading || isFetching };
 };

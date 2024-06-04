@@ -5,7 +5,7 @@ import { __URL__ } from '@modules/common/lib/common.constants';
 import { CommunityTopUsersGetResponse } from '@modules/api/types/community-api.types';
 
 export interface UseCommunityTopUsersReturn
-  extends Pick<UseQueryResult<CommunityTopUsersGetResponse>, 'data' | 'isLoading' | 'isFetching'> {}
+  extends Pick<UseQueryResult<CommunityTopUsersGetResponse>, 'data' | 'isLoading'> {}
 
 interface UseCommunityTopUsersParams {
   take: number;
@@ -23,9 +23,7 @@ export const useCommunityTopUsers = (params: UseCommunityTopUsersParams = { take
   const { toast } = useToast();
 
   const { data, isLoading, isFetching } = useQuery<CommunityTopUsersGetResponse>({
-    initialData: {
-      topUsers: [],
-    },
+    queryKey: ['community-top-users'],
     queryFn: async () => {
       try {
         const url = buildUrl(take);
@@ -40,8 +38,7 @@ export const useCommunityTopUsers = (params: UseCommunityTopUsersParams = { take
         toast({ variant: 'error', content: 'Failed to fetch community top users!' });
       }
     },
-    queryKey: ['community-top-users'],
   });
 
-  return { data, isFetching, isLoading };
+  return { data, isLoading: isLoading || isFetching };
 };

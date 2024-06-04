@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ThreadCommentWithAuthor } from '@modules/community/types/community.types';
 import {
-  Button,
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DropdownMenuItem,
   EditIcon,
   useToast,
 } from '@read-quill/design-system';
@@ -30,26 +30,24 @@ const CommunityThreadCommentManagementEdit: React.FC<CommunityThreadCommentManag
   const { toast } = useToast();
   const { thread } = useThreadStore();
   const { queryClient } = useQueriesStore();
-  const [dialogOpen, setDialogOpen] = useState(false);
 
   const { editComment } = useEditThreadComment({
     comment,
     onSuccess: async (data) => {
       if (data.threadComment && thread) {
         await queryClient.refetchQueries(['thread-comments', 0, thread.id]);
-        setDialogOpen(false);
         toast({ variant: 'success', content: `Comment updated successfully!` });
       }
     },
   });
 
   return (
-    <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
+    <Dialog>
       <DialogTrigger asChild>
-        <Button aria-label="Update Comment" size="sm" variant="outline">
+        <DropdownMenuItem aria-label="Update Comment" onSelect={(e) => e.preventDefault()}>
           <EditIcon className="mr-2 stroke-current" />
-          Update Comment
-        </Button>
+          Update
+        </DropdownMenuItem>
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px]">

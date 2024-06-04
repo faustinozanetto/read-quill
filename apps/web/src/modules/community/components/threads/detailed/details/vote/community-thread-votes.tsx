@@ -14,18 +14,15 @@ interface CommnuityThreadVotesProps {
 const CommnuityThreadVotes: React.FC<CommnuityThreadVotesProps> = (props) => {
   const { thread } = props;
 
-  const { data, isLoading, isFetching } = useThreadVoteCount({
+  const { data, isLoading } = useThreadVoteCount({
     threadId: thread.id,
   });
 
   return (
     <div className="flex flex-col gap-0.5 items-center justify-center">
       <CommnuityThreadVoteOption thread={thread} type="upvote" icon={<ArrowUpIcon />} />
-      {isFetching || isLoading ? (
-        <Skeleton className="h-4 w-4" />
-      ) : (
-        <span className="text-sm font-medium">{data.votes}</span>
-      )}
+      {isLoading && <Skeleton className="h-4 w-4" />}
+      {!isLoading && data && data.votes && <span className="text-sm font-medium tabular-nums">{data.votes}</span>}
       <CommnuityThreadVoteOption thread={thread} type="downvote" icon={<ArrowDownIcon />} />
     </div>
   );

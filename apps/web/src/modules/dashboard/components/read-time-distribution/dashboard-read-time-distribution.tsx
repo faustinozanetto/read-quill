@@ -15,7 +15,7 @@ interface DashboardReadTimeDistributionProps {
 const DashboardReadTimeDistribution: React.FC<DashboardReadTimeDistributionProps> = (props) => {
   const { className } = props;
 
-  const { data, isFetching, isLoading } = useReadsTimeDistribution();
+  const { data, isLoading } = useReadsTimeDistribution();
 
   return (
     <div className={cn('rounded-lg border p-4 shadow flex flex-col gap-2 h-fit', className)}>
@@ -25,13 +25,13 @@ const DashboardReadTimeDistribution: React.FC<DashboardReadTimeDistributionProps
         throughout the day. Uncover peak reading hours and gain insights to enhance your daily reading routine.
       </p>
 
-      {isFetching || isLoading ? <Skeleton className="h-48 w-full" /> : null}
+      {isLoading ? <Skeleton className="h-48 w-full" /> : null}
 
-      {!(isFetching || isLoading) && data.timeDistribution.length > 0 ? (
+      {!isLoading && data && data.timeDistribution.length ? (
         <DashboardReadTimeDistributionChart timeDistribution={data.timeDistribution} />
       ) : null}
 
-      {!(isFetching || isLoading) && data.timeDistribution.length === 0 ? (
+      {!isLoading && data && !data.timeDistribution.length ? (
         <DashboardNoDataMessage>
           <p>Log your reading sessions to discover how your time is distributed.</p>
         </DashboardNoDataMessage>

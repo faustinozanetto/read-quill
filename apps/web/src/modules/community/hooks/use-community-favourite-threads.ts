@@ -7,7 +7,7 @@ import { FavouriteThreadsCommunityGetResponse } from '@modules/api/types/communi
 export interface UseCommunityFavouriteThreadsReturn
   extends Pick<
     UseInfiniteQueryResult<FavouriteThreadsCommunityGetResponse>,
-    'data' | 'fetchNextPage' | 'hasNextPage' | 'isFetchingNextPage' | 'isLoading' | 'isFetching'
+    'data' | 'fetchNextPage' | 'hasNextPage' | 'isFetchingNextPage' | 'isLoading'
   > {}
 
 interface UseCommunityFavouriteThreadsParams {
@@ -56,5 +56,5 @@ export const useCommunityFavouriteThreads = (
       queryKey: ['community-favourite-threads', userId],
     });
 
-  return { data, fetchNextPage, isFetching, isFetchingNextPage, isLoading, hasNextPage };
+  return { data, fetchNextPage, isFetchingNextPage, isLoading: isLoading || isFetching, hasNextPage };
 };

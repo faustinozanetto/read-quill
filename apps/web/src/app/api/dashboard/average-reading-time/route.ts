@@ -38,17 +38,6 @@ export async function GET(request: NextRequest): Promise<NextResponse<AverageRea
 
     const TIME_PER_PAGE_MINUTES = 3;
 
-    const getSemesterStart = (date: Date) => {
-      const month = date.getMonth();
-      const year = date.getFullYear();
-      return new Date(year, month < 6 ? 0 : 6, 1);
-    };
-
-    const getSemesterKey = (date: Date) => {
-      const semesterStart = getSemesterStart(date);
-      return format(semesterStart, 'yyyy-MM');
-    };
-
     const mappedRegistries = readRegistries.reduce<{
       currentDay: Record<string, number>;
       pastDay: Record<string, number>;
@@ -62,7 +51,6 @@ export async function GET(request: NextRequest): Promise<NextResponse<AverageRea
         const dayKey = format(date, 'yyyy-MM-dd');
         const weekKey = format(startOfWeek(date, { weekStartsOn: 1 }), 'yyyy-MM-dd');
         const monthKey = format(startOfMonth(date), 'yyyy-MM');
-        const semesterKey = getSemesterKey(date);
 
         if (isToday(date)) {
           acc.currentDay[dayKey] = (acc.currentDay[dayKey] || 0) + curr.pagesRead;
@@ -97,28 +85,35 @@ export async function GET(request: NextRequest): Promise<NextResponse<AverageRea
       }
     );
 
-    const calculateAverage = (records: Record<string, number>): number => {
-      const totalMinutes = Object.values(records).reduce(
-        (total, pagesRead) => total + pagesRead * TIME_PER_PAGE_MINUTES,
-        0
-      );
+    console.log({ mappedRegistries });
 
-      const totalDays = Math.max(Object.keys(records).length, 1);
-      return totalMinutes / totalDays;
+    // const calculateAverage = (records: Record<string, number>): number => {
+    //   const totalMinutes = Object.values(records).reduce(
+    //     (total, pagesRead) => total + pagesRead * TIME_PER_PAGE_MINUTES,
+    //     0
+    //   );
+
+    //   const totalDays = Math.max(Object.keys(records).length, 1);
+    //   return totalMinutes / totalDays;
+    // };
+
+    const getFirstRecordEntry = (record: Record<string, number>): number => {
+      const values = Object.values(record);
+      return values.length ? Object.values(record)[0] : 0;
     };
 
     const readingTimes: AverageReadingTimeGetResponse['readingTimes'] = {
       daily: {
-        current: calculateAverage(mappedRegistries.currentDay),
-        past: calculateAverage(mappedRegistries.pastDay),
+        current: getFirstRecordEntry(mappedRegistries.currentDay),
+        past: getFirstRecordEntry(mappedRegistries.pastDay),
       },
       weekly: {
-        current: calculateAverage(mappedRegistries.currentWeek),
-        past: calculateAverage(mappedRegistries.pastWeek),
+        current: getFirstRecordEntry(mappedRegistries.currentWeek),
+        past: getFirstRecordEntry(mappedRegistries.pastWeek),
       },
       monthly: {
-        current: calculateAverage(mappedRegistries.currentMonth),
-        past: calculateAverage(mappedRegistries.pastMonth),
+        current: getFirstRecordEntry(mappedRegistries.currentMonth),
+        past: getFirstRecordEntry(mappedRegistries.pastMonth),
       },
     };
 

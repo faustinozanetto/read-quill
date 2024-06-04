@@ -124,6 +124,6 @@ export const useFilterData = <TData>(params: UseFilterParams<TData>): UseFilterR
     sort: state.sort,
     filters: state.filters,
     filteredData,
-    noResults: areFiltersApplied && filteredData.length === 0,
+    noResults: areFiltersApplied && !filteredData.length,
   };
 };

@@ -1,16 +1,15 @@
-import type { DefinedUseQueryResult } from '@tanstack/react-query';
+import type { DefinedUseQueryResult, UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { useToast } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { BooksNamesGetResponse } from '@modules/api/types/books-api.types';
 
-type UseBooksNamesReturn = Pick<DefinedUseQueryResult<BooksNamesGetResponse>, 'data' | 'isLoading' | 'isFetching'>;
+type UseBooksNamesReturn = Pick<UseQueryResult<BooksNamesGetResponse>, 'data' | 'isLoading'>;
 
 export const useBooksNames = (): UseBooksNamesReturn => {
   const { toast } = useToast();
 
   const { data, isFetching, isLoading } = useQuery<BooksNamesGetResponse>(['books-names'], {
-    initialData: { booksNames: [] },
     queryFn: async () => {
       try {
         const url = new URL('/api/book/names/', __URL__);
@@ -27,5 +26,5 @@ export const useBooksNames = (): UseBooksNamesReturn => {
     },
   });
 
-  return { data, isFetching, isLoading };
+  return { data, isLoading: isLoading || isFetching };
 };

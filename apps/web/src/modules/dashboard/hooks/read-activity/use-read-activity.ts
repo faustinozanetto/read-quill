@@ -1,18 +1,14 @@
-import type { DefinedUseQueryResult } from '@tanstack/react-query';
+import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { useToast } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { DashboardReadActivityGetResponse } from '@modules/api/types/dashboard-api.types';
 
-type UseReadActivityReturn = Pick<
-  DefinedUseQueryResult<DashboardReadActivityGetResponse>,
-  'data' | 'isLoading' | 'isFetching'
->;
+type UseReadActivityReturn = Pick<UseQueryResult<DashboardReadActivityGetResponse>, 'data' | 'isLoading'>;
 export const useReadActivity = (): UseReadActivityReturn => {
   const { toast } = useToast();
 
   const { data, isFetching, isLoading } = useQuery<DashboardReadActivityGetResponse>(['dashboard-read-activity'], {
-    initialData: { readActivity: {} },
     queryFn: async () => {
       try {
         const url = new URL('/api/dashboard/read-activity', __URL__);
@@ -29,5 +25,5 @@ export const useReadActivity = (): UseReadActivityReturn => {
     },
   });
 
-  return { data, isFetching, isLoading };
+  return { data, isLoading: isLoading || isFetching };
 };

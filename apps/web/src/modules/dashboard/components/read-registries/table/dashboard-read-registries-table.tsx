@@ -5,13 +5,18 @@ import { DataTableColumnHeader, DataTableViewOptions, Input, SearchIcon } from '
 import type { ColumnDef, ColumnFiltersState, SortingState, VisibilityState } from '@tanstack/react-table';
 import { getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import { DataTable, DataTablePagination } from '@read-quill/design-system/src';
-import { useReadRegistries } from '@modules/dashboard/hooks/use-read-registries';
+import { UseReadRegistriesReturn } from '@modules/dashboard/hooks/use-read-registries';
 import type { DashboardReadRegistry } from '@modules/api/types/dashboard-api.types';
 import DashboardReadRegistriesRowActions from './dashboard-read-registries-row-actions';
 import Link from 'next/link';
 
-const DashboardReadRegistriesTable: React.FC = () => {
-  const { data, pagination, setPagination } = useReadRegistries();
+interface DashboardReadRegistriesTableProps extends Pick<UseReadRegistriesReturn, 'pagination' | 'setPagination'> {
+  readRegistries: DashboardReadRegistry[];
+  pageCount: number;
+}
+
+const DashboardReadRegistriesTable: React.FC<DashboardReadRegistriesTableProps> = (props) => {
+  const { readRegistries, pageCount, pagination, setPagination } = props;
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -73,16 +78,16 @@ const DashboardReadRegistriesTable: React.FC = () => {
   };
 
   const books = useMemo(() => {
-    return data.readRegistries.reduce<Record<string, string>>((acc, curr) => {
+    return readRegistries.reduce<Record<string, string>>((acc, curr) => {
       acc[curr.bookId] = curr.book.name;
       return acc;
     }, {});
-  }, [data.readRegistries]);
+  }, [readRegistries]);
 
   const table = useReactTable({
-    data: data.readRegistries,
+    data: readRegistries,
     columns,
-    pageCount: data.pageCount,
+    pageCount,
     state: {
       pagination,
       sorting,

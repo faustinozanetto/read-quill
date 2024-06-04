@@ -16,8 +16,7 @@ interface DashboardReadTrendsProps {
 const DashboardReadTrends: React.FC<DashboardReadTrendsProps> = (props) => {
   const { className } = props;
 
-  const { data, filteredData, isLoading, isFetching, interval, setInterval, dailyRange, setDailyRange } =
-    useReadsTrends();
+  const { data, filteredData, isLoading, interval, setInterval, dailyRange, setDailyRange } = useReadsTrends();
 
   return (
     <div className={cn('rounded-lg border p-4 shadow flex flex-col gap-2 h-fit', className)}>
@@ -28,7 +27,7 @@ const DashboardReadTrends: React.FC<DashboardReadTrendsProps> = (props) => {
           page consumption. Track your progress, set goals, and discover patterns to make the most of your reading
           journey.
         </p>
-        {data.trends.length > 0 && (
+        {data && data.trends.length && (
           <div className="ml-auto space-x-2">
             {interval === 'daily' && (
               <DashboardReadTrendsDailyRangeSelect dailyRange={dailyRange} setDailyRange={setDailyRange} />
@@ -38,13 +37,19 @@ const DashboardReadTrends: React.FC<DashboardReadTrendsProps> = (props) => {
         )}
       </div>
 
-      {isFetching || isLoading ? <Skeleton className="h-48 w-full" /> : null}
+      {isLoading ? <Skeleton className="h-48 w-full" /> : null}
 
-      {!(isFetching || isLoading) && filteredData.trends.length > 0 ? (
+      {!isLoading && filteredData && filteredData.trends.length ? (
         <DashboardReadTrendsChart interval={interval} trends={filteredData.trends} />
       ) : null}
 
-      {!(isFetching || isLoading) && data.trends.length === 0 ? (
+      {!isLoading && filteredData && !filteredData.trends.length ? (
+        <DashboardNoDataMessage>
+          <p>No data can be found for your filters, please change them.</p>
+        </DashboardNoDataMessage>
+      ) : null}
+
+      {!isLoading && data && !data.trends.length ? (
         <DashboardNoDataMessage>
           <p>Start logging your readings to discover trends over time.</p>
         </DashboardNoDataMessage>

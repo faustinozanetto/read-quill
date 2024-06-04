@@ -3,9 +3,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useToast } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { DashboardReadTargetsGetResponse } from '@modules/api/types/dashboard-api.types';
-import { useReadTargetsCreated } from './use-read-targets-created';
 
-type UseReadTargetsReturn = Pick<UseQueryResult<DashboardReadTargetsGetResponse>, 'isLoading' | 'isFetching'> & {
+type UseReadTargetsReturn = Pick<UseQueryResult<DashboardReadTargetsGetResponse>, 'isLoading'> & {
   data?: DashboardReadTargetsGetResponse;
   targetsCreated: boolean;
 };
@@ -13,14 +12,7 @@ type UseReadTargetsReturn = Pick<UseQueryResult<DashboardReadTargetsGetResponse>
 export const useReadTargets = (): UseReadTargetsReturn => {
   const { toast } = useToast();
 
-  // const {
-  //   data: readTargetsCreatedData,
-  //   isLoading: isReadTargetsCreatedLoading,
-  //   isFetching: isReadTargetsCreatedFetching,
-  // } = useReadTargetsCreated();
-
   const { data, isLoading, isFetching } = useQuery<DashboardReadTargetsGetResponse>(['dashboard-read-targets'], {
-    // enabled: Boolean(readTargetsCreatedData?.created),
     queryFn: async () => {
       try {
         const url = new URL('/api/dashboard/read-targets', __URL__);
@@ -40,7 +32,6 @@ export const useReadTargets = (): UseReadTargetsReturn => {
   return {
     targetsCreated: Boolean(data?.result),
     data,
-    isLoading: isLoading,
-    isFetching: isFetching,
+    isLoading: isLoading || isFetching,
   };
 };

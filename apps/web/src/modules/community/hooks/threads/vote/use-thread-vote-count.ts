@@ -1,10 +1,9 @@
-import { DefinedUseQueryResult, useQuery } from '@tanstack/react-query';
+import { DefinedUseQueryResult, UseQueryResult, useQuery } from '@tanstack/react-query';
 import { ThreadVoteGetResponse } from '@modules/api/types/community-api.types';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useToast } from '@read-quill/design-system';
 
-interface UseIsThreadVoteReturn
-  extends Pick<DefinedUseQueryResult<ThreadVoteGetResponse>, 'data' | 'isLoading' | 'isFetching'> {}
+interface UseIsThreadVoteReturn extends Pick<UseQueryResult<ThreadVoteGetResponse>, 'data' | 'isLoading'> {}
 
 const buildUrl = (threadId: string): string => {
   const url = new URL('/api/community/thread/vote', __URL__);
@@ -22,7 +21,6 @@ export const useThreadVoteCount = (params: UseThreadVoteCountParams): UseIsThrea
   const { toast } = useToast();
 
   const { data, isLoading, isFetching } = useQuery<ThreadVoteGetResponse>(['thread-vote-count', threadId], {
-    initialData: { votes: 0 },
     enabled: typeof threadId !== 'undefined',
     queryFn: async () => {
       try {
@@ -42,5 +40,5 @@ export const useThreadVoteCount = (params: UseThreadVoteCountParams): UseIsThrea
     },
   });
 
-  return { data, isLoading, isFetching };
+  return { data, isLoading: isLoading || isFetching };
 };

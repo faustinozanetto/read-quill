@@ -5,7 +5,7 @@ import { __URL__ } from '@modules/common/lib/common.constants';
 import { ThreadsCommunityTrendingGetResponse } from '@modules/api/types/community-api.types';
 
 export interface UseCommunityTrendingThreadsReturn
-  extends Pick<UseQueryResult<ThreadsCommunityTrendingGetResponse>, 'data' | 'isLoading' | 'isFetching'> {}
+  extends Pick<UseQueryResult<ThreadsCommunityTrendingGetResponse>, 'data' | 'isLoading'> {}
 
 interface UseCommunityTrendingThreadsParams {
   pageSize: number;
@@ -25,9 +25,7 @@ export const useCommunityTrendingThreads = (
   const { toast } = useToast();
 
   const { data, isLoading, isFetching } = useQuery<ThreadsCommunityTrendingGetResponse>({
-    initialData: {
-      threads: [],
-    },
+    queryKey: ['community-trending-threads'],
     queryFn: async () => {
       try {
         const url = buildUrl(pageSize);
@@ -42,8 +40,7 @@ export const useCommunityTrendingThreads = (
         toast({ variant: 'error', content: 'Failed to fetch community trending threads!' });
       }
     },
-    queryKey: ['community-trending-threads'],
   });
 
-  return { data, isFetching, isLoading };
+  return { data, isLoading: isLoading || isFetching };
 };

@@ -10,7 +10,7 @@ import { THREADS_INITIAL_FILTERS, THREADS_INITIAL_SORT } from '@modules/communit
 import { Button, LoadingIcon, PlusIcon } from '@read-quill/design-system';
 
 const CommunityThreads: React.FC = () => {
-  const { data, isLoading, isFetching, fetchNextPage, isFetchingNextPage, hasNextPage } = useCommunityThreads({
+  const { data, isLoading, fetchNextPage, isFetchingNextPage, hasNextPage } = useCommunityThreads({
     pageSize: 4,
   });
 
@@ -27,7 +27,7 @@ const CommunityThreads: React.FC = () => {
       >
         <div className="rounded-lg shadow border space-y-4">
           <CommunityThreadsFeed threads={threads}>
-            {isFetchingNextPage || isLoading || isFetching ? (
+            {isFetchingNextPage || isLoading ? (
               <div className="flex flex-col gap-2">
                 {Array.from({ length: 4 }).map((_, i) => (
                   <CommunityThreadCardPlaceholder key={`thread-placeholder-${i}`} />
@@ -44,7 +44,7 @@ const CommunityThreads: React.FC = () => {
               </Button>
             )}
 
-            {!(isFetching || isLoading) && threads.length === 0 ? (
+            {!isLoading && !threads.length ? (
               <p className="m-auto text-center">
                 No threads found! Be the first one by clicking the{' '}
                 <span className="text-primary font-bold underline">Start a Thread</span> button to get started.

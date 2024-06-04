@@ -7,7 +7,7 @@ import { ThreadsUserGetResponse } from '@modules/api/types/community-api.types';
 export interface UseUserThreadsReturn
   extends Pick<
     UseInfiniteQueryResult<ThreadsUserGetResponse>,
-    'data' | 'fetchNextPage' | 'hasNextPage' | 'isFetchingNextPage' | 'isLoading' | 'isFetching'
+    'data' | 'fetchNextPage' | 'hasNextPage' | 'isFetchingNextPage' | 'isLoading'
   > {}
 
 interface UseUserThreadsParams {
@@ -51,5 +51,5 @@ export const useUserThreads = (params: UseUserThreadsParams): UseUserThreadsRetu
       queryKey: ['user-threads', userId],
     });
 
-  return { data, fetchNextPage, isFetching, isFetchingNextPage, isLoading, hasNextPage };
+  return { data, fetchNextPage, isFetchingNextPage, isLoading: isLoading || isFetching, hasNextPage };
 };

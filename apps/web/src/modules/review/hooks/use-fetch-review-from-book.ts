@@ -6,8 +6,7 @@ interface UseFetchReviewFromBookParams {
   bookId?: string;
 }
 
-interface UseFetchReviewFromBookReturn
-  extends Pick<UseQueryResult<ReviewGetResponse>, 'data' | 'isLoading' | 'isFetching'> {}
+interface UseFetchReviewFromBookReturn extends Pick<UseQueryResult<ReviewGetResponse>, 'data' | 'isLoading'> {}
 
 export const useFetchReviewFromBook = (params: UseFetchReviewFromBookParams): UseFetchReviewFromBookReturn => {
   const { bookId } = params;
@@ -30,5 +29,5 @@ export const useFetchReviewFromBook = (params: UseFetchReviewFromBookParams): Us
     },
   });
 
-  return { data, isFetching, isLoading };
+  return { data, isLoading: isLoading || isFetching };
 };

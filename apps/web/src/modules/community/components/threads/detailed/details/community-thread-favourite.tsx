@@ -24,18 +24,14 @@ const CommnuityThreadFavourite: React.FC<CommnuityThreadFavouriteProps> = (props
   const { thread } = props;
 
   const { user } = useAuthContext();
-  const {
-    data: { isFavourite: isCurrentThreadFavourite },
-    isLoading,
-    isFetching,
-  } = useIsThreadFavourite({
+  const { data, isLoading } = useIsThreadFavourite({
     threadId: thread.id,
     userId: user?.id,
   });
   const { mutateAsync, isLoading: isSetLoading } = useSetThreadFavourite();
 
   const handleSetFavourite = async () => {
-    if (!user || !user.id) return;
+    if (!user || !user.id || !data) return;
 
     await mutateAsync({
       userId: user.id,
@@ -44,8 +40,9 @@ const CommnuityThreadFavourite: React.FC<CommnuityThreadFavouriteProps> = (props
     });
   };
 
-  const isContentLoading = isLoading || isFetching || isSetLoading;
-  const label = isCurrentThreadFavourite ? 'Remove Favourite' : 'Add Favourite';
+  const isCurrentThreadFavourite = data?.isFavourite ?? false;
+  const isContentLoading = isLoading || isSetLoading;
+  const label = data?.isFavourite ? 'Remove Favourite' : 'Add Favourite';
 
   return (
     <TooltipProvider delayDuration={100}>

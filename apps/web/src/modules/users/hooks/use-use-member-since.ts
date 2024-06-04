@@ -4,7 +4,7 @@ import { useToast } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { UserMemberSinceGetResponse } from '@modules/api/types/users-api.types';
 
-type UseUserMemberSinceReturn = Pick<UseQueryResult<UserMemberSinceGetResponse>, 'data' | 'isLoading' | 'isFetching'>;
+type UseUserMemberSinceReturn = Pick<UseQueryResult<UserMemberSinceGetResponse>, 'data' | 'isLoading'>;
 
 interface UseUserMemberSinceParams {
   userId?: string;
@@ -34,5 +34,5 @@ export const useUserMemberSince = (params: UseUserMemberSinceParams): UseUserMem
     },
   });
 
-  return { data, isFetching, isLoading };
+  return { data, isLoading: isLoading || isFetching };
 };

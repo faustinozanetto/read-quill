@@ -1,14 +1,14 @@
 import type { Dispatch, SetStateAction } from 'react';
 import { useState } from 'react';
-import type { DefinedUseQueryResult } from '@tanstack/react-query';
+import type { DefinedUseQueryResult, UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import type { PaginationState } from '@tanstack/react-table';
 import { useToast } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { DashboardReadRegistriesGetResponse } from '@modules/api/types/dashboard-api.types';
 
-interface UseReadRegistriesReturn
-  extends Pick<DefinedUseQueryResult<DashboardReadRegistriesGetResponse>, 'data' | 'isLoading' | 'isFetching'> {
+export interface UseReadRegistriesReturn
+  extends Pick<UseQueryResult<DashboardReadRegistriesGetResponse>, 'data' | 'isLoading'> {
   pagination: PaginationState;
   setPagination: Dispatch<SetStateAction<PaginationState>>;
 }
@@ -30,7 +30,6 @@ export const useReadRegistries = (params: UseReadRegistriesParams = { pageSize: 
   const { data, isLoading, isFetching } = useQuery<DashboardReadRegistriesGetResponse>(
     ['dashboard-read-registries', pagination],
     {
-      initialData: { readRegistries: [], pageCount: 0 },
       keepPreviousData: true,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
@@ -52,5 +51,5 @@ export const useReadRegistries = (params: UseReadRegistriesParams = { pageSize: 
       },
     }
   );
-  return { data, isLoading, isFetching, pagination, setPagination };
+  return { data, isLoading: isLoading || isFetching, pagination, setPagination };
 };

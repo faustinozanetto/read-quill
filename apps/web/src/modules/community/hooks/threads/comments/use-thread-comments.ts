@@ -1,12 +1,11 @@
-import type { DefinedUseQueryResult } from '@tanstack/react-query';
+import type { DefinedUseQueryResult, UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
 import { useToast } from '@read-quill/design-system/src';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { ThreadCommentsGetResponse } from '@modules/api/types/community-api.types';
 
-export interface UseThreadCommentsReturn
-  extends Pick<DefinedUseQueryResult<ThreadCommentsGetResponse>, 'data' | 'isLoading' | 'isFetching'> {
+export interface UseThreadCommentsReturn extends Pick<UseQueryResult<ThreadCommentsGetResponse>, 'data' | 'isLoading'> {
   page: number;
   setPageIndex: (index: number) => void;
   nextPage: () => void;
@@ -39,7 +38,6 @@ export const useThreadComments = (params: UseThreadCommentsParams): UseThreadCom
     ['thread-comments', page, threadId],
     {
       enabled: threadId !== undefined,
-      initialData: { comments: [], hasMore: false, pageCount: 0 },
       keepPreviousData: true,
       queryFn: async () => {
         try {
@@ -65,16 +63,18 @@ export const useThreadComments = (params: UseThreadCommentsParams): UseThreadCom
   }, []);
 
   const nextPage = useCallback(() => {
-    if (!isPreviousData && data.hasMore) {
+    if (!isPreviousData && data?.hasMore) {
       setPage((old) => old + 1);
     }
-  }, [data.hasMore, isPreviousData]);
+  }, [data?.hasMore, isPreviousData]);
 
   const setPageIndex = useCallback(
     (index: number) => {
+      if (!data?.pageCount) return;
+
       if (index >= 0 && index <= data.pageCount) setPage(index);
     },
-    [data.pageCount]
+    [data?.pageCount]
   );
 
   const getCanPreviousPage = useCallback(() => {
@@ -87,8 +87,7 @@ export const useThreadComments = (params: UseThreadCommentsParams): UseThreadCom
 
   return {
     data,
-    isLoading,
-    isFetching,
+    isLoading: isLoading || isFetching,
     page,
     getCanPreviousPage,
     getCanNextPage,

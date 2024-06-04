@@ -14,17 +14,8 @@ import DashboardBooksProgressHeader from './header/dashboard-books-progress-head
 import DashboardBooksProgressFeed from './feed/dashboard-books-progress-feed';
 
 const DashboardBooksProgress: React.FC = () => {
-  const {
-    data,
-    isLoading,
-    isFetching,
-    page,
-    getCanPreviousPage,
-    getCanNextPage,
-    previousPage,
-    nextPage,
-    setPageIndex,
-  } = useBooksProgress({ pageSize: 4 });
+  const { data, isLoading, page, getCanPreviousPage, getCanNextPage, previousPage, nextPage, setPageIndex } =
+    useBooksProgress({ pageSize: 4 });
 
   return (
     <div className="rounded-lg border p-4 shadow flex flex-col gap-2">
@@ -42,24 +33,24 @@ const DashboardBooksProgress: React.FC = () => {
       >
         <div className="rounded-lg shadow border space-y-4">
           <DashboardBooksProgressFeed
-            booksProgress={data.booksProgress}
+            booksProgress={data?.booksProgress ?? []}
             getCanNextPage={getCanNextPage}
             getCanPreviousPage={getCanPreviousPage}
             nextPage={nextPage}
             page={page}
-            pageCount={data.pageCount}
+            pageCount={data?.pageCount ?? 0}
             previousPage={previousPage}
             setPageIndex={setPageIndex}
           >
-            {(isFetching || isLoading) && (
+            {isLoading && (
               <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-3 mt-2">
-                {Array.from({ length: 4 }).map((_, i) => (
+                {Array.from({ length: 3 }).map((_, i) => (
                   <Skeleton className="h-48 w-full" key={`dashboard-books-progress-placeholder-${i}`} />
                 ))}
               </div>
             )}
 
-            {!(isFetching || isLoading) && data.booksProgress.length === 0 && (
+            {!isLoading && data && !data.booksProgress.length && (
               <DashboardNoDataMessage className="m-auto">
                 <p>
                   No books found, start by adding your first book to track progress{' '}

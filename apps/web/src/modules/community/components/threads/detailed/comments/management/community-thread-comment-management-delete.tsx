@@ -1,6 +1,21 @@
 import React from 'react';
 import { ThreadCommentWithAuthor } from '@modules/community/types/community.types';
-import { DeleteIcon, useToast } from '@read-quill/design-system';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+  DeleteIcon,
+  DropdownMenuItem,
+  LoadingIcon,
+  buttonVariants,
+  useToast,
+} from '@read-quill/design-system';
 import ManagementDeleteObject from '@modules/common/components/management/management-delete-object';
 
 import { useQueriesStore } from '@modules/queries/state/queries.slice';
@@ -19,8 +34,7 @@ const CommunityThreadCommentManagementDelete: React.FC<CommunityThreadCommentMan
   const { queryClient } = useQueriesStore();
   const { thread } = useThreadStore();
 
-  const { deleteComment } = useDeleteThreadComment({
-    comment,
+  const { deleteComment, isLoading } = useDeleteThreadComment({
     onSuccess: async (data) => {
       if (data && data.success && thread) {
         await queryClient.refetchQueries(['thread-comments', 0, thread.id]);
@@ -30,9 +44,43 @@ const CommunityThreadCommentManagementDelete: React.FC<CommunityThreadCommentMan
   });
 
   return (
-    <ManagementDeleteObject label="Delete Comment" onDeleted={deleteComment} variant="outline-destructive" size="sm">
-      <DeleteIcon className="stroke-current mr-2" /> Delete Comment
-    </ManagementDeleteObject>
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
+        <DropdownMenuItem
+          className="focus:bg-destructive focus:text-destructive-foreground"
+          onSelect={(e) => e.preventDefault()}
+        >
+          <DeleteIcon className="mr-2 stroke-current" />
+          Delete
+        </DropdownMenuItem>
+      </AlertDialogTrigger>
+
+      <AlertDialogContent className="sm:max-w-[425px]">
+        <AlertDialogHeader>
+          <AlertDialogTitle>Delete Coment</AlertDialogTitle>
+          <AlertDialogDescription>
+            Are you sure you want to delete it?. This action cannot be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            className={buttonVariants({ variant: 'destructive' })}
+            disabled={isLoading}
+            onClick={async (e) => {
+              e.preventDefault();
+              if (!comment) return;
+
+              await deleteComment({ commentId: comment.id });
+            }}
+          >
+            {isLoading && <LoadingIcon className="mr-2" />}
+            Continue
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 

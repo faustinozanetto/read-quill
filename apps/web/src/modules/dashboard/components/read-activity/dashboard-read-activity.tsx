@@ -14,9 +14,9 @@ interface DashboardReadActivityProps {
 
 const DashboardReadActivity: React.FC<DashboardReadActivityProps> = (props) => {
   const { className } = props;
-  const { data, isFetching, isLoading } = useReadActivity();
+  const { data, isLoading } = useReadActivity();
 
-  const readActivityArray = Object.entries(data.readActivity);
+  const readActivityArray = data ? Object.entries(data.readActivity) : [];
 
   return (
     <div className={cn('rounded-lg border p-4 shadow flex flex-col gap-2 overflow-hidden h-fit', className)}>
@@ -27,16 +27,16 @@ const DashboardReadActivity: React.FC<DashboardReadActivityProps> = (props) => {
         easy to see patterns over time.
       </p>
 
-      {isFetching || isLoading ? <Skeleton className="h-48 w-full" /> : null}
+      {isLoading ? <Skeleton className="h-48 w-full" /> : null}
 
-      {!(isFetching || isLoading) && readActivityArray.length > 0 ? (
+      {!isLoading && data && readActivityArray.length ? (
         <div className="flex flex-col gap-2">
           <DashboardReadActivityGraph readActivity={data.readActivity} />
           <DashboardReadActivityIndicators />
         </div>
       ) : null}
 
-      {!(isFetching || isLoading) && readActivityArray.length === 0 ? (
+      {!isLoading && !readActivityArray.length ? (
         <DashboardNoDataMessage>
           <p>Your reading journey begins here. Log your activity to see the graph.</p>
         </DashboardNoDataMessage>

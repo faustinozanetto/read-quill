@@ -31,16 +31,19 @@ const DashboardAverageReadingTime: React.FC = () => {
             title="Daily"
             current={data.readingTimes.daily.current}
             past={data.readingTimes.daily.past}
+            renderPast={(difference, sign) => `${sign}${difference} than last day`}
           />
           <DashboardAverageReadingTimeCard
             title="Weekly"
             current={data.readingTimes.weekly.current}
             past={data.readingTimes.weekly.past}
+            renderPast={(difference, sign) => `${sign}${difference} than last week`}
           />
           <DashboardAverageReadingTimeCard
             title="Monhtly"
             current={data.readingTimes.monthly.current}
             past={data.readingTimes.monthly.past}
+            renderPast={(difference, sign) => `${sign}${difference} than last month`}
           />
         </div>
       )}

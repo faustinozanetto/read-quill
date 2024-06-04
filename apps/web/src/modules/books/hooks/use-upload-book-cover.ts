@@ -24,7 +24,7 @@ export const useUploadBookCover = (): UseUploadBookCoverReturn => {
     mutationFn: async (data) => {
       const { coverImage } = data;
 
-      if (coverImage.length === 0) throw new Error('No cover image provided!');
+      if (!coverImage.length) throw new Error('No cover image provided!');
 
       const image = coverImage[0];
       const formData = new FormData();

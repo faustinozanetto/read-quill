@@ -1,10 +1,9 @@
-import { DefinedUseQueryResult, useQuery } from '@tanstack/react-query';
+import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import { ThreadFavouriteGetResponse } from '@modules/api/types/community-api.types';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useToast } from '@read-quill/design-system';
 
-interface UseIsThreadFavouriteReturn
-  extends Pick<DefinedUseQueryResult<ThreadFavouriteGetResponse>, 'data' | 'isLoading' | 'isFetching'> {}
+interface UseIsThreadFavouriteReturn extends Pick<UseQueryResult<ThreadFavouriteGetResponse>, 'data' | 'isLoading'> {}
 
 interface UseIsThreadFavouriteParams {
   threadId: string;
@@ -24,7 +23,6 @@ export const useIsThreadFavourite = (params: UseIsThreadFavouriteParams): UseIsT
   const { toast } = useToast();
 
   const { data, isLoading, isFetching } = useQuery<ThreadFavouriteGetResponse>(['thread-favourite', threadId, userId], {
-    initialData: { isFavourite: false },
     enabled: typeof userId !== 'undefined',
     queryFn: async () => {
       try {
@@ -44,5 +42,5 @@ export const useIsThreadFavourite = (params: UseIsThreadFavouriteParams): UseIsT
     },
   });
 
-  return { data, isFetching, isLoading };
+  return { data, isLoading: isLoading || isFetching };
 };

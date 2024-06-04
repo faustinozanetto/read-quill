@@ -1,4 +1,4 @@
-import type { DefinedUseQueryResult } from '@tanstack/react-query';
+import type { DefinedUseQueryResult, UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useToast } from '@read-quill/design-system';
@@ -14,10 +14,8 @@ export interface ReadTrendsDailyRange {
   to: Date;
 }
 
-interface UseReadsTrendsReturn
-  extends Pick<DefinedUseQueryResult<DashboardReadTrendsGetResponse>, 'isLoading' | 'isFetching'> {
-  data: DashboardReadTrendsGetResponse;
-  filteredData: DashboardReadTrendsGetResponse;
+interface UseReadsTrendsReturn extends Pick<UseQueryResult<DashboardReadTrendsGetResponse>, 'data' | 'isLoading'> {
+  filteredData: DashboardReadTrendsGetResponse | undefined;
   interval: DashboardReadTrendsIntervalType;
   setInterval: (interval: DashboardReadTrendsIntervalType) => void;
   dailyRange: ReadTrendsDailyRange;
@@ -40,7 +38,6 @@ export const useReadsTrends = (): UseReadsTrendsReturn => {
   const { data, isLoading, isFetching } = useQuery<DashboardReadTrendsGetResponse>(
     ['dashboard-read-insights-trends', interval],
     {
-      initialData: { trends: [] },
       queryFn: async () => {
         try {
           const url = new URL('/api/dashboard/read-trends', __URL__);
@@ -65,7 +62,8 @@ export const useReadsTrends = (): UseReadsTrendsReturn => {
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
-  const filteredData = useMemo(() => {
+  const filteredData: DashboardReadTrendsGetResponse | undefined = useMemo(() => {
+    if (!data) return undefined;
     if (interval !== 'daily') return data;
 
     const filteredData: DashboardReadTrendsGetResponse = {
@@ -79,5 +77,5 @@ export const useReadsTrends = (): UseReadsTrendsReturn => {
     return filteredData;
   }, [data, dailyRange, interval]);
 
-  return { data, filteredData, isLoading, isFetching, interval, setInterval, dailyRange, setDailyRange };
+  return { data, filteredData, isLoading: isLoading || isFetching, interval, setInterval, dailyRange, setDailyRange };
 };

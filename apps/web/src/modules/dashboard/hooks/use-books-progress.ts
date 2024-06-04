@@ -1,4 +1,4 @@
-import type { DefinedUseQueryResult } from '@tanstack/react-query';
+import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
 import { useToast } from '@read-quill/design-system';
@@ -6,7 +6,7 @@ import { __URL__ } from '@modules/common/lib/common.constants';
 import type { DashboardBooksProgressGetResponse } from '@modules/api/types/dashboard-api.types';
 
 export interface UseBooksProgressReturn
-  extends Pick<DefinedUseQueryResult<DashboardBooksProgressGetResponse>, 'data' | 'isLoading' | 'isFetching'> {
+  extends Pick<UseQueryResult<DashboardBooksProgressGetResponse>, 'data' | 'isLoading'> {
   page: number;
   setPageIndex: (index: number) => void;
   nextPage: () => void;
@@ -30,13 +30,11 @@ export const useBooksProgress = (params: UseBooksProgressParams = { pageSize: 3 
   const { pageSize } = params;
 
   const { toast } = useToast();
-
   const [page, setPage] = useState(0);
 
   const { data, isLoading, isFetching, isPreviousData } = useQuery<DashboardBooksProgressGetResponse>(
     ['dashboard-books-progress', page],
     {
-      initialData: { booksProgress: [], hasMore: false, pageCount: 0 },
       keepPreviousData: true,
       queryFn: async () => {
         try {
@@ -59,16 +57,18 @@ export const useBooksProgress = (params: UseBooksProgressParams = { pageSize: 3 
   }, []);
 
   const nextPage = useCallback(() => {
-    if (!isPreviousData && data.hasMore) {
+    if (!isPreviousData && data?.hasMore) {
       setPage((old) => old + 1);
     }
-  }, [data.hasMore, isPreviousData]);
+  }, [data?.hasMore, isPreviousData]);
 
   const setPageIndex = useCallback(
     (index: number) => {
+      if (!data?.pageCount) return;
+
       if (index >= 0 && index <= data.pageCount) setPage(index);
     },
-    [data.pageCount]
+    [data?.pageCount]
   );
 
   const getCanPreviousPage = useCallback(() => {
@@ -81,8 +81,7 @@ export const useBooksProgress = (params: UseBooksProgressParams = { pageSize: 3 
 
   return {
     data,
-    isLoading,
-    isFetching,
+    isLoading: isLoading || isFetching,
     page,
     getCanPreviousPage,
     getCanNextPage,

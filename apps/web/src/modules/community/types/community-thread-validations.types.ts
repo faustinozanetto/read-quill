@@ -16,3 +16,4 @@ export type VoteThreadAction = z.infer<typeof THREAD_ACTIONS_VALIDATIONS_API.VOT
 export type CreateThreadFormActionData = z.infer<typeof THREAD_ACTIONS_VALIDATIONS_FORMS.CREATE>;
 export type EditThreadFormActionData = z.infer<typeof THREAD_ACTIONS_VALIDATIONS_FORMS.EDIT>;
 export type VoteThreadActionData = z.infer<typeof THREAD_ACTIONS_VALIDATIONS_API.VOTE>;
+export type DeleteThreadApiActionData = z.infer<typeof THREAD_ACTIONS_VALIDATIONS_API.DELETE>;

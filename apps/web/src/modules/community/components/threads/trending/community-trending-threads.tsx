@@ -7,20 +7,15 @@ import { useCommunityTrendingThreads } from '@modules/community/hooks/use-commun
 import { CommunityThreadCard } from '../card/community-thread-card';
 
 const CommunityTrendingThreads: React.FC = () => {
-  const { data, isLoading, isFetching } = useCommunityTrendingThreads({
+  const { data, isLoading } = useCommunityTrendingThreads({
     pageSize: 4,
   });
 
   return (
     <div className="flex w-full flex-col border p-4 rounded-lg shadow space-y-2">
       <h1 className="text-2xl font-bold">🔥Trending Threads</h1>
-      <p>
-        {data && data.threads.length === 0 && !(isLoading || isFetching)
-          ? 'Trending threads will appear here once people write some!'
-          : 'Check out the latest trending threads!'}
-      </p>
 
-      {(isFetching || isLoading) && (
+      {isLoading && (
         <div className="grid gap-2">
           {Array.from({ length: 4 }).map((_, i) => (
             <CommunityThreadCardPlaceholder key={`thread-placeholder-${i}`} />
@@ -28,7 +23,7 @@ const CommunityTrendingThreads: React.FC = () => {
         </div>
       )}
 
-      {!(isFetching || isLoading) && data && data.threads.length > 0 && (
+      {!isLoading && data && data.threads.length && (
         <div className="grid gap-2">
           {data.threads.map((thread) => {
             return (
@@ -46,6 +41,12 @@ const CommunityTrendingThreads: React.FC = () => {
           })}
         </div>
       )}
+
+      <p>
+        {!isLoading && data && !data.threads.length
+          ? 'Trending threads will appear here once people write some!'
+          : 'Check out the latest trending threads!'}
+      </p>
     </div>
   );
 };

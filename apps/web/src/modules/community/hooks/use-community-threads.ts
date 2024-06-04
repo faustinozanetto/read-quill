@@ -7,7 +7,7 @@ import { ThreadsCommunityGetResponse } from '@modules/api/types/community-api.ty
 export interface UseCommunityThreadsReturn
   extends Pick<
     UseInfiniteQueryResult<ThreadsCommunityGetResponse>,
-    'data' | 'fetchNextPage' | 'hasNextPage' | 'isFetchingNextPage' | 'isLoading' | 'isFetching'
+    'data' | 'fetchNextPage' | 'hasNextPage' | 'isFetchingNextPage' | 'isLoading'
   > {}
 
 interface UseCommunityThreadsParams {
@@ -49,5 +49,5 @@ export const useCommunityThreads = (params: UseCommunityThreadsParams = { pageSi
       queryKey: ['community-threads'],
     });
 
-  return { data, fetchNextPage, isFetching, isFetchingNextPage, isLoading, hasNextPage };
+  return { data, fetchNextPage, isFetchingNextPage, isLoading: isLoading || isFetching, hasNextPage };
 };

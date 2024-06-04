@@ -11,7 +11,7 @@ import { useThreadStore } from '@modules/community/state/thread/thread.slice';
 
 const CommunityThreadComments: React.FC = () => {
   const { thread } = useThreadStore();
-  const { data, isFetching, isLoading } = useThreadComments({ pageSize: 1000, threadId: thread?.id });
+  const { data, isLoading } = useThreadComments({ pageSize: 1000, threadId: thread?.id });
 
   return (
     <div className="flex flex-col gap-2">
@@ -20,7 +20,7 @@ const CommunityThreadComments: React.FC = () => {
       </div>
       <CommunityThreadWriteComment />
 
-      {isFetching || isLoading ? (
+      {isLoading ? (
         <div className="flex flex-col gap-2">
           {Array.from({ length: 6 }).map((_, i) => (
             <CommunityThreadCommentPlaceholder key={`thread-comment-placeholder-${i}`} />
@@ -28,7 +28,7 @@ const CommunityThreadComments: React.FC = () => {
         </div>
       ) : null}
 
-      {!(isFetching || isLoading) && data.comments.length > 0 ? (
+      {!isLoading && data && data.comments.length ? (
         <div className="space-y-1.5">
           {data.comments.map((commentNode, index) => (
             <CommunityThreadComment key={commentNode.comment.id} commentNode={commentNode} index={index} />
@@ -36,7 +36,7 @@ const CommunityThreadComments: React.FC = () => {
         </div>
       ) : null}
 
-      {!(isFetching || isLoading) && data.comments.length === 0 ? (
+      {!isLoading && data && !data.comments.length ? (
         <div className="rounded-lg p-4 shadow border space-y-4">
           <p>
             This thread has no comments! Be the first one by clicking the{' '}

@@ -10,13 +10,13 @@ import { useParams } from 'next/navigation';
 
 const UserProfileBooks: React.FC = () => {
   const params = useParams<{ userId: string }>();
-  const { data, isFetching, isLoading } = useUserBooks({ pageSize: 6, userId: params.userId });
+  const { data, isLoading } = useUserBooks({ pageSize: 6, userId: params.userId });
 
   return (
     <div className="flex flex-col gap-2 rounded-lg p-4 shadow border">
       <UserProfileBooksHeader />
 
-      {isFetching || isLoading ? (
+      {isLoading ? (
         <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           {Array.from({ length: 4 }).map((_, i) => (
             <BookCardPlaceholder key={`user-book-placeholder-${i}`} />
@@ -24,9 +24,9 @@ const UserProfileBooks: React.FC = () => {
         </div>
       ) : null}
 
-      {!(isFetching || isLoading) && data.books.length > 0 ? <BooksFeed books={data.books} /> : null}
+      {!isLoading && data && data.books.length ? <BooksFeed books={data.books} /> : null}
 
-      {!(isFetching || isLoading) && data.books.length === 0 ? <p>This user has not read any books so far!</p> : null}
+      {!isLoading && data && !data.books.length ? <p>This user has not read any books so far!</p> : null}
     </div>
   );
 };

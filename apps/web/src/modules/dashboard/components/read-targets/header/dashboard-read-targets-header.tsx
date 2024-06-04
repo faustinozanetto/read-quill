@@ -6,27 +6,26 @@ import DashboardReadTargetsCreate from './create/dashboard-read-targets-create';
 import DashboardReadTargetsManagement from './management/dashboard-read-targets-management';
 
 interface DashboardReadTargetsHeaderProps {
-  isFetching: boolean;
   isLoading: boolean;
   targetsCreated: boolean;
   data?: DashboardReadTargetsGetResponse;
 }
 
 const DashboardReadTargetsHeader: React.FC<DashboardReadTargetsHeaderProps> = (props) => {
-  const { isFetching, isLoading, targetsCreated, data } = props;
+  const { isLoading, targetsCreated, data } = props;
 
   return (
     <div
       className={cn('flex gap-2 items-center justify-between', !targetsCreated && 'flex-col sm:flex-row items-start')}
     >
       <h2 className="text-2xl font-bold">🎯 Read Targets</h2>
-      {isFetching || isLoading ? <Skeleton className="h-10 w-10" /> : null}
+      {isLoading ? <Skeleton className="h-10 w-10" /> : null}
 
-      {!(isFetching || isLoading) && targetsCreated && data && data.result ? (
+      {!isLoading && targetsCreated && data && data.result ? (
         <DashboardReadTargetsManagement readTargets={data.result} />
       ) : null}
 
-      {!(isFetching || isLoading) && !targetsCreated && data && !data.result ? <DashboardReadTargetsCreate /> : null}
+      {!isLoading && !targetsCreated && data && !data.result ? <DashboardReadTargetsCreate /> : null}
     </div>
   );
 };

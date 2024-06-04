@@ -11,7 +11,7 @@ import UserProfileThreadsHeader from './user-profile-threads-header';
 
 const UserProfilThreads: React.FC = () => {
   const params = useParams<{ userId: string }>();
-  const { data, isFetching, isLoading } = useUserThreads({ pageSize: 6, userId: params.userId });
+  const { data, isLoading } = useUserThreads({ pageSize: 6, userId: params.userId });
 
   const threads = data?.pages.flatMap((v) => v.threads) ?? [];
 
@@ -19,7 +19,7 @@ const UserProfilThreads: React.FC = () => {
     <div className="flex flex-col gap-2 rounded-lg p-4 shadow border">
       <UserProfileThreadsHeader />
 
-      {isLoading || isFetching ? (
+      {isLoading ? (
         <div className="flex flex-col gap-2">
           {Array.from({ length: 4 }).map((_, i) => (
             <CommunityThreadCardPlaceholder key={`thread-placeholder-${i}`} />
@@ -27,7 +27,7 @@ const UserProfilThreads: React.FC = () => {
         </div>
       ) : null}
 
-      {!(isLoading || isFetching) && threads.length > 0 && (
+      {!isLoading && threads.length && (
         <div className="flex flex-col gap-2">
           {threads.map((thread) => {
             return (
@@ -47,9 +47,7 @@ const UserProfilThreads: React.FC = () => {
         </div>
       )}
 
-      {!(isFetching || isLoading) && threads.length === 0 ? (
-        <p>It looks like this user hasn't posted threads yet!</p>
-      ) : null}
+      {!isLoading && !threads.length ? <p>It looks like this user hasn't posted threads yet!</p> : null}
     </div>
   );
 };

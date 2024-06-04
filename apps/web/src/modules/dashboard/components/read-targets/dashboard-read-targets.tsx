@@ -8,23 +8,18 @@ import DashboardReadTargetsFeed from './feed/dashboard-read-targets-feed';
 import DashboardNoDataMessage from '../common/dashboard-no-data-message';
 
 const DashboardReadTargets: React.FC = () => {
-  const { targetsCreated, data, isLoading, isFetching } = useReadTargets();
+  const { targetsCreated, data, isLoading } = useReadTargets();
 
   return (
     <div className="rounded-lg border p-4 shadow flex flex-col gap-2">
-      <DashboardReadTargetsHeader
-        data={data}
-        isFetching={isFetching}
-        isLoading={isLoading}
-        targetsCreated={targetsCreated}
-      />
+      <DashboardReadTargetsHeader data={data} isLoading={isLoading} targetsCreated={targetsCreated} />
 
       <p>
         Set personalized daily, weekly, and monthly reading goals to cultivate a consistent reading habit. Monitor your
         progress and celebrate achievements as you reach milestones.
       </p>
 
-      {isFetching || isLoading ? (
+      {isLoading ? (
         <div className="grid gap-2 md:grid-cols-3 mt-2">
           {Array.from({ length: 3 }).map((_, i) => (
             <Skeleton className="h-48 w-full" key={`dashboard-read-target-placeholder-${i}`} />
@@ -32,9 +27,9 @@ const DashboardReadTargets: React.FC = () => {
         </div>
       ) : null}
 
-      {!(isFetching || isLoading) && data && data.result ? <DashboardReadTargetsFeed data={data.result} /> : null}
+      {!isLoading && data && data.result ? <DashboardReadTargetsFeed data={data.result} /> : null}
 
-      {!(isFetching || isLoading) && !targetsCreated ? (
+      {!isLoading && !targetsCreated ? (
         <DashboardNoDataMessage>
           <p>It looks like you haven't created your read targets yet!</p>
         </DashboardNoDataMessage>

@@ -14,12 +14,12 @@ import { useThreadStore } from '@modules/community/state/thread/thread.slice';
 const CommunityThreadAttachments: React.FC = () => {
   const { thread } = useThreadStore();
   const { selectedAttachment, setSelectedAttachment } = useCommunityThreadAttachmentsStore();
-  const { data, isFetching, isLoading } = useThreadAttachments({ threadId: thread?.id });
+  const { data, isLoading } = useThreadAttachments({ threadId: thread?.id });
 
   return (
     <div className="border p-4 rounded-lg shadow">
       <h3 className="text-xl font-bold mb-2">Attachments</h3>
-      {isFetching || isLoading ? (
+      {isLoading ? (
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-2">
           {Array.from({ length: 3 }).map((_, i) => (
             <Skeleton key={i} className="h-40 w-full" />
@@ -27,7 +27,7 @@ const CommunityThreadAttachments: React.FC = () => {
         </div>
       ) : null}
 
-      {!(isFetching || isLoading) && thread && data.attachments.length > 0 ? (
+      {!isLoading && thread && data && data.attachments.length ? (
         <Dialog>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-2">
             {data.attachments.map((attachment) => (
@@ -59,7 +59,7 @@ const CommunityThreadAttachments: React.FC = () => {
         </Dialog>
       ) : null}
 
-      {!(isFetching || isLoading) && data.attachments.length === 0 ? (
+      {!isLoading && data && !data.attachments.length ? (
         <p>This thread does not seem to have any attachments!</p>
       ) : null}
     </div>
