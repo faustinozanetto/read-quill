@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type * as LabelPrimitive from '@radix-ui/react-label';
 import { Slot } from '@radix-ui/react-slot';
-import type { ControllerProps, FieldError, FieldPath, FieldValues } from 'react-hook-form';
+import type { ControllerProps, FieldError, FieldPath, FieldValues, UseFormGetFieldState } from 'react-hook-form';
 import { Controller, FormProvider, useFormContext } from 'react-hook-form';
 import { cn } from '../lib/design-system.lib';
 import { Label } from './label';
@@ -30,19 +30,7 @@ const FormField = <
   );
 };
 
-interface UseFormFieldReturn {
-  invalid: boolean;
-  isDirty: boolean;
-  isTouched: boolean;
-  error?: FieldError | undefined;
-  id: string;
-  name: string;
-  formItemId: string;
-  formDescriptionId: string;
-  formMessageId: string;
-}
-
-const useFormField = (): UseFormFieldReturn => {
+const useFormField = () => {
   const fieldContext = React.useContext(FormFieldContext);
   const itemContext = React.useContext(FormItemContext);
   const { getFieldState, formState } = useFormContext();
