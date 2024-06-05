@@ -6,12 +6,14 @@ const globalForPrisma = global as unknown as { prisma: PrismaClientWithExtension
 
 type PrismaClientWithExtension = ReturnType<typeof getExtendedPrismaClient>;
 
-const getExtendedPrismaClient = () =>
-  new PrismaClient({
+const getExtendedPrismaClient = () => {
+  const client = new PrismaClient({
     log: ['query'],
-  })
-    .$extends(withAccelerate())
-    .$extends(withOptimize());
+  }).$extends(withAccelerate());
+  if (process.env.NODE_ENV !== 'production') client.$extends(withOptimize());
+
+  return client;
+};
 
 export const prisma = globalForPrisma.prisma || getExtendedPrismaClient();
 
