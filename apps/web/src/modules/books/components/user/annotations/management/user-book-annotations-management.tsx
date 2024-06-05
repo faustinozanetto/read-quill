@@ -17,18 +17,16 @@ const UserBookAnnotationsManagement: React.FC<UserBookAnnotationsManagement> = (
   };
 
   return (
-    <div className="flex flex-col gap-2">
-      <AnnotationCreate
-        bookId={bookId}
-        createButton={
-          <Button aria-label="Create Annotation" size="sm">
-            <PlusIcon className="mr-2 stroke-current" />
-            Create Annotation
-          </Button>
-        }
-        onSuccess={handleOnAnnotationCreated}
-      />
-    </div>
+    <AnnotationCreate
+      bookId={bookId}
+      createButton={
+        <Button aria-label="Create Annotation" size="sm" variant="outline">
+          <PlusIcon className="mr-2 stroke-current" />
+          Create
+        </Button>
+      }
+      onSuccess={handleOnAnnotationCreated}
+    />
   );
 };
 

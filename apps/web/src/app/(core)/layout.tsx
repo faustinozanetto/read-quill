@@ -5,7 +5,7 @@ export default function CoreLayout({ children }: { children: React.ReactNode }):
   return (
     <div className="min-h-screen flex">
       <Navigation />
-      <div className="mb-[64px] flex-1 md:mb-0 overflow-hidden container max-w-[100rem] my-4">{children}</div>
+      <div className="mb-[64px] flex-1 md:mb-4 overflow-hidden container max-w-[110rem] my-4">{children}</div>
     </div>
   );
 }

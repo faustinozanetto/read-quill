@@ -20,6 +20,11 @@ const UserBookAnnotations: React.FC = () => {
   return (
     <div className="flex flex-col rounded-lg p-4 shadow border gap-2">
       <UserBookAnnotationsHeader />
+      <p>
+        {isBookOwner
+          ? 'Create annotations for your book here.'
+          : 'Discover the annotations made by the user of the book here.'}
+      </p>
 
       {isLoading && (
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">

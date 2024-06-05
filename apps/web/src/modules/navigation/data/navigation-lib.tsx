@@ -8,7 +8,7 @@ export const NAVIGATION_LINKS: Omit<NavigationLinkProps, 'isCompact'>[] = [
     children: 'Dashboard',
     icon: (
       <svg
-        className="h-5 w-5 stroke-current"
+        className="h-5 w-5 stroke-primary-foreground md:stroke-current"
         fill="none"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -24,12 +24,12 @@ export const NAVIGATION_LINKS: Omit<NavigationLinkProps, 'isCompact'>[] = [
   {
     href: '/library',
     children: 'Library',
-    icon: <BookIcon className="stroke-current" />,
+    icon: <BookIcon className="stroke-primary-foreground md:stroke-current" />,
   },
   {
     href: '/achievements',
     children: 'Achievements',
-    icon: <MedalIcon className="stroke-current" />,
+    icon: <MedalIcon className="stroke-primary-foreground md:stroke-current" />,
   },
   // {
   //   href: '/challenges',
@@ -39,6 +39,6 @@ export const NAVIGATION_LINKS: Omit<NavigationLinkProps, 'isCompact'>[] = [
   {
     href: '/community',
     children: 'Community',
-    icon: <UsersIcon className="stroke-current" />,
+    icon: <UsersIcon className="stroke-primary-foreground md:stroke-current" />,
   },
 ];

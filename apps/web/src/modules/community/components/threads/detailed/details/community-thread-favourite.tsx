@@ -49,7 +49,7 @@ const CommnuityThreadFavourite: React.FC<CommnuityThreadFavouriteProps> = (props
       <Tooltip>
         <TooltipTrigger
           className={buttonVariants({ size: 'icon', className: 'aspect-square' })}
-          disabled={isContentLoading}
+          disabled={!user || isContentLoading}
           onClick={handleSetFavourite}
         >
           {isContentLoading ? <LoadingIcon /> : isCurrentThreadFavourite ? <HeartMinusIcon /> : <HeartPlusIcon />}

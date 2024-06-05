@@ -8,14 +8,14 @@ interface UseFetchReviewFromBookParams {
 }
 
 interface UseFetchReviewFromBookReturn
-  extends Pick<UseQueryResult<ReviewGetResponse | undefined>, 'data' | 'isFetching'> {}
+  extends Pick<UseQueryResult<ReviewGetResponse | undefined>, 'data' | 'isLoading'> {}
 
 export const useFetchReviewFromBook = (params: UseFetchReviewFromBookParams): UseFetchReviewFromBookReturn => {
   const { bookId } = params;
 
   const { toast } = useToast();
 
-  const { data, isFetching } = useQuery<ReviewGetResponse | undefined>({
+  const { data, isFetching, isLoading } = useQuery<ReviewGetResponse | undefined>({
     queryKey: ['review-from-book', bookId],
     enabled: !!bookId,
     queryFn: async () => {
@@ -45,5 +45,5 @@ export const useFetchReviewFromBook = (params: UseFetchReviewFromBookParams): Us
     },
   });
 
-  return { data, isFetching };
+  return { data, isLoading: isLoading || isFetching };
 };

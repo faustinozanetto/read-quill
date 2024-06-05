@@ -12,7 +12,7 @@ import DashboardReadTimeDistribution from './read-time-distribution/dashboard-re
 
 const Dashboard: React.FC = () => {
   return (
-    <section className="mx-auto flex flex-col gap-4 my-4">
+    <section className="space-y-4">
       <DashboardGreeting />
       <div className="flex gap-4 2xl:flex-row flex-col">
         <DashboardReadTargets />

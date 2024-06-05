@@ -27,7 +27,7 @@ const MobileUserNavigation: React.FC<MobileUserNavigationProps> = (props) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className={buttonVariants({ size: 'icon', variant: 'ghost' })}>
-        <UserIcon />
+        <UserIcon className="stroke-primary-foreground md:stroke-current" />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="z-[100]">
         <DropdownMenuLabel>Manage Account</DropdownMenuLabel>

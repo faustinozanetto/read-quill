@@ -11,7 +11,7 @@ const MobileNavigation: React.FC = async () => {
   const session = await auth();
 
   return (
-    <div className="md:hidden rounded-t-lg bg-primary/20 backdrop-blur-md border-t border-t-primary fixed inset-x-0 bottom-0 p-3 h-[64px] z-[100]">
+    <div className="md:hidden rounded-t-lg bg-primary/60 backdrop-blur-md border-t border-t-primary fixed inset-x-0 bottom-0 p-3 h-[64px] z-[100]">
       <div className="flex items-center justify-between gap-2">
         <Link href="/">
           <MarketingLogoSimple />

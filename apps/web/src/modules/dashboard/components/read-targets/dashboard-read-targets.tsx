@@ -24,9 +24,9 @@ const DashboardReadTargets: React.FC = () => {
       </p>
 
       {isLoading ? (
-        <div className="grid gap-2 md:grid-cols-3 mt-2">
+        <div className="flex gap-2 overflow-x-auto justify-evenly items-stretch">
           {Array.from({ length: 3 }).map((_, i) => (
-            <Skeleton className="h-48 w-full" key={`dashboard-read-target-placeholder-${i}`} />
+            <Skeleton className="h-48 w-full min-w-56" key={`dashboard-read-target-placeholder-${i}`} />
           ))}
         </div>
       ) : null}

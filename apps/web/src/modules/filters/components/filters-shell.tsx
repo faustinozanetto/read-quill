@@ -8,6 +8,7 @@ import {
   buttonVariants,
   SortAscIcon,
   cn,
+  Button,
 } from '@read-quill/design-system';
 
 /**
@@ -27,8 +28,10 @@ const FiltersShell: React.FC<FiltersShellProps> = (props) => {
   return (
     <div className="flex flex-col relative flex-shrink-0">
       <Sheet>
-        <SheetTrigger className={buttonVariants({ className: 'flex lg:hidden ml-auto mt-4 mr-4' })}>
-          <SortAscIcon className="mr-2" /> Filters & Sort
+        <SheetTrigger asChild>
+          <Button className="flex lg:hidden ml-auto mt-4 mr-4" size="sm">
+            <SortAscIcon className="mr-2" /> Filters & Sort
+          </Button>
         </SheetTrigger>
         <SheetContent className="w-[300px] flex flex-col">
           <SheetHeader className="mb-2">

@@ -1,4 +1,5 @@
 import { __PROD__, __URL__ } from '@modules/common/lib/common.constants';
+import { authMiddleware } from '@modules/middlewares/auth.middleware';
 import { threadMiddleware } from '@modules/middlewares/thread.middleware';
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -13,18 +14,8 @@ export async function threadRequest(req: NextRequest, res: NextResponse, next: F
   return next();
 }
 
-// export async function authRequest(req: NextRequest, res: NextResponse, next: Function) {
-//   const cookies = req.cookies;
-//   const authCookie = cookies.get('authjs.session-token');
-//   if (!authCookie) {
-//     return NextResponse.redirect(new URL('/sign-in', req.nextUrl));
-//   }
-
-//   return next();
-// }
-
-export async function logRequest(req: NextRequest, res: NextResponse, next: Function) {
-  next();
+export async function authRequest(req: NextRequest, res: NextResponse, next: Function) {
+  return await authMiddleware(req);
 }
 
 function combineMiddleware(...middlewares: Function[]) {
@@ -39,7 +30,7 @@ function combineMiddleware(...middlewares: Function[]) {
   };
 }
 
-export default combineMiddleware(logRequest, threadRequest);
+export default combineMiddleware(authRequest, threadRequest);
 
 export const config = {
   matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api)(.*)'],

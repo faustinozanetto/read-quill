@@ -16,14 +16,14 @@ const DashboardReadRegistriesHeader: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col gap-2 sm:flex-row sm:justify-between">
+    <div className="flex items-center justify-between">
       <h2 className="text-xl font-bold">Read Registries</h2>
       <ReadRegistryCreate
         onSuccess={handleOnReadRegistryCreated}
         createButton={
-          <Button aria-label="Create Read Registry" className="w-full sm:ml-auto sm:w-fit" size="sm">
+          <Button aria-label="Create Read Registry" variant="outline" size="sm">
             <PlusIcon className="mr-2 stroke-current" />
-            Create Read Registry
+            Create
           </Button>
         }
       />

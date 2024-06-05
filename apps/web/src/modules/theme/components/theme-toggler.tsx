@@ -20,7 +20,7 @@ const ThemeToggler: React.FC<ThemeTogglerProps> = (props) => {
     <Button aria-label="Toggle Theme" onClick={handleThemeChange} {...rest}>
       {/* Sun Icon */}
       <svg
-        className="block h-6 w-6 stroke-current dark:hidden"
+        className="block h-6 w-6 stroke-primary-foreground md:stroke-current dark:hidden"
         fill="none"
         height="35"
         strokeLinecap="round"
@@ -36,7 +36,7 @@ const ThemeToggler: React.FC<ThemeTogglerProps> = (props) => {
       </svg>
       {/* Moon Icon */}
       <svg
-        className="hidden h-6 w-6 stroke-current dark:block"
+        className="hidden h-6 w-6 stroke-primary-foreground md:stroke-current dark:block"
         fill="none"
         height="35"
         strokeLinecap="round"

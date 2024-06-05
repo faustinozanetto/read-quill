@@ -1,14 +1,13 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import BookCard, { BookCardStyleProps } from '../cards/book-card';
 import { cva } from 'class-variance-authority';
 import { BookWithDetails } from '@modules/books/types/book.types';
-import BookCardPlaceholder from '../cards/book-card-placeholder';
 
 const variants = cva('gap-2.5', {
   variants: {
     variant: {
       landscape: 'flex flex-col grow',
-      vertical: 'grid sm:grid-cols-2 lg:grid-cols-3',
+      vertical: 'grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4',
     },
   },
 });

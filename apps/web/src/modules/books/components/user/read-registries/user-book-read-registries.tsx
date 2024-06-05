@@ -31,9 +31,9 @@ const UserBookReadRegistries: React.FC = () => {
 
         <ReadRegistryCreate
           createButton={
-            <Button aria-label="Create Registry" size="sm">
+            <Button aria-label="Create Registry" size="sm" variant="outline">
               <PlusIcon className="mr-2 stroke-current" />
-              Create Registry
+              Create
             </Button>
           }
           onSuccess={handleOnRegistryCreated}

@@ -9,7 +9,7 @@ import FiltersShell from '@modules/filters/components/filters-shell';
 import type { PaginationControlsProps } from '@modules/common/components/pagination/pagination-controls';
 import PaginationControls from '@modules/common/components/pagination/pagination-controls';
 import UserBooksFiltering from './user-library-books-feed-filtering';
-import { LayoutListIcon } from '@read-quill/design-system';
+import { LayoutListIcon, Skeleton } from '@read-quill/design-system';
 import { ToggleGroup } from '@read-quill/design-system';
 import { ToggleGroupItem } from '@read-quill/design-system';
 import { LayoutGridIcon } from '@read-quill/design-system';
@@ -76,7 +76,11 @@ const UserLibraryBooksFeed: React.FC<UserLibraryBooksFeedProps> = (props) => {
     >
       <div className="p-4 grow flex flex-col justify-between gap-4">
         <div className="flex items-center justify-between">
-          {books.length > 0 && <span className="font-medium">Showing {filteredData.length} Books</span>}
+          {books.length ? (
+            <span className="font-medium">Showing {filteredData.length} Books</span>
+          ) : (
+            <Skeleton className="h-5 w-36" />
+          )}
           <ToggleGroup
             type="single"
             variant="outline"

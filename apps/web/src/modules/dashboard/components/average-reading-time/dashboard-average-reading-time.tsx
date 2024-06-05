@@ -20,7 +20,7 @@ const DashboardAverageReadingTime: React.FC = () => {
       {isLoading && (
         <div className="flex gap-2 overflow-x-auto justify-evenly items-center">
           {Array.from({ length: 3 }).map((_, i) => (
-            <Skeleton key={`dashboard-average-reading-time-placeholder-${i}`} className="h-36 w-full" />
+            <Skeleton key={`dashboard-average-reading-time-placeholder-${i}`} className="h-36 w-full min-w-56" />
           ))}
         </div>
       )}
