@@ -49,6 +49,7 @@ export async function GET(): Promise<NextResponse<DashboardReadTargetsGetRespons
     const readRegistries = await prisma.readRegistry.findMany({
       where: { book: { readerId: session.user.id } },
       select: { createdAt: true, pagesRead: true },
+      cacheStrategy: { swr: 60, ttl: 60 },
     });
 
     const readTargets = {

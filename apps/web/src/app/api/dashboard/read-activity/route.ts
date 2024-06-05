@@ -23,6 +23,7 @@ export async function GET(): Promise<NextResponse<DashboardReadActivityGetRespon
     const readRegistries = await prisma.readRegistry.findMany({
       where: { book: { reader: { id: session.user.id } } },
       orderBy: { createdAt: 'desc' },
+      cacheStrategy: { swr: 60, ttl: 60 },
     });
 
     const readActivity = readRegistries.reduce<Record<string, number>>((acc, cur) => {

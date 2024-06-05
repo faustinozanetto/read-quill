@@ -30,11 +30,13 @@
     "studio": "prisma studio"
   },
   "dependencies": {
-    "@prisma/client": "5.14.0"
+    "@prisma/client": "5.15.0",
+    "@prisma/extension-accelerate": "1.1.0"
   },
   "devDependencies": {
     "@read-quill/eslint-config": "*",
-    "prisma": "5.14.0",
+    "@prisma/extension-optimize": "0.8.0",
+    "prisma": "5.15.0",
     "eslint": "9.4.0",
     "rimraf": "5.0.7",
     "@faker-js/faker": "8.4.1",

@@ -29,7 +29,10 @@ export async function GET(): Promise<NextResponse<AchievementsLockedGetResponse>
     const lockedAchievements = achievements.filter((achievement) => !unlockedAchievementIds.includes(achievement.id));
 
     // Fetch user-specific data
-    const readRegistries = await prisma.readRegistry.findMany({ where: { book: { readerId: session.user.id } } });
+    const readRegistries = await prisma.readRegistry.findMany({
+      where: { book: { readerId: session.user.id } },
+      cacheStrategy: { swr: 60, ttl: 60 },
+    });
     const books = await prisma.book.findMany({ where: { readerId: session.user.id } });
 
     // Calculate criteria conditions
