@@ -1,11 +1,11 @@
-import type { DefinedUseQueryResult, UseQueryResult } from '@tanstack/react-query';
+import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
-import { useToast } from '@read-quill/design-system/src';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { ThreadAttachmentsGetResponse } from '@modules/api/types/community-api.types';
+import { useToast } from '@read-quill/design-system';
 
 export interface UseThreadAttachmentsReturn
-  extends Pick<UseQueryResult<ThreadAttachmentsGetResponse>, 'data' | 'isLoading'> {}
+  extends Pick<UseQueryResult<ThreadAttachmentsGetResponse | undefined>, 'data' | 'isLoading'> {}
 
 interface UseThreadAttachmentsParams {
   threadId?: string;
@@ -22,9 +22,12 @@ export const useThreadAttachments = (params: UseThreadAttachmentsParams): UseThr
 
   const { toast } = useToast();
 
-  const { data, isLoading, isFetching } = useQuery<ThreadAttachmentsGetResponse>(['thread-attachments', threadId], {
-    keepPreviousData: true,
+  const { data, isLoading, isFetching } = useQuery<ThreadAttachmentsGetResponse | undefined>({
+    queryKey: ['thread-attachments', threadId],
     enabled: threadId !== undefined,
+    initialData: {
+      data: { attachments: [] },
+    },
     queryFn: async () => {
       try {
         if (!threadId) return;
@@ -32,13 +35,21 @@ export const useThreadAttachments = (params: UseThreadAttachmentsParams): UseThr
         const url = buildUrl(threadId);
         const response = await fetch(url, { method: 'GET' });
 
+        const responseData = (await response.json()) as ThreadAttachmentsGetResponse;
+
         if (!response.ok) {
-          throw new Error('Failed to fetch thread attachments!');
+          let errorMessage = response.statusText;
+          if (responseData.error) errorMessage = responseData.error.message;
+
+          throw new Error(errorMessage);
         }
 
-        return response.json();
+        return responseData;
       } catch (error) {
-        toast({ variant: 'error', content: 'Failed to fetch thread Attachments!' });
+        let errorMessage = 'Failed to fetch thread attachments!';
+        if (error instanceof Error) errorMessage = error.message;
+
+        toast({ variant: 'error', content: errorMessage });
       }
     },
   });

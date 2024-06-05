@@ -1,15 +1,15 @@
 import React from 'react';
-import { DASHBOARD_READ_TARGETS } from '@modules/dashboard/types/dashboard.types';
-import type { DashboardReadTargetsGetResponse } from '@modules/api/types/dashboard-api.types';
+import { DASHBOARD_READ_TARGETS, DashboardReadTargets } from '@modules/dashboard/types/dashboard.types';
+
 import DashboardReadTargetsCard from './dashboard-read-targets-card';
 
 interface DashboardReadTargetsFeedProps {
-  data: NonNullable<DashboardReadTargetsGetResponse['result']>;
+  readTargets: DashboardReadTargets;
 }
 
 const DashboardReadTargetsFeed: React.FC<DashboardReadTargetsFeedProps> = (props) => {
-  const { data } = props;
-  const { targetReadTargets, readTargets } = data;
+  const { readTargets } = props;
+  const { targetReadTargets, readTargets: currentReadTargets } = readTargets;
 
   return (
     <div className="flex gap-2 overflow-x-auto justify-evenly items-stretch">
@@ -19,7 +19,7 @@ const DashboardReadTargetsFeed: React.FC<DashboardReadTargetsFeedProps> = (props
             key={`dashboard-read-target-${type}`}
             target={targetReadTargets[type]}
             type={type}
-            value={readTargets[type]}
+            value={currentReadTargets[type]}
           />
         );
       })}

@@ -14,10 +14,10 @@ import {
 } from '@read-quill/design-system';
 import CommunityThreadReplyCommentForm from './community-thread-reply-comment-form';
 
-import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { ThreadCommentWithAuthor } from '@modules/community/types/community.types';
 import { useThreadStore } from '@modules/community/state/thread/thread.slice';
 import { useReplyThreadComment } from '@modules/community/hooks/threads/comments/use-reply-thread-comment';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface CommunityThreadReplyCommentProps {
   comment: ThreadCommentWithAuthor;
@@ -28,15 +28,15 @@ const CommunityThreadReplyComment: React.FC<CommunityThreadReplyCommentProps> = 
 
   const { toast } = useToast();
   const { thread } = useThreadStore();
-  const { queryClient } = useQueriesStore();
+  const queryClient = useQueryClient();
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const { replyComment } = useReplyThreadComment({
     thread,
     comment,
     onSuccess: async (data) => {
-      if (data && data.success && thread) {
-        await queryClient.refetchQueries(['thread-comments', 0, thread.id]);
+      if (data?.data?.threadComment && thread) {
+        await queryClient.refetchQueries({ queryKey: ['thread-comments', 0, thread.id] });
         setDialogOpen(false);
         toast({ variant: 'success', content: `Reply created successfully!` });
       }

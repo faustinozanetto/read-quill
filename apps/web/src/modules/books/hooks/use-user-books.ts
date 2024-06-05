@@ -1,11 +1,12 @@
-import type { DefinedUseQueryResult, UseQueryResult } from '@tanstack/react-query';
+import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
-import { useToast } from '@read-quill/design-system/src';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { UserBooksGetResponse } from '@modules/api/types/books-api.types';
+import { useToast } from '@read-quill/design-system';
 
-export interface UseUserBooksReturn extends Pick<UseQueryResult<UserBooksGetResponse>, 'data' | 'isLoading'> {
+export interface UseUserBooksReturn
+  extends Pick<UseQueryResult<UserBooksGetResponse | undefined>, 'data' | 'isLoading'> {
   page: number;
   setPageIndex: (index: number) => void;
   nextPage: () => void;
@@ -31,12 +32,15 @@ export const useUserBooks = (params: UseUserBooksParams): UseUserBooksReturn => 
   const { pageSize, userId } = params;
 
   const { toast } = useToast();
-
   const [page, setPage] = useState(0);
 
-  const { data, isLoading, isFetching, isPreviousData } = useQuery<UserBooksGetResponse>(['user-books', page, userId], {
-    keepPreviousData: true,
-    enabled: !!userId,
+  const { data, isLoading, isFetching, isPlaceholderData } = useQuery<UserBooksGetResponse | undefined>({
+    queryKey: ['user-books', page, userId],
+    enabled: typeof userId !== 'undefined',
+    initialData: {
+      data: { books: [], hasMore: false, pageCount: 0 },
+    },
+    placeholderData: (previousData) => previousData,
     queryFn: async () => {
       try {
         if (!userId) return;
@@ -44,13 +48,21 @@ export const useUserBooks = (params: UseUserBooksParams): UseUserBooksReturn => 
         const url = buildUrl(page, pageSize, userId);
         const response = await fetch(url, { method: 'GET' });
 
+        const responseData = (await response.json()) as UserBooksGetResponse;
+
         if (!response.ok) {
-          throw new Error('Failed to fetch user books!');
+          let errorMessage = response.statusText;
+          if (responseData.error) errorMessage = responseData.error.message;
+
+          throw new Error(errorMessage);
         }
 
-        return response.json();
+        return responseData;
       } catch (error) {
-        toast({ variant: 'error', content: 'Failed to fetch user books!' });
+        let errorMessage = 'Failed to fetch user book!';
+        if (error instanceof Error) errorMessage = error.message;
+
+        toast({ variant: 'error', content: errorMessage });
       }
     },
   });
@@ -60,18 +72,20 @@ export const useUserBooks = (params: UseUserBooksParams): UseUserBooksReturn => 
   }, []);
 
   const nextPage = useCallback(() => {
-    if (!isPreviousData && data?.hasMore) {
+    if (!data?.data) return;
+
+    if (!isPlaceholderData && data.data.hasMore) {
       setPage((old) => old + 1);
     }
-  }, [data?.hasMore, isPreviousData]);
+  }, [data?.data?.hasMore, isPlaceholderData]);
 
   const setPageIndex = useCallback(
     (index: number) => {
-      if (!data?.pageCount) return;
+      if (!data?.data) return;
 
-      if (index >= 0 && index <= data.pageCount) setPage(index);
+      if (index >= 0 && index <= data.data.pageCount) setPage(index);
     },
-    [data?.pageCount]
+    [data?.data]
   );
 
   const getCanPreviousPage = useCallback(() => {
@@ -79,8 +93,10 @@ export const useUserBooks = (params: UseUserBooksParams): UseUserBooksReturn => 
   }, [page]);
 
   const getCanNextPage = useCallback(() => {
-    return !(isPreviousData || !data?.hasMore);
-  }, [data?.hasMore, isPreviousData]);
+    if (!data?.data) return false;
+
+    return !(isPlaceholderData || !data.data.hasMore);
+  }, [data?.data, isPlaceholderData]);
 
   return {
     data,

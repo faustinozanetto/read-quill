@@ -27,11 +27,11 @@ const DashboardReadTimeDistribution: React.FC<DashboardReadTimeDistributionProps
 
       {isLoading ? <Skeleton className="h-48 w-full" /> : null}
 
-      {!isLoading && data && data.timeDistribution.length ? (
-        <DashboardReadTimeDistributionChart timeDistribution={data.timeDistribution} />
+      {!isLoading && data?.data?.timeDistribution.length ? (
+        <DashboardReadTimeDistributionChart timeDistribution={data.data.timeDistribution} />
       ) : null}
 
-      {!isLoading && data && !data.timeDistribution.length ? (
+      {!isLoading && !data?.data?.timeDistribution.length ? (
         <DashboardNoDataMessage>
           <p>Log your reading sessions to discover how your time is distributed.</p>
         </DashboardNoDataMessage>

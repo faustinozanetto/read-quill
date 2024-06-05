@@ -10,7 +10,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<ThreadAtta
     const threadId = searchParams.get('threadId');
 
     if (!threadId) {
-      return new NextResponse('Thread ID is missing', { status: 400 });
+      return NextResponse.json({ error: { message: 'Thread ID is missing!' } }, { status: 400 });
     }
 
     const attachments = await prisma.threadAttachment.findMany({
@@ -22,11 +22,11 @@ export async function GET(request: NextRequest): Promise<NextResponse<ThreadAtta
       },
     });
 
-    return NextResponse.json({ attachments });
+    return NextResponse.json({ data: { attachments } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

@@ -4,23 +4,35 @@ import { useToast } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { DashboardReadActivityGetResponse } from '@modules/api/types/dashboard-api.types';
 
-type UseReadActivityReturn = Pick<UseQueryResult<DashboardReadActivityGetResponse>, 'data' | 'isLoading'>;
+type UseReadActivityReturn = Pick<UseQueryResult<DashboardReadActivityGetResponse | undefined>, 'data' | 'isLoading'>;
 export const useReadActivity = (): UseReadActivityReturn => {
   const { toast } = useToast();
 
-  const { data, isFetching, isLoading } = useQuery<DashboardReadActivityGetResponse>(['dashboard-read-activity'], {
+  const { data, isFetching, isLoading } = useQuery<DashboardReadActivityGetResponse | undefined>({
+    queryKey: ['dashboard-read-activity'],
+    initialData: {
+      data: { readActivity: {} },
+    },
     queryFn: async () => {
       try {
         const url = new URL('/api/dashboard/read-activity', __URL__);
 
         const response = await fetch(url, { method: 'GET' });
+        const responseData = (await response.json()) as DashboardReadActivityGetResponse;
+
         if (!response.ok) {
-          throw new Error('Failed to fetch user read activity!');
+          let errorMessage = response.statusText;
+          if (responseData.error) errorMessage = responseData.error.message;
+
+          throw new Error(errorMessage);
         }
 
-        return response.json();
+        return responseData;
       } catch (error) {
-        toast({ variant: 'error', content: 'Failed to fetch read activity!' });
+        let errorMessage = 'Failed to fetch read activity!';
+        if (error instanceof Error) errorMessage = error.message;
+
+        toast({ variant: 'error', content: errorMessage });
       }
     },
   });

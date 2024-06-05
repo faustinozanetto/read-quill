@@ -21,10 +21,10 @@ import {
   CommandList,
 } from '@read-quill/design-system';
 import { useFormContext } from 'react-hook-form';
-import type { BooksNamesGetResponse } from '@modules/api/types/books-api.types';
+import { DashboardBookName } from '@modules/dashboard/types/dashboard.types';
 
 interface DashboardReadRegistriesFormBookProps {
-  booksNames: BooksNamesGetResponse['booksNames'];
+  booksNames: DashboardBookName[];
 }
 
 const DashboardReadRegistriesFormBook: React.FC<DashboardReadRegistriesFormBookProps> = (props) => {

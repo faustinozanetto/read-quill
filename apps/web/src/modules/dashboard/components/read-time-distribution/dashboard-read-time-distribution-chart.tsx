@@ -9,7 +9,7 @@ import type { DashboardReadTimeDistributionGetResponse } from '@modules/api/type
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 interface DashboardReadTimeDistributionChartProps {
-  timeDistribution: DashboardReadTimeDistributionGetResponse['timeDistribution'];
+  timeDistribution: NonNullable<DashboardReadTimeDistributionGetResponse['data']>['timeDistribution'];
 }
 
 const DashboardReadTimeDistributionChart: React.FC<DashboardReadTimeDistributionChartProps> = (props) => {

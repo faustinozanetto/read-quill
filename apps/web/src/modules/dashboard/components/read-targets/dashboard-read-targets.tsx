@@ -12,7 +12,11 @@ const DashboardReadTargets: React.FC = () => {
 
   return (
     <div className="rounded-lg border p-4 shadow flex flex-col gap-2 h-fit">
-      <DashboardReadTargetsHeader data={data} isLoading={isLoading} targetsCreated={targetsCreated} />
+      <DashboardReadTargetsHeader
+        readTargets={data?.data?.readTargets}
+        isLoading={isLoading}
+        targetsCreated={targetsCreated}
+      />
 
       <p>
         Set personalized daily, weekly, and monthly reading goals to cultivate a consistent reading habit. Monitor your
@@ -27,7 +31,7 @@ const DashboardReadTargets: React.FC = () => {
         </div>
       ) : null}
 
-      {!isLoading && data && data.result ? <DashboardReadTargetsFeed data={data.result} /> : null}
+      {!isLoading && data?.data?.readTargets ? <DashboardReadTargetsFeed readTargets={data.data.readTargets} /> : null}
 
       {!isLoading && !targetsCreated ? (
         <DashboardNoDataMessage>

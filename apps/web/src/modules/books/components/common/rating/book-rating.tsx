@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import type { Book } from '@read-quill/database';
 import { useToast } from '@read-quill/design-system';
-import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { BOOK_MAX_RATING } from '@modules/books/lib/book.constants';
 import BookRatingStar from './book-rating-star';
 import { useChangeBookRating } from '@modules/books/hooks/rating/use-change-book-rating';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface BookRatingProps {
   book: Book;
@@ -13,16 +13,15 @@ interface BookRatingProps {
 const BookRating: React.FC<BookRatingProps> = (props) => {
   const { book } = props;
 
-  const { queryClient } = useQueriesStore();
+  const queryClient = useQueryClient();
   const { toast } = useToast();
 
   const [rating, setRating] = useState(book.rating ?? -1);
 
-  const { changeRating, isLoading } = useChangeBookRating({
-    book,
+  const { changeRating, isPending } = useChangeBookRating({
     onSuccess: async (data) => {
-      if (data && data.success) {
-        await queryClient.refetchQueries(['book', book.id]);
+      if (data.data?.rating) {
+        await queryClient.refetchQueries({ queryKey: ['book', book.id] });
         toast({
           variant: 'success',
           content: 'Book rating updated successfully!',
@@ -37,9 +36,9 @@ const BookRating: React.FC<BookRatingProps> = (props) => {
         <BookRatingStar
           key={`rating-star-${index}`}
           bookRating={book.rating}
-          isLoading={isLoading}
+          isLoading={isPending}
           onClick={async () => {
-            await changeRating({ rating });
+            await changeRating({ bookId: book.id, rating });
           }}
           setRating={setRating}
           stateRating={rating}

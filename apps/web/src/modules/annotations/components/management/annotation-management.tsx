@@ -16,8 +16,8 @@ import {
 } from '@read-quill/design-system';
 
 import AnnotationEdit from '../edit/annotation-edit';
-import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import AnnotationDelete from '../delete/annotation-delete';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface AnnotationManagementProps extends ButtonProps {
   annotation: Annotation;
@@ -26,10 +26,10 @@ interface AnnotationManagementProps extends ButtonProps {
 const AnnotationManagement: React.FC<AnnotationManagementProps> = (props) => {
   const { annotation, size = 'icon', variant = 'outline', ...rest } = props;
 
-  const { queryClient } = useQueriesStore();
+  const queryClient = useQueryClient();
 
   const handleOnAnnotationChanged = async () => {
-    await queryClient.refetchQueries(['book-annotations', annotation.bookId]);
+    await queryClient.refetchQueries({ queryKey: ['book-annotations', annotation.bookId] });
   };
 
   return (

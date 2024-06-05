@@ -1,19 +1,22 @@
-import type { DefinedUseQueryResult } from '@tanstack/react-query';
+import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { useToast } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { AchievementsLockedGetResponse } from '@modules/api/types/achievements-api.types';
 
 export type UseLockedAchievementsReturn = Pick<
-  DefinedUseQueryResult<AchievementsLockedGetResponse>,
+  UseQueryResult<AchievementsLockedGetResponse>,
   'data' | 'isLoading' | 'isFetching'
 >;
 
 export const useLockedAchievements = (): UseLockedAchievementsReturn => {
   const { toast } = useToast();
 
-  const { data, isLoading, isFetching } = useQuery<AchievementsLockedGetResponse>(['achivements-locked'], {
-    initialData: { lockedAchievements: [] },
+  const { data, isLoading, isFetching } = useQuery<AchievementsLockedGetResponse>({
+    queryKey: ['achivements-locked'],
+    initialData: {
+      data: { lockedAchievements: [] },
+    },
     queryFn: async () => {
       try {
         const url = new URL('/api/achievements/locked', __URL__);

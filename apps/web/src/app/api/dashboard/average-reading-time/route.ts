@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 
 import { auth } from 'auth';
-import { DashboardAverageReadingTimeIntervalType } from '@modules/dashboard/types/dashboard.types';
+
 import {
   format,
   isThisMonth,
@@ -24,7 +24,14 @@ export async function GET(request: NextRequest): Promise<NextResponse<AverageRea
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const readRegistries = await prisma.readRegistry.findMany({
@@ -85,8 +92,6 @@ export async function GET(request: NextRequest): Promise<NextResponse<AverageRea
       }
     );
 
-    console.log({ mappedRegistries });
-
     // const calculateAverage = (records: Record<string, number>): number => {
     //   const totalMinutes = Object.values(records).reduce(
     //     (total, pagesRead) => total + pagesRead * TIME_PER_PAGE_MINUTES,
@@ -102,7 +107,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<AverageRea
       return values.length ? Object.values(record)[0] : 0;
     };
 
-    const readingTimes: AverageReadingTimeGetResponse['readingTimes'] = {
+    const readingTimes = {
       daily: {
         current: getFirstRecordEntry(mappedRegistries.currentDay),
         past: getFirstRecordEntry(mappedRegistries.pastDay),
@@ -117,11 +122,11 @@ export async function GET(request: NextRequest): Promise<NextResponse<AverageRea
       },
     };
 
-    return NextResponse.json({ readingTimes });
+    return NextResponse.json({ data: { averageReadingTimes: readingTimes } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

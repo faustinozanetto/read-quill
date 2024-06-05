@@ -13,3 +13,6 @@ export type BookCoverImageUpload = z.infer<typeof BOOK_ATTRIBUTES_VALIDATIONS.co
 export type CreateBookFormActionData = z.infer<typeof BOOK_ACTIONS_VALIDATIONS_FORMS.CREATE>;
 export type EditBookFormActionData = z.infer<typeof BOOK_ACTIONS_VALIDATIONS_FORMS.EDIT>;
 export type DeleteBookApiActionData = z.infer<typeof BOOK_ACTIONS_VALIDATIONS_API.DELETE>;
+export type EditBookApiActionData = z.infer<typeof BOOK_ACTIONS_VALIDATIONS_API.EDIT>;
+export type RatingBookApiActionData = z.infer<typeof BOOK_ACTIONS_VALIDATIONS_API.RATING>;
+export type FavouriteBookApiActionData = z.infer<typeof BOOK_ACTIONS_VALIDATIONS_API.FAVOURITE>;

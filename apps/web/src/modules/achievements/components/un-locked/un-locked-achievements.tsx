@@ -40,12 +40,12 @@ const UnLockedAchievements: React.FC = () => {
               ))}
             </div>
           ) : null}
-          {!(isFetching || isLoading) && data.unLockedAchievements.length > 0 && (
-            <UserUnLockedAchievementsFeed userAchievements={data.unLockedAchievements} />
-          )}
+          {!(isFetching || isLoading) && data?.data?.unLockedAchievements.length ? (
+            <UserUnLockedAchievementsFeed userAchievements={data?.data?.unLockedAchievements} />
+          ) : null}
         </FilterProvider>
 
-        {!(isFetching || isLoading) && data.unLockedAchievements.length === 0 ? (
+        {!(isFetching || isLoading) && !data?.data?.unLockedAchievements.length ? (
           <div className="flex items-center justify-center gap-2 p-4">
             <div className="bg-primary p-2 rounded-lg border">
               <ExclamationIcon />

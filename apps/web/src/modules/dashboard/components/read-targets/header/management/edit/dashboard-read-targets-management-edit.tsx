@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
-  Button,
   Dialog,
   DialogContent,
   DialogDescription,
@@ -11,34 +10,33 @@ import {
   EditIcon,
   useToast,
 } from '@read-quill/design-system';
-import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import type { DashboardReadTargetsGetResponse } from '@modules/api/types/dashboard-api.types';
 import DashboardReadTargetsEditForm from './dashboard-read-targets-management-edit-form';
 import { useEditReadTargets } from '@modules/dashboard/hooks/read-targets/use-edit-read-targets';
+import { useQueryClient } from '@tanstack/react-query';
+import { DashboardReadTargets } from '@modules/dashboard/types/dashboard.types';
 
 interface DashboardReadTargetsManagementEditProps {
-  readTargets: NonNullable<DashboardReadTargetsGetResponse['result']>;
+  readTargets: DashboardReadTargets;
 }
 
 const DashboardReadTargetsManagementEdit: React.FC<DashboardReadTargetsManagementEditProps> = (props) => {
   const { readTargets } = props;
 
-  const [dialogOpen, setDialogOpen] = useState(false);
   const { toast } = useToast();
-  const { queryClient } = useQueriesStore();
+  const queryClient = useQueryClient();
 
   const { editReadTargets } = useEditReadTargets({
     onSuccess: async (data) => {
-      if (data.targetReadTargets) {
-        await queryClient.refetchQueries(['dashboard-read-targets']);
-        setDialogOpen(false);
+      if (data.data?.readTargets) {
+        await queryClient.refetchQueries({ queryKey: ['dashboard-read-targets'] });
         toast({ variant: 'success', content: 'Read Targets edited successfully!' });
       }
     },
   });
 
   return (
-    <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
+    <Dialog>
       <DialogTrigger asChild>
         <DropdownMenuItem aria-label="Edit Read Targets" onSelect={(e) => e.preventDefault()}>
           <EditIcon className="mr-2 stroke-current" />

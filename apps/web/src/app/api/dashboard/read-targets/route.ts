@@ -20,7 +20,14 @@ export async function GET(): Promise<NextResponse<DashboardReadTargetsGetRespons
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const userReadTargets = await prisma.readTargets.findUnique({
@@ -28,7 +35,7 @@ export async function GET(): Promise<NextResponse<DashboardReadTargetsGetRespons
     });
 
     if (!userReadTargets) {
-      return NextResponse.json({ result: null }, { status: 200 });
+      return NextResponse.json({}, { status: 200 });
     }
 
     // The target read targets that are stored in db.
@@ -72,12 +79,12 @@ export async function GET(): Promise<NextResponse<DashboardReadTargetsGetRespons
       }
     });
 
-    return NextResponse.json({ result: { targetReadTargets, readTargets } });
+    return NextResponse.json({ data: { readTargets: { targetReadTargets, readTargets } } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }
 
@@ -87,19 +94,33 @@ export async function POST(request: NextRequest): Promise<NextResponse<Dashboard
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     // Check if user already created read targets.
     const count = await prisma.readTargets.count({ where: { user: { id: session.user.id } } });
     if (count > 0) {
-      return new NextResponse('User already created read targets!', { status: 409 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'User already created read targets!',
+          },
+        },
+        { status: 409 }
+      );
     }
 
     const json = await request.json();
     const { daily, monthly, weekly } = createReadTargetsValidationSchema.parse(json);
 
-    await prisma.readTargets.create({
+    const readTargets = await prisma.readTargets.create({
       data: {
         daily,
         monthly,
@@ -108,13 +129,13 @@ export async function POST(request: NextRequest): Promise<NextResponse<Dashboard
       },
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ data: { readTargets } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
     else if (error instanceof z.ZodError) errorMessage = error.issues[0].message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }
 
@@ -124,7 +145,14 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<Dashboar
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     // Check if user created read targets.
@@ -133,13 +161,20 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<Dashboar
     });
 
     if (!userReadTargets) {
-      return new NextResponse('User did not create read targets yet!', { status: 409 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'User did not create read targets yet!',
+          },
+        },
+        { status: 409 }
+      );
     }
 
     const json = await request.json();
     const { daily, monthly, weekly } = editReadTargetsValidationSchema.parse(json);
 
-    const targetReadTargets = await prisma.readTargets.update({
+    const readTargets = await prisma.readTargets.update({
       where: { userId: session.user.id },
       data: {
         daily,
@@ -148,13 +183,13 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<Dashboar
       },
     });
 
-    return NextResponse.json({ targetReadTargets });
+    return NextResponse.json({ data: { readTargets } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
     else if (error instanceof z.ZodError) errorMessage = error.issues[0].message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }
 
@@ -164,7 +199,14 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<Dashboa
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     // Check if user created read targets.
@@ -172,12 +214,12 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<Dashboa
       where: { userId: session.user.id },
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ data: { success: true } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
     else if (error instanceof z.ZodError) errorMessage = error.issues[0].message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

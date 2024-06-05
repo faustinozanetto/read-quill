@@ -10,7 +10,14 @@ export async function POST(request: Request): Promise<NextResponse<BookUploadPos
     const coverFile = formData.get('coverFile') as Blob | null;
 
     if (!coverFile) {
-      return new NextResponse('File blob is required.', { status: 400 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'Cover file is required!',
+          },
+        },
+        { status: 400 }
+      );
     }
 
     // Upload file to supabase
@@ -18,7 +25,14 @@ export async function POST(request: Request): Promise<NextResponse<BookUploadPos
     const suffix = Math.round(Math.random() * 1e9).toString();
     const uploadResult = await uploadImageToSupabase('BookCovers', '', suffix, processedBlob);
     if (uploadResult.error) {
-      return new NextResponse('Failed to upload book cover.', { status: 500 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'Failed to upload cover file!',
+          },
+        },
+        { status: 500 }
+      );
     }
 
     // Create image
@@ -28,11 +42,11 @@ export async function POST(request: Request): Promise<NextResponse<BookUploadPos
       },
     });
 
-    return NextResponse.json({ coverImage });
+    return NextResponse.json({ data: { coverImage } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

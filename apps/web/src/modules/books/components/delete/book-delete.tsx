@@ -26,9 +26,9 @@ const BookDelete: React.FC<BookDeleteProps> = (props) => {
 
   const { toast } = useToast();
 
-  const { isLoading, deleteBook } = useDeleteBook({
+  const { isPending, deleteBook } = useDeleteBook({
     onSuccess: async (data, variables, context) => {
-      if (data.success) {
+      if (data.data?.success) {
         await onSuccess(data, variables, context);
         toast({ variant: 'success', content: `Book deleted successfully!` });
       }
@@ -51,13 +51,13 @@ const BookDelete: React.FC<BookDeleteProps> = (props) => {
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             className={buttonVariants({ variant: 'destructive' })}
-            disabled={isLoading}
+            disabled={isPending}
             onClick={async (e) => {
               e.preventDefault();
               await deleteBook({ bookId });
             }}
           >
-            {isLoading && <LoadingIcon className="mr-2" />}
+            {isPending && <LoadingIcon className="mr-2" />}
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>

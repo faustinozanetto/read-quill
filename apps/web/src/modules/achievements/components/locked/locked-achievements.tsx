@@ -34,16 +34,16 @@ const LockedAchievements: React.FC = () => {
           </div>
         ) : null}
 
-        {!(isFetching || isLoading) && data.lockedAchievements.length > 0 && (
+        {!(isFetching || isLoading) && data?.data?.lockedAchievements.length ? (
           <FilterProvider
             initialState={{
               initialFilters: LOCKED_ACHIEVEMENTS_INITIAL_FILTERS,
               initialSort: LOCKED_ACHIEVEMENTS_INITIAL_SORT,
             }}
           >
-            <UserLockedAchievementsFeed userAchievements={data.lockedAchievements} />
+            <UserLockedAchievementsFeed userAchievements={data.data.lockedAchievements} />
           </FilterProvider>
-        )}
+        ) : null}
       </div>
     </div>
   );

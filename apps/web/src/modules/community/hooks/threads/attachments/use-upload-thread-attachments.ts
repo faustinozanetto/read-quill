@@ -40,11 +40,16 @@ export const useUploadThreadAttachments = (): UseUploadThreadAttachmentsReturn =
         body: formData,
       });
 
+      const responseData = (await response.json()) as ThreadAttachmentUploadPostResponse;
+
       if (!response.ok) {
-        throw new Error('Failed to upload thread attachments!');
+        let errorMessage = response.statusText;
+        if (responseData.error) errorMessage = responseData.error.message;
+
+        throw new Error(errorMessage);
       }
 
-      return await response.json();
+      return responseData;
     },
     onError(error) {
       toast({ variant: 'error', content: error.message });

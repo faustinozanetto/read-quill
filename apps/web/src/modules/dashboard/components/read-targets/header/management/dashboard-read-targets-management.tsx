@@ -10,11 +10,12 @@ import {
   ManageIcon,
 } from '@read-quill/design-system';
 import DashboardReadTargetsManagementEdit from './edit/dashboard-read-targets-management-edit';
-import { DashboardReadTargetsGetResponse } from '@modules/api/types/dashboard-api.types';
+
 import DashboardReadTargetsManagementDelete from './dashboard-read-targets-management-delete';
+import { DashboardReadTargets } from '@modules/dashboard/types/dashboard.types';
 
 interface DashboardReadTargetsManagementProps {
-  readTargets: NonNullable<DashboardReadTargetsGetResponse['result']>;
+  readTargets: DashboardReadTargets;
 }
 
 const DashboardReadTargetsManagement: React.FC<DashboardReadTargetsManagementProps> = (props) => {

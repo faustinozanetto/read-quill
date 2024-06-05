@@ -1,86 +1,89 @@
-import { BookProgressEntry } from '@modules/dashboard/types/dashboard.types';
+import {
+  BookProgressEntry,
+  DashboardBookRatingEntry,
+  DashboardReadActivty,
+  DashboardReadTargets,
+  DashboardReadTrendEntry,
+} from '@modules/dashboard/types/dashboard.types';
 import type { ReadRegistry, ReadTargets } from '@read-quill/database';
+import { BaseApiResponse } from './api.types';
 
 export type DashboardReadRegistry = ReadRegistry & {
   book: {
-    coverImage: string;
     name: string;
-    pageCount: number;
   };
 };
 
-export interface DashboardReadTargetsGetResponse {
-  result: {
-    targetReadTargets: Pick<ReadTargets, 'daily' | 'weekly' | 'monthly'>;
-    readTargets: Pick<ReadTargets, 'daily' | 'weekly' | 'monthly'>;
-  } | null;
+export interface DashboardReadTargetsGetResponse extends BaseApiResponse {
+  data?: {
+    readTargets: DashboardReadTargets;
+  };
 }
 
-export interface DashboardReadTargetsPostResponse {
-  success: boolean;
+export interface DashboardReadTargetsPostResponse extends BaseApiResponse {
+  data?: { readTargets: ReadTargets };
 }
 
-export interface DashboardReadTargetsPatchResponse {
-  targetReadTargets: Pick<ReadTargets, 'daily' | 'weekly' | 'monthly'>;
+export interface DashboardReadTargetsPatchResponse extends BaseApiResponse {
+  data?: { readTargets: ReadTargets };
 }
 
-export interface DashboardReadTargetsDeleteResponse {
-  success: boolean;
+export interface DashboardReadTargetsDeleteResponse extends BaseApiResponse {
+  data?: { success: boolean };
 }
 
-export interface DashboardReadTargetsCreatedGetResponse {
-  created: boolean;
+export interface DashboardReadTargetsCreatedGetResponse extends BaseApiResponse {
+  data?: { created: boolean };
 }
 
-export interface DashboardReadRegistriesGetResponse {
-  readRegistries: DashboardReadRegistry[];
-  pageCount: number;
+export interface DashboardReadRegistriesGetResponse extends BaseApiResponse {
+  data?: { readRegistries: DashboardReadRegistry[]; pageCount: number };
 }
 
-export interface DashboardReadTrendsGetResponse {
-  trends: {
-    date: string;
-    registries: ReadRegistry[];
-  }[];
+export interface DashboardReadTrendsGetResponse extends BaseApiResponse {
+  data?: {
+    trends: DashboardReadTrendEntry[];
+  };
 }
 
-export interface DashboardBooksProgressGetResponse {
-  booksProgress: BookProgressEntry[];
-  pageCount: number;
-  hasMore: boolean;
+export interface DashboardBooksProgressGetResponse extends BaseApiResponse {
+  data?: { booksProgress: BookProgressEntry[]; pageCount: number; hasMore: boolean };
 }
 
-export interface DashboardReadTimeDistributionGetResponse {
-  timeDistribution: {
-    date: string;
-    pagesRead: number;
-  }[];
+export interface DashboardReadTimeDistributionGetResponse extends BaseApiResponse {
+  data?: {
+    timeDistribution: {
+      date: string;
+      pagesRead: number;
+    }[];
+  };
 }
 
-export interface DashboardReadActivityGetResponse {
-  readActivity: Record<string, number>;
+export interface DashboardReadActivityGetResponse extends BaseApiResponse {
+  data?: { readActivity: DashboardReadActivty };
 }
 
-export interface DashboardBooksRatingsGetResponse {
-  booksRatings: {
-    rating: number;
-    count: number;
-  }[];
+export interface DashboardBooksRatingsGetResponse extends BaseApiResponse {
+  data?: {
+    booksRatings: DashboardBookRatingEntry[];
+  };
 }
 
-export interface AverageReadingTimeGetResponse {
-  readingTimes: {
-    daily: {
-      current: number;
-      past: number;
-    };
-    weekly: {
-      current: number;
-      past: number;
-    };
-    monthly: {
-      current: number;
-      past: number;
+export interface AverageReadingTimeGetResponse extends BaseApiResponse {
+  data?: {
+    averageReadingTimes: {
+      daily: {
+        current: number;
+        past: number;
+      };
+      weekly: {
+        current: number;
+        past: number;
+      };
+      monthly: {
+        current: number;
+        past: number;
+      };
     };
   };
 }

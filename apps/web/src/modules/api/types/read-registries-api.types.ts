@@ -1,13 +1,14 @@
 import { ReadRegistry } from '@read-quill/database';
+import { BaseApiResponse } from './api.types';
 
-export interface ReadRegistryPostResponse {
-  readRegistry: ReadRegistry;
+export interface ReadRegistryPostResponse extends BaseApiResponse {
+  data?: { readRegistry: ReadRegistry };
 }
 
-export interface ReadRegistryPatchResponse {
-  readRegistry: ReadRegistry;
+export interface ReadRegistryPatchResponse extends BaseApiResponse {
+  data?: { readRegistry: ReadRegistry };
 }
 
-export interface ReadRegistryDeleteResponse {
-  success: boolean;
+export interface ReadRegistryDeleteResponse extends BaseApiResponse {
+  data?: { success: boolean };
 }

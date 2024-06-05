@@ -31,9 +31,9 @@ const UserSettingsDetails: React.FC<UserSettingsDetailsProps> = (props) => {
         <div>
           <Label className="block">Member Since</Label>
           {isMemberSinceLoading && <Skeleton className="h-4 w-24" />}
-          {!isMemberSinceLoading && memberSince?.memberSince && (
+          {!isMemberSinceLoading && memberSince?.data?.memberSince && (
             <span className="text-sm">
-              {new Date(memberSince.memberSince).toLocaleDateString('en-US', { dateStyle: 'full' })}
+              {new Date(memberSince?.data?.memberSince).toLocaleDateString('en-US', { dateStyle: 'full' })}
             </span>
           )}
         </div>

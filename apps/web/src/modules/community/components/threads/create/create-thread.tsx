@@ -15,8 +15,8 @@ const CreateThread: React.FC = () => {
 
   const { createThread } = useCreateThread({
     onSuccess: async (data) => {
-      if (data && data.thread) {
-        router.push(`/community/threads/${data.thread.id}`);
+      if (data.data?.thread) {
+        router.push(`/community/threads/${data.data.thread.id}`);
         toast({ variant: 'success', content: `Thread posted successfully!` });
       }
     },

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Dialog,
   DialogTrigger,
@@ -20,23 +20,20 @@ interface BookEditProps {
 
 const BookEdit: React.FC<BookEditProps> = (props) => {
   const { book, editButton, onSuccess } = props;
-  const [dialogOpen, setDialogOpen] = useState(false);
 
   const { toast } = useToast();
 
   const { editBook, isCoverUploading } = useEditBook({
-    book,
     onSuccess: async (data, variables, context) => {
-      if (data.book) {
+      if (data.data?.book) {
         await onSuccess(data, variables, context);
-        setDialogOpen(false);
-        toast({ variant: 'success', content: `Book ${data.book.name} edited successfully!` });
+        toast({ variant: 'success', content: `Book ${data.data.book.name} edited successfully!` });
       }
     },
   });
 
   return (
-    <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
+    <Dialog>
       <DialogTrigger asChild>{editButton}</DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px]">
@@ -45,7 +42,10 @@ const BookEdit: React.FC<BookEditProps> = (props) => {
           <DialogDescription>Update your book details here..</DialogDescription>
         </DialogHeader>
 
-        <BookEditForm isBookCoverUploading={isCoverUploading} onSubmit={editBook} />
+        <BookEditForm
+          isBookCoverUploading={isCoverUploading}
+          onSubmit={async (data) => await editBook({ ...data, bookId: book.id })}
+        />
       </DialogContent>
     </Dialog>
   );

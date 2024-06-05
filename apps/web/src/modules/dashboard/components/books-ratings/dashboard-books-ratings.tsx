@@ -26,11 +26,11 @@ const DashboardBooksRatings: React.FC<DashboardBooksRatingsProps> = (props) => {
       </p>
       {isLoading && <Skeleton className="h-40 w-full" />}
 
-      {!isLoading && data && data.booksRatings.length ? (
-        <DashboardBooksRatingsChart booksRatings={data.booksRatings} />
+      {!isLoading && data?.data?.booksRatings.length ? (
+        <DashboardBooksRatingsChart booksRatings={data.data.booksRatings} />
       ) : null}
 
-      {!isLoading && data && !data.booksRatings.length ? (
+      {!isLoading && data && !data.data?.booksRatings.length ? (
         <DashboardNoDataMessage>
           <p>No book ratings found. Rate your finished books for better insights.</p>
         </DashboardNoDataMessage>

@@ -9,15 +9,23 @@ export async function GET(): Promise<NextResponse<DashboardReadTargetsCreatedGet
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
+
     const count = await prisma.readTargets.count({ where: { user: { id: session.user.id } } });
 
-    return NextResponse.json({ created: count > 0 });
+    return NextResponse.json({ data: { created: count > 0 } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

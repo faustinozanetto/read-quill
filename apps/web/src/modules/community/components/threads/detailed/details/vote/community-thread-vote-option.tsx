@@ -16,7 +16,7 @@ interface CommnuityThreadVoteOptionProps {
 const CommnuityThreadVoteOption: React.FC<CommnuityThreadVoteOptionProps> = (props) => {
   const { thread, type, icon } = props;
 
-  const { voteThread, isLoading } = useThreadVote();
+  const { voteThread, isPending } = useThreadVote();
 
   const handleVote = async () => {
     await voteThread({ threadId: thread.id, type });
@@ -28,7 +28,7 @@ const CommnuityThreadVoteOption: React.FC<CommnuityThreadVoteOptionProps> = (pro
       size="icon"
       variant="ghost"
       className="h-7 w-7"
-      disabled={isLoading}
+      disabled={isPending}
       onClick={handleVote}
     >
       {icon}

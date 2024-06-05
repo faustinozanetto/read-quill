@@ -9,6 +9,7 @@ import { BOOKS_PROGRESS_SORT_BY } from '@modules/dashboard/lib/dashboard-filteri
 import FilterTextInput from '@modules/filters/components/inputs/filter-text-input';
 import FilterRadioGroupInput from '@modules/filters/components/inputs/filter-radio-group-input';
 import FilterRadioGroupInputEntry from '@modules/filters/components/inputs/filter-radio-group-input-entry';
+import { BookProgressEntry } from '@modules/dashboard/types/dashboard.types';
 
 /**
  * Props for the DashboardBooksProgressFiltering component.
@@ -17,18 +18,17 @@ interface DashboardBooksProgressFilteringProps {
   /**
    * Sort criteria for filtering book progress data on the dashboard.
    */
-  sort: UseFilterReturn<DashboardBooksProgressGetResponse['booksProgress'][0]>['sort'];
+  sort: UseFilterReturn<BookProgressEntry>['sort'];
   /**
    * Filter criteria for filtering book progress data on the dashboard.
    */
-  filters: UseFilterReturn<DashboardBooksProgressGetResponse['booksProgress'][0]>['filters'];
+  filters: UseFilterReturn<BookProgressEntry>['filters'];
 }
 
 const DashboardBooksProgressFiltering: React.FC<DashboardBooksProgressFilteringProps> = (props) => {
   const { filters, sort } = props;
 
-  const { updateFilterValue, updateSort, resetFilter, resetFilters, resetSort } =
-    useFilterActions<DashboardBooksProgressGetResponse['booksProgress'][0]>();
+  const { updateFilterValue, updateSort, resetFilter, resetFilters, resetSort } = useFilterActions<BookProgressEntry>();
 
   const handleFilterNameChange = (value: string) => {
     updateFilterValue('name', value);
@@ -38,10 +38,7 @@ const DashboardBooksProgressFiltering: React.FC<DashboardBooksProgressFilteringP
     updateFilterValue('completed', value);
   };
 
-  const handleSortByChange = (
-    value: NestedKeyOf<DashboardBooksProgressGetResponse['booksProgress'][0]>,
-    ascending: boolean
-  ): void => {
+  const handleSortByChange = (value: NestedKeyOf<BookProgressEntry>, ascending: boolean): void => {
     updateSort({ property: value, ascending });
   };
 

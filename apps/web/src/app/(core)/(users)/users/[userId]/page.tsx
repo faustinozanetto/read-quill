@@ -1,5 +1,5 @@
 import React from 'react';
-import { prisma, type User } from '@read-quill/database';
+import { prisma } from '@read-quill/database';
 import UserProfile from '@modules/users/components/profile/user-profile';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { UserGetResponse } from '@modules/api/types/users-api.types';
@@ -34,20 +34,16 @@ export async function generateMetadata({ params }: UserPageProps, parent: Resolv
   };
 }
 
-const fetchUserData = async (userId: string): Promise<User | null> => {
+const fetchUserData = async (userId: string): Promise<UserGetResponse | undefined> => {
   try {
     const url = new URL('/api/user', __URL__);
     url.searchParams.set('userId', userId);
 
     const response = await fetch(url.toString(), { method: 'GET' });
-    if (!response.ok) {
-      return null;
-    }
 
-    const resData = (await response.json()) as UserGetResponse;
-    return resData.user;
+    return response.json();
   } catch (error) {
-    return null;
+    return undefined;
   }
 };
 
@@ -55,13 +51,13 @@ const UserPage: React.FC<UserPageProps> = async (props) => {
   const { params } = props;
   const { userId } = params;
 
-  const user = await fetchUserData(userId);
+  const userData = await fetchUserData(userId);
 
-  if (!user) {
+  if (!userData?.data?.user) {
     return notFound();
   }
 
-  return <UserProfile user={user} />;
+  return <UserProfile user={userData.data.user} />;
 };
 
 export default UserPage;

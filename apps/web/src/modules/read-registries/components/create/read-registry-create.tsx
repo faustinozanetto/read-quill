@@ -27,20 +27,18 @@ const ReadRegistryCreate: React.FC<ReadRegistryCreateProps> = (props) => {
   const { createButton, onSuccess, bookId } = props;
 
   const { toast } = useToast();
-  const [dialogOpen, setDialogOpen] = useState(false);
 
   const { createReadRegistry } = useCreateReadRegistry({
     onSuccess: async (data, variables, context) => {
-      if (data && data.readRegistry) {
+      if (data.data?.readRegistry) {
         await onSuccess(data, variables, context);
-        setDialogOpen(false);
         toast({ variant: 'success', content: 'Read registry created successfully!' });
       }
     },
   });
 
   return (
-    <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
+    <Dialog>
       <DialogTrigger asChild>{createButton}</DialogTrigger>
 
       <DialogContent>

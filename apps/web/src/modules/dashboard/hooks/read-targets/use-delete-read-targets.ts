@@ -9,7 +9,7 @@ type DeleteReadTargetsMutationResult = UseMutationResult<DashboardReadTargetsDel
 type DeleteReadTargetsMutationParams = UseMutationOptions<DashboardReadTargetsDeleteResponse, Error, void>;
 
 interface UseDeleteReadTargetsReturn {
-  isLoading: DeleteReadTargetsMutationResult['isLoading'];
+  isPending: DeleteReadTargetsMutationResult['isPending'];
   deleteReadTargets: DeleteReadTargetsMutationResult['mutateAsync'];
 }
 
@@ -22,16 +22,21 @@ export const useDeleteReadTargets = (params: UseDeleteReadTargetsParams): UseDel
 
   const { toast } = useToast();
 
-  const { mutateAsync, isLoading } = useMutation<DashboardReadTargetsDeleteResponse, Error, void>({
+  const { mutateAsync, isPending } = useMutation<DashboardReadTargetsDeleteResponse, Error, void>({
     mutationKey: ['delete-read-targets'],
     mutationFn: async () => {
       const url = new URL('/api/dashboard/read-targets', __URL__);
       const response = await fetch(url, { method: 'DELETE' });
+      const responseData = (await response.json()) as DashboardReadTargetsDeleteResponse;
+
       if (!response.ok) {
-        throw new Error('Could not delete read targets!');
+        let errorMessage = response.statusText;
+        if (responseData.error) errorMessage = responseData.error.message;
+
+        throw new Error(errorMessage);
       }
 
-      return response.json();
+      return responseData;
     },
     onSuccess,
     onError(error) {
@@ -39,5 +44,5 @@ export const useDeleteReadTargets = (params: UseDeleteReadTargetsParams): UseDel
     },
   });
 
-  return { isLoading, deleteReadTargets: mutateAsync };
+  return { isPending, deleteReadTargets: mutateAsync };
 };

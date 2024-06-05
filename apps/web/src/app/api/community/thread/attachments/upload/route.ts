@@ -30,7 +30,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadAtt
     const formData = await request.formData();
     const threadId = formData.get('threadId') as string | null;
     if (!threadId) {
-      return new NextResponse('Thread ID is missing', { status: 400 });
+      return NextResponse.json({ error: { message: 'Thread ID is missing!' } }, { status: 400 });
     }
 
     const attachmentDescriptions: Record<string, string> = {};
@@ -59,7 +59,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadAtt
     const uploadedAttachments = await Promise.all(uploadPromises);
     const uploadFailed = uploadedAttachments.some((attachment) => attachment === undefined);
     if (uploadFailed) {
-      return new NextResponse('Failed to upload thread attachment!', { status: 400 });
+      return NextResponse.json({ error: { message: 'Failed to upload thread attachment!' } }, { status: 400 });
     }
 
     const uploadedPaths = uploadedAttachments
@@ -99,11 +99,11 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadAtt
       },
     });
 
-    return NextResponse.json({ attachmentImages });
+    return NextResponse.json({ data: { attachmentImages } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

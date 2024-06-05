@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Button,
   Dialog,
@@ -10,27 +10,25 @@ import {
   PlusIcon,
   useToast,
 } from '@read-quill/design-system';
-import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import DashboardReadTargetsCreateForm from './dashboard-read-targets-create-form';
 import { useCreateReadTargets } from '@modules/dashboard/hooks/read-targets/use-create-read-targets';
+import { useQueryClient } from '@tanstack/react-query';
 
 const DashboardReadTargetsCreate: React.FC = () => {
-  const [dialogOpen, setDialogOpen] = useState(false);
   const { toast } = useToast();
-  const { queryClient } = useQueriesStore();
+  const queryClient = useQueryClient();
 
   const { createReadTargets } = useCreateReadTargets({
     onSuccess: async (data) => {
-      if (data.success) {
-        setDialogOpen(false);
-        await queryClient.refetchQueries(['dashboard-read-targets']);
+      if (data.data?.readTargets) {
+        await queryClient.refetchQueries({ queryKey: ['dashboard-read-targets'] });
         toast({ variant: 'success', content: 'Read Targets created successfully!' });
       }
     },
   });
 
   return (
-    <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
+    <Dialog>
       <DialogTrigger asChild>
         <Button aria-label="Create Read Targets" className="w-full sm:ml-auto sm:w-fit" size="sm">
           <PlusIcon className="mr-2 stroke-current" />

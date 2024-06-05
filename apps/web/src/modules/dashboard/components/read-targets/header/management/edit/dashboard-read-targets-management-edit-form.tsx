@@ -7,6 +7,8 @@ import type { DashboardReadTargetsGetResponse } from '@modules/api/types/dashboa
 import DashboardReadTargetsForm from '../../../forms/dashboard-read-targets-form';
 import { MultiStepFormStep } from '@modules/forms/hooks/use-multi-step-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ReadTargets } from '@read-quill/database';
+import { DashboardReadTargets } from '@modules/dashboard/types/dashboard.types';
 
 export type DashboardReadTargetsManagementEditFormData = z.infer<typeof editReadTargetsValidationSchema>;
 
@@ -26,7 +28,7 @@ const STEPS_DATA: MultiStepFormStep<DashboardReadTargetsManagementEditFormData>[
 ];
 
 interface DashboardReadTargetsManagementEditFormProps {
-  initialData: NonNullable<DashboardReadTargetsGetResponse['result']>['targetReadTargets'];
+  initialData: DashboardReadTargets['targetReadTargets'];
   onSubmit: (data: DashboardReadTargetsManagementEditFormData) => void;
 }
 

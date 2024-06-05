@@ -3,8 +3,11 @@ import CommunityThreads from './threads/latest/community-threads';
 import CommunityTrendingThreads from './threads/trending/community-trending-threads';
 import CommunityTopUsers from './top-users/community-top-users';
 import CommunityFavouriteThreads from './threads/favourite/community-favourite-threads';
+import { auth } from 'auth';
 
-const Community: React.FC = () => {
+const Community: React.FC = async () => {
+  const session = await auth();
+
   return (
     <section className="mx-auto gap-4 flex flex-col max-w-[100rem]">
       <div className="rounded-lg border p-4 shadow">
@@ -18,7 +21,7 @@ const Community: React.FC = () => {
       <div className="gap-4 flex flex-col 2xl:flex-row-reverse relative">
         <div className="2xl:max-w-[550px] 2xl:min-w-[450px] 2xl:flex-col xl:flex-row flex flex-col gap-4">
           <CommunityTrendingThreads />
-          <CommunityFavouriteThreads />
+          {session?.user && <CommunityFavouriteThreads />}
         </div>
         <CommunityThreads />
       </div>

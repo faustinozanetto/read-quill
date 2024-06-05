@@ -35,21 +35,24 @@ export const useCreateThread = (params: UseCreateThreadParams): UseCreateThreadR
       });
 
       const response = await fetch(url, { method: 'POST', body });
+      const responseData = (await response.json()) as ThreadPostResponse;
+
       if (!response.ok) {
-        throw new Error('Could not post thread!');
+        let errorMessage = response.statusText;
+        if (responseData.error) errorMessage = responseData.error.message;
+
+        throw new Error(errorMessage);
       }
 
-      const result = (await response.json()) as ThreadPostResponse;
-
       // Upload attachments if any.
-      if (data.content.attachments) {
+      if (data.content.attachments && responseData.data?.thread) {
         await uploadAttachments({
           attachments: data.content.attachments,
-          threadId: result.thread.id,
+          threadId: responseData.data.thread.id,
         });
       }
 
-      return result;
+      return responseData;
     },
     onSuccess,
     onError(error) {

@@ -28,9 +28,9 @@ const CommunityThreadManagementDelete: React.FC = () => {
   const { thread } = useThreadStore();
   const { toast } = useToast();
 
-  const { deleteThread, isLoading } = useDeleteThread({
+  const { deleteThread, isPending } = useDeleteThread({
     onSuccess: async (data) => {
-      if (data.success) {
+      if (data.data?.success) {
         router.push('/community');
         toast({ variant: 'success', content: `Thread deleted successfully!` });
       }
@@ -61,7 +61,7 @@ const CommunityThreadManagementDelete: React.FC = () => {
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             className={buttonVariants({ variant: 'destructive' })}
-            disabled={isLoading}
+            disabled={isPending}
             onClick={async (e) => {
               e.preventDefault();
               if (!thread) return;
@@ -69,7 +69,7 @@ const CommunityThreadManagementDelete: React.FC = () => {
               await deleteThread({ threadId: thread.id });
             }}
           >
-            {isLoading && <LoadingIcon className="mr-2" />}
+            {isPending && <LoadingIcon className="mr-2" />}
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>

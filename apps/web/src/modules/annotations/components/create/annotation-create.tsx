@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Dialog,
   DialogTrigger,
@@ -23,13 +23,11 @@ const AnnotationCreate: React.FC<AnnotationCreateProps> = (props) => {
   const { bookId, createButton, onSuccess } = props;
 
   const { toast } = useToast();
-  const [dialogOpen, setDialogOpen] = useState(false);
 
   const { createAnnotation } = useCreateAnnotation({
     onSuccess: async (data, variables, context) => {
-      if (data.annotation) {
+      if (data.data?.annotation) {
         await onSuccess(data, variables, context);
-        setDialogOpen(false);
         toast({ variant: 'success', content: `Book annotation added successfully!` });
       }
     },
@@ -43,7 +41,7 @@ const AnnotationCreate: React.FC<AnnotationCreateProps> = (props) => {
   };
 
   return (
-    <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
+    <Dialog>
       <DialogTrigger asChild>{createButton}</DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px]">

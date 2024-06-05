@@ -13,7 +13,7 @@ type DeleteAnnotationMutationParams = UseMutationOptions<
 
 interface UseDeleteAnnotationReturn {
   deleteAnnotation: DeleteAnnotationMutationResult['mutateAsync'];
-  isLoading: DeleteAnnotationMutationResult['isLoading'];
+  isPending: DeleteAnnotationMutationResult['isPending'];
 }
 
 export interface UseDeleteAnnotationParams {
@@ -25,7 +25,7 @@ export const useDeleteAnnotation = (params: UseDeleteAnnotationParams): UseDelet
 
   const { toast } = useToast();
 
-  const { mutateAsync, isLoading } = useMutation<AnnotationDeleteResponse, Error, DeleteAnnotationApiActionData>({
+  const { mutateAsync, isPending } = useMutation<AnnotationDeleteResponse, Error, DeleteAnnotationApiActionData>({
     mutationKey: ['delete-annotation'],
     mutationFn: async (data) => {
       const url = new URL('/api/annotation', __URL__);
@@ -34,11 +34,16 @@ export const useDeleteAnnotation = (params: UseDeleteAnnotationParams): UseDelet
       });
 
       const response = await fetch(url, { method: 'DELETE', body });
+      const responseData = (await response.json()) as AnnotationDeleteResponse;
+
       if (!response.ok) {
-        throw new Error('Could not delete annotation!');
+        let errorMessage = response.statusText;
+        if (responseData.error) errorMessage = responseData.error.message;
+
+        throw new Error(errorMessage);
       }
 
-      return response.json();
+      return responseData;
     },
     onSuccess,
     onError(error) {
@@ -48,6 +53,6 @@ export const useDeleteAnnotation = (params: UseDeleteAnnotationParams): UseDelet
 
   return {
     deleteAnnotation: mutateAsync,
-    isLoading,
+    isPending,
   };
 };

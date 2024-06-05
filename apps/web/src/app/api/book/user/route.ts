@@ -15,7 +15,14 @@ export async function GET(request: NextRequest): Promise<NextResponse<UserBooksG
     const pageSize = Number.parseInt(searchParams.get('pageSize') ?? '6');
     const userId = searchParams.get('userId');
     if (!userId) {
-      return new NextResponse('Missing userId', { status: 500 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'User ID is required!',
+          },
+        },
+        { status: 400 }
+      );
     }
 
     // Paginate the books
@@ -53,11 +60,11 @@ export async function GET(request: NextRequest): Promise<NextResponse<UserBooksG
     const pageCount = Math.ceil(totalCount / pageSize);
     const hasMore = pageIndex < pageCount - 1;
 
-    return NextResponse.json({ books: mappedBooks, pageCount, hasMore });
+    return NextResponse.json({ data: { books: mappedBooks, pageCount, hasMore } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

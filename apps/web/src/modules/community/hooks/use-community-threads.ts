@@ -1,4 +1,3 @@
-import type { UseInfiniteQueryResult } from '@tanstack/react-query';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useToast } from '@read-quill/design-system/src';
 import { __URL__ } from '@modules/common/lib/common.constants';
@@ -6,7 +5,7 @@ import { ThreadsCommunityGetResponse } from '@modules/api/types/community-api.ty
 
 export interface UseCommunityThreadsReturn
   extends Pick<
-    UseInfiniteQueryResult<ThreadsCommunityGetResponse>,
+    ReturnType<typeof useInfiniteQuery<ThreadsCommunityGetResponse | undefined, Error>>,
     'data' | 'fetchNextPage' | 'hasNextPage' | 'isFetchingNextPage' | 'isLoading'
   > {}
 
@@ -26,28 +25,39 @@ export const useCommunityThreads = (params: UseCommunityThreadsParams = { pageSi
 
   const { toast } = useToast();
 
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isFetching } =
-    useInfiniteQuery<ThreadsCommunityGetResponse>({
-      getNextPageParam: (lastPage, pages) => {
-        if (!lastPage.hasMore) return undefined; // Stop fetching if no more pages
-        return lastPage.nextCursor; // Return the next cursor for the next page
-      },
-      queryFn: async ({ pageParam = null }) => {
-        try {
-          const url = buildUrl(pageParam, pageSize);
-          const response = await fetch(url, { method: 'GET' });
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isFetching } = useInfiniteQuery<
+    ThreadsCommunityGetResponse | undefined,
+    Error
+  >({
+    queryKey: ['community-threads'],
+    getNextPageParam: (lastPage, pages) => {
+      if (!lastPage?.data?.hasMore) return undefined; // Stop fetching if no more pages
+      return lastPage.data.nextCursor; // Return the next cursor for the next page
+    },
+    initialPageParam: null,
+    queryFn: async ({ pageParam }) => {
+      try {
+        const url = buildUrl(pageParam as string | null, pageSize);
+        const response = await fetch(url, { method: 'GET' });
 
-          if (!response.ok) {
-            throw new Error('Failed to fetch community threads!');
-          }
+        const responseData = (await response.json()) as ThreadsCommunityGetResponse;
 
-          return response.json();
-        } catch (error) {
-          toast({ variant: 'error', content: 'Failed to fetch community threads!' });
+        if (!response.ok) {
+          let errorMessage = response.statusText;
+          if (responseData.error) errorMessage = responseData.error.message;
+
+          throw new Error(errorMessage);
         }
-      },
-      queryKey: ['community-threads'],
-    });
+
+        return responseData;
+      } catch (error) {
+        let errorMessage = 'Failed to fetch threads!';
+        if (error instanceof Error) errorMessage = error.message;
+
+        toast({ variant: 'error', content: errorMessage });
+      }
+    },
+  });
 
   return { data, fetchNextPage, isFetchingNextPage, isLoading: isLoading || isFetching, hasNextPage };
 };

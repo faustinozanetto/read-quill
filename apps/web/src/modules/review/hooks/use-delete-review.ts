@@ -2,9 +2,10 @@ import { ReviewDeleteResponse } from '@modules/api/types/reviews-api.types';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useToast } from '@read-quill/design-system';
 import { UseMutationOptions, UseMutationResult, useMutation } from '@tanstack/react-query';
+import { DeleteReviewApiActionData } from '../types/review-validations.types';
 
-type DeleteReviewMutationResult = UseMutationResult<ReviewDeleteResponse, Error, { reviewId: string }>;
-type DeleteReviewMutationParams = UseMutationOptions<ReviewDeleteResponse, Error, { reviewId: string }>;
+type DeleteReviewMutationResult = UseMutationResult<ReviewDeleteResponse, Error, DeleteReviewApiActionData>;
+type DeleteReviewMutationParams = UseMutationOptions<ReviewDeleteResponse, Error, DeleteReviewApiActionData>;
 
 interface UseDeleteReviewReturn {
   deleteReview: DeleteReviewMutationResult['mutateAsync'];
@@ -19,7 +20,7 @@ export const useDeleteReview = (params: UseDeleteReviewParams): UseDeleteReviewR
 
   const { toast } = useToast();
 
-  const { mutateAsync } = useMutation<ReviewDeleteResponse, Error, { reviewId: string }>({
+  const { mutateAsync } = useMutation<ReviewDeleteResponse, Error, DeleteReviewApiActionData>({
     mutationKey: ['delete-review'],
     mutationFn: async (data) => {
       const url = new URL('/api/review', __URL__);
@@ -28,11 +29,16 @@ export const useDeleteReview = (params: UseDeleteReviewParams): UseDeleteReviewR
       });
 
       const response = await fetch(url, { method: 'DELETE', body });
+      const responseData = (await response.json()) as ReviewDeleteResponse;
+
       if (!response.ok) {
-        throw new Error('Could not delete review!');
+        let errorMessage = response.statusText;
+        if (responseData.error) errorMessage = responseData.error.message;
+
+        throw new Error(errorMessage);
       }
 
-      return response.json();
+      return responseData;
     },
     onSuccess,
     onError(error) {

@@ -11,7 +11,14 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardB
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const { searchParams } = new URL(request.url);
@@ -71,11 +78,11 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardB
       };
     });
 
-    return NextResponse.json({ booksProgress: mappedBooksProgress, pageCount, hasMore });
+    return NextResponse.json({ data: { booksProgress: mappedBooksProgress, pageCount, hasMore } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

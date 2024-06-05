@@ -18,7 +18,7 @@ type EditReadRegistryMutationParams = UseMutationOptions<
 
 interface UseEditReadRegistryReturn {
   editReadRegistry: EditReadRegistryMutationResult['mutateAsync'];
-  isLoading: EditReadRegistryMutationResult['isLoading'];
+  isPending: EditReadRegistryMutationResult['isPending'];
 }
 
 export interface UseEditReadRegistryParams {
@@ -30,7 +30,7 @@ export const useEditReadRegistry = (params: UseEditReadRegistryParams): UseEditR
 
   const { toast } = useToast();
 
-  const { mutateAsync, isLoading } = useMutation<ReadRegistryPatchResponse, Error, EditReadRegistryFormActionData>({
+  const { mutateAsync, isPending } = useMutation<ReadRegistryPatchResponse, Error, EditReadRegistryFormActionData>({
     mutationKey: ['edit-read-registry'],
     mutationFn: async (data) => {
       const url = new URL('/api/read-registry', __URL__);
@@ -39,11 +39,16 @@ export const useEditReadRegistry = (params: UseEditReadRegistryParams): UseEditR
       });
 
       const response = await fetch(url, { method: 'PATCH', body });
+      const responseData = (await response.json()) as ReadRegistryPatchResponse;
+
       if (!response.ok) {
-        throw new Error('Could not edit read registry!');
+        let errorMessage = response.statusText;
+        if (responseData.error) errorMessage = responseData.error.message;
+
+        throw new Error(errorMessage);
       }
 
-      return response.json();
+      return responseData;
     },
     onSuccess,
     onError(error) {
@@ -53,6 +58,6 @@ export const useEditReadRegistry = (params: UseEditReadRegistryParams): UseEditR
 
   return {
     editReadRegistry: mutateAsync,
-    isLoading,
+    isPending,
   };
 };

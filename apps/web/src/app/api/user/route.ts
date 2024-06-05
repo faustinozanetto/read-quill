@@ -13,41 +13,76 @@ export async function GET(request: NextRequest): Promise<NextResponse<UserGetRes
     const userId = searchParams.get('userId');
 
     if (!userId) {
-      return new NextResponse('User ID is missing', { status: 400 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'User ID is required!',
+          },
+        },
+        { status: 400 }
+      );
     }
 
     const user = await prisma.user.findUnique({ where: { id: userId } });
     if (!user) {
-      throw new NextResponse('User not found!', { status: 404 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'User not found!',
+          },
+        },
+        { status: 404 }
+      );
     }
 
-    return NextResponse.json({ user });
+    return NextResponse.json({ data: { user } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }
 
-// /api/book DELETE : deletes a book
+// /api/user DELETE : deletes a user account
 export async function DELETE(request: NextRequest): Promise<NextResponse<UserDeleteResponse>> {
   try {
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const json = await request.json();
     const { accountEmail, deleteConfirmation } = USER_SETTINGS_ACTIONS_VALIDATIONS_API.DELETE_ACCOUNT.parse(json);
 
     if (session.user.email !== accountEmail) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'Unauthorized',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     if (deleteConfirmation !== 'delete-account') {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'Unauthorized',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     await prisma.user.delete({
@@ -56,12 +91,12 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<UserDel
       },
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ data: { success: true } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
     else if (error instanceof z.ZodError) errorMessage = error.issues[0].message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

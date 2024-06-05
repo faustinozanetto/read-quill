@@ -20,16 +20,16 @@ interface BookCreateProps {
 const BookCreate: React.FC<BookCreateProps> = (props) => {
   const { createButton, onSuccess } = props;
 
-  const searchParams = useSearchParams();
-  const addBookModalParam = searchParams.get('add-book-modal') === 'true';
   const { toast } = useToast();
+  const searchParams = useSearchParams();
+  const addBookModalParam = searchParams.get('create-book') === 'true';
 
   const [dialogOpen, setDialogOpen] = useState(addBookModalParam);
   const { createBook, isCoverUploading } = useCreateBook({
     onSuccess: async (data, variables, context) => {
-      if (data && data.book) {
-        onSuccess(data, variables, context);
-        toast({ variant: 'success', content: `Book ${data.book.name} created successfully!` });
+      if (data.data?.book) {
+        await onSuccess(data, variables, context);
+        toast({ variant: 'success', content: `Book ${data.data.book.name} created successfully!` });
       }
     },
   });

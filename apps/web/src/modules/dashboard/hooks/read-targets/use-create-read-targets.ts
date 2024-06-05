@@ -38,11 +38,16 @@ export const useCreateReadTargets = (params: UseCreateReadTargetsParams): UseCre
       });
 
       const response = await fetch(url, { method: 'POST', body });
+      const responseData = (await response.json()) as DashboardReadTargetsPostResponse;
+
       if (!response.ok) {
-        throw new Error('Could not create read targets!');
+        let errorMessage = response.statusText;
+        if (responseData.error) errorMessage = responseData.error.message;
+
+        throw new Error(errorMessage);
       }
 
-      return response.json();
+      return responseData;
     },
     onSuccess,
     onError(error) {

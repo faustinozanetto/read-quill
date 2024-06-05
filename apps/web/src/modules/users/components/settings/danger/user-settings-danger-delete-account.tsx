@@ -25,7 +25,7 @@ const UserSettingsDangerDeleteAccount: React.FC = () => {
 
   const { deleteUserAccount } = useDeleteUserAccount({
     onSuccess: async (data) => {
-      if (data && data.success) {
+      if (data.data?.success) {
         await signOut({ callbackUrl: '/', redirect: true });
         toast({ variant: 'success', content: `User deleted successfully!` });
       }

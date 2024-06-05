@@ -30,11 +30,11 @@ export async function GET(): Promise<NextResponse<DashboardBooksRatingsGetRespon
       };
     });
 
-    return NextResponse.json({ booksRatings: mappedRatings });
+    return NextResponse.json({ data: { booksRatings: mappedRatings } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

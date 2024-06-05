@@ -18,7 +18,7 @@ type DeleteReadRegistryMutationParams = UseMutationOptions<
 
 interface UseDeleteReadRegistryReturn {
   deleteReadRegistry: DeleteReadRegistryMutationResult['mutateAsync'];
-  isLoading: DeleteReadRegistryMutationResult['isLoading'];
+  isPending: DeleteReadRegistryMutationResult['isPending'];
 }
 
 export interface UseDeleteReadRegistryParams {
@@ -30,7 +30,7 @@ export const useDeleteReadRegistry = (params: UseDeleteReadRegistryParams): UseD
 
   const { toast } = useToast();
 
-  const { mutateAsync, isLoading } = useMutation<ReadRegistryDeleteResponse, Error, DeleteReadRegistryFormActionData>({
+  const { mutateAsync, isPending } = useMutation<ReadRegistryDeleteResponse, Error, DeleteReadRegistryFormActionData>({
     mutationKey: ['delete-read-registry'],
     mutationFn: async (data) => {
       const url = new URL('/api/read-registry', __URL__);
@@ -39,11 +39,16 @@ export const useDeleteReadRegistry = (params: UseDeleteReadRegistryParams): UseD
       });
 
       const response = await fetch(url, { method: 'DELETE', body });
+      const responseData = (await response.json()) as ReadRegistryDeleteResponse;
+
       if (!response.ok) {
-        throw new Error('Could not delete read registry!');
+        let errorMessage = response.statusText;
+        if (responseData.error) errorMessage = responseData.error.message;
+
+        throw new Error(errorMessage);
       }
 
-      return response.json();
+      return responseData;
     },
     onSuccess,
     onError(error) {
@@ -53,6 +58,6 @@ export const useDeleteReadRegistry = (params: UseDeleteReadRegistryParams): UseD
 
   return {
     deleteReadRegistry: mutateAsync,
-    isLoading,
+    isPending,
   };
 };

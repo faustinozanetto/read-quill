@@ -22,7 +22,7 @@ const CommnuityThreadVotes: React.FC<CommnuityThreadVotesProps> = (props) => {
     <div className="flex flex-col gap-0.5 items-center justify-center">
       <CommnuityThreadVoteOption thread={thread} type="upvote" icon={<ArrowUpIcon />} />
       {isLoading && <Skeleton className="h-4 w-4" />}
-      {!isLoading && data && data.votes && <span className="text-sm font-medium tabular-nums">{data.votes}</span>}
+      {!isLoading && data?.data?.votes && <span className="text-sm font-medium tabular-nums">{data.data.votes}</span>}
       <CommnuityThreadVoteOption thread={thread} type="downvote" icon={<ArrowDownIcon />} />
     </div>
   );

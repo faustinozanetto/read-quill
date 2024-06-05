@@ -9,7 +9,7 @@ type DeleteThreadMutationParams = UseMutationOptions<ThreadDeleteResponse, Error
 
 interface UseDeleteThreadReturn {
   deleteThread: DeleteThreadMutationResult['mutateAsync'];
-  isLoading: DeleteThreadMutationResult['isLoading'];
+  isPending: DeleteThreadMutationResult['isPending'];
 }
 
 interface UseDeleteThreadParams {
@@ -21,7 +21,7 @@ export const useDeleteThread = (params: UseDeleteThreadParams): UseDeleteThreadR
 
   const { toast } = useToast();
 
-  const { mutateAsync, isLoading } = useMutation<ThreadDeleteResponse, Error, DeleteThreadApiActionData>({
+  const { mutateAsync, isPending } = useMutation<ThreadDeleteResponse, Error, DeleteThreadApiActionData>({
     mutationKey: ['delete-thread'],
     mutationFn: async (data) => {
       const url = new URL('/api/community/thread', __URL__);
@@ -30,11 +30,16 @@ export const useDeleteThread = (params: UseDeleteThreadParams): UseDeleteThreadR
       });
 
       const response = await fetch(url, { method: 'DELETE', body });
+      const responseData = (await response.json()) as ThreadDeleteResponse;
+
       if (!response.ok) {
-        throw new Error('Could not delete thread!');
+        let errorMessage = response.statusText;
+        if (responseData.error) errorMessage = responseData.error.message;
+
+        throw new Error(errorMessage);
       }
 
-      return response.json();
+      return responseData;
     },
     onSuccess,
     onError(error) {
@@ -44,6 +49,6 @@ export const useDeleteThread = (params: UseDeleteThreadParams): UseDeleteThreadR
 
   return {
     deleteThread: mutateAsync,
-    isLoading,
+    isPending,
   };
 };

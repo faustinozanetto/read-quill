@@ -6,13 +6,16 @@ import { ThreadPatchResponse } from '@modules/api/types/community-api.types';
 import { EditThreadFormActionData } from '@modules/community/types/community-thread-validations.types';
 import { ThreadWithDetails } from '@modules/community/types/community.types';
 
+type EditThreadMutationResult = UseMutationResult<ThreadPatchResponse | undefined, Error, EditThreadFormActionData>;
+type EditThreadMutationParams = UseMutationOptions<ThreadPatchResponse | undefined, Error, EditThreadFormActionData>;
+
 interface UseEditThreadReturn {
-  editThread: UseMutationResult<ThreadPatchResponse, Error, EditThreadFormActionData>['mutateAsync'];
+  editThread: EditThreadMutationResult['mutateAsync'];
 }
 
 interface UseEditThreadParams {
   thread: ThreadWithDetails | null;
-  onSuccess: NonNullable<UseMutationOptions<ThreadPatchResponse, Error, EditThreadFormActionData>['onSuccess']>;
+  onSuccess: EditThreadMutationParams['onSuccess'];
 }
 
 export const useEditThread = (params: UseEditThreadParams): UseEditThreadReturn => {
@@ -20,7 +23,7 @@ export const useEditThread = (params: UseEditThreadParams): UseEditThreadReturn 
 
   const { toast } = useToast();
 
-  const { mutateAsync } = useMutation<ThreadPatchResponse, Error, EditThreadFormActionData>({
+  const { mutateAsync } = useMutation<ThreadPatchResponse | undefined, Error, EditThreadFormActionData>({
     mutationKey: ['thread-edit', thread?.id],
     mutationFn: async (data) => {
       if (!thread) return;
@@ -32,11 +35,16 @@ export const useEditThread = (params: UseEditThreadParams): UseEditThreadReturn 
       });
 
       const response = await fetch(url, { method: 'PATCH', body });
+      const responseData = (await response.json()) as ThreadPatchResponse;
+
       if (!response.ok) {
-        throw new Error('Could not update thread!');
+        let errorMessage = response.statusText;
+        if (responseData.error) errorMessage = responseData.error.message;
+
+        throw new Error(errorMessage);
       }
 
-      return response.json();
+      return responseData;
     },
     onSuccess,
     onError(error) {

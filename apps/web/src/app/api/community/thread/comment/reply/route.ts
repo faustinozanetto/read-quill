@@ -11,7 +11,14 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadCom
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const json = await request.json();
@@ -26,11 +33,11 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadCom
       },
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ data: { threadComment } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

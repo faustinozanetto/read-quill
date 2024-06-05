@@ -13,7 +13,14 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<ThreadA
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const json = await request.json();
@@ -33,17 +40,31 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<ThreadA
       },
     });
     if (!threadAttachment) {
-      return new NextResponse('Thread Attachment not found!', { status: 404 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'Thread attachment not found!',
+          },
+        },
+        { status: 404 }
+      );
     }
 
     const isThreadOwner = threadAttachment.thread.authorId === session.user.id;
     if (!isThreadOwner) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You are not the thread owner!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const { error } = await deleteImageFromSupabase('ThreadAttachments', threadAttachment.image.path);
     if (error) {
-      return new NextResponse('Failed to delete attachment!', { status: 500 });
+      return NextResponse.json({ error: { message: 'Failed to delete attachment!' } }, { status: 500 });
     }
 
     await prisma.threadAttachment.delete({
@@ -57,11 +78,11 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<ThreadA
       },
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ data: { success: true } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

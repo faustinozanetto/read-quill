@@ -4,24 +4,36 @@ import { useToast } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { DashboardBooksRatingsGetResponse } from '@modules/api/types/dashboard-api.types';
 
-type UseBooksRatingsReturn = Pick<UseQueryResult<DashboardBooksRatingsGetResponse>, 'data' | 'isLoading'>;
+type UseBooksRatingsReturn = Pick<UseQueryResult<DashboardBooksRatingsGetResponse | undefined>, 'data' | 'isLoading'>;
 
 export const useBooksRatings = (): UseBooksRatingsReturn => {
   const { toast } = useToast();
 
-  const { data, isFetching, isLoading } = useQuery<DashboardBooksRatingsGetResponse>(['dashboard-books-ratings'], {
+  const { data, isFetching, isLoading } = useQuery<DashboardBooksRatingsGetResponse | undefined>({
+    queryKey: ['dashboard-books-ratings'],
+    initialData: {
+      data: { booksRatings: [] },
+    },
     queryFn: async () => {
       try {
         const url = new URL('/api/dashboard/books-ratings', __URL__);
 
         const response = await fetch(url, { method: 'GET' });
+        const responseData = (await response.json()) as DashboardBooksRatingsGetResponse;
+
         if (!response.ok) {
-          throw new Error('Failed to fetch user books ratings');
+          let errorMessage = response.statusText;
+          if (responseData.error) errorMessage = responseData.error.message;
+
+          throw new Error(errorMessage);
         }
 
-        return response.json();
+        return responseData;
       } catch (error) {
-        toast({ variant: 'error', content: 'Failed to fetch books ratings!' });
+        let errorMessage = 'Failed to fetch book ratings!';
+        if (error instanceof Error) errorMessage = error.message;
+
+        toast({ variant: 'error', content: errorMessage });
       }
     },
   });

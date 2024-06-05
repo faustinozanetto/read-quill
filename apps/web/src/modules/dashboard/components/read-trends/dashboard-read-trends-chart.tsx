@@ -4,8 +4,10 @@ import React, { useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import type { ApexOptions } from 'apexcharts';
 import { useTheme } from 'next-theme-kit';
-import type { DashboardReadTrendsIntervalType } from '@modules/dashboard/types/dashboard.types';
-import type { DashboardReadTrendsGetResponse } from '@modules/api/types/dashboard-api.types';
+import type {
+  DashboardReadTrendEntry,
+  DashboardReadTrendsIntervalType,
+} from '@modules/dashboard/types/dashboard.types';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -18,7 +20,7 @@ const getWeekNumber = (date: Date): number => {
 };
 
 interface DashboardReadTrendsChartProps {
-  trends: DashboardReadTrendsGetResponse['trends'];
+  trends: DashboardReadTrendEntry[];
   interval: DashboardReadTrendsIntervalType;
 }
 

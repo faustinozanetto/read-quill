@@ -29,11 +29,16 @@ export const useDeleteUserAccount = (params: UseDeleteUserAccountParams): UseDel
       });
 
       const response = await fetch(url, { method: 'DELETE', body });
+      const responseData = (await response.json()) as UserDeleteResponse;
+
       if (!response.ok) {
-        throw new Error('Could not delete user!');
+        let errorMessage = response.statusText;
+        if (responseData.error) errorMessage = responseData.error.message;
+
+        throw new Error(errorMessage);
       }
 
-      return response.json();
+      return responseData;
     },
     onSuccess,
     onError(error) {

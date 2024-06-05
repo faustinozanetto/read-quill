@@ -43,11 +43,16 @@ export const useEditReadTargets = (params: UseEditReadTargetsParams): UseEditRea
       });
 
       const response = await fetch(url, { method: 'PATCH', body });
+      const responseData = (await response.json()) as DashboardReadTargetsPatchResponse;
+
       if (!response.ok) {
-        throw new Error('Could not edit read targets!');
+        let errorMessage = response.statusText;
+        if (responseData.error) errorMessage = responseData.error.message;
+
+        throw new Error(errorMessage);
       }
 
-      return response.json();
+      return responseData;
     },
     onSuccess,
     onError(error) {

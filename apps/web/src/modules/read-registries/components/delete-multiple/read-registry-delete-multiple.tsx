@@ -30,20 +30,18 @@ const ReadRegistryDeleteMultiple: React.FC<ReadRegistryDeleteMultipleProps> = (p
   const { registryIds, onSuccess, deleteButton } = props;
 
   const { toast } = useToast();
-  const [dialogOpen, setDialogOpen] = useState(false);
 
   const { deleteReadRegistries } = useDeleteReadRegistries({
     onSuccess: async (data, variables, context) => {
-      if (data.success) {
+      if (data.data?.success) {
         await onSuccess(data, variables, context);
-        setDialogOpen(false);
         toast({ variant: 'success', content: 'Read registries deleted successfully!' });
       }
     },
   });
 
   return (
-    <AlertDialog onOpenChange={setDialogOpen} open={dialogOpen}>
+    <AlertDialog>
       <AlertDialogTrigger asChild>{deleteButton}</AlertDialogTrigger>
 
       <AlertDialogContent className="sm:max-w-[425px]">

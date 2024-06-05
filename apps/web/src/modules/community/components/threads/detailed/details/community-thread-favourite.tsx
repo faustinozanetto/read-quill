@@ -28,7 +28,7 @@ const CommnuityThreadFavourite: React.FC<CommnuityThreadFavouriteProps> = (props
     threadId: thread.id,
     userId: user?.id,
   });
-  const { mutateAsync, isLoading: isSetLoading } = useSetThreadFavourite();
+  const { mutateAsync, isPending: isSetPending } = useSetThreadFavourite();
 
   const handleSetFavourite = async () => {
     if (!user || !user.id || !data) return;
@@ -40,9 +40,9 @@ const CommnuityThreadFavourite: React.FC<CommnuityThreadFavouriteProps> = (props
     });
   };
 
-  const isCurrentThreadFavourite = data?.isFavourite ?? false;
-  const isContentLoading = isLoading || isSetLoading;
-  const label = data?.isFavourite ? 'Remove Favourite' : 'Add Favourite';
+  const isCurrentThreadFavourite = data?.data?.isFavourite ?? false;
+  const isContentLoading = isLoading || isSetPending;
+  const label = data?.data?.isFavourite ? 'Remove Favourite' : 'Add Favourite';
 
   return (
     <TooltipProvider delayDuration={100}>

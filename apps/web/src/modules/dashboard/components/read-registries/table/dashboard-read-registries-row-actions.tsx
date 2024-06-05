@@ -4,7 +4,7 @@ import type { Row } from '@tanstack/react-table';
 import type { ReadRegistry } from '@read-quill/database';
 
 import ReadRegistryActions from '@modules/read-registries/components/read-registry-actions';
-import { useQueriesStore } from '@modules/queries/state/queries.slice';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface DashboardReadRegistriesRowActionsProps {
   row: Row<ReadRegistry>;
@@ -13,13 +13,13 @@ interface DashboardReadRegistriesRowActionsProps {
 const DashboardReadRegistriesRowActions: React.FC<DashboardReadRegistriesRowActionsProps> = (props) => {
   const { row } = props;
 
-  const { queryClient } = useQueriesStore();
+  const queryClient = useQueryClient();
 
   const handleOnReadRegistryModified = async () => {
-    await queryClient.refetchQueries(['dashboard-read-targets']);
-    await queryClient.refetchQueries(['dashboard-read-registries']);
-    await queryClient.refetchQueries(['dashboard-books-progress']);
-    await queryClient.refetchQueries(['dashboard-average-reading-time']);
+    await queryClient.refetchQueries({ queryKey: ['dashboard-read-targets'] });
+    await queryClient.refetchQueries({ queryKey: ['dashboard-read-registries'] });
+    await queryClient.refetchQueries({ queryKey: ['dashboard-books-progress'] });
+    await queryClient.refetchQueries({ queryKey: ['dashboard-average-reading-time'] });
   };
 
   return (

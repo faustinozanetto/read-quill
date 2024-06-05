@@ -14,13 +14,13 @@ interface UploadBookCoverData {
 
 export interface UseUploadBookCoverReturn {
   uploadCover: UploadBookCoverMutationResult['mutateAsync'];
-  isLoading: UploadBookCoverMutationResult['isLoading'];
+  isPending: UploadBookCoverMutationResult['isPending'];
 }
 
 export const useUploadBookCover = (): UseUploadBookCoverReturn => {
   const { toast } = useToast();
 
-  const { mutateAsync, isLoading } = useMutation<BookUploadPostResponse, Error, UploadBookCoverData>({
+  const { mutateAsync, isPending } = useMutation<BookUploadPostResponse, Error, UploadBookCoverData>({
     mutationFn: async (data) => {
       const { coverImage } = data;
 
@@ -36,11 +36,16 @@ export const useUploadBookCover = (): UseUploadBookCoverReturn => {
         body: formData,
       });
 
+      const responseData = (await response.json()) as BookUploadPostResponse;
+
       if (!response.ok) {
-        throw new Error('Failed to upload book cover!');
+        let errorMessage = response.statusText;
+        if (responseData.error) errorMessage = responseData.error.message;
+
+        throw new Error(errorMessage);
       }
 
-      return response.json();
+      return responseData;
     },
     onError(error) {
       toast({ variant: 'error', content: error.message });
@@ -49,6 +54,6 @@ export const useUploadBookCover = (): UseUploadBookCoverReturn => {
 
   return {
     uploadCover: mutateAsync,
-    isLoading,
+    isPending,
   };
 };

@@ -45,11 +45,11 @@ export async function GET(request: NextRequest): Promise<NextResponse<CommunityT
     // Sort users by their total votes
     mappedUsers.sort((a, b) => b.totalVotes - a.totalVotes);
 
-    return NextResponse.json({ topUsers: mappedUsers });
+    return NextResponse.json({ data: { topUsers: mappedUsers } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

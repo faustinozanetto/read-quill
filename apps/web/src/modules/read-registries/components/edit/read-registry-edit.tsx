@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Dialog,
   DialogContent,
@@ -24,21 +24,19 @@ interface ReadRegistryEditProps {
 const ReadRegistryEdit: React.FC<ReadRegistryEditProps> = (props) => {
   const { readRegistry, editButton, onSuccess } = props;
 
-  const [dialogOpen, setDialogOpen] = useState(false);
   const { toast } = useToast();
 
   const { editReadRegistry } = useEditReadRegistry({
     onSuccess: async (data, variables, context) => {
-      if (data && data.readRegistry) {
+      if (data.data?.readRegistry) {
         await onSuccess(data, variables, context);
-        setDialogOpen(false);
         toast({ variant: 'success', content: 'Read registry edited successfully!' });
       }
     },
   });
 
   return (
-    <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
+    <Dialog>
       <DialogTrigger asChild>{editButton}</DialogTrigger>
 
       <DialogContent>

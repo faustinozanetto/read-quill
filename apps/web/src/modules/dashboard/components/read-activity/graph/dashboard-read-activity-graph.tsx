@@ -1,13 +1,13 @@
 'use client';
 
 import React from 'react';
-import type { DashboardReadActivityEntry } from '@modules/dashboard/types/dashboard.types';
+import type { DashboardReadActivityEntry, DashboardReadActivty } from '@modules/dashboard/types/dashboard.types';
 import { useReadActivityGraph } from '@modules/dashboard/hooks/read-activity/use-read-activity-graph';
-import type { DashboardReadActivityGetResponse } from '@modules/api/types/dashboard-api.types';
+
 import DashboardReadActivityGraphEntry from './dashboard-read-activity-graph-entry';
 
 interface DashboardReadActivityGraphProps {
-  readActivity: DashboardReadActivityGetResponse['readActivity'];
+  readActivity: DashboardReadActivty;
 }
 
 const DashboardReadActivityGraph: React.FC<DashboardReadActivityGraphProps> = (props) => {

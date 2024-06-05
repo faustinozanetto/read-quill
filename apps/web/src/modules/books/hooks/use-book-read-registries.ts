@@ -9,7 +9,7 @@ import { __URL__ } from '@modules/common/lib/common.constants';
 import { BookReadRegistriesGetResponse } from '@modules/api/types/books-api.types';
 
 export interface UseBookReadRegistriesReturn
-  extends Pick<UseQueryResult<BookReadRegistriesGetResponse>, 'data' | 'isLoading'> {
+  extends Pick<UseQueryResult<BookReadRegistriesGetResponse | undefined>, 'data' | 'isLoading'> {
   pagination: PaginationState;
   setPagination: Dispatch<SetStateAction<PaginationState>>;
 }
@@ -31,32 +31,39 @@ export const useBookReadRegistries = (
     pageSize,
   });
 
-  const { data, isLoading, isFetching } = useQuery<BookReadRegistriesGetResponse>(
-    ['book-read-registries', pagination, bookId],
-    {
-      keepPreviousData: true,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-      queryFn: async () => {
-        try {
-          if (!bookId) return;
+  const { data, isLoading, isFetching } = useQuery<BookReadRegistriesGetResponse | undefined>({
+    queryKey: ['book-read-registries', pagination, bookId],
+    initialData: {
+      data: { pageCount: 0, readRegistries: [] },
+    },
+    enabled: typeof bookId !== 'undefined',
+    queryFn: async () => {
+      try {
+        if (!bookId) return;
 
-          const url = new URL('/api/book/read-registries', __URL__);
-          url.searchParams.set('bookId', bookId);
-          url.searchParams.set('pageIndex', String(pagination.pageIndex));
-          url.searchParams.set('pageSize', String(pagination.pageSize));
+        const url = new URL('/api/book/read-registries', __URL__);
+        url.searchParams.set('bookId', bookId);
+        url.searchParams.set('pageIndex', String(pagination.pageIndex));
+        url.searchParams.set('pageSize', String(pagination.pageSize));
 
-          const response = await fetch(url, { method: 'GET' });
-          if (!response.ok) {
-            throw new Error('Failed to fetch book read registries!');
-          }
+        const response = await fetch(url, { method: 'GET' });
+        const responseData = (await response.json()) as BookReadRegistriesGetResponse;
 
-          return response.json();
-        } catch (error) {
-          toast({ variant: 'error', content: 'Failed to fetch book read registries!' });
+        if (!response.ok) {
+          let errorMessage = response.statusText;
+          if (responseData.error) errorMessage = responseData.error.message;
+
+          throw new Error(errorMessage);
         }
-      },
-    }
-  );
+
+        return responseData;
+      } catch (error) {
+        let errorMessage = 'Failed to fetch book read registries!';
+        if (error instanceof Error) errorMessage = error.message;
+
+        toast({ variant: 'error', content: errorMessage });
+      }
+    },
+  });
   return { data, isLoading: isLoading || isFetching, pagination, setPagination };
 };

@@ -12,20 +12,11 @@ import BookCardPlaceholder from '@modules/books/components/cards/book-card-place
 const UserLibraryBooks: React.FC = () => {
   const { user } = useAuthContext();
 
-  const {
-    data,
-    getCanNextPage,
-    getCanPreviousPage,
-
-    isLoading,
-    nextPage,
-    page,
-    previousPage,
-    setPageIndex,
-  } = useUserBooks({
-    pageSize: 6,
-    userId: user?.id,
-  });
+  const { data, getCanNextPage, getCanPreviousPage, isLoading, nextPage, page, previousPage, setPageIndex } =
+    useUserBooks({
+      pageSize: 6,
+      userId: user?.id,
+    });
 
   return (
     <div className="flex w-full flex-col gap-2">
@@ -39,12 +30,12 @@ const UserLibraryBooks: React.FC = () => {
       >
         <div className="rounded-lg shadow border space-y-4">
           <UserLibraryBooksFeed
-            books={data?.books ?? []}
+            books={data?.data?.books ?? []}
             getCanNextPage={getCanNextPage}
             getCanPreviousPage={getCanPreviousPage}
             nextPage={nextPage}
             page={page}
-            pageCount={data?.pageCount ?? 0}
+            pageCount={data?.data?.pageCount ?? 0}
             previousPage={previousPage}
             setPageIndex={setPageIndex}
           >
@@ -56,7 +47,7 @@ const UserLibraryBooks: React.FC = () => {
               </div>
             ) : null}
 
-            {!isLoading && data && !data.books.length ? (
+            {!isLoading && !data?.data?.books.length ? (
               <p className="m-auto">
                 Let&apos;s build your book collection! Click the{' '}
                 <span className="text-primary text-center font-bold underline">Create Book</span> button to get started.

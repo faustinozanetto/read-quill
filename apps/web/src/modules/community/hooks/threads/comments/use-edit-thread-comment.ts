@@ -2,19 +2,22 @@ import { __URL__ } from '@modules/common/lib/common.constants';
 import { useToast } from '@read-quill/design-system';
 import { UseMutationOptions, UseMutationResult, useMutation } from '@tanstack/react-query';
 
-import { EditThreadCommentFormActionData } from '@modules/community/types/community-thread-comments-validations.types';
-import { ThreadCommentWithAuthor } from '@modules/community/types/community.types';
+import {
+  EditThreadCommentApiActionData,
+  EditThreadCommentFormActionData,
+} from '@modules/community/types/community-thread-comments-validations.types';
+
 import { ThreadCommentPatchResponse } from '@modules/api/types/community-api.types';
 
 type EditThreadCommentMutationResult = UseMutationResult<
   ThreadCommentPatchResponse,
   Error,
-  EditThreadCommentFormActionData
+  EditThreadCommentApiActionData
 >;
 type EditThreadCommentMutationParams = UseMutationOptions<
   ThreadCommentPatchResponse,
   Error,
-  EditThreadCommentFormActionData
+  EditThreadCommentApiActionData
 >;
 
 interface UseEditThreadCommentReturn {
@@ -22,30 +25,33 @@ interface UseEditThreadCommentReturn {
 }
 
 interface UseEditThreadCommentParams {
-  comment: ThreadCommentWithAuthor;
   onSuccess: NonNullable<EditThreadCommentMutationParams['onSuccess']>;
 }
 
 export const useEditThreadComment = (params: UseEditThreadCommentParams): UseEditThreadCommentReturn => {
-  const { comment, onSuccess } = params;
+  const { onSuccess } = params;
 
   const { toast } = useToast();
 
-  const { mutateAsync } = useMutation<ThreadCommentPatchResponse, Error, EditThreadCommentFormActionData>({
-    mutationKey: ['thread-edit-comment', comment.id],
+  const { mutateAsync } = useMutation<ThreadCommentPatchResponse, Error, EditThreadCommentApiActionData>({
+    mutationKey: ['thread-edit-comment'],
     mutationFn: async (data) => {
       const url = new URL('/api/community/thread/comment', __URL__);
       const body = JSON.stringify({
-        commentId: comment.id,
-        content: data.content,
+        ...data,
       });
 
       const response = await fetch(url, { method: 'PATCH', body });
+      const responseData = (await response.json()) as ThreadCommentPatchResponse;
+
       if (!response.ok) {
-        throw new Error('Could not edit thread comment!');
+        let errorMessage = response.statusText;
+        if (responseData.error) errorMessage = responseData.error.message;
+
+        throw new Error(errorMessage);
       }
 
-      return response.json();
+      return responseData;
     },
     onSuccess,
     onError(error) {

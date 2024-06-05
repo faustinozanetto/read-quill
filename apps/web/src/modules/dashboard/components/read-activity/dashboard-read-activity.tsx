@@ -16,7 +16,7 @@ const DashboardReadActivity: React.FC<DashboardReadActivityProps> = (props) => {
   const { className } = props;
   const { data, isLoading } = useReadActivity();
 
-  const readActivityArray = data ? Object.entries(data.readActivity) : [];
+  const readActivityArray = data?.data ? Object.entries(data.data?.readActivity) : [];
 
   return (
     <div className={cn('rounded-lg border p-4 shadow flex flex-col gap-2 overflow-hidden h-fit', className)}>
@@ -29,9 +29,9 @@ const DashboardReadActivity: React.FC<DashboardReadActivityProps> = (props) => {
 
       {isLoading ? <Skeleton className="h-48 w-full" /> : null}
 
-      {!isLoading && data && readActivityArray.length ? (
+      {!isLoading && data?.data?.readActivity && readActivityArray.length ? (
         <div className="flex flex-col gap-2">
-          <DashboardReadActivityGraph readActivity={data.readActivity} />
+          <DashboardReadActivityGraph readActivity={data.data?.readActivity} />
           <DashboardReadActivityIndicators />
         </div>
       ) : null}

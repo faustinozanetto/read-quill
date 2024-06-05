@@ -7,7 +7,7 @@ import { useBookStore } from '@modules/books/state/book.slice';
 import UserBookReadRegistriesTable from './user-book-read-registries-table';
 import { Badge, Button, PlusIcon, Skeleton } from '@read-quill/design-system';
 import ReadRegistryCreate from '@modules/read-registries/components/create/read-registry-create';
-import { useQueriesStore } from '@modules/queries/state/queries.slice';
+import { useQueryClient } from '@tanstack/react-query';
 
 const UserBookReadRegistries: React.FC = () => {
   const { book } = useBookStore();
@@ -15,10 +15,10 @@ const UserBookReadRegistries: React.FC = () => {
     bookId: book?.id,
     pageSize: 8,
   });
-  const { queryClient } = useQueriesStore();
+  const queryClient = useQueryClient();
 
   const handleOnRegistryCreated = async () => {
-    await queryClient.refetchQueries(['book-read-registries', pagination, book?.id]);
+    await queryClient.refetchQueries({ queryKey: ['book-read-registries'] });
   };
 
   return (
@@ -44,7 +44,7 @@ const UserBookReadRegistries: React.FC = () => {
       <p>Manage and view the read registries for your book here.</p>
       {isLoading && <Skeleton className="h-40 w-full" />}
 
-      {!isLoading && data && data.readRegistries.length ? (
+      {!isLoading && data?.data?.readRegistries.length ? (
         <UserBookReadRegistriesTable data={data} pagination={pagination} setPagination={setPagination} />
       ) : null}
     </div>

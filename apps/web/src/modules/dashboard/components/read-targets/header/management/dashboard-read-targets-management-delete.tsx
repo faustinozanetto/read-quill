@@ -15,18 +15,18 @@ import {
   buttonVariants,
   useToast,
 } from '@read-quill/design-system';
-import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { useDeleteReadTargets } from '@modules/dashboard/hooks/read-targets/use-delete-read-targets';
+import { useQueryClient } from '@tanstack/react-query';
 
 const DashboardReadTargetsManagementDelete: React.FC = () => {
   const { toast } = useToast();
-  const { queryClient } = useQueriesStore();
+  const queryClient = useQueryClient();
 
-  const { isLoading, deleteReadTargets } = useDeleteReadTargets({
+  const { isPending, deleteReadTargets } = useDeleteReadTargets({
     onSuccess: async (data) => {
-      if (data.success) {
-        await queryClient.refetchQueries(['dashboard-read-targets-created']);
-        await queryClient.refetchQueries(['dashboard-read-targets']);
+      if (data.data?.success) {
+        await queryClient.refetchQueries({ queryKey: ['dashboard-read-targets-created'] });
+        await queryClient.refetchQueries({ queryKey: ['dashboard-read-targets'] });
         toast({ variant: 'success', content: `Targets deleted successfully!` });
       }
     },
@@ -56,13 +56,13 @@ const DashboardReadTargetsManagementDelete: React.FC = () => {
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             className={buttonVariants({ variant: 'destructive' })}
-            disabled={isLoading}
+            disabled={isPending}
             onClick={async (e) => {
               e.preventDefault();
               await deleteReadTargets();
             }}
           >
-            {isLoading && <LoadingIcon className="mr-2" />}
+            {isPending && <LoadingIcon className="mr-2" />}
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>

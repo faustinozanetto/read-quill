@@ -25,9 +25,9 @@ const AnnotationEdit: React.FC<AnnotationEditProps> = (props) => {
 
   const { toast } = useToast();
 
-  const { isLoading, editAnnotation } = useEditAnnotation({
+  const { isPending, editAnnotation } = useEditAnnotation({
     onSuccess: async (data, variables, context) => {
-      if (data.annotation) {
+      if (data.data?.annotation) {
         await onSuccess(data, variables, context);
         toast({ variant: 'success', content: `Book annotation edited successfully!` });
       }
@@ -43,7 +43,7 @@ const AnnotationEdit: React.FC<AnnotationEditProps> = (props) => {
 
   return (
     <Dialog>
-      <DialogTrigger asChild>{editButton(isLoading)}</DialogTrigger>
+      <DialogTrigger asChild>{editButton(isPending)}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Edit Annotation</DialogTitle>

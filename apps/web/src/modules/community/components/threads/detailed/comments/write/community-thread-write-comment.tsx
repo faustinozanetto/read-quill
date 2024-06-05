@@ -5,20 +5,20 @@ import CommunityThreadWriteCommentForm from './community-thread-write-comment-fo
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useToast } from '@read-quill/design-system';
 
-import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { useThreadStore } from '@modules/community/state/thread/thread.slice';
 import { useCreateThreadComment } from '@modules/community/hooks/threads/comments/use-create-thread-comment';
+import { useQueryClient } from '@tanstack/react-query';
 
 const CommunityThreadWriteComment: React.FC = () => {
   const { toast } = useToast();
   const { thread } = useThreadStore();
-  const { queryClient } = useQueriesStore();
+  const queryClient = useQueryClient();
 
   const { createComment } = useCreateThreadComment({
     thread,
     onSuccess: async (data) => {
-      if (data.threadComment && thread) {
-        await queryClient.refetchQueries(['thread-comments', 0, thread.id]);
+      if (data?.data?.threadComment && thread) {
+        await queryClient.refetchQueries({ queryKey: ['thread-comments', 0, thread.id] });
         toast({ variant: 'success', content: `Comment created successfully!` });
       }
     },

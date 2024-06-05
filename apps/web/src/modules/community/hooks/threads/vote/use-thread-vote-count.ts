@@ -1,9 +1,9 @@
-import { DefinedUseQueryResult, UseQueryResult, useQuery } from '@tanstack/react-query';
+import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import { ThreadVoteGetResponse } from '@modules/api/types/community-api.types';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useToast } from '@read-quill/design-system';
 
-interface UseIsThreadVoteReturn extends Pick<UseQueryResult<ThreadVoteGetResponse>, 'data' | 'isLoading'> {}
+interface UseIsThreadVoteReturn extends Pick<UseQueryResult<ThreadVoteGetResponse | undefined>, 'data' | 'isLoading'> {}
 
 const buildUrl = (threadId: string): string => {
   const url = new URL('/api/community/thread/vote', __URL__);
@@ -19,9 +19,12 @@ export const useThreadVoteCount = (params: UseThreadVoteCountParams): UseIsThrea
   const { threadId } = params;
 
   const { toast } = useToast();
-
-  const { data, isLoading, isFetching } = useQuery<ThreadVoteGetResponse>(['thread-vote-count', threadId], {
+  const { data, isLoading, isFetching } = useQuery<ThreadVoteGetResponse | undefined>({
+    queryKey: ['thread-vote-count', threadId],
     enabled: typeof threadId !== 'undefined',
+    initialData: {
+      data: { votes: 0 },
+    },
     queryFn: async () => {
       try {
         if (!threadId) return;
@@ -29,13 +32,21 @@ export const useThreadVoteCount = (params: UseThreadVoteCountParams): UseIsThrea
         const url = buildUrl(threadId);
         const response = await fetch(url, { method: 'GET' });
 
+        const responseData = (await response.json()) as ThreadVoteGetResponse;
+
         if (!response.ok) {
-          throw new Error('Failed to fetch thread votes!');
+          let errorMessage = response.statusText;
+          if (responseData.error) errorMessage = responseData.error.message;
+
+          throw new Error(errorMessage);
         }
 
-        return response.json();
+        return responseData;
       } catch (error) {
-        toast({ variant: 'error', content: 'Failed to fetch thread votes' });
+        let errorMessage = 'Failed to fetch thread votes!';
+        if (error instanceof Error) errorMessage = error.message;
+
+        toast({ variant: 'error', content: errorMessage });
       }
     },
   });

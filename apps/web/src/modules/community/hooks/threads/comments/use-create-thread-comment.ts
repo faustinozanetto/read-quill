@@ -8,12 +8,12 @@ import { CreateThreadCommentFormActionData } from '@modules/community/types/comm
 import { ThreadWithDetails } from '@modules/community/types/community.types';
 
 type CreateThreadCommentMutationResult = UseMutationResult<
-  ThreadCommentPostResponse,
+  ThreadCommentPostResponse | undefined,
   Error,
   CreateThreadCommentFormActionData
 >;
 type CreateThreadCommentMutationParams = UseMutationOptions<
-  ThreadCommentPostResponse,
+  ThreadCommentPostResponse | undefined,
   Error,
   CreateThreadCommentFormActionData
 >;
@@ -32,7 +32,7 @@ export const useCreateThreadComment = (params: UseCreateThreadCommentParams): Us
 
   const { toast } = useToast();
 
-  const { mutateAsync } = useMutation<ThreadCommentPostResponse, Error, CreateThreadCommentFormActionData>({
+  const { mutateAsync } = useMutation<ThreadCommentPostResponse | undefined, Error, CreateThreadCommentFormActionData>({
     mutationKey: ['thread-create-comment', thread?.id],
     mutationFn: async (data) => {
       if (!thread) return;
@@ -44,11 +44,16 @@ export const useCreateThreadComment = (params: UseCreateThreadCommentParams): Us
       });
 
       const response = await fetch(url, { method: 'POST', body });
+      const responseData = (await response.json()) as ThreadCommentPostResponse;
+
       if (!response.ok) {
-        throw new Error('Could not create thread comment!');
+        let errorMessage = response.statusText;
+        if (responseData.error) errorMessage = responseData.error.message;
+
+        throw new Error(errorMessage);
       }
 
-      return response.json();
+      return responseData;
     },
     onSuccess,
     onError(error) {

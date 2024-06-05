@@ -4,24 +4,45 @@ import { useToast } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { AverageReadingTimeGetResponse } from '@modules/api/types/dashboard-api.types';
 
-type UseAverageReadingTimeReturn = Pick<UseQueryResult<AverageReadingTimeGetResponse>, 'data' | 'isLoading'>;
+type UseAverageReadingTimeReturn = Pick<
+  UseQueryResult<AverageReadingTimeGetResponse | undefined>,
+  'data' | 'isLoading'
+>;
 
 export const useAverageReadingTime = (): UseAverageReadingTimeReturn => {
   const { toast } = useToast();
 
-  const { data, isFetching, isLoading } = useQuery<AverageReadingTimeGetResponse>(['dashboard-average-reading-time'], {
+  const { data, isFetching, isLoading } = useQuery<AverageReadingTimeGetResponse | undefined>({
+    queryKey: ['dashboard-average-reading-time'],
+    initialData: {
+      data: {
+        averageReadingTimes: {
+          daily: { current: 0, past: 0 },
+          monthly: { current: 0, past: 0 },
+          weekly: { current: 0, past: 0 },
+        },
+      },
+    },
     queryFn: async () => {
       try {
         const url = new URL('/api/dashboard/average-reading-time', __URL__);
 
         const response = await fetch(url, { method: 'GET' });
+        const responseData = (await response.json()) as AverageReadingTimeGetResponse;
+
         if (!response.ok) {
-          throw new Error('Failed to fetch average reading time');
+          let errorMessage = response.statusText;
+          if (responseData.error) errorMessage = responseData.error.message;
+
+          throw new Error(errorMessage);
         }
 
-        return response.json();
+        return responseData;
       } catch (error) {
-        toast({ variant: 'error', content: 'Failed to fetchaverage reading time' });
+        let errorMessage = 'Failed to fetch average reading times!';
+        if (error instanceof Error) errorMessage = error.message;
+
+        toast({ variant: 'error', content: errorMessage });
       }
     },
   });

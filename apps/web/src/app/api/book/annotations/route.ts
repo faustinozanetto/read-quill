@@ -10,7 +10,14 @@ export async function GET(request: NextRequest): Promise<NextResponse<BookAnnota
     const bookId = searchParams.get('bookId');
 
     if (!bookId) {
-      return new NextResponse('Book ID is missing', { status: 400 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'Book ID is required!',
+          },
+        },
+        { status: 400 }
+      );
     }
 
     const pageIndex = Number.parseInt(searchParams.get('pageIndex') ?? '0');
@@ -31,11 +38,11 @@ export async function GET(request: NextRequest): Promise<NextResponse<BookAnnota
     const pageCount = Math.ceil(totalCount / pageSize);
     const hasMore = pageIndex < pageCount - 1;
 
-    return NextResponse.json({ annotations, hasMore, pageCount });
+    return NextResponse.json({ data: { annotations, hasMore, pageCount } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

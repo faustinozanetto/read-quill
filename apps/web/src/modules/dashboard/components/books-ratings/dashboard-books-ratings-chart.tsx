@@ -4,13 +4,13 @@ import React, { useMemo } from 'react';
 import dynamic from 'next/dynamic';
 import type { ApexOptions } from 'apexcharts';
 import { useTheme } from 'next-theme-kit';
-import type { DashboardBooksRatingsGetResponse } from '@modules/api/types/dashboard-api.types';
-import { hslToHex } from '@modules/common/lib/common.lib';
+
+import { DashboardBookRatingEntry } from '@modules/dashboard/types/dashboard.types';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 interface DashboardBooksRatingsChartProps {
-  booksRatings: DashboardBooksRatingsGetResponse['booksRatings'];
+  booksRatings: DashboardBookRatingEntry[];
 }
 
 const DashboardBooksRatingsChart: React.FC<DashboardBooksRatingsChartProps> = (props) => {

@@ -16,26 +16,26 @@ export async function GET(request: NextRequest): Promise<NextResponse<ThreadFavo
     const userId = searchParams.get('userId');
 
     if (!threadId) {
-      return new NextResponse('Thread ID is missing', { status: 400 });
+      return NextResponse.json({ error: { message: 'Thread ID is missing!' } }, { status: 400 });
     }
 
     if (!userId) {
-      return new NextResponse('User ID is missing', { status: 400 });
+      return NextResponse.json({ error: { message: 'User ID is missing!' } }, { status: 400 });
     }
 
     const userFavouriteThread = await prisma.userFavouriteThread.findMany({
       where: { threadId, userId },
     });
     if (!userFavouriteThread.length) {
-      return NextResponse.json({ isFavourite: false });
+      return NextResponse.json({ data: { isFavourite: false } });
     }
 
-    return NextResponse.json({ isFavourite: true });
+    return NextResponse.json({ data: { isFavourite: true } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }
 
@@ -45,7 +45,14 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadFav
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const json = await request.json();
@@ -67,12 +74,12 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadFav
       });
     }
 
-    return NextResponse.json({ success: true, threadFavourite: isFavouriteAction });
+    return NextResponse.json({ data: { success: true, threadFavourite: isFavouriteAction } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
     else if (error instanceof z.ZodError) errorMessage = error.issues[0].message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

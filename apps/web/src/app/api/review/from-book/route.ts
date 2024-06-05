@@ -11,16 +11,23 @@ export async function GET(request: NextRequest): Promise<NextResponse<ReviewGetR
     const bookId = searchParams.get('bookId');
 
     if (!bookId) {
-      return new NextResponse('Book ID is missing', { status: 400 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'Book Id is required!',
+          },
+        },
+        { status: 400 }
+      );
     }
 
     const review = await prisma.review.findUnique({ where: { bookId } });
 
-    return NextResponse.json({ review });
+    return NextResponse.json({ data: { review } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

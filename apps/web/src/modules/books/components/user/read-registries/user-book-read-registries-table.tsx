@@ -10,8 +10,9 @@ import { UseBookReadRegistriesReturn } from '@modules/books/hooks/use-book-read-
 import { ReadRegistry } from '@read-quill/database';
 import UserBookReadRegistriesRowActions from './user-book-read-registries-row-actions';
 import ReadRegistryDeleteMultiple from '@modules/read-registries/components/delete-multiple/read-registry-delete-multiple';
-import { useQueriesStore } from '@modules/queries/state/queries.slice';
+
 import { BookReadRegistriesGetResponse } from '@modules/api/types/books-api.types';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface UserBookReadRegistriesTableProps extends Pick<UseBookReadRegistriesReturn, 'pagination' | 'setPagination'> {
   data: BookReadRegistriesGetResponse;
@@ -20,7 +21,7 @@ interface UserBookReadRegistriesTableProps extends Pick<UseBookReadRegistriesRet
 const UserBookReadRegistriesTable: React.FC<UserBookReadRegistriesTableProps> = (props) => {
   const { data, pagination, setPagination } = props;
 
-  const { queryClient } = useQueriesStore();
+  const queryClient = useQueryClient();
 
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -81,9 +82,9 @@ const UserBookReadRegistriesTable: React.FC<UserBookReadRegistriesTableProps> = 
   );
 
   const table = useReactTable({
-    data: data.readRegistries,
+    data: data.data?.readRegistries ?? [],
     columns,
-    pageCount: data.pageCount,
+    pageCount: data.data?.pageCount ?? 0,
     state: {
       pagination,
       sorting,
@@ -105,7 +106,7 @@ const UserBookReadRegistriesTable: React.FC<UserBookReadRegistriesTableProps> = 
   const selectedRowsIds = table.getSelectedRowModel().rows.map((selectedRow) => selectedRow.original.id);
 
   const onSelectedRegistriesDeleted = async () => {
-    await queryClient.refetchQueries(['book-read-registries']);
+    await queryClient.refetchQueries({ queryKey: ['book-read-registries'] });
     table.resetRowSelection();
   };
 

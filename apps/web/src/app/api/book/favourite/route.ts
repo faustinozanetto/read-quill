@@ -13,13 +13,20 @@ export async function POST(request: NextRequest): Promise<NextResponse<BookFavou
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const json = await request.json();
     const { bookId, isFavourite } = BOOK_ACTIONS_VALIDATIONS_API.FAVOURITE.parse(json);
 
-    await prisma.book.update({
+    const book = await prisma.book.update({
       where: {
         id: bookId,
       },
@@ -28,12 +35,12 @@ export async function POST(request: NextRequest): Promise<NextResponse<BookFavou
       },
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ data: { isFavourite: book.isFavourite } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
     else if (error instanceof z.ZodError) errorMessage = error.issues[0].message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

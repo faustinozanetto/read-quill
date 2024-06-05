@@ -9,6 +9,7 @@ import { UseReadRegistriesReturn } from '@modules/dashboard/hooks/use-read-regis
 import type { DashboardReadRegistry } from '@modules/api/types/dashboard-api.types';
 import DashboardReadRegistriesRowActions from './dashboard-read-registries-row-actions';
 import Link from 'next/link';
+import { ReadRegistry } from '@read-quill/database';
 
 interface DashboardReadRegistriesTableProps extends Pick<UseReadRegistriesReturn, 'pagination' | 'setPagination'> {
   readRegistries: DashboardReadRegistry[];

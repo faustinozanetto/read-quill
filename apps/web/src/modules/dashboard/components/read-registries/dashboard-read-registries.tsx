@@ -20,16 +20,16 @@ const DashboardReadRegistries: React.FC = () => {
 
       {isLoading ? <Skeleton className="h-48 w-full" /> : null}
 
-      {!isLoading && data && data.readRegistries.length ? (
+      {!isLoading && data?.data?.readRegistries.length ? (
         <DashboardReadRegistriesTable
-          readRegistries={data.readRegistries}
-          pageCount={data.pageCount}
+          readRegistries={data.data.readRegistries}
+          pageCount={data.data.pageCount}
           pagination={pagination}
           setPagination={setPagination}
         />
       ) : null}
 
-      {!isLoading && data && !data.readRegistries.length ? (
+      {!isLoading && !data?.data?.readRegistries.length ? (
         <DashboardNoDataMessage>
           <p>Start logging your readings to discover trends over time.</p>
         </DashboardNoDataMessage>

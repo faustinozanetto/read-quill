@@ -27,10 +27,10 @@ const CommunityThreadAttachments: React.FC = () => {
         </div>
       ) : null}
 
-      {!isLoading && thread && data && data.attachments.length ? (
+      {!isLoading && thread && data?.data?.attachments.length ? (
         <Dialog>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-2">
-            {data.attachments.map((attachment) => (
+            {data.data.attachments.map((attachment) => (
               <CommunityThreadAttachment
                 key={attachment.id}
                 attachment={attachment}
@@ -59,9 +59,7 @@ const CommunityThreadAttachments: React.FC = () => {
         </Dialog>
       ) : null}
 
-      {!isLoading && data && !data.attachments.length ? (
-        <p>This thread does not seem to have any attachments!</p>
-      ) : null}
+      {!isLoading && !data?.data?.attachments.length ? <p>This thread does not seem to have any attachments!</p> : null}
     </div>
   );
 };

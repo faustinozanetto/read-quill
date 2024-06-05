@@ -27,7 +27,7 @@ const DashboardReadTrends: React.FC<DashboardReadTrendsProps> = (props) => {
           page consumption. Track your progress, set goals, and discover patterns to make the most of your reading
           journey.
         </p>
-        {data && data.trends.length ? (
+        {data?.data?.trends.length ? (
           <div className="ml-auto space-x-2">
             {interval === 'daily' && (
               <DashboardReadTrendsDailyRangeSelect dailyRange={dailyRange} setDailyRange={setDailyRange} />
@@ -39,17 +39,17 @@ const DashboardReadTrends: React.FC<DashboardReadTrendsProps> = (props) => {
 
       {isLoading ? <Skeleton className="h-48 w-full" /> : null}
 
-      {!isLoading && filteredData && filteredData.trends.length ? (
-        <DashboardReadTrendsChart interval={interval} trends={filteredData.trends} />
+      {!isLoading && filteredData?.data?.trends.length ? (
+        <DashboardReadTrendsChart interval={interval} trends={filteredData.data.trends} />
       ) : null}
 
-      {!isLoading && filteredData && !filteredData.trends.length && data && data.trends.length ? (
+      {!isLoading && !filteredData?.data?.trends.length && data?.data?.trends.length ? (
         <DashboardNoDataMessage>
           <p>No data can be found for your filters, please change them.</p>
         </DashboardNoDataMessage>
       ) : null}
 
-      {!isLoading && data && !data.trends.length ? (
+      {!isLoading && !data?.data?.trends.length ? (
         <DashboardNoDataMessage>
           <p>Start logging your readings to discover trends over time.</p>
         </DashboardNoDataMessage>

@@ -1,11 +1,12 @@
 import { UseQueryResult, useQuery } from '@tanstack/react-query';
 import { __URL__ } from '@modules/common/lib/common.constants';
 
-import { useBookStore } from '../state/book.slice';
 import { useCallback, useState } from 'react';
 import { BookAnnotationsGetResponse } from '@modules/api/types/annotations-api.types';
+import { useToast } from '@read-quill/design-system';
 
-interface UseBookAnnotationsReturn extends Pick<UseQueryResult<BookAnnotationsGetResponse>, 'data' | 'isLoading'> {
+interface UseBookAnnotationsReturn
+  extends Pick<UseQueryResult<BookAnnotationsGetResponse | undefined>, 'data' | 'isLoading'> {
   page: number;
   setPageIndex: (index: number) => void;
   nextPage: () => void;
@@ -30,44 +31,60 @@ const buildUrl = (page: number, pageSize: number, bookId: string): string => {
 export const useBookAnnotations = (params: UseBookAnnotationsParams): UseBookAnnotationsReturn => {
   const { pageSize, bookId } = params;
 
+  const { toast } = useToast();
   const [page, setPage] = useState(0);
 
-  const { data, isFetching, isLoading, isPreviousData } = useQuery<BookAnnotationsGetResponse>(
-    ['book-annotations', bookId],
-    {
-      enabled: !!bookId,
-      keepPreviousData: true,
-      queryFn: async () => {
+  const { data, isFetching, isLoading, isPlaceholderData } = useQuery<BookAnnotationsGetResponse | undefined>({
+    queryKey: ['book-annotations', bookId],
+    enabled: !!bookId,
+    initialData: {
+      data: { annotations: [], hasMore: false, pageCount: 0 },
+    },
+    placeholderData: (previousData) => previousData,
+    queryFn: async () => {
+      try {
         if (!bookId) return;
 
         const url = buildUrl(page, pageSize, bookId);
         const response = await fetch(url, { method: 'GET' });
+        const responseData = (await response.json()) as BookAnnotationsGetResponse;
+
         if (!response.ok) {
-          throw new Error('Failed to fetch book annotations');
+          let errorMessage = response.statusText;
+          if (responseData.error) errorMessage = responseData.error.message;
+
+          throw new Error(errorMessage);
         }
 
-        return response.json();
-      },
-    }
-  );
+        return responseData;
+      } catch (error) {
+        let errorMessage = 'Failed to fetch book annotations!';
+        if (error instanceof Error) errorMessage = error.message;
+
+        toast({ variant: 'error', content: errorMessage });
+      }
+    },
+  });
 
   const previousPage = useCallback(() => {
     setPage((old) => Math.max(old - 1, 0));
   }, []);
 
   const nextPage = useCallback(() => {
-    if (!isPreviousData && data?.hasMore) {
+    if (!data?.data) return;
+
+    if (!isPlaceholderData && data.data.hasMore) {
       setPage((old) => old + 1);
     }
-  }, [data?.hasMore, isPreviousData]);
+  }, [data?.data?.hasMore, isPlaceholderData]);
 
   const setPageIndex = useCallback(
     (index: number) => {
-      if (!data?.pageCount) return;
+      if (!data?.data) return;
 
-      if (index >= 0 && index <= data.pageCount) setPage(index);
+      if (index >= 0 && index <= data.data.pageCount) setPage(index);
     },
-    [data?.pageCount]
+    [data?.data]
   );
 
   const getCanPreviousPage = useCallback(() => {
@@ -75,8 +92,10 @@ export const useBookAnnotations = (params: UseBookAnnotationsParams): UseBookAnn
   }, [page]);
 
   const getCanNextPage = useCallback(() => {
-    return !(isPreviousData || !data?.hasMore);
-  }, [data?.hasMore, isPreviousData]);
+    if (!data?.data) return false;
+
+    return !(isPlaceholderData || !data.data.hasMore);
+  }, [data?.data, isPlaceholderData]);
 
   return {
     data,

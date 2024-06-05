@@ -19,20 +19,34 @@ export async function GET(request: NextRequest): Promise<NextResponse<Annotation
     const annotationId = searchParams.get('annotationId');
 
     if (!annotationId) {
-      return new NextResponse('Annotation ID is missing', { status: 400 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'Annotation ID is required!',
+          },
+        },
+        { status: 400 }
+      );
     }
 
     const annotation = await prisma.annotation.findUnique({ where: { id: annotationId } });
     if (!annotation) {
-      return new NextResponse('Annotation not found!', { status: 404 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'Annotation not found!',
+          },
+        },
+        { status: 404 }
+      );
     }
 
-    return NextResponse.json({ annotation });
+    return NextResponse.json({ data: { annotation } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }
 
@@ -42,7 +56,14 @@ export async function POST(request: NextRequest): Promise<NextResponse<Annotatio
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const json = await request.json();
@@ -54,12 +75,26 @@ export async function POST(request: NextRequest): Promise<NextResponse<Annotatio
       },
     });
     if (!book) {
-      return new NextResponse('Book not found!', { status: 404 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'Book not found!',
+          },
+        },
+        { status: 404 }
+      );
     }
 
     const isBookOwner = book.readerId === session.user.id;
     if (!isBookOwner) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You are not the book owner!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const annotation = await prisma.annotation.create({
@@ -71,13 +106,13 @@ export async function POST(request: NextRequest): Promise<NextResponse<Annotatio
       },
     });
 
-    return NextResponse.json({ annotation });
+    return NextResponse.json({ data: { annotation } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
     else if (error instanceof z.ZodError) errorMessage = error.issues[0].message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }
 
@@ -87,7 +122,14 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<Annotati
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const json = await request.json();
@@ -104,12 +146,26 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<Annotati
       },
     });
     if (!annotation) {
-      return new NextResponse('Annotation not found!', { status: 404 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'Annotation not found!',
+          },
+        },
+        { status: 404 }
+      );
     }
 
     const isAnnotationOwner = annotation.book?.readerId === session.user.id;
     if (!isAnnotationOwner) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You are not the book owner!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const updatedAnnotation = await prisma.annotation.update({
@@ -123,13 +179,13 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<Annotati
       },
     });
 
-    return NextResponse.json({ annotation: updatedAnnotation });
+    return NextResponse.json({ data: { annotation: updatedAnnotation } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
     else if (error instanceof z.ZodError) errorMessage = error.issues[0].message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }
 
@@ -139,7 +195,14 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<Annotat
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const json = await request.json();
@@ -156,12 +219,26 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<Annotat
       },
     });
     if (!annotation) {
-      return new NextResponse('Annotation not found!', { status: 404 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'Annotation not found!',
+          },
+        },
+        { status: 404 }
+      );
     }
 
     const isAnnotationOwner = annotation.book?.readerId === session.user.id;
     if (!isAnnotationOwner) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You are not the book owner!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     await prisma.annotation.delete({
@@ -170,12 +247,12 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<Annotat
       },
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ data: { success: true } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
     else if (error instanceof z.ZodError) errorMessage = error.issues[0].message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

@@ -1,17 +1,18 @@
 import { Review } from '@read-quill/database';
+import { BaseApiResponse } from './api.types';
 
-export interface ReviewGetResponse {
-  review: Review | null;
+export interface ReviewGetResponse extends BaseApiResponse {
+  data?: { review: Review | null };
 }
 
-export interface ReviewPostResponse {
-  review: Review;
+export interface ReviewPostResponse extends BaseApiResponse {
+  data?: { review: Review };
 }
 
-export interface ReviewPatchResponse {
-  review: Review;
+export interface ReviewPatchResponse extends BaseApiResponse {
+  data?: { review: Review };
 }
 
-export interface ReviewDeleteResponse {
-  success: boolean;
+export interface ReviewDeleteResponse extends BaseApiResponse {
+  data?: { success: boolean };
 }

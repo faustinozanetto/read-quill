@@ -9,7 +9,14 @@ export async function GET(): Promise<NextResponse<BooksNamesGetResponse>> {
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const booksNames = await prisma.book.findMany({
@@ -17,11 +24,11 @@ export async function GET(): Promise<NextResponse<BooksNamesGetResponse>> {
       select: { id: true, name: true },
     });
 
-    return NextResponse.json({ booksNames });
+    return NextResponse.json({ data: { booksNames } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

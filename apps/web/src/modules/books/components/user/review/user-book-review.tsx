@@ -10,23 +10,27 @@ import { useFetchReviewFromBook } from '@modules/review/hooks/use-fetch-review-f
 const UserBookReview: React.FC = () => {
   const { book } = useBookStore();
   const { isBookOwner } = useIsBookOwner();
-  const { data, isLoading } = useFetchReviewFromBook({ bookId: book?.id });
+  const { data, isFetching } = useFetchReviewFromBook({ bookId: book?.id });
 
-  const hasReview = Boolean(data?.review);
+  const hasReview = Boolean(data?.data?.review);
 
   return (
     <div className="flex flex-col rounded-lg p-4 gap-2 shadow border">
-      <UserBookReviewHeader readerWrittenReview={hasReview} contentLoading={isLoading} review={data?.review ?? null} />
+      <UserBookReviewHeader
+        readerWrittenReview={hasReview}
+        contentLoading={isFetching}
+        review={data?.data?.review ?? null}
+      />
 
-      {isLoading && <Skeleton className="h-20 w-full" />}
+      {isFetching && <Skeleton className="h-20 w-full" />}
 
-      {!isLoading && hasReview && (
+      {!isFetching && hasReview && (
         <p className="first-letter:text-6xl first-letter:font-bold first-letter:text-primary first-letter:mr-3 first-letter:float-left">
-          {data?.review?.content}
+          {data?.data?.review?.content}
         </p>
       )}
 
-      {!isLoading && !hasReview && (
+      {!isFetching && !hasReview && (
         <p>
           {isBookOwner ? (
             <>

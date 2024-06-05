@@ -4,7 +4,7 @@ import type { Row } from '@tanstack/react-table';
 import type { ReadRegistry } from '@read-quill/database';
 
 import ReadRegistryActions from '@modules/read-registries/components/read-registry-actions';
-import { useQueriesStore } from '@modules/queries/state/queries.slice';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface UserBookReadRegistriesRowActionsProps {
   row: Row<ReadRegistry>;
@@ -13,10 +13,10 @@ interface UserBookReadRegistriesRowActionsProps {
 const UserBookReadRegistriesRowActions: React.FC<UserBookReadRegistriesRowActionsProps> = (props) => {
   const { row } = props;
 
-  const { queryClient } = useQueriesStore();
+  const queryClient = useQueryClient();
 
   const handleOnReadRegistryModified = async () => {
-    await queryClient.refetchQueries(['book-read-registries']);
+    await queryClient.refetchQueries({ queryKey: ['book-read-registries'] });
   };
 
   return (

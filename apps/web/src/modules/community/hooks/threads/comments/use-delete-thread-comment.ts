@@ -18,7 +18,7 @@ type DeleteThreadCommentMutationParams = UseMutationOptions<
 
 interface UseDeleteThreadCommentReturn {
   deleteComment: DeleteThreadCommentMutationResult['mutateAsync'];
-  isLoading: DeleteThreadCommentMutationResult['isLoading'];
+  isPending: DeleteThreadCommentMutationResult['isPending'];
 }
 
 interface UseDeleteThreadCommentParams {
@@ -30,7 +30,7 @@ export const useDeleteThreadComment = (params: UseDeleteThreadCommentParams): Us
 
   const { toast } = useToast();
 
-  const { mutateAsync, isLoading } = useMutation<ThreadCommentDeleteResponse, Error, DeleteThreadCommentFormActionData>(
+  const { mutateAsync, isPending } = useMutation<ThreadCommentDeleteResponse, Error, DeleteThreadCommentFormActionData>(
     {
       mutationKey: ['thread-delete-comment'],
       mutationFn: async (data) => {
@@ -40,11 +40,16 @@ export const useDeleteThreadComment = (params: UseDeleteThreadCommentParams): Us
         });
 
         const response = await fetch(url, { method: 'DELETE', body });
+        const responseData = (await response.json()) as ThreadCommentDeleteResponse;
+
         if (!response.ok) {
-          throw new Error('Could not delete comment!');
+          let errorMessage = response.statusText;
+          if (responseData.error) errorMessage = responseData.error.message;
+
+          throw new Error(errorMessage);
         }
 
-        return response.json();
+        return responseData;
       },
       onSuccess,
       onError(error) {
@@ -55,6 +60,6 @@ export const useDeleteThreadComment = (params: UseDeleteThreadCommentParams): Us
 
   return {
     deleteComment: mutateAsync,
-    isLoading,
+    isPending,
   };
 };

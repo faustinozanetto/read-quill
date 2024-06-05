@@ -2,7 +2,7 @@ import { prisma } from '@read-quill/database';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import { ThreadsCommunityTrendingGetResponse } from '@modules/api/types/community-api.types';
-import { startOfWeek, subDays } from 'date-fns';
+import { subDays } from 'date-fns';
 import { ThreadWithDetails } from '@modules/community/types/community.types';
 import { getThreadViews } from '@modules/community/lib/community-thread-views.lib';
 
@@ -34,11 +34,11 @@ export async function GET(request: NextRequest): Promise<NextResponse<ThreadsCom
       return { ...rest, commentsCount: comments.length, views: threadViews[index] };
     });
 
-    return NextResponse.json({ threads: mappedThreads });
+    return NextResponse.json({ data: { threads: mappedThreads } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

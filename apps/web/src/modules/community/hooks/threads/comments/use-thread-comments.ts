@@ -1,11 +1,12 @@
-import type { DefinedUseQueryResult, UseQueryResult } from '@tanstack/react-query';
+import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useState } from 'react';
-import { useToast } from '@read-quill/design-system/src';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { ThreadCommentsGetResponse } from '@modules/api/types/community-api.types';
+import { useToast } from '@read-quill/design-system';
 
-export interface UseThreadCommentsReturn extends Pick<UseQueryResult<ThreadCommentsGetResponse>, 'data' | 'isLoading'> {
+export interface UseThreadCommentsReturn
+  extends Pick<UseQueryResult<ThreadCommentsGetResponse | undefined>, 'data' | 'isLoading'> {
   page: number;
   setPageIndex: (index: number) => void;
   nextPage: () => void;
@@ -31,50 +32,60 @@ export const useThreadComments = (params: UseThreadCommentsParams): UseThreadCom
   const { pageSize, threadId } = params;
 
   const { toast } = useToast();
-
   const [page, setPage] = useState(0);
 
-  const { data, isLoading, isFetching, isPreviousData } = useQuery<ThreadCommentsGetResponse>(
-    ['thread-comments', page, threadId],
-    {
-      enabled: threadId !== undefined,
-      keepPreviousData: true,
-      queryFn: async () => {
-        try {
-          if (!threadId) return;
+  const { data, isLoading, isFetching, isPlaceholderData } = useQuery<ThreadCommentsGetResponse | undefined>({
+    queryKey: ['thread-comments', page, threadId],
+    enabled: typeof threadId !== undefined,
+    initialData: {
+      data: { comments: [], hasMore: false, pageCount: 0 },
+    },
+    placeholderData: (previousData) => previousData,
+    queryFn: async () => {
+      try {
+        if (!threadId) return;
 
-          const url = buildUrl(threadId, page, pageSize);
-          const response = await fetch(url, { method: 'GET' });
+        const url = buildUrl(threadId, page, pageSize);
+        const response = await fetch(url, { method: 'GET' });
 
-          if (!response.ok) {
-            throw new Error('Failed to fetch thread comments!');
-          }
+        const responseData = (await response.json()) as ThreadCommentsGetResponse;
 
-          return response.json();
-        } catch (error) {
-          toast({ variant: 'error', content: 'Failed to fetch thread comments!' });
+        if (!response.ok) {
+          let errorMessage = response.statusText;
+          if (responseData.error) errorMessage = responseData.error.message;
+
+          throw new Error(errorMessage);
         }
-      },
-    }
-  );
+
+        return responseData;
+      } catch (error) {
+        let errorMessage = 'Failed to fetch thread comments!';
+        if (error instanceof Error) errorMessage = error.message;
+
+        toast({ variant: 'error', content: errorMessage });
+      }
+    },
+  });
 
   const previousPage = useCallback(() => {
     setPage((old) => Math.max(old - 1, 0));
   }, []);
 
   const nextPage = useCallback(() => {
-    if (!isPreviousData && data?.hasMore) {
+    if (!data?.data) return;
+
+    if (!isPlaceholderData && data.data.hasMore) {
       setPage((old) => old + 1);
     }
-  }, [data?.hasMore, isPreviousData]);
+  }, [data?.data?.hasMore, isPlaceholderData]);
 
   const setPageIndex = useCallback(
     (index: number) => {
-      if (!data?.pageCount) return;
+      if (!data?.data) return;
 
-      if (index >= 0 && index <= data.pageCount) setPage(index);
+      if (index >= 0 && index <= data.data.pageCount) setPage(index);
     },
-    [data?.pageCount]
+    [data?.data]
   );
 
   const getCanPreviousPage = useCallback(() => {
@@ -82,8 +93,10 @@ export const useThreadComments = (params: UseThreadCommentsParams): UseThreadCom
   }, [page]);
 
   const getCanNextPage = useCallback(() => {
-    return !(isPreviousData || !data?.hasMore);
-  }, [data?.hasMore, isPreviousData]);
+    if (!data?.data) return false;
+
+    return !(isPlaceholderData || !data.data.hasMore);
+  }, [data?.data, isPlaceholderData]);
 
   return {
     data,

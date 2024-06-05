@@ -25,11 +25,11 @@ export async function GET(): Promise<NextResponse<AchievementsUnLockedGetRespons
       };
     });
 
-    return NextResponse.json({ unLockedAchievements: mapped });
+    return NextResponse.json({ data: { unLockedAchievements: mapped } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

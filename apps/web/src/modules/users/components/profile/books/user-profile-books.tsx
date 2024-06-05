@@ -24,9 +24,9 @@ const UserProfileBooks: React.FC = () => {
         </div>
       ) : null}
 
-      {!isLoading && data && data.books.length ? <BooksFeed books={data.books} /> : null}
+      {!isLoading && data && data.data?.books.length ? <BooksFeed books={data.data.books} /> : null}
 
-      {!isLoading && data && !data.books.length ? <p>This user has not read any books so far!</p> : null}
+      {!isLoading && data && !data?.data?.books.length ? <p>This user has not read any books so far!</p> : null}
     </div>
   );
 };

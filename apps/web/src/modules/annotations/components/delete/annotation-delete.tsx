@@ -26,9 +26,9 @@ const AnnotationDelete: React.FC<AnnotationDeleteProps> = (props) => {
 
   const { toast } = useToast();
 
-  const { deleteAnnotation, isLoading } = useDeleteAnnotation({
+  const { deleteAnnotation, isPending } = useDeleteAnnotation({
     onSuccess: async (data, variables, context) => {
-      if (data && data.success) {
+      if (data.data?.success) {
         await onSuccess(data, variables, context);
         toast({ variant: 'success', content: `Annotation deleted successfully!` });
       }
@@ -49,13 +49,13 @@ const AnnotationDelete: React.FC<AnnotationDeleteProps> = (props) => {
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             className={buttonVariants({ variant: 'destructive' })}
-            disabled={isLoading}
+            disabled={isPending}
             onClick={async (e) => {
               e.preventDefault();
               await deleteAnnotation({ annotationId });
             }}
           >
-            {isLoading && <LoadingIcon className="mr-2" />}
+            {isPending && <LoadingIcon className="mr-2" />}
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>

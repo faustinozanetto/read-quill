@@ -5,7 +5,7 @@ import { __URL__ } from '@modules/common/lib/common.constants';
 import { CommunityTopUsersGetResponse } from '@modules/api/types/community-api.types';
 
 export interface UseCommunityTopUsersReturn
-  extends Pick<UseQueryResult<CommunityTopUsersGetResponse>, 'data' | 'isLoading'> {}
+  extends Pick<UseQueryResult<CommunityTopUsersGetResponse | undefined>, 'data' | 'isLoading'> {}
 
 interface UseCommunityTopUsersParams {
   take: number;
@@ -22,20 +22,31 @@ export const useCommunityTopUsers = (params: UseCommunityTopUsersParams = { take
 
   const { toast } = useToast();
 
-  const { data, isLoading, isFetching } = useQuery<CommunityTopUsersGetResponse>({
+  const { data, isLoading, isFetching } = useQuery<CommunityTopUsersGetResponse | undefined>({
     queryKey: ['community-top-users'],
+    initialData: {
+      data: { topUsers: [] },
+    },
     queryFn: async () => {
       try {
         const url = buildUrl(take);
         const response = await fetch(url, { method: 'GET' });
 
+        const responseData = (await response.json()) as CommunityTopUsersGetResponse;
+
         if (!response.ok) {
-          throw new Error('Failed to fetch community top users!');
+          let errorMessage = response.statusText;
+          if (responseData.error) errorMessage = responseData.error.message;
+
+          throw new Error(errorMessage);
         }
 
-        return response.json();
+        return responseData;
       } catch (error) {
-        toast({ variant: 'error', content: 'Failed to fetch community top users!' });
+        let errorMessage = 'Failed to fetch community top users!';
+        if (error instanceof Error) errorMessage = error.message;
+
+        toast({ variant: 'error', content: errorMessage });
       }
     },
   });

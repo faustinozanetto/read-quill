@@ -15,8 +15,9 @@ import {
 import BookDelete from '../../delete/book-delete';
 import { BookWithDetails } from '@modules/books/types/book.types';
 import BookEdit from '../../edit/book-edit';
-import { useQueriesStore } from '@modules/queries/state/queries.slice';
+
 import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface UserBookManagementProps extends ButtonProps {
   book: BookWithDetails;
@@ -26,14 +27,14 @@ const UserBookManagement: React.FC<UserBookManagementProps> = (props) => {
   const { book, size = 'icon', variant = 'outline', ...rest } = props;
 
   const router = useRouter();
-  const { queryClient } = useQueriesStore();
+  const queryClient = useQueryClient();
 
   const handleOnBookDeleted = () => {
     router.push('/library');
   };
 
   const handleOnBookEdited = async () => {
-    await queryClient.refetchQueries(['book', book.id]);
+    await queryClient.refetchQueries({ queryKey: ['book', book.id] });
   };
 
   return (

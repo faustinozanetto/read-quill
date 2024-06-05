@@ -1,13 +1,18 @@
 import { prisma } from '@read-quill/database';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { ThreadPatchResponse, ThreadGetResponse, ThreadPostResponse } from '@modules/api/types/community-api.types';
+import {
+  ThreadPatchResponse,
+  ThreadGetResponse,
+  ThreadPostResponse,
+  ThreadDeleteResponse,
+} from '@modules/api/types/community-api.types';
 import { ThreadWithDetails } from '@modules/community/types/community.types';
 import { auth } from 'auth';
 
 import { THREAD_ACTIONS_VALIDATIONS_API } from '@modules/community/validations/community-thread.validations';
 import { getThreadViews } from '@modules/community/lib/community-thread-views.lib';
-import { deleteImageFromSupabase, deleteImagesFromSupabase } from '@modules/uploads/lib/uploads.lib';
+import { deleteImagesFromSupabase } from '@modules/uploads/lib/uploads.lib';
 
 // /api/community/thread GET : Gets a thread by a given threadId
 export async function GET(request: NextRequest): Promise<NextResponse<ThreadGetResponse>> {
@@ -16,7 +21,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<ThreadGetR
     const threadId = searchParams.get('threadId');
 
     if (!threadId) {
-      return new NextResponse('Thread ID is missing', { status: 400 });
+      return NextResponse.json({ error: { message: 'Thread ID is missing!' } }, { status: 400 });
     }
 
     const thread = await prisma.thread.findUnique({
@@ -25,9 +30,12 @@ export async function GET(request: NextRequest): Promise<NextResponse<ThreadGetR
     });
 
     if (!thread) {
-      return new NextResponse('Thread not found!', {
-        status: 404,
-      });
+      return NextResponse.json(
+        { error: { message: 'Thread not found!' } },
+        {
+          status: 404,
+        }
+      );
     }
 
     const views = await getThreadViews(threadId);
@@ -39,12 +47,12 @@ export async function GET(request: NextRequest): Promise<NextResponse<ThreadGetR
       views,
     };
 
-    return NextResponse.json({ thread: mappedThread });
+    return NextResponse.json({ data: { thread: mappedThread } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }
 
@@ -54,7 +62,14 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadPos
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const json = await request.json();
@@ -79,12 +94,12 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadPos
       views,
     };
 
-    return NextResponse.json({ thread: mappedThread });
+    return NextResponse.json({ data: { thread: mappedThread } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }
 
@@ -94,7 +109,14 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<ThreadPa
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const json = await request.json();
@@ -107,17 +129,24 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<ThreadPa
     });
 
     if (!thread) {
-      return new NextResponse('Thread not found', { status: 404 });
+      return NextResponse.json({ error: { message: 'Thread not found!' } }, { status: 404 });
     }
 
     const isThreadOwner = thread.authorId === session.user.id;
     if (!isThreadOwner) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You are not the thread owner!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const { title, keywords, content } = data;
 
-    await prisma.thread.update({
+    const updatedThread = await prisma.thread.update({
       where: {
         id: threadId,
       },
@@ -126,24 +155,41 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<ThreadPa
         content,
         keywords: keywords.join(','),
       },
+      include: { author: { select: { id: true, name: true, image: true } }, comments: { select: { id: true } } },
     });
 
-    return NextResponse.json({ success: true });
+    const views = await getThreadViews(thread.id);
+
+    const { comments, ...rest } = updatedThread;
+    const mappedThread: ThreadWithDetails = {
+      ...rest,
+      commentsCount: comments.length,
+      views,
+    };
+
+    return NextResponse.json({ data: { thread: mappedThread } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }
 
 // /api/community/thread DELETE : Deletes a thread
-export async function DELETE(request: NextRequest): Promise<NextResponse<ThreadPatchResponse>> {
+export async function DELETE(request: NextRequest): Promise<NextResponse<ThreadDeleteResponse>> {
   try {
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const json = await request.json();
@@ -156,12 +202,19 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<ThreadP
     });
 
     if (!thread) {
-      return new NextResponse('Thread not found', { status: 404 });
+      return NextResponse.json({ error: { message: 'Thread not found!' } }, { status: 404 });
     }
 
     const isThreadOwner = thread.authorId === session.user.id;
     if (!isThreadOwner) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You are not the thread owner!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     // Handle the deletion of the asocaited thread attachments
@@ -188,7 +241,7 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<ThreadP
       const attachmentsImagePaths = threadAttachments.map((attachment) => attachment.image.path);
       const { error } = await deleteImagesFromSupabase('ThreadAttachments', attachmentsImagePaths);
       if (error) {
-        throw new NextResponse('Could not delete thread!', { status: 500 });
+        return NextResponse.json({ error: { message: 'Could not delete thread!' } }, { status: 500 });
       }
     }
 
@@ -198,11 +251,11 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<ThreadP
       },
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ data: { success: true } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

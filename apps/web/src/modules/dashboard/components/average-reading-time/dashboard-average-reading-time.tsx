@@ -25,24 +25,24 @@ const DashboardAverageReadingTime: React.FC = () => {
         </div>
       )}
 
-      {!isLoading && data?.readingTimes && (
+      {!isLoading && data?.data?.averageReadingTimes && (
         <div className="flex gap-2 overflow-x-auto justify-evenly items-center">
           <DashboardAverageReadingTimeCard
             title="Daily"
-            current={data.readingTimes.daily.current}
-            past={data.readingTimes.daily.past}
+            current={data.data.averageReadingTimes.daily.current}
+            past={data.data.averageReadingTimes.daily.past}
             renderPast={(difference, sign) => `${sign}${difference} than last day`}
           />
           <DashboardAverageReadingTimeCard
             title="Weekly"
-            current={data.readingTimes.weekly.current}
-            past={data.readingTimes.weekly.past}
+            current={data.data.averageReadingTimes.weekly.current}
+            past={data.data.averageReadingTimes.weekly.past}
             renderPast={(difference, sign) => `${sign}${difference} than last week`}
           />
           <DashboardAverageReadingTimeCard
             title="Monhtly"
-            current={data.readingTimes.monthly.current}
-            past={data.readingTimes.monthly.past}
+            current={data.data.averageReadingTimes.monthly.current}
+            past={data.data.averageReadingTimes.monthly.past}
             renderPast={(difference, sign) => `${sign}${difference} than last month`}
           />
         </div>

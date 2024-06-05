@@ -20,20 +20,34 @@ export async function GET(request: NextRequest): Promise<NextResponse<ReviewGetR
     const reviewId = searchParams.get('reviewId');
 
     if (!reviewId) {
-      return new NextResponse('Review ID is missing', { status: 400 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'Review Id is required!',
+          },
+        },
+        { status: 400 }
+      );
     }
 
     const review = await prisma.review.findUnique({ where: { id: reviewId } });
     if (!review) {
-      throw new NextResponse('Review not found!', { status: 404 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'Review not found!',
+          },
+        },
+        { status: 404 }
+      );
     }
 
-    return NextResponse.json({ review });
+    return NextResponse.json({ data: { review } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }
 
@@ -43,7 +57,14 @@ export async function POST(request: NextRequest): Promise<NextResponse<ReviewPos
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const json = await request.json();
@@ -54,12 +75,26 @@ export async function POST(request: NextRequest): Promise<NextResponse<ReviewPos
     });
 
     if (!book) {
-      return new NextResponse('Book not found!', { status: 404 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'Book not found!',
+          },
+        },
+        { status: 404 }
+      );
     }
 
     const isBookOwner = book.readerId === session.user.id;
     if (!isBookOwner) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You are not the book owner!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const review = await prisma.review.create({
@@ -69,13 +104,13 @@ export async function POST(request: NextRequest): Promise<NextResponse<ReviewPos
       },
     });
 
-    return NextResponse.json({ review });
+    return NextResponse.json({ data: { review } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
     else if (error instanceof z.ZodError) errorMessage = error.issues[0].message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }
 
@@ -85,7 +120,14 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<ReviewPa
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const json = await request.json();
@@ -103,12 +145,26 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<ReviewPa
     });
 
     if (!review) {
-      return new NextResponse('Review not found!', { status: 404 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'Review not found!',
+          },
+        },
+        { status: 404 }
+      );
     }
 
     const isReviewOwner = review.book.readerId === session.user.id;
     if (!isReviewOwner) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You are not the book owner!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const updatedReview = await prisma.review.update({
@@ -120,13 +176,13 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<ReviewPa
       },
     });
 
-    return NextResponse.json({ review: updatedReview });
+    return NextResponse.json({ data: { review: updatedReview } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
     else if (error instanceof z.ZodError) errorMessage = error.issues[0].message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }
 
@@ -136,7 +192,14 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<ReviewD
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const json = await request.json();
@@ -154,12 +217,26 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<ReviewD
     });
 
     if (!review) {
-      return new NextResponse('Review not found!', { status: 404 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'Review not found!',
+          },
+        },
+        { status: 404 }
+      );
     }
 
     const isReviewOwner = review.book.readerId === session.user.id;
     if (!isReviewOwner) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You are not the book owner!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     await prisma.review.delete({
@@ -168,12 +245,12 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<ReviewD
       },
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ data: { success: true } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
     else if (error instanceof z.ZodError) errorMessage = error.issues[0].message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

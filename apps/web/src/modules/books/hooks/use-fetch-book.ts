@@ -3,6 +3,7 @@ import { __URL__ } from '@modules/common/lib/common.constants';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useBookStore } from '../state/book.slice';
+import { useToast } from '@read-quill/design-system';
 
 interface UseFetchBookParams {
   bookId: string;
@@ -11,26 +12,41 @@ interface UseFetchBookParams {
 export const useFetchBook = (params: UseFetchBookParams) => {
   const { bookId } = params;
 
+  const { toast } = useToast();
+
   const { setBook, setIsLoading } = useBookStore();
-  const { data, isFetching, isLoading } = useQuery<BookGetResponse>({
+  const { data, isFetching, isLoading } = useQuery<BookGetResponse | undefined>({
     queryKey: ['book', bookId],
     queryFn: async () => {
-      const url = new URL('/api/book', __URL__);
-      url.searchParams.set('bookId', bookId);
+      try {
+        const url = new URL('/api/book', __URL__);
+        url.searchParams.set('bookId', bookId);
 
-      const response = await fetch(url, { method: 'GET' });
-      if (!response.ok) {
-        throw new Error('Failed to fetch book!');
+        const response = await fetch(url, { method: 'GET' });
+        const responseData = (await response.json()) as BookGetResponse;
+
+        if (!response.ok) {
+          let errorMessage = response.statusText;
+          if (responseData.error) errorMessage = responseData.error.message;
+
+          throw new Error(errorMessage);
+        }
+
+        return responseData;
+      } catch (error) {
+        let errorMessage = 'Failed to fetch book!';
+        if (error instanceof Error) errorMessage = error.message;
+
+        toast({ variant: 'error', content: errorMessage });
       }
-      return response.json();
     },
   });
 
   useEffect(() => {
-    if (data && data.book) {
-      setBook(data.book);
+    if (data && data.data?.book) {
+      setBook(data.data.book);
     }
-  }, [data?.book]);
+  }, [data?.data?.book]);
 
   useEffect(() => {
     setIsLoading(isFetching || isLoading);

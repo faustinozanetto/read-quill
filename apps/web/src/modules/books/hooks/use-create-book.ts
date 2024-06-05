@@ -11,6 +11,7 @@ type CreateBookMutationParams = UseMutationOptions<BookPostResponse, Error, Crea
 interface UseCreateBookReturn {
   createBook: CreateBookMutationResult['mutateAsync'];
   isCoverUploading: boolean;
+  isPending: CreateBookMutationResult['isPending'];
 }
 
 export interface UseCreateBookParams {
@@ -21,29 +22,37 @@ export const useCreateBook = (params: UseCreateBookParams): UseCreateBookReturn 
   const { onSuccess } = params;
 
   const { toast } = useToast();
-  const { uploadCover, isLoading } = useUploadBookCover();
+  const { uploadCover, isPending: isBookCoverUploadPending } = useUploadBookCover();
 
-  const { mutateAsync } = useMutation<BookPostResponse, Error, CreateBookFormActionData>({
+  const { mutateAsync, isPending } = useMutation<BookPostResponse, Error, CreateBookFormActionData>({
     mutationKey: ['book-add'],
     mutationFn: async (data) => {
       // First upload cover book to vercel blob storage.
       const coverFile = await uploadCover({ coverImage: data.coverImage });
+      if (!coverFile.data?.coverImage) {
+        throw new Error('Could not upload cover file!');
+      }
 
       const url = new URL('/api/book', __URL__);
       const body = JSON.stringify({
         name: data.name,
         author: data.author,
         language: data.language,
-        imageId: coverFile.coverImage.id,
+        imageId: coverFile.data.coverImage.id,
         pageCount: data.pageCount,
       });
 
       const response = await fetch(url, { method: 'POST', body });
+      const responseData = (await response.json()) as BookPostResponse;
+
       if (!response.ok) {
-        throw new Error('Could not create book!');
+        let errorMessage = response.statusText;
+        if (responseData.error) errorMessage = responseData.error.message;
+
+        throw new Error(errorMessage);
       }
 
-      return response.json();
+      return responseData;
     },
     onSuccess,
     onError(error) {
@@ -51,8 +60,5 @@ export const useCreateBook = (params: UseCreateBookParams): UseCreateBookReturn 
     },
   });
 
-  return {
-    createBook: mutateAsync,
-    isCoverUploading: isLoading,
-  };
+  return { isPending, createBook: mutateAsync, isCoverUploading: isBookCoverUploadPending };
 };

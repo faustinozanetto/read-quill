@@ -13,7 +13,7 @@ const UserProfilThreads: React.FC = () => {
   const params = useParams<{ userId: string }>();
   const { data, isLoading } = useUserThreads({ pageSize: 6, userId: params.userId });
 
-  const threads = data?.pages.flatMap((v) => v.threads) ?? [];
+  const threads = data?.pages.flatMap((v) => v?.data?.threads ?? []) ?? [];
 
   return (
     <div className="flex flex-col gap-2 rounded-lg p-4 shadow border">

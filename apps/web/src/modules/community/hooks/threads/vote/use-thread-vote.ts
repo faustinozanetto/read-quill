@@ -2,44 +2,44 @@ import { UseMutationResult, useMutation } from '@tanstack/react-query';
 import { ThreadVotePostResponse } from '@modules/api/types/community-api.types';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useToast } from '@read-quill/design-system';
-import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { VoteThreadActionData } from '@modules/community/types/community-thread-validations.types';
+import { useQueryClient } from '@tanstack/react-query';
 
 type ThreadVoteMutationResult = UseMutationResult<ThreadVotePostResponse, Error, VoteThreadActionData>;
 
 interface UseIsThreadVoteReturn {
   voteThread: ThreadVoteMutationResult['mutateAsync'];
-  isLoading: ThreadVoteMutationResult['isLoading'];
+  isPending: ThreadVoteMutationResult['isPending'];
 }
 
 export const useThreadVote = (): UseIsThreadVoteReturn => {
   const { toast } = useToast();
 
-  const { queryClient } = useQueriesStore();
+  const queryClient = useQueryClient();
 
-  const { mutateAsync, isLoading } = useMutation<ThreadVotePostResponse, Error, VoteThreadActionData>(['thread-vote'], {
+  const { mutateAsync, isPending } = useMutation<ThreadVotePostResponse, Error, VoteThreadActionData>({
+    mutationKey: ['thread-vote'],
     mutationFn: async (data) => {
-      const { type, threadId } = data;
       const url = new URL('/api/community/thread/vote', __URL__);
-      const body = JSON.stringify({
-        threadId,
-        type,
-      });
+      const body = JSON.stringify({ ...data });
       const response = await fetch(url, { method: 'POST', body });
+      const responseData = (await response.json()) as ThreadVotePostResponse;
 
       if (!response.ok) {
-        throw new Error('Failed to vote thread!');
+        let errorMessage = response.statusText;
+        if (responseData.error) errorMessage = responseData.error.message;
+
+        throw new Error(errorMessage);
       }
 
-      return response.json();
+      return responseData;
     },
     async onSuccess(data, variables) {
-      if (!data) return;
+      if (!data.data) return;
 
-      const { success, alredyVoted } = data;
-      if (!success) return;
+      const { alredyVoted } = data.data;
 
-      await queryClient.refetchQueries(['thread-vote-count', variables.threadId]);
+      await queryClient.refetchQueries({ queryKey: ['thread-vote-count', variables.threadId] });
 
       if (alredyVoted) {
         toast({ variant: 'info', content: `You already ${variables.type}d this thread!` });
@@ -52,5 +52,5 @@ export const useThreadVote = (): UseIsThreadVoteReturn => {
     },
   });
 
-  return { voteThread: mutateAsync, isLoading };
+  return { voteThread: mutateAsync, isPending };
 };

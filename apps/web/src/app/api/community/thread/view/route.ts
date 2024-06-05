@@ -12,17 +12,17 @@ export async function GET(request: NextRequest): Promise<NextResponse<ThreadView
     const threadId = searchParams.get('threadId');
 
     if (!threadId) {
-      return new NextResponse('Thread ID is missing', { status: 400 });
+      return NextResponse.json({ error: { message: 'Thread ID is missing!' } }, { status: 400 });
     }
 
     const views = await getThreadViews(threadId);
 
-    return NextResponse.json({ views });
+    return NextResponse.json({ data: { views } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }
 
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadVie
     const threadId = searchParams.get('threadId');
 
     if (!threadId) {
-      return new NextResponse('Thread ID is missing', { status: 400 });
+      return NextResponse.json({ error: { message: 'Thread ID is missing!' } }, { status: 400 });
     }
 
     const session = await auth();
@@ -42,11 +42,11 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadVie
 
     await incrementThreadView(threadId, userId, userIp);
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ data: { success: true } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

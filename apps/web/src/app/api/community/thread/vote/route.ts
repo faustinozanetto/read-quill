@@ -6,6 +6,7 @@ import { auth } from 'auth';
 
 import { storeUserThreadVoteInRedis } from '@modules/community/lib/community-thread-vote.lib';
 import { THREAD_ACTIONS_VALIDATIONS_API } from '@modules/community/validations/community-thread.validations';
+import { z } from 'zod';
 
 // /api/community/thread/vote GET : Gets the thread vote count
 export async function GET(request: NextRequest): Promise<NextResponse<ThreadVoteGetResponse>> {
@@ -14,7 +15,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<ThreadVote
     const threadId = searchParams.get('threadId');
 
     if (!threadId) {
-      return new NextResponse('Thread ID is missing', { status: 400 });
+      return NextResponse.json({ error: { message: 'Thread ID is required!' } }, { status: 400 });
     }
 
     const thread = await prisma.thread.findUnique({
@@ -25,17 +26,20 @@ export async function GET(request: NextRequest): Promise<NextResponse<ThreadVote
     });
 
     if (!thread) {
-      return new NextResponse('Thread not found!', {
-        status: 404,
-      });
+      return NextResponse.json(
+        { error: { message: 'Thread not found!' } },
+        {
+          status: 404,
+        }
+      );
     }
 
-    return NextResponse.json({ votes: thread.votes });
+    return NextResponse.json({ data: { votes: thread.votes } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }
 
@@ -45,11 +49,25 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadVot
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const json = await request.json();
-    const { threadId, type } = THREAD_ACTIONS_VALIDATIONS_API.VOTE.parse(json);
+    const parsed = THREAD_ACTIONS_VALIDATIONS_API.VOTE.safeParse(json);
+    if (!parsed.success) {
+      const { errors } = parsed.error;
+      const error = errors[0].message;
+      return NextResponse.json({ error: { message: error } }, { status: 400 });
+    }
+
+    const { threadId, type } = parsed.data;
 
     // Use redis to avoid users voting multiple times.
     const voteResult = await storeUserThreadVoteInRedis(threadId, session.user.id, type);
@@ -66,11 +84,11 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadVot
       });
     }
 
-    return NextResponse.json({ success: true, alredyVoted: !voteResult });
+    return NextResponse.json({ data: { success: true, alredyVoted: !voteResult } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

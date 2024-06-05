@@ -33,12 +33,12 @@ const DashboardBooksProgress: React.FC = () => {
       >
         <div className="rounded-lg shadow border space-y-4">
           <DashboardBooksProgressFeed
-            booksProgress={data?.booksProgress ?? []}
+            booksProgress={data?.data?.booksProgress ?? []}
             getCanNextPage={getCanNextPage}
             getCanPreviousPage={getCanPreviousPage}
             nextPage={nextPage}
             page={page}
-            pageCount={data?.pageCount ?? 0}
+            pageCount={data?.data?.pageCount ?? 0}
             previousPage={previousPage}
             setPageIndex={setPageIndex}
           >
@@ -50,11 +50,11 @@ const DashboardBooksProgress: React.FC = () => {
               </div>
             )}
 
-            {!isLoading && data && !data.booksProgress.length ? (
+            {!isLoading && data && !data.data?.booksProgress.length ? (
               <DashboardNoDataMessage className="m-auto">
                 <p>
                   No books found, start by adding your first book to track progress{' '}
-                  <Link className="font-bold text-primary underline" href="/books?add-book-modal=true">
+                  <Link className="font-bold text-primary underline" href="/library?create-book=true">
                     Here
                   </Link>
                 </p>

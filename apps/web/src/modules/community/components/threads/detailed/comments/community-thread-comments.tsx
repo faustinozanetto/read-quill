@@ -28,15 +28,15 @@ const CommunityThreadComments: React.FC = () => {
         </div>
       ) : null}
 
-      {!isLoading && data && data.comments.length ? (
+      {!isLoading && data?.data?.comments.length ? (
         <div className="space-y-1.5">
-          {data.comments.map((commentNode, index) => (
+          {data.data.comments.map((commentNode, index) => (
             <CommunityThreadComment key={commentNode.comment.id} commentNode={commentNode} index={index} />
           ))}
         </div>
       ) : null}
 
-      {!isLoading && data && !data.comments.length ? (
+      {!isLoading && !data?.data?.comments.length ? (
         <div className="rounded-lg p-4 shadow border space-y-4">
           <p>
             This thread has no comments! Be the first one by clicking the{' '}

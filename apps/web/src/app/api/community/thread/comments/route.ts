@@ -41,7 +41,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<ThreadComm
     const threadId = searchParams.get('threadId');
 
     if (!threadId) {
-      return new NextResponse('Thread ID is missing', { status: 400 });
+      return NextResponse.json({ error: { message: 'Thread ID is missing!' } }, { status: 400 });
     }
 
     const pageIndex = Number.parseInt(searchParams.get('pageIndex') ?? '0');
@@ -57,11 +57,11 @@ export async function GET(request: NextRequest): Promise<NextResponse<ThreadComm
     const pageCount = Math.ceil(totalCount / pageSize);
     const hasMore = pageIndex < pageCount - 1;
 
-    return NextResponse.json({ comments: commentsTree, pageCount, hasMore });
+    return NextResponse.json({ data: { comments: commentsTree, pageCount, hasMore } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

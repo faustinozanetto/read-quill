@@ -15,10 +15,9 @@ import { __URL__ } from '@modules/common/lib/common.constants';
 
 import CommunityThreadCommentManagementEditForm from './community-thread-comment-management-edit-form';
 
-import { useQueriesStore } from '@modules/queries/state/queries.slice';
-
 import { useThreadStore } from '@modules/community/state/thread/thread.slice';
 import { useEditThreadComment } from '@modules/community/hooks/threads/comments/use-edit-thread-comment';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface CommunityThreadCommentManagementEditProps {
   comment: ThreadCommentWithAuthor;
@@ -29,13 +28,12 @@ const CommunityThreadCommentManagementEdit: React.FC<CommunityThreadCommentManag
 
   const { toast } = useToast();
   const { thread } = useThreadStore();
-  const { queryClient } = useQueriesStore();
+  const queryClient = useQueryClient();
 
   const { editComment } = useEditThreadComment({
-    comment,
     onSuccess: async (data) => {
-      if (data.threadComment && thread) {
-        await queryClient.refetchQueries(['thread-comments', 0, thread.id]);
+      if (data.data?.threadComment && thread) {
+        await queryClient.refetchQueries({ queryKey: ['thread-comments', 0, thread.id] });
         toast({ variant: 'success', content: `Comment updated successfully!` });
       }
     },
@@ -56,7 +54,10 @@ const CommunityThreadCommentManagementEdit: React.FC<CommunityThreadCommentManag
           <DialogDescription>Update your comment details here..</DialogDescription>
         </DialogHeader>
 
-        <CommunityThreadCommentManagementEditForm onSubmit={editComment} comment={comment} />
+        <CommunityThreadCommentManagementEditForm
+          onSubmit={async (data) => await editComment({ ...data, commentId: comment.id })}
+          comment={comment}
+        />
       </DialogContent>
     </Dialog>
   );

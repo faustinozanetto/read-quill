@@ -20,7 +20,7 @@ const UserLibraryBooksHeader: React.FC = () => {
               </Button>
             }
             onSuccess={(data) => {
-              router.push(`/books/${data.book.id}`);
+              router.push(`/books/${data?.data?.book.id}`);
             }}
           />
         </div>

@@ -1,45 +1,56 @@
 import { BookFavouritePostResponse } from '@modules/api/types/books-api.types';
+import { FavouriteBookApiActionData } from '@modules/books/types/book-validations.types';
 
 import { __URL__ } from '@modules/common/lib/common.constants';
-import { Book } from '@read-quill/database';
+
 import { useToast } from '@read-quill/design-system';
 import { UseMutationOptions, UseMutationResult, useMutation } from '@tanstack/react-query';
 
-type ChangeBookFavouriteMutationResult = UseMutationResult<BookFavouritePostResponse, Error, void>;
-type ChangeBookFavouriteMutationParams = UseMutationOptions<BookFavouritePostResponse, Error, void>;
+type ChangeBookFavouriteMutationResult = UseMutationResult<
+  BookFavouritePostResponse,
+  Error,
+  FavouriteBookApiActionData
+>;
+type ChangeBookFavouriteMutationParams = UseMutationOptions<
+  BookFavouritePostResponse,
+  Error,
+  FavouriteBookApiActionData
+>;
 
 interface UseChangeBookFavouriteReturn {
   changeFavourite: ChangeBookFavouriteMutationResult['mutateAsync'];
-  isLoading: ChangeBookFavouriteMutationResult['isLoading'];
+  isPending: ChangeBookFavouriteMutationResult['isPending'];
 }
 
 interface UseChangeBookFavouriteParams {
-  book: Book | null;
   onSuccess: NonNullable<ChangeBookFavouriteMutationParams['onSuccess']>;
 }
 
 export const useChangeBookFavourite = (params: UseChangeBookFavouriteParams): UseChangeBookFavouriteReturn => {
-  const { book, onSuccess } = params;
+  const { onSuccess } = params;
 
   const { toast } = useToast();
 
-  const { mutateAsync, isLoading } = useMutation<BookFavouritePostResponse, Error, void>({
-    mutationKey: ['book-favourite-change', book?.id],
-    mutationFn: async () => {
-      if (!book) return;
-
+  const { mutateAsync, isPending } = useMutation<BookFavouritePostResponse, Error, FavouriteBookApiActionData>({
+    mutationKey: ['book-favourite-change'],
+    mutationFn: async (data) => {
       const url = new URL('/api/book/favourite', __URL__);
       const body = JSON.stringify({
-        bookId: book.id,
-        isFavourite: !book.isFavourite,
+        bookId: data.bookId,
+        isFavourite: !data.isFavourite,
       });
 
       const response = await fetch(url, { method: 'POST', body });
+      const responseData = (await response.json()) as BookFavouritePostResponse;
+
       if (!response.ok) {
-        throw new Error('Could not update book favourite!');
+        let errorMessage = response.statusText;
+        if (responseData.error) errorMessage = responseData.error.message;
+
+        throw new Error(errorMessage);
       }
 
-      return response.json();
+      return responseData;
     },
     onSuccess,
     onError(error) {
@@ -49,6 +60,6 @@ export const useChangeBookFavourite = (params: UseChangeBookFavouriteParams): Us
 
   return {
     changeFavourite: mutateAsync,
-    isLoading,
+    isPending,
   };
 };

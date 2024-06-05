@@ -9,7 +9,14 @@ export async function GET(): Promise<NextResponse<DashboardReadActivityGetRespon
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     // Fetch read registries for the current page
@@ -31,11 +38,11 @@ export async function GET(): Promise<NextResponse<DashboardReadActivityGetRespon
       return acc;
     }, {});
 
-    return NextResponse.json({ readActivity });
+    return NextResponse.json({ data: { readActivity } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

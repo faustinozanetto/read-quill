@@ -1,3 +1,9 @@
+import { BaseApiResponse } from './api.types';
+
 export type LandingStatType = 'booksRegistered' | 'pagesRead' | 'activeUsers' | 'annotationsCreated';
 
-export type LandingStatsGetResponse = Record<LandingStatType, number>;
+export interface LandingStatsGetResponse extends BaseApiResponse {
+  data?: { stats: LandingStats };
+}
+
+export type LandingStats = Record<LandingStatType, number>;

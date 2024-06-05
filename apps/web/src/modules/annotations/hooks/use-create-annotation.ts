@@ -29,11 +29,16 @@ export const useCreateAnnotation = (params: UseCreateAnnotationParams): UseCreat
       });
 
       const response = await fetch(url, { method: 'POST', body });
+      const responseData = (await response.json()) as AnnotationPostResponse;
+
       if (!response.ok) {
-        throw new Error('Could not create annotation!');
+        let errorMessage = response.statusText;
+        if (responseData.error) errorMessage = responseData.error.message;
+
+        throw new Error(errorMessage);
       }
 
-      return response.json();
+      return responseData;
     },
     onSuccess,
     onError(error) {

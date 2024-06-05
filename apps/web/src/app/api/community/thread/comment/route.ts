@@ -16,7 +16,14 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadCom
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const json = await request.json();
@@ -30,12 +37,12 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadCom
       },
     });
 
-    return NextResponse.json({ threadComment });
+    return NextResponse.json({ data: { threadComment } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }
 
@@ -45,7 +52,14 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<ThreadCo
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const json = await request.json();
@@ -58,12 +72,19 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<ThreadCo
     });
 
     if (!threadComment) {
-      return new NextResponse('Thread comment not found', { status: 404 });
+      return NextResponse.json({ error: { message: 'Thread comment not found!' } }, { status: 404 });
     }
 
     const isThreadCommentOwner = threadComment.authorId === session.user.id;
     if (!isThreadCommentOwner) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You are not the thread comment owner!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const updatedThreadComment = await prisma.threadComment.update({
@@ -76,12 +97,12 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<ThreadCo
       },
     });
 
-    return NextResponse.json({ threadComment: updatedThreadComment });
+    return NextResponse.json({ data: { threadComment: updatedThreadComment } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }
 
@@ -91,7 +112,14 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<ThreadC
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const json = await request.json();
@@ -104,12 +132,19 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<ThreadC
     });
 
     if (!threadComment) {
-      return new NextResponse('Thread comment not found', { status: 404 });
+      return NextResponse.json({ error: { message: 'Thread comment not found' } }, { status: 404 });
     }
 
     const isThreadCommentOwner = threadComment.authorId === session.user.id;
     if (!isThreadCommentOwner) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You are not the thread comment owner!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     await prisma.threadComment.delete({
@@ -118,11 +153,11 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<ThreadC
       },
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ data: { success: true } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

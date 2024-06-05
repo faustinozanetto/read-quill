@@ -23,12 +23,26 @@ export async function GET(request: NextRequest): Promise<NextResponse<BookGetRes
     const bookId = searchParams.get('bookId');
 
     if (!bookId) {
-      return new NextResponse('Book ID is missing', { status: 400 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'Book ID is required!',
+          },
+        },
+        { status: 400 }
+      );
     }
 
     const book = await prisma.book.findUnique({ where: { id: bookId }, include: { reader: true, image: true } });
     if (!book) {
-      return new NextResponse('Could not find book!', { status: 404 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'Book not found!',
+          },
+        },
+        { status: 404 }
+      );
     }
 
     const base64PlaceholderBuffer = await generatePlaceholderImage(getImagePublicUrl('BookCovers', book.image.path));
@@ -40,12 +54,12 @@ export async function GET(request: NextRequest): Promise<NextResponse<BookGetRes
       },
     };
 
-    return NextResponse.json({ book: mappedBook });
+    return NextResponse.json({ data: { book: mappedBook } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }
 
@@ -55,7 +69,14 @@ export async function POST(request: NextRequest): Promise<NextResponse<BookPostR
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const email = session.user.email;
@@ -98,13 +119,13 @@ export async function POST(request: NextRequest): Promise<NextResponse<BookPostR
       },
     };
 
-    return NextResponse.json({ book: mappedBook });
+    return NextResponse.json({ data: { book: mappedBook } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
     else if (error instanceof z.ZodError) errorMessage = error.issues[0].message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }
 
@@ -114,7 +135,14 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<BookPatc
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const json = await request.json();
@@ -129,12 +157,26 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<BookPatc
       },
     });
     if (!book) {
-      return new NextResponse('Book not found!', { status: 404 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'Book not found!',
+          },
+        },
+        { status: 404 }
+      );
     }
 
     const isBookOwner = book.readerId === session.user.id;
     if (!isBookOwner) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You are not the book owner!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     // If imageId is not undefined, we are updating book cover.
@@ -157,7 +199,14 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<BookPatc
 
       const { error } = await deleteImageFromSupabase('BookCovers', image.path);
       if (error) {
-        throw new NextResponse('Could not delete book!', { status: 500 });
+        return NextResponse.json(
+          {
+            error: {
+              message: 'Failed to update book cover!',
+            },
+          },
+          { status: 500 }
+        );
       }
     }
 
@@ -183,13 +232,13 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<BookPatc
       },
     };
 
-    return NextResponse.json({ book: mappedBook });
+    return NextResponse.json({ data: { book: mappedBook } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
     else if (error instanceof z.ZodError) errorMessage = error.issues[0].message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }
 
@@ -199,7 +248,14 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<BookDel
     const session = await auth();
 
     if (!session) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     const json = await request.json();
@@ -214,12 +270,26 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<BookDel
       },
     });
     if (!book) {
-      return new NextResponse('Book not found!', { status: 404 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'Book not found!',
+          },
+        },
+        { status: 404 }
+      );
     }
 
     const isBookOwner = book.readerId === session.user.id;
     if (!isBookOwner) {
-      return new NextResponse('Unauthorized', { status: 403 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You are not the book owner!',
+          },
+        },
+        { status: 403 }
+      );
     }
 
     await prisma.book.delete({
@@ -233,7 +303,14 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<BookDel
 
     const { error } = await deleteImageFromSupabase('BookCovers', book.image.path);
     if (error) {
-      throw new NextResponse('Could not delete book!', { status: 500 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'Failed to delete book cover!',
+          },
+        },
+        { status: 500 }
+      );
     }
 
     await prisma.image.delete({
@@ -242,12 +319,12 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<BookDel
       },
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ data: { success: true } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
     else if (error instanceof z.ZodError) errorMessage = error.issues[0].message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

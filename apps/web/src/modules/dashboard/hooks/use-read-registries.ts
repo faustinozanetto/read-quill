@@ -8,7 +8,7 @@ import { __URL__ } from '@modules/common/lib/common.constants';
 import type { DashboardReadRegistriesGetResponse } from '@modules/api/types/dashboard-api.types';
 
 export interface UseReadRegistriesReturn
-  extends Pick<UseQueryResult<DashboardReadRegistriesGetResponse>, 'data' | 'isLoading'> {
+  extends Pick<UseQueryResult<DashboardReadRegistriesGetResponse | undefined>, 'data' | 'isLoading'> {
   pagination: PaginationState;
   setPagination: Dispatch<SetStateAction<PaginationState>>;
 }
@@ -27,29 +27,35 @@ export const useReadRegistries = (params: UseReadRegistriesParams = { pageSize: 
     pageSize,
   });
 
-  const { data, isLoading, isFetching } = useQuery<DashboardReadRegistriesGetResponse>(
-    ['dashboard-read-registries', pagination],
-    {
-      keepPreviousData: true,
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-      queryFn: async () => {
-        try {
-          const url = new URL('/api/dashboard/read-registries', __URL__);
-          url.searchParams.set('pageIndex', String(pagination.pageIndex));
-          url.searchParams.set('pageSize', String(pagination.pageSize));
+  const { data, isLoading, isFetching } = useQuery<DashboardReadRegistriesGetResponse | undefined>({
+    queryKey: ['dashboard-read-registries', pagination],
+    initialData: {
+      data: { pageCount: 0, readRegistries: [] },
+    },
+    queryFn: async () => {
+      try {
+        const url = new URL('/api/dashboard/read-registries', __URL__);
+        url.searchParams.set('pageIndex', String(pagination.pageIndex));
+        url.searchParams.set('pageSize', String(pagination.pageSize));
 
-          const response = await fetch(url, { method: 'GET' });
-          if (!response.ok) {
-            throw new Error('Failed to fetch user read registries!');
-          }
+        const response = await fetch(url, { method: 'GET' });
+        const responseData = (await response.json()) as DashboardReadRegistriesGetResponse;
 
-          return response.json();
-        } catch (error) {
-          toast({ variant: 'error', content: 'Failed to fetch read registries!' });
+        if (!response.ok) {
+          let errorMessage = response.statusText;
+          if (responseData.error) errorMessage = responseData.error.message;
+
+          throw new Error(errorMessage);
         }
-      },
-    }
-  );
+
+        return responseData;
+      } catch (error) {
+        let errorMessage = 'Failed to fetch read registries!';
+        if (error instanceof Error) errorMessage = error.message;
+
+        toast({ variant: 'error', content: errorMessage });
+      }
+    },
+  });
   return { data, isLoading: isLoading || isFetching, pagination, setPagination };
 };

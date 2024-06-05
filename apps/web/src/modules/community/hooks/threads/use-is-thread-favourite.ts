@@ -3,7 +3,8 @@ import { ThreadFavouriteGetResponse } from '@modules/api/types/community-api.typ
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useToast } from '@read-quill/design-system';
 
-interface UseIsThreadFavouriteReturn extends Pick<UseQueryResult<ThreadFavouriteGetResponse>, 'data' | 'isLoading'> {}
+interface UseIsThreadFavouriteReturn
+  extends Pick<UseQueryResult<ThreadFavouriteGetResponse | undefined>, 'data' | 'isLoading'> {}
 
 interface UseIsThreadFavouriteParams {
   threadId: string;
@@ -22,8 +23,12 @@ export const useIsThreadFavourite = (params: UseIsThreadFavouriteParams): UseIsT
 
   const { toast } = useToast();
 
-  const { data, isLoading, isFetching } = useQuery<ThreadFavouriteGetResponse>(['thread-favourite', threadId, userId], {
-    enabled: typeof userId !== 'undefined',
+  const { data, isLoading, isFetching } = useQuery<ThreadFavouriteGetResponse | undefined>({
+    queryKey: ['thread-favourite', threadId, userId],
+    enabled: !!userId,
+    initialData: {
+      data: { isFavourite: false },
+    },
     queryFn: async () => {
       try {
         if (!userId) return;
@@ -31,13 +36,21 @@ export const useIsThreadFavourite = (params: UseIsThreadFavouriteParams): UseIsT
         const url = buildUrl(threadId, userId);
         const response = await fetch(url, { method: 'GET' });
 
+        const responseData = (await response.json()) as ThreadFavouriteGetResponse;
+
         if (!response.ok) {
-          throw new Error('Failed to fetch thread favourite!');
+          let errorMessage = response.statusText;
+          if (responseData.error) errorMessage = responseData.error.message;
+
+          throw new Error(errorMessage);
         }
 
-        return response.json();
+        return responseData;
       } catch (error) {
-        toast({ variant: 'error', content: 'Failed to fetch thread favourite' });
+        let errorMessage = 'Failed to fetch thread favourite!';
+        if (error instanceof Error) errorMessage = error.message;
+
+        toast({ variant: 'error', content: errorMessage });
       }
     },
   });

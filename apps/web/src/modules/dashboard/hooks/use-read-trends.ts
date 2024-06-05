@@ -14,7 +14,8 @@ export interface ReadTrendsDailyRange {
   to: Date;
 }
 
-interface UseReadsTrendsReturn extends Pick<UseQueryResult<DashboardReadTrendsGetResponse>, 'data' | 'isLoading'> {
+interface UseReadsTrendsReturn
+  extends Pick<UseQueryResult<DashboardReadTrendsGetResponse | undefined>, 'data' | 'isLoading'> {
   filteredData: DashboardReadTrendsGetResponse | undefined;
   interval: DashboardReadTrendsIntervalType;
   setInterval: (interval: DashboardReadTrendsIntervalType) => void;
@@ -35,26 +36,35 @@ export const useReadsTrends = (): UseReadsTrendsReturn => {
 
   const interval = (searchParams.get('read-trends-interval') as DashboardReadTrendsIntervalType) ?? 'daily';
 
-  const { data, isLoading, isFetching } = useQuery<DashboardReadTrendsGetResponse>(
-    ['dashboard-read-insights-trends', interval],
-    {
-      queryFn: async () => {
-        try {
-          const url = new URL('/api/dashboard/read-trends', __URL__);
-          url.searchParams.set('interval', interval);
+  const { data, isLoading, isFetching } = useQuery<DashboardReadTrendsGetResponse | undefined>({
+    queryKey: ['dashboard-read-insights-trends', interval],
+    initialData: {
+      data: { trends: [] },
+    },
+    queryFn: async () => {
+      try {
+        const url = new URL('/api/dashboard/read-trends', __URL__);
+        url.searchParams.set('interval', interval);
 
-          const response = await fetch(url, { method: 'GET' });
-          if (!response.ok) {
-            throw new Error('Failed to fetch user read trends!');
-          }
+        const response = await fetch(url, { method: 'GET' });
+        const responseData = (await response.json()) as DashboardReadTrendsGetResponse;
 
-          return response.json();
-        } catch (error) {
-          toast({ variant: 'error', content: 'Failed to fetch read trends!' });
+        if (!response.ok) {
+          let errorMessage = response.statusText;
+          if (responseData.error) errorMessage = responseData.error.message;
+
+          throw new Error(errorMessage);
         }
-      },
-    }
-  );
+
+        return responseData;
+      } catch (error) {
+        let errorMessage = 'Failed to fetch read trends!';
+        if (error instanceof Error) errorMessage = error.message;
+
+        toast({ variant: 'error', content: errorMessage });
+      }
+    },
+  });
 
   const setInterval = (newInterval: DashboardReadTrendsIntervalType): void => {
     const params = new URLSearchParams(searchParams);
@@ -63,18 +73,20 @@ export const useReadsTrends = (): UseReadsTrendsReturn => {
   };
 
   const filteredData: DashboardReadTrendsGetResponse | undefined = useMemo(() => {
-    if (!data) return undefined;
+    if (!data?.data) return undefined;
     if (interval !== 'daily') return data;
 
-    const filteredData: DashboardReadTrendsGetResponse = {
+    const filteredData: DashboardReadTrendsGetResponse['data'] = {
       trends: [],
     };
-    filteredData.trends = data.trends.filter((trend) => {
+    filteredData.trends = data.data.trends.filter((trend) => {
       const date = new Date(trend.date);
       return isWithinInterval(date, { start: dailyRange.from, end: dailyRange.to });
     });
 
-    return filteredData;
+    return {
+      data: filteredData,
+    };
   }, [data, dailyRange, interval]);
 
   return { data, filteredData, isLoading: isLoading || isFetching, interval, setInterval, dailyRange, setDailyRange };

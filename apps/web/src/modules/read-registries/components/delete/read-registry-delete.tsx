@@ -30,11 +30,10 @@ const ReadRegistryDelete: React.FC<ReadRegistryDeleteProps> = (props) => {
 
   const { toast } = useToast();
 
-  const { isLoading, deleteReadRegistry } = useDeleteReadRegistry({
+  const { isPending, deleteReadRegistry } = useDeleteReadRegistry({
     onSuccess: async (data, variables, context) => {
-      if (data.success) {
+      if (data.data?.success) {
         await onSuccess(data, variables, context);
-
         toast({ variant: 'success', content: 'Read registry deleted successfully!' });
       }
     },
@@ -54,13 +53,13 @@ const ReadRegistryDelete: React.FC<ReadRegistryDeleteProps> = (props) => {
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             className={buttonVariants({ variant: 'destructive' })}
-            disabled={isLoading}
+            disabled={isPending}
             onClick={async (e) => {
               e.preventDefault();
               await deleteReadRegistry({ registryId: readRegistry.id });
             }}
           >
-            {isLoading && <LoadingIcon className="mr-2" />}
+            {isPending && <LoadingIcon className="mr-2" />}
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>

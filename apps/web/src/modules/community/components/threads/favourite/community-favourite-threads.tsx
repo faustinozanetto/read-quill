@@ -14,11 +14,16 @@ const CommunityFavouriteThreads: React.FC = () => {
     userId: user?.id,
   });
 
-  const threads = data?.pages.flatMap((v) => v.threads) ?? [];
+  const threads = data?.pages.flatMap((v) => v?.data?.threads ?? []) ?? [];
 
   return (
     <div className="flex w-full flex-col border p-4 rounded-lg shadow space-y-2">
       <h1 className="text-2xl font-bold">💖 Favourite Threads</h1>
+      <p>
+        {!isLoading && !threads.length
+          ? 'Your favourite threads will appear here once you add some!'
+          : 'Check out your favourite threads!'}
+      </p>
 
       {isLoading && (
         <div className="grid gap-2">
@@ -46,12 +51,6 @@ const CommunityFavouriteThreads: React.FC = () => {
           })}
         </div>
       ) : null}
-
-      <p>
-        {!isLoading && !threads.length
-          ? 'Your favourite threads will appear here once you add some!'
-          : 'Check out your favourite threads!'}
-      </p>
     </div>
   );
 };

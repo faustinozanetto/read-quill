@@ -14,6 +14,11 @@ const CommunityTrendingThreads: React.FC = () => {
   return (
     <div className="flex w-full flex-col border p-4 rounded-lg shadow space-y-2">
       <h1 className="text-2xl font-bold">🔥Trending Threads</h1>
+      <p>
+        {!isLoading && !data?.data?.threads.length
+          ? 'Trending threads will appear here once people write some!'
+          : 'Check out the latest trending threads!'}
+      </p>
 
       {isLoading && (
         <div className="grid gap-2">
@@ -23,9 +28,9 @@ const CommunityTrendingThreads: React.FC = () => {
         </div>
       )}
 
-      {!isLoading && data && data.threads.length ? (
+      {!isLoading && data?.data?.threads.length ? (
         <div className="grid gap-2">
-          {data.threads.map((thread) => {
+          {data.data.threads.map((thread) => {
             return (
               <CommunityThreadCard.Root key={`trending-thread-${thread.id}`} thread={thread}>
                 <CommunityThreadCard.Metadata>
@@ -41,12 +46,6 @@ const CommunityTrendingThreads: React.FC = () => {
           })}
         </div>
       ) : null}
-
-      <p>
-        {!isLoading && data && !data.threads.length
-          ? 'Trending threads will appear here once people write some!'
-          : 'Check out the latest trending threads!'}
-      </p>
     </div>
   );
 };

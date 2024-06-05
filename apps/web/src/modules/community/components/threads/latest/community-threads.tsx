@@ -14,7 +14,7 @@ const CommunityThreads: React.FC = () => {
     pageSize: 4,
   });
 
-  const threads = data?.pages.flatMap((v) => v.threads) ?? [];
+  const threads = data?.pages.flatMap((v) => v?.data?.threads ?? []) ?? [];
 
   return (
     <div className="flex w-full flex-col gap-4 min-h-full">

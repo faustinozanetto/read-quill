@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -25,20 +25,18 @@ const ReviewDelete: React.FC<ReviewCreateProps> = (props) => {
   const { deleteButton, onSuccess, reviewId } = props;
 
   const { toast } = useToast();
-  const [dialogOpen, setDialogOpen] = useState(false);
 
   const { deleteReview } = useDeleteReview({
     onSuccess: async (data, variables, context) => {
-      if (data.success) {
+      if (data.data?.success) {
         await onSuccess(data, variables, context);
-        setDialogOpen(false);
         toast({ variant: 'success', content: `Book review deleted successfully!` });
       }
     },
   });
 
   return (
-    <AlertDialog onOpenChange={setDialogOpen} open={dialogOpen}>
+    <AlertDialog>
       <AlertDialogTrigger asChild>{deleteButton}</AlertDialogTrigger>
 
       <AlertDialogContent className="sm:max-w-[425px]">

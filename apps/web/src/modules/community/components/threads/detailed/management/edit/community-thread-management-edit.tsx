@@ -14,21 +14,21 @@ import {
   useToast,
 } from '@read-quill/design-system';
 
-import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import CommunityThreadManagementEditForm from './community-thread-management-edit-form';
 import { useThreadStore } from '@modules/community/state/thread/thread.slice';
 import { useEditThread } from '@modules/community/hooks/threads/use-edit-thread';
+import { useQueryClient } from '@tanstack/react-query';
 
 const CommunityThreadManagementEdit: React.FC = () => {
   const { toast } = useToast();
   const { thread } = useThreadStore();
-  const { queryClient } = useQueriesStore();
+  const queryClient = useQueryClient();
 
   const { editThread } = useEditThread({
     thread,
     onSuccess: async (data) => {
-      if (data && data.success && thread) {
-        await queryClient.refetchQueries(['thread', thread.id]);
+      if (data?.data?.thread && thread) {
+        await queryClient.refetchQueries({ queryKey: ['thread', thread.id] });
 
         toast({ variant: 'success', content: `Thread updated successfully!` });
       }

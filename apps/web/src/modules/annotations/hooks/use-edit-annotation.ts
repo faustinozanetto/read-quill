@@ -9,7 +9,7 @@ type EditAnnotationMutationParams = UseMutationOptions<AnnotationPatchResponse, 
 
 interface UseEditAnnotationReturn {
   editAnnotation: EditAnnotationMutationResult['mutateAsync'];
-  isLoading: EditAnnotationMutationResult['isLoading'];
+  isPending: EditAnnotationMutationResult['isPending'];
 }
 
 export interface UseEditAnnotationParams {
@@ -21,7 +21,7 @@ export const useEditAnnotation = (params: UseEditAnnotationParams): UseEditAnnot
 
   const { toast } = useToast();
 
-  const { mutateAsync, isLoading } = useMutation<AnnotationPatchResponse, Error, EditAnnotationApiActionData>({
+  const { mutateAsync, isPending } = useMutation<AnnotationPatchResponse, Error, EditAnnotationApiActionData>({
     mutationKey: ['edit-annotation'],
     mutationFn: async (data) => {
       const url = new URL('/api/annotation', __URL__);
@@ -30,11 +30,16 @@ export const useEditAnnotation = (params: UseEditAnnotationParams): UseEditAnnot
       });
 
       const response = await fetch(url, { method: 'PATCH', body });
+      const responseData = (await response.json()) as AnnotationPatchResponse;
+
       if (!response.ok) {
-        throw new Error('Could not edit annotation!');
+        let errorMessage = response.statusText;
+        if (responseData.error) errorMessage = responseData.error.message;
+
+        throw new Error(errorMessage);
       }
 
-      return response.json();
+      return responseData;
     },
     onSuccess,
     onError(error) {
@@ -44,6 +49,6 @@ export const useEditAnnotation = (params: UseEditAnnotationParams): UseEditAnnot
 
   return {
     editAnnotation: mutateAsync,
-    isLoading,
+    isPending,
   };
 };

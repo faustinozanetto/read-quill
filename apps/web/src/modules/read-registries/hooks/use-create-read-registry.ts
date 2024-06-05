@@ -18,7 +18,7 @@ type CreateReadRegistryMutationParams = UseMutationOptions<
 
 interface UseCreateReadRegistryReturn {
   createReadRegistry: CreateReadRegistryMutationResult['mutateAsync'];
-  isLoading: CreateReadRegistryMutationResult['isLoading'];
+  isPending: CreateReadRegistryMutationResult['isPending'];
 }
 
 export interface UseCreateReadRegistryParams {
@@ -30,7 +30,7 @@ export const useCreateReadRegistry = (params: UseCreateReadRegistryParams): UseC
 
   const { toast } = useToast();
 
-  const { mutateAsync, isLoading } = useMutation<ReadRegistryPostResponse, Error, CreateReadRegistryFormActionData>({
+  const { mutateAsync, isPending } = useMutation<ReadRegistryPostResponse, Error, CreateReadRegistryFormActionData>({
     mutationKey: ['create-read-registry'],
     mutationFn: async (data) => {
       const url = new URL('/api/read-registry', __URL__);
@@ -39,11 +39,16 @@ export const useCreateReadRegistry = (params: UseCreateReadRegistryParams): UseC
       });
 
       const response = await fetch(url, { method: 'POST', body });
+      const responseData = (await response.json()) as ReadRegistryPostResponse;
+
       if (!response.ok) {
-        throw new Error('Could not create read registry!');
+        let errorMessage = response.statusText;
+        if (responseData.error) errorMessage = responseData.error.message;
+
+        throw new Error(errorMessage);
       }
 
-      return response.json();
+      return responseData;
     },
     onSuccess,
     onError(error) {
@@ -53,6 +58,6 @@ export const useCreateReadRegistry = (params: UseCreateReadRegistryParams): UseC
 
   return {
     createReadRegistry: mutateAsync,
-    isLoading,
+    isPending,
   };
 };

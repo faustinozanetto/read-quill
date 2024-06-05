@@ -7,9 +7,10 @@ import { useFilterData } from '@modules/filters/hooks/use-filter-data';
 import FiltersShell from '@modules/filters/components/filters-shell';
 import DashboardBooksProgressCard from './dashboard-books-progress-card';
 import DashboardBooksProgressFiltering from './filtering/dashboard-books-progress-filtering';
+import { BookProgressEntry } from '@modules/dashboard/types/dashboard.types';
 
 interface DashboardBooksProgressFeedProps extends PaginationControlsProps {
-  booksProgress: DashboardBooksProgressGetResponse['booksProgress'];
+  booksProgress: BookProgressEntry[];
   children: React.ReactNode;
 }
 
@@ -26,7 +27,7 @@ const DashboardBooksProgressFeed: React.FC<DashboardBooksProgressFeedProps> = (p
     children,
   } = props;
 
-  const filterFunctions: UseFilterFilteringFunctions<DashboardBooksProgressGetResponse['booksProgress'][0]> = {
+  const filterFunctions: UseFilterFilteringFunctions<BookProgressEntry> = {
     name: (item, value) => item.name.toLowerCase().includes((value as string).toLowerCase()),
     progress: (item, value) => (value as number) >= item.progress,
     completed: (item, value) => {
@@ -41,13 +42,13 @@ const DashboardBooksProgressFeed: React.FC<DashboardBooksProgressFeedProps> = (p
     },
   };
 
-  const sortFunctions: UseFilterSortingFunctions<DashboardBooksProgressGetResponse['booksProgress'][0]> = {
+  const sortFunctions: UseFilterSortingFunctions<BookProgressEntry> = {
     name: (a, b) => a.name.localeCompare(b.name),
     progress: (a, b) => (a.progress >= b.progress ? 1 : -1),
   };
 
   const { filteredData, filters, sort, noResults } = useFilterData<
-    DashboardBooksProgressGetResponse['booksProgress'][0]
+    NonNullable<DashboardBooksProgressGetResponse['data']>['booksProgress'][0]
   >({
     data: booksProgress,
     filterFunctions,

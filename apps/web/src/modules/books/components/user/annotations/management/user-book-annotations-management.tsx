@@ -1,7 +1,7 @@
 import React from 'react';
 import AnnotationCreate from '@modules/annotations/components/create/annotation-create';
-import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { PlusIcon, Button } from '@read-quill/design-system';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface UserBookAnnotationsManagement {
   bookId: string;
@@ -10,10 +10,10 @@ interface UserBookAnnotationsManagement {
 const UserBookAnnotationsManagement: React.FC<UserBookAnnotationsManagement> = (props) => {
   const { bookId } = props;
 
-  const { queryClient } = useQueriesStore();
+  const queryClient = useQueryClient();
 
   const handleOnAnnotationCreated = async () => {
-    await queryClient.refetchQueries(['book-annotations', bookId]);
+    await queryClient.refetchQueries({ queryKey: ['book-annotations', bookId] });
   };
 
   return (

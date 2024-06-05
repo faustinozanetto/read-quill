@@ -13,10 +13,10 @@ import {
   ManageIcon,
 } from '@read-quill/design-system';
 import { EditIcon } from '@read-quill/design-system';
-import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import ReviewDelete from '@modules/review/components/delete/review-delete';
 import ReviewEdit from '@modules/review/components/edit/review-edit';
 import { Review } from '@read-quill/database';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface UserBookReviewManagementProps {
   bookId: string;
@@ -27,10 +27,10 @@ interface UserBookReviewManagementProps {
 const UserBookReviewManagement: React.FC<UserBookReviewManagementProps> = (props) => {
   const { readerWrittenReview, review, bookId } = props;
 
-  const { queryClient } = useQueriesStore();
+  const queryClient = useQueryClient();
 
   const handleOnReviewChanged = async () => {
-    await queryClient.refetchQueries(['review-from-book', bookId]);
+    await queryClient.refetchQueries({ queryKey: ['review-from-book', bookId] });
   };
 
   return (

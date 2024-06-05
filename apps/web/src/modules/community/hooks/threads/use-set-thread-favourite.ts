@@ -2,12 +2,12 @@ import { UseMutationResult, useMutation } from '@tanstack/react-query';
 import { ThreadFavouritePostResponse } from '@modules/api/types/community-api.types';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useToast } from '@read-quill/design-system';
-import { useQueriesStore } from '@modules/queries/state/queries.slice';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface UseSetThreadFavouriteReturn
   extends Pick<
     UseMutationResult<ThreadFavouritePostResponse, unknown, UseSetThreadFavouriteParams>,
-    'mutateAsync' | 'isLoading'
+    'mutateAsync' | 'isPending'
   > {}
 
 interface UseSetThreadFavouriteParams {
@@ -18,44 +18,44 @@ interface UseSetThreadFavouriteParams {
 
 export const useSetThreadFavourite = (): UseSetThreadFavouriteReturn => {
   const { toast } = useToast();
-  const { queryClient } = useQueriesStore();
+  const queryClient = useQueryClient();
 
-  const { mutateAsync, isLoading } = useMutation<ThreadFavouritePostResponse, Error, UseSetThreadFavouriteParams>({
+  const { mutateAsync, isPending } = useMutation<ThreadFavouritePostResponse, Error, UseSetThreadFavouriteParams>({
     mutationFn: async (data) => {
-      try {
-        const { currentThreadFavourite, threadId } = data;
+      const { currentThreadFavourite, threadId } = data;
 
-        const url = new URL('/api/community/thread/favourite', __URL__);
-        const body = JSON.stringify({
-          threadId,
-          isFavourite: !currentThreadFavourite,
-        });
+      const url = new URL('/api/community/thread/favourite', __URL__);
+      const body = JSON.stringify({
+        threadId,
+        isFavourite: !currentThreadFavourite,
+      });
 
-        const response = await fetch(url, { method: 'POST', body });
-        if (!response.ok) {
-          throw new Error('Could not update thread favourite!');
-        }
+      const response = await fetch(url, { method: 'POST', body });
+      const responseData = (await response.json()) as ThreadFavouritePostResponse;
 
-        return response.json();
-      } catch (error) {
-        let errorMessage = 'Could not update thread favourite!';
-        if (error instanceof Error) errorMessage = error.message;
+      if (!response.ok) {
+        let errorMessage = response.statusText;
+        if (responseData.error) errorMessage = responseData.error.message;
 
-        toast({ variant: 'error', content: errorMessage });
+        throw new Error(errorMessage);
       }
+
+      return responseData;
+    },
+    onError: (error) => {
+      toast({ variant: 'error', content: error.message });
     },
     onSuccess: async (data, variables) => {
-      if (!data) return;
+      if (!data.data) return;
 
-      const { success, threadFavourite } = data;
-      if (!success) return;
+      const { threadFavourite } = data.data;
 
       toast({ variant: 'success', content: `Thread ${threadFavourite ? 'added to' : 'removed from'} favourites!` });
 
       const { threadId, userId } = variables;
-      await queryClient.refetchQueries(['thread-favourite', threadId, userId]);
+      await queryClient.refetchQueries({ queryKey: ['thread-favourite', threadId, userId] });
     },
   });
 
-  return { mutateAsync, isLoading };
+  return { mutateAsync, isPending };
 };

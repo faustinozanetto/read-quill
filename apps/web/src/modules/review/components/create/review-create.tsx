@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Dialog,
   DialogTrigger,
@@ -21,23 +21,19 @@ interface ReviewCreateProps {
 const ReviewCreate: React.FC<ReviewCreateProps> = (props) => {
   const { bookId, createButton, onSuccess } = props;
 
-  const [dialogOpen, setDialogOpen] = useState(false);
-
   const { toast } = useToast();
 
   const { createReview } = useCreateReview({
-    bookId,
     onSuccess: async (data, variables, context) => {
-      if (data.review) {
+      if (data.data?.review) {
         await onSuccess(data, variables, context);
-        setDialogOpen(false);
         toast({ variant: 'success', content: `Book review added successfully!` });
       }
     },
   });
 
   return (
-    <Dialog onOpenChange={setDialogOpen} open={dialogOpen}>
+    <Dialog>
       <DialogTrigger asChild>{createButton}</DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px]">
@@ -46,7 +42,11 @@ const ReviewCreate: React.FC<ReviewCreateProps> = (props) => {
           <DialogDescription>Add your personal review of the book.</DialogDescription>
         </DialogHeader>
 
-        <ReviewCreateForm onSubmit={createReview} />
+        <ReviewCreateForm
+          onSubmit={async (data) => {
+            if (bookId) await createReview({ ...data, bookId });
+          }}
+        />
       </DialogContent>
     </Dialog>
   );

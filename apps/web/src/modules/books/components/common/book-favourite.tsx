@@ -11,8 +11,8 @@ import {
   buttonVariants,
   useToast,
 } from '@read-quill/design-system';
-import { useQueriesStore } from '@modules/queries/state/queries.slice';
 import { useChangeBookFavourite } from '@modules/books/hooks/favourite/use-change-book-favourite';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface BookFavouriteProps {
   book: Book;
@@ -21,14 +21,13 @@ interface BookFavouriteProps {
 const BookFavourite: React.FC<BookFavouriteProps> = (props) => {
   const { book } = props;
 
-  const { queryClient } = useQueriesStore();
+  const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const { changeFavourite, isLoading } = useChangeBookFavourite({
-    book,
+  const { changeFavourite, isPending } = useChangeBookFavourite({
     onSuccess: async (data) => {
-      if (data && data.success) {
-        await queryClient.refetchQueries(['book', book.id]);
+      if (data.data) {
+        await queryClient.refetchQueries({ queryKey: ['book', book.id] });
 
         toast({
           variant: 'success',
@@ -46,10 +45,10 @@ const BookFavourite: React.FC<BookFavouriteProps> = (props) => {
         <TooltipTrigger
           aria-label={label}
           className={buttonVariants({ size: 'icon', className: 'aspect-square' })}
-          disabled={isLoading}
-          onClick={async () => await changeFavourite()}
+          disabled={isPending}
+          onClick={async () => await changeFavourite({ isFavourite: book.isFavourite, bookId: book.id })}
         >
-          {isLoading ? <LoadingIcon /> : book.isFavourite ? <HeartMinusIcon /> : <HeartPlusIcon />}
+          {isPending ? <LoadingIcon /> : book.isFavourite ? <HeartMinusIcon /> : <HeartPlusIcon />}
         </TooltipTrigger>
         <TooltipContent side="bottom">
           <p>{label}</p>

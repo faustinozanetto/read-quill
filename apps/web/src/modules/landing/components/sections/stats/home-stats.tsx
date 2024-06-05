@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { BookIcon, CheckIcon, PencilIcon, UserIcon } from '@read-quill/design-system';
-import type { LandingStatType, LandingStatsGetResponse } from '@modules/api/types/landing-api.types';
+import type { LandingStatType, LandingStats } from '@modules/api/types/landing-api.types';
 import type { HomeStatsCardProps } from './home-stats-card';
 import HomeStatsCard from './home-stats-card';
 
@@ -15,7 +15,7 @@ const HOME_STATS: Record<LandingStatType, Omit<HomeStatsCardProps, 'value'>> = {
 };
 
 interface HomeStatsProps {
-  stats: LandingStatsGetResponse;
+  stats: LandingStats;
 }
 
 const HomeStats: React.FC<HomeStatsProps> = (props) => {

@@ -10,19 +10,33 @@ export async function GET(request: NextRequest): Promise<NextResponse<UserMember
     const userId = searchParams.get('userId');
 
     if (!userId) {
-      return new NextResponse('User ID is missing', { status: 400 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'User ID is required!',
+          },
+        },
+        { status: 400 }
+      );
     }
 
     const user = await prisma.user.findUnique({ where: { id: userId } });
     if (!user) {
-      throw new NextResponse('User not found!', { status: 404 });
+      return NextResponse.json(
+        {
+          error: {
+            message: 'User not found!',
+          },
+        },
+        { status: 404 }
+      );
     }
 
-    return NextResponse.json({ memberSince: user.createdAt });
+    return NextResponse.json({ data: { memberSince: user.createdAt } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
 
-    return new NextResponse(errorMessage, { status: 500 });
+    return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }

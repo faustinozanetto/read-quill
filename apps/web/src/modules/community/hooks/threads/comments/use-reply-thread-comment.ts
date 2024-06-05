@@ -8,12 +8,12 @@ import { ReplyThreadCommentFormActionData } from '@modules/community/types/commu
 import { ThreadCommentWithAuthor, ThreadWithDetails } from '@modules/community/types/community.types';
 
 type ReplyThreadCommentMutationResult = UseMutationResult<
-  ThreadCommentReplyPostResponse,
+  ThreadCommentReplyPostResponse | undefined,
   Error,
   ReplyThreadCommentFormActionData
 >;
 type ReplyThreadCommentMutationParams = UseMutationOptions<
-  ThreadCommentReplyPostResponse,
+  ThreadCommentReplyPostResponse | undefined,
   Error,
   ReplyThreadCommentFormActionData
 >;
@@ -33,7 +33,11 @@ export const useReplyThreadComment = (params: UseReplyThreadCommentParams): UseR
 
   const { toast } = useToast();
 
-  const { mutateAsync } = useMutation<ThreadCommentReplyPostResponse, Error, ReplyThreadCommentFormActionData>({
+  const { mutateAsync } = useMutation<
+    ThreadCommentReplyPostResponse | undefined,
+    Error,
+    ReplyThreadCommentFormActionData
+  >({
     mutationKey: ['thread-reply-comment', thread?.id, comment.id],
     mutationFn: async (data) => {
       if (!thread) return;
@@ -46,11 +50,16 @@ export const useReplyThreadComment = (params: UseReplyThreadCommentParams): UseR
       });
 
       const response = await fetch(url, { method: 'POST', body });
+      const responseData = (await response.json()) as ThreadCommentReplyPostResponse;
+
       if (!response.ok) {
-        throw new Error('Could not create comment reply!');
+        let errorMessage = response.statusText;
+        if (responseData.error) errorMessage = responseData.error.message;
+
+        throw new Error(errorMessage);
       }
 
-      return response.json();
+      return responseData;
     },
     onSuccess,
     onError(error) {
