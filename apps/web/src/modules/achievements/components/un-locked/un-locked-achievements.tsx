@@ -13,7 +13,7 @@ import UserUnLockedAchievementCardPlaceholder from '../cards/un-lockeed/user-un-
 import UserUnLockedAchievementsFeed from '../feed/un-locked/user-un-locked-achievements-feed';
 
 const UnLockedAchievements: React.FC = () => {
-  const { data, isFetching, isLoading } = useUnLockedAchievements();
+  const { data, isLoading } = useUnLockedAchievements();
 
   return (
     <div className="flex flex-col gap-4">
@@ -33,19 +33,19 @@ const UnLockedAchievements: React.FC = () => {
             initialSort: UN_LOCKED_ACHIEVEMENTS_INITIAL_SORT,
           }}
         >
-          {isFetching || isLoading ? (
+          {isLoading ? (
             <div className="grid gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {Array.from({ length: 4 }).map((_, i) => (
                 <UserUnLockedAchievementCardPlaceholder key={`user-achievement-placeholder-${i}`} />
               ))}
             </div>
           ) : null}
-          {!(isFetching || isLoading) && data?.data?.unLockedAchievements.length ? (
+          {!isLoading && data?.data?.unLockedAchievements.length ? (
             <UserUnLockedAchievementsFeed userAchievements={data?.data?.unLockedAchievements} />
           ) : null}
         </FilterProvider>
 
-        {!(isFetching || isLoading) && !data?.data?.unLockedAchievements.length ? (
+        {!isLoading && !data?.data?.unLockedAchievements.length ? (
           <div className="flex items-center justify-center gap-2 p-4">
             <div className="bg-primary p-2 rounded-lg border">
               <ExclamationIcon />

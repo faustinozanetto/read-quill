@@ -5,7 +5,7 @@ import React from 'react';
 import { useBookReadRegistries } from '@modules/books/hooks/use-book-read-registries';
 import { useBookStore } from '@modules/books/state/book.slice';
 import UserBookReadRegistriesTable from './user-book-read-registries-table';
-import { Badge, Button, PlusIcon, Skeleton } from '@read-quill/design-system';
+import { Badge, Button, PlusIcon, Separator, Skeleton } from '@read-quill/design-system';
 import ReadRegistryCreate from '@modules/read-registries/components/create/read-registry-create';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -28,7 +28,6 @@ const UserBookReadRegistries: React.FC = () => {
           <h2 className="text-xl sm:text-2xl font-bold">Read Registries</h2>
           <Badge variant="outline">Visible to you</Badge>
         </div>
-
         <ReadRegistryCreate
           createButton={
             <Button aria-label="Create Registry" size="sm" variant="outline">
@@ -40,10 +39,13 @@ const UserBookReadRegistries: React.FC = () => {
           bookId={book?.id}
         />
       </div>
-
-      <p>Manage and view the read registries for your book here.</p>
+      <p>
+        Here, you can manage and view your reading registries. Track your progress over time and celebrate your reading
+        milestones. Use the table below to add, edit, or delete registries, ensuring your reading journey is
+        meticulously documented and effortlessly managed.
+      </p>
+      <Separator />
       {isLoading && <Skeleton className="h-40 w-full" />}
-
       {!isLoading && data?.data?.readRegistries.length ? (
         <UserBookReadRegistriesTable data={data} pagination={pagination} setPagination={setPagination} />
       ) : null}

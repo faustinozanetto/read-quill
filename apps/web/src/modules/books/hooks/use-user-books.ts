@@ -34,12 +34,9 @@ export const useUserBooks = (params: UseUserBooksParams): UseUserBooksReturn => 
   const { toast } = useToast();
   const [page, setPage] = useState(0);
 
-  const { data, isLoading, isFetching, isPlaceholderData } = useQuery<UserBooksGetResponse | undefined>({
+  const { data, status, isPlaceholderData } = useQuery<UserBooksGetResponse | undefined>({
     queryKey: ['user-books', page, userId],
     enabled: typeof userId !== 'undefined',
-    initialData: {
-      data: { books: [], hasMore: false, pageCount: 0 },
-    },
     placeholderData: (previousData) => previousData,
     queryFn: async () => {
       try {
@@ -100,7 +97,7 @@ export const useUserBooks = (params: UseUserBooksParams): UseUserBooksReturn => 
 
   return {
     data,
-    isLoading: isLoading || isFetching,
+    isLoading: status === 'pending',
     page,
     getCanPreviousPage,
     getCanNextPage,

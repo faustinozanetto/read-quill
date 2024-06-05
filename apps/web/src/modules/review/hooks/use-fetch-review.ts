@@ -7,14 +7,14 @@ interface UseFetchReviewParams {
   reviewId: string;
 }
 
-interface UseFetchReviewReturn extends Pick<UseQueryResult<ReviewGetResponse | undefined>, 'data' | 'isFetching'> {}
+interface UseFetchReviewReturn extends Pick<UseQueryResult<ReviewGetResponse | undefined>, 'data' | 'isLoading'> {}
 
 export const useFetchReview = (params: UseFetchReviewParams): UseFetchReviewReturn => {
   const { reviewId } = params;
 
   const { toast } = useToast();
 
-  const { data, isFetching } = useQuery<ReviewGetResponse | undefined>({
+  const { data, status } = useQuery<ReviewGetResponse | undefined>({
     queryKey: ['review', reviewId],
     queryFn: async () => {
       try {
@@ -41,5 +41,5 @@ export const useFetchReview = (params: UseFetchReviewParams): UseFetchReviewRetu
     },
   });
 
-  return { data, isFetching };
+  return { data, isLoading: status === 'pending' };
 };

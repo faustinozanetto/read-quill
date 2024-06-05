@@ -22,11 +22,8 @@ export const useCommunityTopUsers = (params: UseCommunityTopUsersParams = { take
 
   const { toast } = useToast();
 
-  const { data, isLoading, isFetching } = useQuery<CommunityTopUsersGetResponse | undefined>({
+  const { data, status } = useQuery<CommunityTopUsersGetResponse | undefined>({
     queryKey: ['community-top-users'],
-    initialData: {
-      data: { topUsers: [] },
-    },
     queryFn: async () => {
       try {
         const url = buildUrl(take);
@@ -51,5 +48,5 @@ export const useCommunityTopUsers = (params: UseCommunityTopUsersParams = { take
     },
   });
 
-  return { data, isLoading: isLoading || isFetching };
+  return { data, isLoading: status === 'pending' };
 };

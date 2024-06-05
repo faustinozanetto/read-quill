@@ -1,6 +1,6 @@
 import type { Dispatch, SetStateAction } from 'react';
 import { useState } from 'react';
-import type { DefinedUseQueryResult, UseQueryResult } from '@tanstack/react-query';
+import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import type { PaginationState } from '@tanstack/react-table';
 import { useToast } from '@read-quill/design-system';
@@ -31,11 +31,8 @@ export const useBookReadRegistries = (
     pageSize,
   });
 
-  const { data, isLoading, isFetching } = useQuery<BookReadRegistriesGetResponse | undefined>({
+  const { data, status } = useQuery<BookReadRegistriesGetResponse | undefined>({
     queryKey: ['book-read-registries', pagination, bookId],
-    initialData: {
-      data: { pageCount: 0, readRegistries: [] },
-    },
     enabled: typeof bookId !== 'undefined',
     queryFn: async () => {
       try {
@@ -65,5 +62,5 @@ export const useBookReadRegistries = (
       }
     },
   });
-  return { data, isLoading: isLoading || isFetching, pagination, setPagination };
+  return { data, isLoading: status === 'pending', pagination, setPagination };
 };

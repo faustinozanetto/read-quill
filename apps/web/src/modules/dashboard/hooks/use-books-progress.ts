@@ -32,11 +32,8 @@ export const useBooksProgress = (params: UseBooksProgressParams = { pageSize: 3 
   const { toast } = useToast();
   const [page, setPage] = useState(0);
 
-  const { data, isLoading, isFetching, isPlaceholderData } = useQuery<DashboardBooksProgressGetResponse | undefined>({
+  const { data, status, isPlaceholderData } = useQuery<DashboardBooksProgressGetResponse | undefined>({
     queryKey: ['dashboard-books-progress', page],
-    initialData: {
-      data: { booksProgress: [], hasMore: false, pageCount: 0 },
-    },
     placeholderData: (previousData) => previousData,
     queryFn: async () => {
       try {
@@ -95,7 +92,7 @@ export const useBooksProgress = (params: UseBooksProgressParams = { pageSize: 3 
 
   return {
     data,
-    isLoading: isLoading || isFetching,
+    isLoading: status === 'pending',
     page,
     getCanPreviousPage,
     getCanNextPage,

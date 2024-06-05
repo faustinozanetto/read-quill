@@ -15,7 +15,7 @@ export const useFetchReviewFromBook = (params: UseFetchReviewFromBookParams): Us
 
   const { toast } = useToast();
 
-  const { data, isFetching, isLoading } = useQuery<ReviewGetResponse | undefined>({
+  const { data, status } = useQuery<ReviewGetResponse | undefined>({
     queryKey: ['review-from-book', bookId],
     enabled: !!bookId,
     queryFn: async () => {
@@ -45,5 +45,5 @@ export const useFetchReviewFromBook = (params: UseFetchReviewFromBookParams): Us
     },
   });
 
-  return { data, isLoading: isLoading || isFetching };
+  return { data, isLoading: status === 'pending' };
 };

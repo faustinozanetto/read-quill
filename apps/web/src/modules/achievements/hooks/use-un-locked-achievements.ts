@@ -4,19 +4,13 @@ import { useToast } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { AchievementsUnLockedGetResponse } from '@modules/api/types/achievements-api.types';
 
-export type UseUnLockedAchievementsReturn = Pick<
-  UseQueryResult<AchievementsUnLockedGetResponse>,
-  'data' | 'isLoading' | 'isFetching'
->;
+export type UseUnLockedAchievementsReturn = Pick<UseQueryResult<AchievementsUnLockedGetResponse>, 'data' | 'isLoading'>;
 
 export const useUnLockedAchievements = (): UseUnLockedAchievementsReturn => {
   const { toast } = useToast();
 
-  const { data, isLoading, isFetching } = useQuery<AchievementsUnLockedGetResponse>({
+  const { data, status } = useQuery<AchievementsUnLockedGetResponse>({
     queryKey: ['achivements-un-locked'],
-    initialData: {
-      data: { unLockedAchievements: [] },
-    },
     queryFn: async () => {
       try {
         const url = new URL('/api/achievements/un-locked', __URL__);
@@ -33,5 +27,5 @@ export const useUnLockedAchievements = (): UseUnLockedAchievementsReturn => {
     },
   });
 
-  return { data, isLoading, isFetching };
+  return { data, isLoading: status === 'pending' };
 };

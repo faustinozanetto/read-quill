@@ -36,11 +36,8 @@ export const useReadsTrends = (): UseReadsTrendsReturn => {
 
   const interval = (searchParams.get('read-trends-interval') as DashboardReadTrendsIntervalType) ?? 'daily';
 
-  const { data, isLoading, isFetching } = useQuery<DashboardReadTrendsGetResponse | undefined>({
+  const { data, status } = useQuery<DashboardReadTrendsGetResponse | undefined>({
     queryKey: ['dashboard-read-insights-trends', interval],
-    initialData: {
-      data: { trends: [] },
-    },
     queryFn: async () => {
       try {
         const url = new URL('/api/dashboard/read-trends', __URL__);
@@ -89,5 +86,5 @@ export const useReadsTrends = (): UseReadsTrendsReturn => {
     };
   }, [data, dailyRange, interval]);
 
-  return { data, filteredData, isLoading: isLoading || isFetching, interval, setInterval, dailyRange, setDailyRange };
+  return { data, filteredData, isLoading: status === 'pending', interval, setInterval, dailyRange, setDailyRange };
 };

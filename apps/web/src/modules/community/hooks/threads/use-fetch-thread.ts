@@ -14,7 +14,8 @@ export const useFetchThread = (params: UseFetchThreadParams) => {
 
   const { toast } = useToast();
   const { setThread, setIsLoading } = useThreadStore();
-  const { data, isFetching, isLoading } = useQuery<ThreadGetResponse | undefined>({
+
+  const { data, status } = useQuery<ThreadGetResponse | undefined>({
     queryKey: ['thread', threadId],
     queryFn: async () => {
       try {
@@ -48,6 +49,6 @@ export const useFetchThread = (params: UseFetchThreadParams) => {
   }, [data?.data]);
 
   useEffect(() => {
-    setIsLoading(isFetching || isLoading);
-  }, [isFetching, isLoading]);
+    setIsLoading(status === 'pending');
+  }, [status]);
 };

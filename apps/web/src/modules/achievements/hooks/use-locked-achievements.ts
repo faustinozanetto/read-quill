@@ -4,19 +4,13 @@ import { useToast } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { AchievementsLockedGetResponse } from '@modules/api/types/achievements-api.types';
 
-export type UseLockedAchievementsReturn = Pick<
-  UseQueryResult<AchievementsLockedGetResponse>,
-  'data' | 'isLoading' | 'isFetching'
->;
+export type UseLockedAchievementsReturn = Pick<UseQueryResult<AchievementsLockedGetResponse>, 'data' | 'isLoading'>;
 
 export const useLockedAchievements = (): UseLockedAchievementsReturn => {
   const { toast } = useToast();
 
-  const { data, isLoading, isFetching } = useQuery<AchievementsLockedGetResponse>({
+  const { data, status } = useQuery<AchievementsLockedGetResponse>({
     queryKey: ['achivements-locked'],
-    initialData: {
-      data: { lockedAchievements: [] },
-    },
     queryFn: async () => {
       try {
         const url = new URL('/api/achievements/locked', __URL__);
@@ -33,5 +27,5 @@ export const useLockedAchievements = (): UseLockedAchievementsReturn => {
     },
   });
 
-  return { data, isLoading, isFetching };
+  return { data, isLoading: status === 'pending' };
 };

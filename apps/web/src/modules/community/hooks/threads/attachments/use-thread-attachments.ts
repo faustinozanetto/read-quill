@@ -22,12 +22,9 @@ export const useThreadAttachments = (params: UseThreadAttachmentsParams): UseThr
 
   const { toast } = useToast();
 
-  const { data, isLoading, isFetching } = useQuery<ThreadAttachmentsGetResponse | undefined>({
+  const { data, status } = useQuery<ThreadAttachmentsGetResponse | undefined>({
     queryKey: ['thread-attachments', threadId],
     enabled: threadId !== undefined,
-    initialData: {
-      data: { attachments: [] },
-    },
     queryFn: async () => {
       try {
         if (!threadId) return;
@@ -56,6 +53,6 @@ export const useThreadAttachments = (params: UseThreadAttachmentsParams): UseThr
 
   return {
     data,
-    isLoading: isLoading || isFetching,
+    isLoading: status === 'pending',
   };
 };

@@ -4,7 +4,7 @@ import React from 'react';
 import UserBookReviewHeader from './user-book-review-header';
 import { useBookStore } from '@modules/books/state/book.slice';
 import { useIsBookOwner } from '@modules/books/hooks/use-is-book-owner';
-import { Skeleton } from '@read-quill/design-system';
+import { Separator, Skeleton } from '@read-quill/design-system';
 import { useFetchReviewFromBook } from '@modules/review/hooks/use-fetch-review-from-book';
 
 const UserBookReview: React.FC = () => {
@@ -21,24 +21,38 @@ const UserBookReview: React.FC = () => {
         contentLoading={isLoading}
         review={data?.data?.review ?? null}
       />
-
+      <p>
+        {isBookOwner ? (
+          <>
+            Share your thoughts and insights on your book. Reflect on your journey, highlight key takeaways, and engage
+            your audience with detailed reviews.
+          </>
+        ) : (
+          <>
+            Explore reflections and insights on their book. Discover the author's perspectives, gain insights from their
+            experiences, and decide if this book resonates with you.
+          </>
+        )}
+      </p>
+      <Separator />
       {isLoading && <Skeleton className="h-20 w-full" />}
-
       {!isLoading && hasReview && (
         <p className="first-letter:text-6xl first-letter:font-bold first-letter:text-primary first-letter:mr-3 first-letter:float-left">
           {data?.data?.review?.content}
         </p>
       )}
-
       {!isLoading && !hasReview && (
         <p>
           {isBookOwner ? (
             <>
-              No review found. Add one by clicking the <span className="text-primary font-bold underline">Add</span>{' '}
-              button to get started.
+              It looks like you haven&apos;t written a review tet. Add one by clicking the{' '}
+              <span className="text-primary font-bold underline">Add</span> button to get started.
             </>
           ) : (
-            <>This user has not written a review yet!</>
+            <>
+              This user has not written a review yet! Check back later to see if they&apos;ve shared their thoughts on
+              the book.
+            </>
           )}
         </p>
       )}

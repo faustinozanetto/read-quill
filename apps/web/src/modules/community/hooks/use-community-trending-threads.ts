@@ -24,11 +24,8 @@ export const useCommunityTrendingThreads = (
 
   const { toast } = useToast();
 
-  const { data, isLoading, isFetching } = useQuery<ThreadsCommunityTrendingGetResponse | undefined>({
+  const { data, status } = useQuery<ThreadsCommunityTrendingGetResponse | undefined>({
     queryKey: ['community-trending-threads'],
-    initialData: {
-      data: { threads: [] },
-    },
     queryFn: async () => {
       try {
         const url = buildUrl(pageSize);
@@ -53,5 +50,5 @@ export const useCommunityTrendingThreads = (
     },
   });
 
-  return { data, isLoading: isLoading || isFetching };
+  return { data, isLoading: status === 'pending' };
 };

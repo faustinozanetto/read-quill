@@ -9,11 +9,8 @@ type UseBooksRatingsReturn = Pick<UseQueryResult<DashboardBooksRatingsGetRespons
 export const useBooksRatings = (): UseBooksRatingsReturn => {
   const { toast } = useToast();
 
-  const { data, isFetching, isLoading } = useQuery<DashboardBooksRatingsGetResponse | undefined>({
+  const { data, status } = useQuery<DashboardBooksRatingsGetResponse | undefined>({
     queryKey: ['dashboard-books-ratings'],
-    initialData: {
-      data: { booksRatings: [] },
-    },
     queryFn: async () => {
       try {
         const url = new URL('/api/dashboard/books-ratings', __URL__);
@@ -38,5 +35,5 @@ export const useBooksRatings = (): UseBooksRatingsReturn => {
     },
   });
 
-  return { data, isLoading: isLoading || isFetching };
+  return { data, isLoading: status === 'pending' };
 };

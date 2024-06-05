@@ -19,12 +19,9 @@ export const useThreadVoteCount = (params: UseThreadVoteCountParams): UseIsThrea
   const { threadId } = params;
 
   const { toast } = useToast();
-  const { data, isLoading, isFetching } = useQuery<ThreadVoteGetResponse | undefined>({
+  const { data, status } = useQuery<ThreadVoteGetResponse | undefined>({
     queryKey: ['thread-vote-count', threadId],
     enabled: typeof threadId !== 'undefined',
-    initialData: {
-      data: { votes: 0 },
-    },
     queryFn: async () => {
       try {
         if (!threadId) return;
@@ -51,5 +48,5 @@ export const useThreadVoteCount = (params: UseThreadVoteCountParams): UseIsThrea
     },
   });
 
-  return { data, isLoading: isLoading || isFetching };
+  return { data, isLoading: status === 'pending' };
 };

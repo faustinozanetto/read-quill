@@ -34,12 +34,9 @@ export const useThreadComments = (params: UseThreadCommentsParams): UseThreadCom
   const { toast } = useToast();
   const [page, setPage] = useState(0);
 
-  const { data, isLoading, isFetching, isPlaceholderData } = useQuery<ThreadCommentsGetResponse | undefined>({
+  const { data, status, isPlaceholderData } = useQuery<ThreadCommentsGetResponse | undefined>({
     queryKey: ['thread-comments', page, threadId],
     enabled: typeof threadId !== undefined,
-    initialData: {
-      data: { comments: [], hasMore: false, pageCount: 0 },
-    },
     placeholderData: (previousData) => previousData,
     queryFn: async () => {
       try {
@@ -100,7 +97,7 @@ export const useThreadComments = (params: UseThreadCommentsParams): UseThreadCom
 
   return {
     data,
-    isLoading: isLoading || isFetching,
+    isLoading: status === 'pending',
     page,
     getCanPreviousPage,
     getCanNextPage,

@@ -27,7 +27,7 @@ const AuthSignIn: React.FC = () => {
     try {
       const next = searchParams.get('next') ?? '/dashboard';
 
-      await signIn(provider, { redirect: false, callbackUrl: next });
+      await signIn(provider, { redirect: true, callbackUrl: next });
     } catch (error) {
       toast({ variant: 'error', content: 'An error occurred while signing in!' });
     }

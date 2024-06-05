@@ -34,12 +34,9 @@ export const useBookAnnotations = (params: UseBookAnnotationsParams): UseBookAnn
   const { toast } = useToast();
   const [page, setPage] = useState(0);
 
-  const { data, isFetching, isLoading, isPlaceholderData } = useQuery<BookAnnotationsGetResponse | undefined>({
+  const { data, status, isPlaceholderData } = useQuery<BookAnnotationsGetResponse | undefined>({
     queryKey: ['book-annotations', bookId],
     enabled: !!bookId,
-    initialData: {
-      data: { annotations: [], hasMore: false, pageCount: 0 },
-    },
     placeholderData: (previousData) => previousData,
     queryFn: async () => {
       try {
@@ -99,7 +96,7 @@ export const useBookAnnotations = (params: UseBookAnnotationsParams): UseBookAnn
 
   return {
     data,
-    isLoading: isLoading || isFetching,
+    isLoading: status === 'pending',
     page,
     getCanPreviousPage,
     getCanNextPage,

@@ -11,16 +11,8 @@ type UseReadTargetsReturn = Pick<UseQueryResult<DashboardReadTargetsGetResponse 
 export const useReadTargets = (): UseReadTargetsReturn => {
   const { toast } = useToast();
 
-  const { data, isLoading, isFetching } = useQuery<DashboardReadTargetsGetResponse | undefined>({
+  const { data, status } = useQuery<DashboardReadTargetsGetResponse | undefined>({
     queryKey: ['dashboard-read-targets'],
-    initialData: {
-      data: {
-        readTargets: {
-          readTargets: { daily: 0, monthly: 0, weekly: 0 },
-          targetReadTargets: { daily: 0, monthly: 0, weekly: 0 },
-        },
-      },
-    },
     queryFn: async () => {
       try {
         const url = new URL('/api/dashboard/read-targets', __URL__);
@@ -48,6 +40,6 @@ export const useReadTargets = (): UseReadTargetsReturn => {
   return {
     targetsCreated: Boolean(data?.data?.readTargets),
     data,
-    isLoading: isLoading || isFetching,
+    isLoading: status === 'pending',
   };
 };

@@ -23,12 +23,9 @@ export const useIsThreadFavourite = (params: UseIsThreadFavouriteParams): UseIsT
 
   const { toast } = useToast();
 
-  const { data, isLoading, isFetching } = useQuery<ThreadFavouriteGetResponse | undefined>({
+  const { data, status } = useQuery<ThreadFavouriteGetResponse | undefined>({
     queryKey: ['thread-favourite', threadId, userId],
     enabled: !!userId,
-    initialData: {
-      data: { isFavourite: false },
-    },
     queryFn: async () => {
       try {
         if (!userId) return;
@@ -55,5 +52,5 @@ export const useIsThreadFavourite = (params: UseIsThreadFavouriteParams): UseIsT
     },
   });
 
-  return { data, isLoading: isLoading || isFetching };
+  return { data, isLoading: status === 'pending' };
 };

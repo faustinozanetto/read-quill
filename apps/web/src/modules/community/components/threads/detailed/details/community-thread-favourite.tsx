@@ -54,9 +54,7 @@ const CommnuityThreadFavourite: React.FC<CommnuityThreadFavouriteProps> = (props
         >
           {isContentLoading ? <LoadingIcon /> : isCurrentThreadFavourite ? <HeartMinusIcon /> : <HeartPlusIcon />}
         </TooltipTrigger>
-        <TooltipContent side="bottom">
-          <p>{label}</p>
-        </TooltipContent>
+        <TooltipContent side="bottom">{label}</TooltipContent>
       </Tooltip>
     </TooltipProvider>
   );

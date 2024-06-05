@@ -14,7 +14,7 @@ export const useUserMemberSince = (params: UseUserMemberSinceParams): UseUserMem
   const { userId } = params;
   const { toast } = useToast();
 
-  const { data, isFetching, isLoading } = useQuery<UserMemberSinceGetResponse | undefined>({
+  const { data, status } = useQuery<UserMemberSinceGetResponse | undefined>({
     queryKey: ['user-member-since', userId],
     enabled: !!userId,
     queryFn: async () => {
@@ -44,5 +44,5 @@ export const useUserMemberSince = (params: UseUserMemberSinceParams): UseUserMem
     },
   });
 
-  return { data, isLoading: isLoading || isFetching };
+  return { data, isLoading: status === 'pending' };
 };

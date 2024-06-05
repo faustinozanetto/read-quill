@@ -15,7 +15,7 @@ export const useFetchBook = (params: UseFetchBookParams) => {
   const { toast } = useToast();
 
   const { setBook, setIsLoading } = useBookStore();
-  const { data, isFetching, isLoading } = useQuery<BookGetResponse | undefined>({
+  const { data, status } = useQuery<BookGetResponse | undefined>({
     queryKey: ['book', bookId],
     queryFn: async () => {
       try {
@@ -49,6 +49,6 @@ export const useFetchBook = (params: UseFetchBookParams) => {
   }, [data?.data?.book]);
 
   useEffect(() => {
-    setIsLoading(isFetching || isLoading);
-  }, [isFetching, isLoading]);
+    setIsLoading(status === 'pending');
+  }, [status]);
 };

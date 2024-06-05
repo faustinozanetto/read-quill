@@ -26,7 +26,11 @@ export async function authMiddleware(request: NextRequest) {
     if (isAuthenticated) {
       return NextResponse.next();
     }
-    return NextResponse.redirect(new URL(SIGN_IN_ROUTE, nextUrl));
+
+    const signInUrl = new URL(SIGN_IN_ROUTE, __URL__);
+    signInUrl.searchParams.set('next', nextUrl.pathname);
+
+    return NextResponse.redirect(signInUrl);
   }
 
   // Redirect authenticated users from non-private routes to the dashboard

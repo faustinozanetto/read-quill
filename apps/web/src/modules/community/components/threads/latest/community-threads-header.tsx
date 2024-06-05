@@ -11,7 +11,7 @@ const CommunityThreadsHeader: React.FC = () => {
         <p>Browse the latest threads posted by our community users.</p>
       </div>
       <Button asChild>
-        <Link href="/community/threads/create">
+        <Link href="/community/post-thread">
           <PencilIcon className="mr-2" /> Start a Thread
         </Link>
       </Button>

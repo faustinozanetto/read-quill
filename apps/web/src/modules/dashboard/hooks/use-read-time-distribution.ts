@@ -12,11 +12,8 @@ type UseReadTimeDistributionReturn = Pick<
 export const useReadsTimeDistribution = (): UseReadTimeDistributionReturn => {
   const { toast } = useToast();
 
-  const { data, isLoading, isFetching } = useQuery<DashboardReadTimeDistributionGetResponse | undefined>({
+  const { data, status } = useQuery<DashboardReadTimeDistributionGetResponse | undefined>({
     queryKey: ['dashboard-read-time-distribution'],
-    initialData: {
-      data: { timeDistribution: [] },
-    },
     queryFn: async () => {
       try {
         const url = new URL('/api/dashboard/read-time-distribution', __URL__);
@@ -42,5 +39,5 @@ export const useReadsTimeDistribution = (): UseReadTimeDistributionReturn => {
     },
   });
 
-  return { data, isLoading: isLoading || isFetching };
+  return { data, isLoading: status === 'pending' };
 };

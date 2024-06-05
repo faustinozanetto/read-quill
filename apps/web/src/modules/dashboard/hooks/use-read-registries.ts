@@ -27,11 +27,8 @@ export const useReadRegistries = (params: UseReadRegistriesParams = { pageSize: 
     pageSize,
   });
 
-  const { data, isLoading, isFetching } = useQuery<DashboardReadRegistriesGetResponse | undefined>({
+  const { data, status } = useQuery<DashboardReadRegistriesGetResponse | undefined>({
     queryKey: ['dashboard-read-registries', pagination],
-    initialData: {
-      data: { pageCount: 0, readRegistries: [] },
-    },
     queryFn: async () => {
       try {
         const url = new URL('/api/dashboard/read-registries', __URL__);
@@ -57,5 +54,5 @@ export const useReadRegistries = (params: UseReadRegistriesParams = { pageSize: 
       }
     },
   });
-  return { data, isLoading: isLoading || isFetching, pagination, setPagination };
+  return { data, isLoading: status === 'pending', pagination, setPagination };
 };

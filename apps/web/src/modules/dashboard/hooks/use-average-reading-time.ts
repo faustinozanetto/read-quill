@@ -12,17 +12,8 @@ type UseAverageReadingTimeReturn = Pick<
 export const useAverageReadingTime = (): UseAverageReadingTimeReturn => {
   const { toast } = useToast();
 
-  const { data, isFetching, isLoading } = useQuery<AverageReadingTimeGetResponse | undefined>({
+  const { data, status } = useQuery<AverageReadingTimeGetResponse | undefined>({
     queryKey: ['dashboard-average-reading-time'],
-    initialData: {
-      data: {
-        averageReadingTimes: {
-          daily: { current: 0, past: 0 },
-          monthly: { current: 0, past: 0 },
-          weekly: { current: 0, past: 0 },
-        },
-      },
-    },
     queryFn: async () => {
       try {
         const url = new URL('/api/dashboard/average-reading-time', __URL__);
@@ -47,5 +38,5 @@ export const useAverageReadingTime = (): UseAverageReadingTimeReturn => {
     },
   });
 
-  return { data, isLoading: isLoading || isFetching };
+  return { data, isLoading: status === 'pending' };
 };

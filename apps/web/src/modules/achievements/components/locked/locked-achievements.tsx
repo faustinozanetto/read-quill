@@ -12,7 +12,7 @@ import UserLockedAchievementsFeed from '../feed/locked/user-locked-achievements-
 import UserUnLockedAchievementCardPlaceholder from '../cards/un-lockeed/user-un-locked-achievement-card-placeholder';
 
 const LockedAchievements: React.FC = () => {
-  const { data, isFetching, isLoading } = useLockedAchievements();
+  const { data, isLoading } = useLockedAchievements();
 
   return (
     <div className="flex flex-col gap-4">
@@ -26,7 +26,7 @@ const LockedAchievements: React.FC = () => {
       </div>
 
       <div className="rounded-lg border shadow">
-        {isFetching || isLoading ? (
+        {isLoading ? (
           <div className="grid gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {Array.from({ length: 4 }).map((_, i) => (
               <UserUnLockedAchievementCardPlaceholder key={`user-achievement-placeholder-${i}`} />
@@ -34,7 +34,7 @@ const LockedAchievements: React.FC = () => {
           </div>
         ) : null}
 
-        {!(isFetching || isLoading) && data?.data?.lockedAchievements.length ? (
+        {!isLoading && data?.data?.lockedAchievements.length ? (
           <FilterProvider
             initialState={{
               initialFilters: LOCKED_ACHIEVEMENTS_INITIAL_FILTERS,

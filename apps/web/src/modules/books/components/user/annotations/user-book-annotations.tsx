@@ -8,6 +8,7 @@ import { useIsBookOwner } from '@modules/books/hooks/use-is-book-owner';
 import AnnotationCardPlaceholder from '@modules/annotations/components/cards/annotation-card-placeholder';
 import AnnotationsFeed from '@modules/annotations/components/feed/annotations-feed';
 import { useBookStore } from '@modules/books/state/book.slice';
+import { Separator } from '@read-quill/design-system';
 
 const UserBookAnnotations: React.FC = () => {
   const { book } = useBookStore();
@@ -21,14 +22,25 @@ const UserBookAnnotations: React.FC = () => {
     <div className="flex flex-col rounded-lg p-4 shadow border gap-2">
       <UserBookAnnotationsHeader />
       <p>
-        {isBookOwner
-          ? 'Create annotations for your book here.'
-          : 'Discover the annotations made by the user of the book here.'}
+        {isBookOwner ? (
+          <>
+            Document your thoughts, mark important passages, and make notes that enhance your understanding of your
+            book. Your annotations serve as a valuable reference for revisiting key ideas and sharing deeper insights
+            with your readers. Capture the essence of your work, one note at a time.
+          </>
+        ) : (
+          <>
+            Dive into detailed annotations and notes on their book. Gain a deeper understanding of the content through
+            the author's personal highlights and reflections. These annotations offer a unique glimpse into [Owner's
+            Name]'s thought process.
+          </>
+        )}
       </p>
+      <Separator />
 
       {isLoading && (
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {Array.from({ length: 3 }).map((_, i) => (
+          {Array.from({ length: 4 }).map((_, i) => (
             <AnnotationCardPlaceholder key={`book-annotation-placeholder-${i}`} />
           ))}
         </div>

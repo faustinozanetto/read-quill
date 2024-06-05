@@ -9,11 +9,8 @@ type UseBooksNamesReturn = Pick<UseQueryResult<BooksNamesGetResponse | undefined
 export const useBooksNames = (): UseBooksNamesReturn => {
   const { toast } = useToast();
 
-  const { data, isFetching, isLoading } = useQuery<BooksNamesGetResponse | undefined>({
+  const { data, status } = useQuery<BooksNamesGetResponse | undefined>({
     queryKey: ['books-names'],
-    initialData: {
-      data: { booksNames: [] },
-    },
     queryFn: async () => {
       try {
         const url = new URL('/api/book/names/', __URL__);
@@ -38,5 +35,5 @@ export const useBooksNames = (): UseBooksNamesReturn => {
     },
   });
 
-  return { data, isLoading: isLoading || isFetching };
+  return { data, isLoading: status === 'pending' };
 };

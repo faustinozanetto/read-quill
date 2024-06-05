@@ -8,11 +8,8 @@ type UseReadActivityReturn = Pick<UseQueryResult<DashboardReadActivityGetRespons
 export const useReadActivity = (): UseReadActivityReturn => {
   const { toast } = useToast();
 
-  const { data, isFetching, isLoading } = useQuery<DashboardReadActivityGetResponse | undefined>({
+  const { data, status } = useQuery<DashboardReadActivityGetResponse | undefined>({
     queryKey: ['dashboard-read-activity'],
-    initialData: {
-      data: { readActivity: {} },
-    },
     queryFn: async () => {
       try {
         const url = new URL('/api/dashboard/read-activity', __URL__);
@@ -37,5 +34,5 @@ export const useReadActivity = (): UseReadActivityReturn => {
     },
   });
 
-  return { data, isLoading: isLoading || isFetching };
+  return { data, isLoading: status === 'pending' };
 };
