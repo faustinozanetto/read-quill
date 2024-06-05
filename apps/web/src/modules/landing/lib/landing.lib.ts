@@ -6,14 +6,12 @@ export const getLandingStats = async () => {
 
   try {
     const url = new URL('/api/landing/stats', __URL__);
-    const response = await fetch(url, { method: 'GET' });
+    const response = await fetch(url, { method: 'GET', cache: 'no-cache' });
     if (response.ok) {
       const responseData = (await response.json()) as LandingStatsGetResponse;
       if (responseData.data) data = responseData.data.stats;
     }
-  } catch (err) {
-    /* empty */
-  }
+  } catch (err) {}
 
   return data;
 };
