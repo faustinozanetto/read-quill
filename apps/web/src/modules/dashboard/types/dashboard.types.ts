@@ -43,3 +43,9 @@ export interface DashboardReadTrendEntry {
   date: string;
   registries: ReadRegistry[];
 }
+
+export interface DashboardReadTargetHistoryEntry {
+  date: string;
+  value: number;
+  progress: number;
+}

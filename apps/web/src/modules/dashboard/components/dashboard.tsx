@@ -9,6 +9,7 @@ import DashboardBooksRatings from './books-ratings/dashboard-books-ratings';
 import DashboardAverageReadingTime from './average-reading-time/dashboard-average-reading-time';
 import DashboardReadTrends from './read-trends/dashboard-read-trends';
 import DashboardReadTimeDistribution from './read-time-distribution/dashboard-read-time-distribution';
+import DashboardReadTargetsHistory from './read-targets-history/dashboard-read-targets-history';
 
 const Dashboard: React.FC = () => {
   return (
@@ -18,6 +19,7 @@ const Dashboard: React.FC = () => {
         <DashboardReadTargets />
         <DashboardAverageReadingTime />
       </div>
+      <DashboardReadTargetsHistory />
       <DashboardReadRegistries />
       <DashboardBooksProgress />
       <div className="grid gap-4 xl:grid-cols-2">

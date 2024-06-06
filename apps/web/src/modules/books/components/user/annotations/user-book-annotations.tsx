@@ -4,15 +4,18 @@ import React from 'react';
 import UserBookAnnotationsHeader from './user-book-annotations-header';
 import { useBookAnnotations } from '@modules/books/hooks/use-book-annotations';
 
-import { useIsBookOwner } from '@modules/books/hooks/use-is-book-owner';
 import AnnotationCardPlaceholder from '@modules/annotations/components/cards/annotation-card-placeholder';
 import AnnotationsFeed from '@modules/annotations/components/feed/annotations-feed';
 import { useBookStore } from '@modules/books/state/book.slice';
 import { Separator } from '@read-quill/design-system';
 
-const UserBookAnnotations: React.FC = () => {
+interface UserBookAnnotationsProps {
+  isBookOwner: boolean;
+}
+
+const UserBookAnnotations: React.FC<UserBookAnnotationsProps> = (props) => {
+  const { isBookOwner } = props;
   const { book } = useBookStore();
-  const { isBookOwner } = useIsBookOwner();
   const { data, isLoading } = useBookAnnotations({
     pageSize: 6,
     bookId: book?.id,

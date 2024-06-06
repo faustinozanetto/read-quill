@@ -2,6 +2,7 @@ import {
   BookProgressEntry,
   DashboardBookRatingEntry,
   DashboardReadActivty,
+  DashboardReadTargetHistoryEntry,
   DashboardReadTargets,
   DashboardReadTrendEntry,
 } from '@modules/dashboard/types/dashboard.types';
@@ -85,5 +86,14 @@ export interface AverageReadingTimeGetResponse extends BaseApiResponse {
         past: number;
       };
     };
+  };
+}
+
+export interface DashboardReadTargetsHistoryGetResponse extends BaseApiResponse {
+  data?: {
+    readTargets: Pick<ReadTargets, 'daily' | 'weekly' | 'monthly'>;
+    historyEntries: DashboardReadTargetHistoryEntry[];
+    hasMore: boolean;
+    nextCursor: string | null;
   };
 }

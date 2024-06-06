@@ -39,16 +39,15 @@ const DashboardReadTargetsCard: React.FC<DashboardReadTargetsCardProps> = (props
   return (
     <div className="rounded-lg border p-4 shadow min-w-56 w-full" ref={ref}>
       <h3 className="font-bold text-lg underline decoration-primary decoration-4 mb-2">{capitalize(type)}</h3>
-
       {isCompleted ? <Fireworks onInit={onInitConfetti} /> : null}
-
       <svg className="m-auto mt-2" height="128" width="128" xmlns="http://www.w3.org/2000/svg">
         <circle
-          className={cn('fill-transparent stroke-primary -rotate-90 origin-center')}
+          className="fill-transparent stroke-primary -rotate-90 origin-center"
           cx="50%"
           cy="50%"
           r={radius}
           strokeWidth={strokeWidth}
+          strokeLinecap="round"
           style={{
             strokeDasharray,
             strokeDashoffset: strokeDasharray - (strokeDasharray * count) / 100,
@@ -64,7 +63,6 @@ const DashboardReadTargetsCard: React.FC<DashboardReadTargetsCardProps> = (props
           {count.toFixed(0)}%
         </text>
       </svg>
-
       <p className="font-bold block tabular-nums text-center mx-auto">
         {value}/{target} <span className="text-sm font-medium text-muted-foreground">pages</span>
       </p>

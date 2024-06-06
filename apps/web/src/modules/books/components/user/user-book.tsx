@@ -20,8 +20,8 @@ const UserBook: React.FC<UserBookProps> = (props) => {
   return (
     <section className="space-y-4">
       <UserBookDetails />
-      <UserBookReview />
-      <UserBookAnnotations />
+      <UserBookReview isBookOwner={isBookOwner} />
+      <UserBookAnnotations isBookOwner={isBookOwner} />
       {isBookOwner && <UserBookReadRegistries />}
     </section>
   );
