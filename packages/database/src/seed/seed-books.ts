@@ -9,12 +9,12 @@ void (async () => {
     await Promise.all(
       users.map((user) =>
         Array.from({ length: SEED_BOOKS_CONFIG.COUNT }).map(async () => {
-          const startedAt = faker.date.between({ from: faker.date.recent({ days: 120 }), to: new Date() });
+          const startedAt = faker.date.between({ from: faker.date.recent({ days: 365 }), to: new Date() });
           const finishedAt = faker.date.between({ from: startedAt, to: new Date() });
 
           const image = await prisma.image.findFirst({
             where: {
-              id: 'clwwksxkt0000no6gxfixuwa1',
+              id: 'clx3c2z080000b67h8sxsvngg',
             },
           });
           if (!image) return;

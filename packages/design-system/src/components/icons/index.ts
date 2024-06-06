@@ -69,3 +69,6 @@ export * from './dot-icon';
 export * from './equal-icon';
 export * from './arrow-big-down-lines-icon';
 export * from './arrow-big-up-lines-icon';
+export * from './thumbs-down-icon';
+export * from './thumbs-down-off-icon';
+export * from './thumbs-up-off-icon';

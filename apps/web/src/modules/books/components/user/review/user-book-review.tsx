@@ -5,6 +5,7 @@ import UserBookReviewHeader from './user-book-review-header';
 import { useBookStore } from '@modules/books/state/book.slice';
 import { Separator, Skeleton } from '@read-quill/design-system';
 import { useFetchReviewFromBook } from '@modules/review/hooks/use-fetch-review-from-book';
+import UserBookReviewLike from './user-book-review-like';
 
 interface UserBookReviewProps {
   isBookOwner: boolean;
@@ -39,10 +40,13 @@ const UserBookReview: React.FC<UserBookReviewProps> = (props) => {
       </p>
       <Separator />
       {isLoading && <Skeleton className="h-20 w-full" />}
-      {!isLoading && hasReview && (
-        <p className="first-letter:text-6xl first-letter:font-bold first-letter:text-primary first-letter:mr-3 first-letter:float-left">
-          {data?.data?.review?.content}
-        </p>
+      {!isLoading && data?.data?.review && (
+        <div className="flex flex-col gap-2">
+          <p className="block first-letter:text-6xl first-letter:font-bold first-letter:text-primary first-letter:mr-3 first-letter:float-left">
+            {data?.data?.review?.content}
+          </p>
+          <UserBookReviewLike reviewId={data.data.review.id} />
+        </div>
       )}
       {!isLoading && !hasReview && (
         <p>

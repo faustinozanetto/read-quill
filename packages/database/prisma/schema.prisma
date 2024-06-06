@@ -5,8 +5,7 @@ datasource db {
 }
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["tracing"]
+  provider = "prisma-client-js"
 }
 
 model Account {
@@ -91,11 +90,20 @@ model Review {
   id      String @id @default(cuid())
   content String
 
-  book   Book   @relation(fields: [bookId], references: [id])
-  bookId String @unique
+  book   Book         @relation(fields: [bookId], references: [id])
+  bookId String       @unique
+  likes  ReviewLike[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model ReviewLike {
+  id       String  @id @default(cuid())
+  review   Review  @relation(fields: [reviewId], references: [id])
+  reviewId String
+  userId   String
+  isLike   Boolean
 }
 
 model Annotation {

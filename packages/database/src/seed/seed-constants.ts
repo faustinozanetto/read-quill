@@ -10,7 +10,7 @@ export const SEED_BOOKS_CONFIG = {
   },
   READ_REGISTRIES: {
     MIN: 2,
-    MAX: 25,
+    MAX: 50,
   },
   ANNOTATIONS: {
     MIN: 2,

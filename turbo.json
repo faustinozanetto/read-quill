@@ -13,7 +13,7 @@
     "RESENND_API_KEY",
     "NODE_ENV"
   ],
-  "pipeline": {
+  "tasks": {
     "build": {
       "dependsOn": ["^db:generate", "^build"],
       "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
