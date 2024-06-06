@@ -8,7 +8,8 @@ import { Skeleton } from '@read-quill/design-system';
 import { ReviewLikeDeleteResponse, ReviewLikePostResponse } from '@modules/api/types/reviews-api.types';
 import { useToast } from '@read-quill/design-system';
 import { useQueryClient } from '@tanstack/react-query';
-import { LikeReviewApiActionData, RemoveLikeReviewApiActionData } from '@modules/review/types/review-validations.types';
+import { LikeReviewApiActionData } from '@modules/review/types/review-validations.types';
+import { useReviewLikeCount } from '@modules/review/hooks/likes/use-review-like-count';
 
 interface UserBookReviewLikeProps {
   reviewId: string;
@@ -19,12 +20,18 @@ const UserBookReviewLike: React.FC<UserBookReviewLikeProps> = (props) => {
 
   const queryClient = useQueryClient();
   const { toast } = useToast();
+
+  const { data: reviewLikeCountData } = useReviewLikeCount({ reviewId });
+
   const { data: reviewLikeStatusData, isLoading } = useReviewLikeStatus({ reviewId });
 
   const onReviewLikeSuccess = async (data: ReviewLikePostResponse, variables: LikeReviewApiActionData) => {
     if (data.data?.reviewLike) {
       await queryClient.refetchQueries({
         queryKey: ['review-like-status', reviewId],
+      });
+      await queryClient.refetchQueries({
+        queryKey: ['review-like-count', reviewId],
       });
       toast({
         variant: 'success',
@@ -33,13 +40,13 @@ const UserBookReviewLike: React.FC<UserBookReviewLikeProps> = (props) => {
     }
   };
 
-  const onReviewRemoveLikeSuccess = async (
-    data: ReviewLikeDeleteResponse,
-    variables: RemoveLikeReviewApiActionData
-  ) => {
+  const onReviewRemoveLikeSuccess = async (data: ReviewLikeDeleteResponse) => {
     if (data.data?.success) {
       await queryClient.refetchQueries({
         queryKey: ['review-like-status', reviewId],
+      });
+      await queryClient.refetchQueries({
+        queryKey: ['review-like-count', reviewId],
       });
       toast({
         variant: 'success',
@@ -65,7 +72,9 @@ const UserBookReviewLike: React.FC<UserBookReviewLikeProps> = (props) => {
             onSuccess={onReviewLikeSuccess}
             onRemoveSuccess={onReviewRemoveLikeSuccess}
             variant={userAlreadyLikedReview ? 'outline-destructive' : 'outline'}
-          />
+          >
+            {reviewLikeCountData?.data?.likeCount}
+          </LikeReview>
           <LikeReview
             likeType="dislike"
             isActive={userAlreadyDislikedReview}
@@ -74,7 +83,9 @@ const UserBookReviewLike: React.FC<UserBookReviewLikeProps> = (props) => {
             onSuccess={onReviewLikeSuccess}
             onRemoveSuccess={onReviewRemoveLikeSuccess}
             variant={userAlreadyDislikedReview ? 'outline-destructive' : 'outline'}
-          />
+          >
+            {reviewLikeCountData?.data?.dislikeCount}
+          </LikeReview>
         </>
       )}
     </div>

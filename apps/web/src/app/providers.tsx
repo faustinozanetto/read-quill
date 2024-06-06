@@ -21,6 +21,7 @@ const Providers: React.FC<ProvidersProps> = (props) => {
         defaultOptions: {
           queries: {
             refetchOnWindowFocus: false,
+            retry: 0,
           },
         },
       })

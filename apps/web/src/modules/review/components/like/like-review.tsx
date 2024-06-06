@@ -8,6 +8,11 @@ import {
   ThumbsDownOffIcon,
   ThumbsUpIcon,
   ThumbsUpOffIcon,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+  cn,
 } from '@read-quill/design-system';
 import type { ButtonProps } from '@read-quill/design-system';
 import { UseRemoveLikeReviewParams, useRemoveLikeReview } from '@modules/review/hooks/likes/use-remove-like-review';
@@ -27,9 +32,11 @@ const LikeReview: React.FC<LikeReviewProps> = (props) => {
     isActive,
     onSuccess,
     onRemoveSuccess,
-    size = 'icon',
+    className,
+    size = 'sm',
     variant = 'outline',
     disabled,
+    children,
     ...rest
   } = props;
 
@@ -43,29 +50,41 @@ const LikeReview: React.FC<LikeReviewProps> = (props) => {
     else await likeReview({ likeType, reviewId });
   };
 
+  const label = isActive ? `Remove ${likeType}` : `${likeType === 'like' ? 'Like' : 'Dislike'} review`;
+
   return (
-    <Button
-      aria-label={`${likeType === 'like' ? 'Like' : 'Dislike'} review`}
-      size={size}
-      variant={variant}
-      disabled={isLikeReviewPending || isRemoveLikePending}
-      onClick={handleLike}
-      {...rest}
-    >
-      {isLikeReviewPending || isRemoveLikePending ? (
-        <LoadingIcon />
-      ) : likeType === 'like' ? (
-        isActive ? (
-          <ThumbsUpOffIcon />
-        ) : (
-          <ThumbsUpIcon />
-        )
-      ) : isActive ? (
-        <ThumbsDownOffIcon />
-      ) : (
-        <ThumbsDownIcon />
-      )}
-    </Button>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            aria-label={label}
+            className={cn('gap-2', className)}
+            variant={variant}
+            size={size}
+            disabled={isLikeReviewPending || isRemoveLikePending}
+            onClick={handleLike}
+            {...rest}
+          >
+            {isLikeReviewPending || isRemoveLikePending ? (
+              <LoadingIcon />
+            ) : likeType === 'like' ? (
+              isActive ? (
+                <ThumbsUpOffIcon />
+              ) : (
+                <ThumbsUpIcon />
+              )
+            ) : isActive ? (
+              <ThumbsDownOffIcon />
+            ) : (
+              <ThumbsDownIcon />
+            )}
+            {children}
+          </Button>
+        </TooltipTrigger>
+
+        <TooltipContent>{label}</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 };
 

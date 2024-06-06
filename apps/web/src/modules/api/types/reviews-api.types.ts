@@ -32,3 +32,7 @@ export interface ReviewLikeDeleteResponse extends BaseApiResponse {
 export interface ReviewLikeStatusGetResponse extends BaseApiResponse {
   data?: { liked: boolean; disliked: boolean };
 }
+
+export interface ReviewLikeCountGetResponse extends BaseApiResponse {
+  data?: { likeCount: number; dislikeCount: number };
+}
