@@ -14,3 +14,14 @@ export const hslToHex = (h: number, s: number, l: number): string => {
   };
   return `#${f(0)}${f(8)}${f(4)}`;
 };
+
+export const hslToHexS = (hsl: string): string => {
+  const hslArray = hsl.match(/\d+(\.\d+)?/g);
+  if (!hslArray || hslArray.length !== 3) {
+    throw new Error('Invalid HSL format');
+  }
+
+  const [h, s, l] = hslArray.map(Number);
+
+  return hslToHex(h, s, l);
+};

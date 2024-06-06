@@ -72,3 +72,4 @@ export * from './arrow-big-up-lines-icon';
 export * from './thumbs-down-icon';
 export * from './thumbs-down-off-icon';
 export * from './thumbs-up-off-icon';
+export * from './download-icon';

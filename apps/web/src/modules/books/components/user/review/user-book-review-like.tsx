@@ -21,9 +21,9 @@ const UserBookReviewLike: React.FC<UserBookReviewLikeProps> = (props) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  const { data: reviewLikeCountData } = useReviewLikeCount({ reviewId });
+  const { data: reviewLikeCountData, isLoading: isReviewLikeCountLoading } = useReviewLikeCount({ reviewId });
 
-  const { data: reviewLikeStatusData, isLoading } = useReviewLikeStatus({ reviewId });
+  const { data: reviewLikeStatusData, isLoading: isReviewLikeStatusLoading } = useReviewLikeStatus({ reviewId });
 
   const onReviewLikeSuccess = async (data: ReviewLikePostResponse, variables: LikeReviewApiActionData) => {
     if (data.data?.reviewLike) {
@@ -60,7 +60,7 @@ const UserBookReviewLike: React.FC<UserBookReviewLikeProps> = (props) => {
 
   return (
     <div className="ml-auto space-x-2">
-      {isLoading ? (
+      {isReviewLikeStatusLoading ? (
         <Skeleton className="h-10 w-20" />
       ) : (
         <>
@@ -68,7 +68,7 @@ const UserBookReviewLike: React.FC<UserBookReviewLikeProps> = (props) => {
             likeType="like"
             isActive={userAlreadyLikedReview}
             reviewId={reviewId}
-            disabled={isLoading}
+            disabled={isReviewLikeStatusLoading || isReviewLikeCountLoading}
             onSuccess={onReviewLikeSuccess}
             onRemoveSuccess={onReviewRemoveLikeSuccess}
             variant={userAlreadyLikedReview ? 'outline-destructive' : 'outline'}
@@ -79,7 +79,7 @@ const UserBookReviewLike: React.FC<UserBookReviewLikeProps> = (props) => {
             likeType="dislike"
             isActive={userAlreadyDislikedReview}
             reviewId={reviewId}
-            disabled={isLoading}
+            disabled={isReviewLikeStatusLoading || isReviewLikeCountLoading}
             onSuccess={onReviewLikeSuccess}
             onRemoveSuccess={onReviewRemoveLikeSuccess}
             variant={userAlreadyDislikedReview ? 'outline-destructive' : 'outline'}

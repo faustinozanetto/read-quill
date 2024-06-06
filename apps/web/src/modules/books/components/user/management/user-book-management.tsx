@@ -11,6 +11,7 @@ import {
   DropdownMenuItem,
   DeleteIcon,
   EditIcon,
+  QRIcon,
 } from '@read-quill/design-system';
 import BookDelete from '../../delete/book-delete';
 import { BookWithDetails } from '@modules/books/types/book.types';
@@ -18,6 +19,7 @@ import BookEdit from '../../edit/book-edit';
 
 import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
+import BookQR from '../../qr/book-qr';
 
 interface UserBookManagementProps extends ButtonProps {
   book: BookWithDetails;
@@ -54,6 +56,15 @@ const UserBookManagement: React.FC<UserBookManagementProps> = (props) => {
             <DropdownMenuItem aria-label="Update Book" onSelect={(e) => e.preventDefault()}>
               <EditIcon className="mr-2 stroke-current" />
               Update
+            </DropdownMenuItem>
+          }
+        />
+        <BookQR
+          book={book}
+          qrButton={
+            <DropdownMenuItem aria-label="Book QR" onSelect={(e) => e.preventDefault()}>
+              <QRIcon className="mr-2 stroke-current" />
+              QR Image
             </DropdownMenuItem>
           }
         />
