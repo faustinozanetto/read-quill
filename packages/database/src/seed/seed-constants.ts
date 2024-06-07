@@ -16,6 +16,10 @@ export const SEED_BOOKS_CONFIG = {
     MIN: 2,
     MAX: 10,
   },
+  REVIEW_LIKES: {
+    MIN: 2,
+    MAX: 35,
+  },
 };
 
 export const SEED_COMMUNITY_CONFIG = {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import { UseLikeReviewParams, useLikeReview } from '@modules/review/hooks/likes/use-like-review';
 import { LikeReviewType } from '@modules/review/types/review-validations.types';
 import {
@@ -16,6 +16,7 @@ import {
 } from '@read-quill/design-system';
 import type { ButtonProps } from '@read-quill/design-system';
 import { UseRemoveLikeReviewParams, useRemoveLikeReview } from '@modules/review/hooks/likes/use-remove-like-review';
+import { useReviewLikeStore } from '@modules/review/state/review-like.slice';
 
 interface LikeReviewProps extends Omit<ButtonProps, 'onClick' | 'aria-label'> {
   reviewId: string;
@@ -40,6 +41,8 @@ const LikeReview: React.FC<LikeReviewProps> = (props) => {
     ...rest
   } = props;
 
+  const { setIsLikePending, isLikePending } = useReviewLikeStore();
+
   const { likeReview, isPending: isLikeReviewPending } = useLikeReview({ onSuccess });
   const { removeLikeReview, isPending: isRemoveLikePending } = useRemoveLikeReview({
     onSuccess: onRemoveSuccess,
@@ -50,7 +53,26 @@ const LikeReview: React.FC<LikeReviewProps> = (props) => {
     else await likeReview({ likeType, reviewId });
   };
 
+  useEffect(() => {
+    setIsLikePending(isLikeReviewPending);
+  }, [isLikeReviewPending]);
+
   const label = isActive ? `Remove ${likeType}` : `${likeType === 'like' ? 'Like' : 'Dislike'} review`;
+
+  const disableButton = isLikeReviewPending || isRemoveLikePending || isLikePending;
+
+  const isCurrentLoading = isLikeReviewPending || isRemoveLikePending;
+
+  const stateIcons: Record<LikeReviewType, { isActive: ReactNode; isNotActive: ReactNode }> = {
+    like: {
+      isActive: <ThumbsUpOffIcon />,
+      isNotActive: <ThumbsUpIcon />,
+    },
+    dislike: {
+      isActive: <ThumbsDownOffIcon />,
+      isNotActive: <ThumbsDownIcon />,
+    },
+  };
 
   return (
     <TooltipProvider>
@@ -61,27 +83,20 @@ const LikeReview: React.FC<LikeReviewProps> = (props) => {
             className={cn('gap-2', className)}
             variant={variant}
             size={size}
-            disabled={isLikeReviewPending || isRemoveLikePending}
+            disabled={disableButton}
             onClick={handleLike}
             {...rest}
           >
-            {isLikeReviewPending || isRemoveLikePending ? (
+            {isCurrentLoading ? (
               <LoadingIcon />
-            ) : likeType === 'like' ? (
-              isActive ? (
-                <ThumbsUpOffIcon />
-              ) : (
-                <ThumbsUpIcon />
-              )
             ) : isActive ? (
-              <ThumbsDownOffIcon />
+              stateIcons[likeType].isActive
             ) : (
-              <ThumbsDownIcon />
+              stateIcons[likeType].isNotActive
             )}
             {children}
           </Button>
         </TooltipTrigger>
-
         <TooltipContent>{label}</TooltipContent>
       </Tooltip>
     </TooltipProvider>

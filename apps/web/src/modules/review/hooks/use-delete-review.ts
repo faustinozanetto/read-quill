@@ -9,6 +9,7 @@ type DeleteReviewMutationParams = UseMutationOptions<ReviewDeleteResponse, Error
 
 interface UseDeleteReviewReturn {
   deleteReview: DeleteReviewMutationResult['mutateAsync'];
+  isPending: DeleteReviewMutationResult['isPending'];
 }
 
 export interface UseDeleteReviewParams {
@@ -20,7 +21,7 @@ export const useDeleteReview = (params: UseDeleteReviewParams): UseDeleteReviewR
 
   const { toast } = useToast();
 
-  const { mutateAsync } = useMutation<ReviewDeleteResponse, Error, DeleteReviewApiActionData>({
+  const { mutateAsync, isPending } = useMutation<ReviewDeleteResponse, Error, DeleteReviewApiActionData>({
     mutationKey: ['delete-review'],
     mutationFn: async (data) => {
       const url = new URL('/api/review', __URL__);
@@ -48,5 +49,6 @@ export const useDeleteReview = (params: UseDeleteReviewParams): UseDeleteReviewR
 
   return {
     deleteReview: mutateAsync,
+    isPending,
   };
 };

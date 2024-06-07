@@ -1,4 +1,11 @@
-export const PRIVATE_ROUTES = ['/dashboard', '/settings', '/library', '/community/post-thread', '/achievements'];
+export const PRIVATE_ROUTES = [
+  '/dashboard',
+  '/settings',
+  '/library',
+  '/community/post-thread',
+  '/achievements',
+  /^\/books\/[^/]+\/review-details$/,
+];
 export const PUBLIC_ROUTES = [
   '/',
   '/community',

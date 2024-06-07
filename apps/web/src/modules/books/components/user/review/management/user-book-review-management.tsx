@@ -11,12 +11,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   ManageIcon,
+  PencilIcon,
 } from '@read-quill/design-system';
 import { EditIcon } from '@read-quill/design-system';
 import ReviewDelete from '@modules/review/components/delete/review-delete';
 import ReviewEdit from '@modules/review/components/edit/review-edit';
 import { Review } from '@read-quill/database';
 import { useQueryClient } from '@tanstack/react-query';
+import Link from 'next/link';
 
 interface UserBookReviewManagementProps {
   bookId: string;
@@ -55,6 +57,12 @@ const UserBookReviewManagement: React.FC<UserBookReviewManagementProps> = (props
                 </DropdownMenuItem>
               }
             />
+            <DropdownMenuItem aria-label="Details" onSelect={(e) => e.preventDefault()} asChild>
+              <Link href={`/books/${bookId}/review-details`}>
+                <PencilIcon className="mr-2" />
+                Details
+              </Link>
+            </DropdownMenuItem>
             <ReviewDelete
               reviewId={review.id}
               onSuccess={handleOnReviewChanged}

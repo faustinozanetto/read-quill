@@ -12,12 +12,13 @@ import {
   DownloadIcon,
   Separator,
   Skeleton,
+  LoadingIcon,
 } from '@read-quill/design-system';
 import { useQRCode } from '@modules/common/hooks/use-qr-code';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import Image from 'next/image';
 import { useCopyToClipboard } from '@modules/common/hooks/use-copy-to-clipboard';
-import { toBlob, toPng } from 'html-to-image';
+import { toBlob } from 'html-to-image';
 import { useDownloadImage } from '@modules/common/hooks/use-download-image';
 import { Book } from '@read-quill/database';
 
@@ -40,7 +41,7 @@ const BookQR: React.FC<BookQRProps> = (props) => {
       toast({ variant: 'success', content: 'QR copied to clipboard!' });
     },
   });
-  const { downloadImage } = useDownloadImage({
+  const { isPending: isDownloadPending, downloadImage } = useDownloadImage({
     imageRef: qrImageRef,
     onSuccess: () => {
       toast({ variant: 'success', content: 'QR downloaded successfully!' });
@@ -89,12 +90,12 @@ const BookQR: React.FC<BookQRProps> = (props) => {
         {encodedQR ? (
           <Image ref={qrImageRef} src={encodedQR} alt="qr" className="mx-auto" width={300} height={300} />
         ) : (
-          <Skeleton className="w-full h-40" />
+          <Skeleton className="w-full aspect-square" />
         )}
         <Separator />
         <div className="grid grid-cols-2 gap-2">
-          <Button aria-label="Download QR Code" onClick={handleDownloadQr}>
-            <DownloadIcon className="mr-2" /> Download
+          <Button aria-label="Download QR Code" disabled={isDownloadPending} onClick={handleDownloadQr}>
+            {isDownloadPending ? <LoadingIcon className="mr-2" /> : <DownloadIcon className="mr-2" />} Download
           </Button>
           <Button aria-label="Copy QR Code" variant="outline" onClick={handleCopyQr}>
             <CopyIcon className="mr-2" />

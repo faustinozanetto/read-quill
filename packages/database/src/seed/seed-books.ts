@@ -14,7 +14,7 @@ void (async () => {
 
           const image = await prisma.image.findFirst({
             where: {
-              id: 'clx3c2z080000b67h8sxsvngg',
+              id: 'clx40t01s00003phz69xwuu8f',
             },
           });
           if (!image) return;
@@ -41,6 +41,7 @@ void (async () => {
                 },
               },
             },
+            include: { review: true },
           });
 
           const readRegistries = Array.from({
@@ -74,8 +75,23 @@ void (async () => {
             };
           });
 
+          const reviewLikes = Array.from({
+            length: faker.number.int({
+              min: SEED_BOOKS_CONFIG.REVIEW_LIKES.MIN,
+              max: SEED_BOOKS_CONFIG.REVIEW_LIKES.MAX,
+            }),
+          }).map(() => {
+            const randomUser = users[Math.floor(Math.random() * users.length)];
+            return {
+              reviewId: book.review?.id!,
+              isLike: Boolean(faker.number.int({ min: 0, max: 1 })),
+              userId: randomUser.id,
+            };
+          });
+
           await prisma.readRegistry.createMany({ data: readRegistries });
           await prisma.annotation.createMany({ data: bookAnnotations });
+          await prisma.reviewLike.createMany({ data: reviewLikes });
 
           return book;
         })

@@ -1,4 +1,4 @@
-import { BookWithDetails } from '@modules/books/types/book.types';
+import { BookReviewDetailsLikesEntry, BookWithDetails } from '@modules/books/types/book.types';
 import type { Image, ReadRegistry } from '@read-quill/database';
 import { BaseApiResponse } from './api.types';
 import { DashboardBookName } from '@modules/dashboard/types/dashboard.types';
@@ -43,4 +43,11 @@ export interface BookRatingPostResponse extends BaseApiResponse {
 
 export interface BookReadRegistriesGetResponse extends BaseApiResponse {
   data?: { readRegistries: ReadRegistry[]; pageCount: number };
+}
+
+export interface BookReviewDetailsLikesGetResponse extends BaseApiResponse {
+  data?: {
+    reviewLikes: BookReviewDetailsLikesEntry[];
+    pageCount: number;
+  };
 }

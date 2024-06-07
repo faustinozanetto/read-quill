@@ -9,6 +9,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
+  LoadingIcon,
   buttonVariants,
   useToast,
 } from '@read-quill/design-system';
@@ -26,7 +27,7 @@ const ReviewDelete: React.FC<ReviewCreateProps> = (props) => {
 
   const { toast } = useToast();
 
-  const { deleteReview } = useDeleteReview({
+  const { deleteReview, isPending } = useDeleteReview({
     onSuccess: async (data, variables, context) => {
       if (data.data?.success) {
         await onSuccess(data, variables, context);
@@ -51,11 +52,13 @@ const ReviewDelete: React.FC<ReviewCreateProps> = (props) => {
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
             className={buttonVariants({ variant: 'destructive' })}
+            disabled={isPending}
             onClick={async () => {
               if (!reviewId) return;
               await deleteReview({ reviewId });
             }}
           >
+            {isPending && <LoadingIcon className="mr-2" />}
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>

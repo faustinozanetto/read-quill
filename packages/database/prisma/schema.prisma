@@ -44,6 +44,7 @@ model User {
   threads              Thread[]
   threadComments       ThreadComment[]
   userFavouriteThreads UserFavouriteThread[]
+  reviewLikes          ReviewLike[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
@@ -99,11 +100,14 @@ model Review {
 }
 
 model ReviewLike {
-  id       String  @id @default(cuid())
-  review   Review  @relation(fields: [reviewId], references: [id])
+  id     String  @id @default(cuid())
+  isLike Boolean
+
+  review   Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
   reviewId String
-  userId   String
-  isLike   Boolean
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
 }
 
 model Annotation {

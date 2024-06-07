@@ -9,3 +9,13 @@ export interface BookWithDetails extends Book {
 export interface BookPlaceholderImage {
   blurUrl: string;
 }
+
+export interface BookReviewDetailsLikesEntry {
+  id: string;
+  isLike: boolean;
+  user: {
+    image: string;
+    id: string;
+    name: string;
+  };
+}
