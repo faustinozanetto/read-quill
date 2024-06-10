@@ -63,7 +63,7 @@
     "@types/uuid": "9.0.8",
     "@types/react-dom": "^18.2.0",
     "@types/qrcode": "1.5.5",
-    "jsx-email": "1.10.9",
+    "jsx-email": "1.12.1",
     "autoprefixer": "10.4.19",
     "postcss": "8.4.38",
     "tailwindcss": "3.4.3",
