@@ -53,7 +53,7 @@
     "@testing-library/jest-dom": "6.4.5",
     "@testing-library/react": "16.0.0",
     "@next/eslint-plugin-next": "14.2.3",
-    "@prisma/nextjs-monorepo-workaround-plugin": "5.14.0",
+    "@prisma/nextjs-monorepo-workaround-plugin": "5.15.0",
     "@read-quill/eslint-config": "workspace:*",
     "@read-quill/tailwind-config": "workspace:*",
     "@read-quill/typescript-config": "workspace:*",
