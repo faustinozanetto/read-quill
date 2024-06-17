@@ -41,7 +41,7 @@
     "@faker-js/faker": "8.4.1",
     "@read-quill/typescript-config": "*",
     "tsup": "8.1.0",
-    "tsx": "4.11.2",
+    "tsx": "4.15.5",
     "typescript": "5.4.5"
   }
 }
