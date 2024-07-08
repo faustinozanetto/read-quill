@@ -42,6 +42,6 @@
     "@read-quill/typescript-config": "*",
     "tsup": "8.1.0",
     "tsx": "4.11.2",
-    "typescript": "5.4.5"
+    "typescript": "5.5.3"
   }
 }
