@@ -38,7 +38,7 @@
     "react-virtuoso": "4.7.11",
     "sharp": "0.32.6",
     "zod": "3.23.8",
-    "react-hook-form": "7.51.5",
+    "react-hook-form": "7.52.1",
     "@hookform/resolvers": "3.4.2",
     "@tanstack/react-table": "8.19.3",
     "framer-motion": "11.3.9",
