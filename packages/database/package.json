@@ -37,10 +37,10 @@
     "@read-quill/eslint-config": "*",
     "prisma": "5.17.0",
     "eslint": "9.7.0",
-    "rimraf": "5.0.7",
+    "rimraf": "6.0.1",
     "@faker-js/faker": "8.4.1",
     "@read-quill/typescript-config": "*",
-    "tsup": "8.1.0",
+    "tsup": "8.2.2",
     "tsx": "4.16.2",
     "typescript": "5.5.4"
   }
