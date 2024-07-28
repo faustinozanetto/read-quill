@@ -57,7 +57,7 @@ const DashboardReadTargetsHistory: React.FC = () => {
 
       <DashboardReadTargetsHistoryIntervalSelect interval={interval} setInterval={setInterval} />
 
-      <div className="grid-flow-col auto-cols-max grid gap-2 overflow-x-auto py-1.5 px-2 relative">
+      <div className="grid grid-flow-col gap-2 overflow-x-auto py-1.5 px-2 relative">
         {dedupedEntries.length
           ? dedupedEntries.map((readTargetHistoryEntry, index) => {
               return (

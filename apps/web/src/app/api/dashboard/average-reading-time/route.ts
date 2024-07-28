@@ -41,7 +41,6 @@ export async function GET(request: NextRequest): Promise<NextResponse<AverageRea
         },
       },
       select: { pagesRead: true, createdAt: true },
-      cacheStrategy: { swr: 60, ttl: 60 },
     });
 
     const TIME_PER_PAGE_MINUTES = 3;

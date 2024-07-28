@@ -30,7 +30,6 @@ export async function GET(request: NextRequest): Promise<NextResponse<BookReadRe
       include: { book: { select: { pageCount: true, image: true, name: true } } },
       skip: pageSize * pageIndex,
       take: pageSize,
-      cacheStrategy: { swr: 60, ttl: 60 },
     });
 
     // Fetch the total count of read registries

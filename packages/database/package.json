@@ -25,8 +25,8 @@
     "format": "prisma format",
     "db:generate": "prisma generate",
     "lint": "eslint . --max-warnings 0",
-    "prebuild": "npm run generate",
-    "predev": "npm run generate",
+    "prebuild": "npm run db:generate",
+    "predev": "npm run db:generate",
     "studio": "prisma studio"
   },
   "dependencies": {
@@ -34,12 +34,12 @@
     "@prisma/extension-accelerate": "1.1.0"
   },
   "devDependencies": {
-    "@read-quill/eslint-config": "*",
+    "@read-quill/eslint-config": "workspace:*",
     "prisma": "5.17.0",
     "eslint": "9.7.0",
     "rimraf": "6.0.1",
     "@faker-js/faker": "8.4.1",
-    "@read-quill/typescript-config": "*",
+    "@read-quill/typescript-config": "workspace:*",
     "tsup": "8.2.2",
     "tsx": "4.16.2",
     "typescript": "5.5.4"

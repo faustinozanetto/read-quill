@@ -25,7 +25,6 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardR
 
     const readRegistries = await prisma.readRegistry.findMany({
       where: { book: { readerId: session.user.id } },
-      cacheStrategy: { swr: 60, ttl: 60 },
     });
 
     const timeDistribution = readRegistries.reduce<Record<string, number>>((acc, registry) => {

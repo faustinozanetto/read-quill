@@ -20,7 +20,6 @@ export async function POST(): Promise<NextResponse> {
     const readRegistries = await prisma.readRegistry.findMany({
       where: { book: { readerId: session.user.id } },
       orderBy: { createdAt: 'asc' },
-      cacheStrategy: { swr: 60, ttl: 60 },
     });
     const books = await prisma.book.findMany({ where: { readerId: session.user.id } });
 

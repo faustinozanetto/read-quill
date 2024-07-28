@@ -33,7 +33,6 @@ export async function GET(request: NextRequest): Promise<NextResponse<BookReview
       },
       skip: pageSize * pageIndex,
       take: pageSize,
-      cacheStrategy: { swr: 60, ttl: 60 },
     })) as BookReviewDetailsLikesEntry[];
 
     // Fetch the total count of read registries

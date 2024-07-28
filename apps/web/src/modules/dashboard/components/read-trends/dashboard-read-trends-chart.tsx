@@ -52,6 +52,7 @@ const DashboardReadTrendsChart: React.FC<DashboardReadTrendsChartProps> = (props
         mode: theme === 'dark' ? 'dark' : 'light',
         monochrome: {
           enabled: true,
+          color: '#e0c36c',
           shadeTo: theme === 'dark' ? 'dark' : 'light',
         },
       },

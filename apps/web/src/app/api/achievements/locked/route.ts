@@ -31,7 +31,6 @@ export async function GET(): Promise<NextResponse<AchievementsLockedGetResponse>
     // Fetch user-specific data
     const readRegistries = await prisma.readRegistry.findMany({
       where: { book: { readerId: session.user.id } },
-      cacheStrategy: { swr: 60, ttl: 60 },
     });
     const books = await prisma.book.findMany({ where: { readerId: session.user.id } });
 

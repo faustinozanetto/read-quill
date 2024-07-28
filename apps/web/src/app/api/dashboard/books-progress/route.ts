@@ -46,7 +46,6 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardB
     const readRegistries = await prisma.readRegistry.findMany({
       where: { bookId: { in: bookIds } },
       include: { book: { select: { name: true, pageCount: true, image: true } } },
-      cacheStrategy: { swr: 60, ttl: 60 },
     });
 
     // Calculate the progress for each book

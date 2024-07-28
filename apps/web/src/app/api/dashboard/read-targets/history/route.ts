@@ -69,7 +69,6 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardR
       take: pageSize,
       skip: cursor ? 1 : 0,
       cursor: cursor ? { id: cursor } : undefined,
-      cacheStrategy: { swr: 60, ttl: 60 },
     });
 
     const hasMore = readRegistries.length === pageSize;

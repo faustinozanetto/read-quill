@@ -58,7 +58,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<BookGetRes
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
-
+    console.log(error);
     return NextResponse.json({ error: { message: errorMessage } }, { status: 500 });
   }
 }
