@@ -22,8 +22,19 @@ interface UserLibraryBooksFeedProps extends PaginationControlsProps {
 }
 
 const UserLibraryBooksFeed: React.FC<UserLibraryBooksFeedProps> = (props) => {
-  const { books, page, pageCount, getCanNextPage, getCanPreviousPage, nextPage, previousPage, setPageIndex, children } =
-    props;
+  const {
+    books,
+    page,
+    pageCount,
+    getCanNextPage,
+    getCanPreviousPage,
+    nextPage,
+    previousPage,
+    setPageIndex,
+    pageSize,
+    setPageSize,
+    children,
+  } = props;
 
   const [cardVariant, setCardVariant] = useState<'vertical' | 'landscape'>('vertical');
 
@@ -116,6 +127,8 @@ const UserLibraryBooksFeed: React.FC<UserLibraryBooksFeedProps> = (props) => {
                   pageCount={pageCount}
                   previousPage={previousPage}
                   setPageIndex={setPageIndex}
+                  pageSize={pageSize}
+                  setPageSize={setPageSize}
                 />
               </>
             )}

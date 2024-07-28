@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useUserBooks } from '@modules/books/hooks/use-user-books';
 import { BOOKS_INITIAL_FILTERS, BOOKS_INITIAL_SORT } from '@modules/books/lib/book-filtering.lib';
 import { FilterProvider } from '@modules/filters/components/filter-provider';
@@ -12,9 +12,11 @@ import BookCardPlaceholder from '@modules/books/components/cards/book-card-place
 const UserLibraryBooks: React.FC = () => {
   const { user } = useAuthContext();
 
+  const [pageSize, setPageSize] = useState(6);
+
   const { data, getCanNextPage, getCanPreviousPage, isLoading, nextPage, page, previousPage, setPageIndex } =
     useUserBooks({
-      pageSize: 6,
+      pageSize,
       userId: user?.id,
     });
 
@@ -38,10 +40,12 @@ const UserLibraryBooks: React.FC = () => {
             pageCount={data?.data?.pageCount ?? 0}
             previousPage={previousPage}
             setPageIndex={setPageIndex}
+            pageSize={pageSize}
+            setPageSize={setPageSize}
           >
             {isLoading ? (
               <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {Array.from({ length: 8 }).map((_, i) => (
+                {Array.from({ length: pageSize }).map((_, i) => (
                   <BookCardPlaceholder key={`user-book-placeholder-${i}`} />
                 ))}
               </div>
