@@ -48,14 +48,13 @@ const BookCard: React.FC<BookCardProps> = (props) => {
   const { book, variant = 'landscape' } = props;
 
   return (
-    <Link href={`/books/${book.id}`}>
+    <Link href={`/books/${book.id}`} title={`View ${book.name} Details`}>
       <div className={cn(containerVariants({ variant }))}>
         <Image
           src={getImagePublicUrl('BookCovers', book.image.path)}
           width={450}
           height={450}
           alt="Book Cover"
-          title={`${book.name} Cover`}
           className={imageVariants({
             variant,
           })}

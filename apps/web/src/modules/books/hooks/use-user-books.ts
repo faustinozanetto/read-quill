@@ -35,7 +35,7 @@ export const useUserBooks = (params: UseUserBooksParams): UseUserBooksReturn => 
   const [page, setPage] = useState(0);
 
   const { data, status, isPlaceholderData } = useQuery<UserBooksGetResponse | undefined>({
-    queryKey: ['user-books', page, userId],
+    queryKey: ['user-books', page, userId, pageSize],
     enabled: typeof userId !== 'undefined',
     placeholderData: (previousData) => previousData,
     queryFn: async () => {
