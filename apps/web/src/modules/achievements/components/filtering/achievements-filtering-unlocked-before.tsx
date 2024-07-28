@@ -15,7 +15,7 @@ const AchievementsFilteringUnlockedBefore: React.FC<AchievementsFilteringUnlocke
 
   return (
     <FilterSection onResetFilter={onResetFilter} title="Unlocked Before">
-      <Popover>
+      <Popover modal>
         <PopoverTrigger asChild>
           <Button
             className={cn('w-full text-left font-normal h-8', !filterUnlockedBefore && 'text-muted-foreground')}
