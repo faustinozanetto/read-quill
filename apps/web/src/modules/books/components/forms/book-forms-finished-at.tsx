@@ -27,7 +27,7 @@ const BookFormsFinishedAt: React.FC = () => {
       render={({ field }) => (
         <FormItem className="flex flex-col">
           <FormLabel>Finished At</FormLabel>
-          <Popover>
+          <Popover modal>
             <PopoverTrigger asChild>
               <FormControl>
                 <Button

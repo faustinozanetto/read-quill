@@ -27,7 +27,7 @@ const BookFormsStartedAt: React.FC = () => {
       render={({ field }) => (
         <FormItem className="flex flex-col">
           <FormLabel>Started At</FormLabel>
-          <Popover>
+          <Popover modal>
             <PopoverTrigger asChild>
               <FormControl>
                 <Button
