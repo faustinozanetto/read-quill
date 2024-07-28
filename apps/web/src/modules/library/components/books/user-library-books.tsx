@@ -45,7 +45,7 @@ const UserLibraryBooks: React.FC = () => {
           >
             {isLoading ? (
               <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {Array.from({ length: 8 }).map((_, i) => (
+                {Array.from({ length: pageSize }).map((_, i) => (
                   <BookCardPlaceholder key={`user-book-placeholder-${i}`} />
                 ))}
               </div>
