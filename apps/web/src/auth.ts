@@ -3,11 +3,12 @@ import { authPrismaAdapterConfig } from '@modules/auth/lib/auth-prisma-adapter.c
 import { __PROD__ } from '@modules/common/lib/common.constants';
 import NextAuth from 'next-auth';
 import Google from 'next-auth/providers/google';
+import Github from 'next-auth/providers/github';
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   ...authPrismaAdapterConfig,
   ...authCallbackConfig,
-  providers: [Google],
+  providers: [Google, Github],
   pages: {
     signIn: '/sign-in',
   },
