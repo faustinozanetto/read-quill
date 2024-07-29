@@ -57,7 +57,7 @@
     "@read-quill/eslint-config": "workspace:*",
     "@read-quill/tailwind-config": "workspace:*",
     "@read-quill/typescript-config": "workspace:*",
-    "@types/node": "^20.10.6",
+    "@types/node": "^22.0.0",
     "@types/react": "^18.2.0",
     "@types/jest": "29.5.12",
     "@types/uuid": "9.0.8",
