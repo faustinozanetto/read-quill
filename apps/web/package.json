@@ -42,7 +42,7 @@
     "@hookform/resolvers": "3.4.2",
     "@tanstack/react-table": "8.19.3",
     "framer-motion": "11.3.9",
-    "zustand": "4.5.2",
+    "zustand": "4.5.4",
     "resend": "3.2.0",
     "html-to-image": "1.11.11",
     "uuid": "9.0.1",
