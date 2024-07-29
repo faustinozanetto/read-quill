@@ -31,9 +31,9 @@ export const useReadTargetsHistory = (): UseReadTargetsHistoryReturn => {
     DashboardReadTargetsHistoryGetResponse | undefined
   >({
     queryKey: ['dashboard-read-targets-history', interval],
-    getNextPageParam: (lastPage, pages) => {
-      if (!lastPage?.data?.hasMore) return undefined; // Stop fetching if no more pages
-      return lastPage.data.nextCursor; // Return the next cursor for the next page
+    getNextPageParam: (lastPage) => {
+      if (!lastPage?.data?.hasMore) return undefined;
+      return lastPage.data.nextCursor;
     },
     initialPageParam: null,
     queryFn: async ({ pageParam }) => {

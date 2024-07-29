@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Dialog,
   DialogTrigger,
@@ -21,6 +21,8 @@ interface BookEditProps {
 const BookEdit: React.FC<BookEditProps> = (props) => {
   const { book, editButton, onSuccess } = props;
 
+  const [dialogOpen, setDialogOpen] = useState(false);
+
   const { toast } = useToast();
 
   const { editBook, isCoverUploading } = useEditBook({
@@ -33,7 +35,7 @@ const BookEdit: React.FC<BookEditProps> = (props) => {
   });
 
   return (
-    <Dialog>
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>{editButton}</DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px]">
