@@ -13,6 +13,9 @@ const DashboardReadRegistriesHeader: React.FC = () => {
     await queryClient.refetchQueries({ queryKey: ['dashboard-read-targets'] });
     await queryClient.refetchQueries({ queryKey: ['dashboard-read-registries'] });
     await queryClient.refetchQueries({ queryKey: ['dashboard-books-progress'] });
+    await queryClient.refetchQueries({
+      queryKey: ['dashboard-has-read'],
+    });
   };
 
   return (

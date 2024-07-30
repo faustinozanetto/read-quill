@@ -97,3 +97,9 @@ export interface DashboardReadTargetsHistoryGetResponse extends BaseApiResponse 
     nextCursor: string | null;
   };
 }
+
+export interface DashboardHasReadGetResponse extends BaseApiResponse {
+  data?: {
+    hasRead: boolean;
+  };
+}
