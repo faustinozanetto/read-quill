@@ -28,6 +28,9 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardL
     const books = await prisma.book.findMany({
       where: {
         readerId: session.user.id,
+        readRegistries: {
+          some: {},
+        },
       },
       select: {
         id: true,
@@ -45,7 +48,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardL
     const sortedBooks = books
       .map((book) => ({
         ...book,
-        lastReadDate: book.readRegistries.length > 0 ? book.readRegistries[0].createdAt : book.createdAt,
+        lastReadDate: book.readRegistries[0].createdAt,
       }))
       .sort((a, b) => new Date(b.lastReadDate).getTime() - new Date(a.lastReadDate).getTime())
       .slice(0, take);
