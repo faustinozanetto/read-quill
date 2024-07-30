@@ -4,7 +4,6 @@ import { generatePlaceholderImage } from '@modules/images/lib/image-placeholder.
 import { getImagePublicUrl } from '@modules/images/lib/images.lib';
 import { prisma } from '@read-quill/database';
 import { auth } from 'auth';
-import { endOfDay, startOfDay } from 'date-fns';
 import { NextRequest, NextResponse } from 'next/server';
 
 // /api/dashboard/last-read GET : Gets the last X read books.
