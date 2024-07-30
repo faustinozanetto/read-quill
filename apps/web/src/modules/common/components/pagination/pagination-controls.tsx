@@ -25,7 +25,7 @@ export interface PaginationControlsProps {
   setPageSize?: (size: number) => void;
   pageSize?: number;
 }
-const PAGE_SIZES = [2, 4, 6, 8, 10, 12, 14];
+const PAGE_SIZES = [4, 6, 12, 16, 20];
 
 const PaginationControls: React.FC<PaginationControlsProps> = (props) => {
   const {

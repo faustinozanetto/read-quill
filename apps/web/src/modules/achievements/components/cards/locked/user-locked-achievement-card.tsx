@@ -21,7 +21,7 @@ const UserLockedAchievementCard: React.FC<UserLockedAchievementCardProps> = (pro
       <div className="absolute top-2 right-2 bg-card p-1.5 rounded-lg shadow border aspect-square font-bold flex text-sm items-center justify-center">
         {userAchievement.completionPercentage}%
       </div>
-      <ThropyIcon className="w-14 h-14 sm:w-16 sm:h-16 bg-primary p-2 rounded-lg shadow mb-1" />
+      <ThropyIcon className="w-14 h-14 sm:w-16 sm:h-16 bg-primary p-2 rounded-lg shadow mb-1 stroke-accent" />
       <span className="font-bold uppercase block">{userAchievement.name}</span>
       {userAchievement.criteria ? (
         <ul className="flex flex-wrap gap-1.5 my-auto justify-center items-center">
