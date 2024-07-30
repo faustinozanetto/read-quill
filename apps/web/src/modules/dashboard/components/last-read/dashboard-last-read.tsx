@@ -34,7 +34,7 @@ const DashboardLastRead: React.FC<DashboardLastReadProps> = (props) => {
       )}
 
       {!isLoading && data?.data?.books.length ? (
-        <div className="flex gap-4 overflow-x-auto mt-4 pb-4">
+        <div className="grid grid-flow-col auto-cols-max gap-4 overflow-x-auto mt-4 pb-4">
           {data.data.books.map((lastRead) => (
             <DashboardLastReadCard key={`dashboard-last-read-${lastRead.book.id}`} lastRead={lastRead} />
           ))}
