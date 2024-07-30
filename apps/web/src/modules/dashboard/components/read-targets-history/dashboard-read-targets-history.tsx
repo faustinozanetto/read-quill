@@ -57,7 +57,7 @@ const DashboardReadTargetsHistory: React.FC = () => {
 
       <DashboardReadTargetsHistoryIntervalSelect interval={interval} setInterval={setInterval} />
 
-      <div className="grid grid-flow-col gap-2 overflow-x-auto py-1.5 px-2 relative">
+      <div className="flex gap-2 overflow-x-auto py-1.5 px-2 relative">
         {dedupedEntries.length
           ? dedupedEntries.map((readTargetHistoryEntry, index) => {
               return (
@@ -65,7 +65,7 @@ const DashboardReadTargetsHistory: React.FC = () => {
                   key={`dashboard-read-targets-history-${readTargetHistoryEntry.date}`}
                   readTargetHistoryEntry={readTargetHistoryEntry}
                   interval={interval}
-                  readTarget={0}
+                  readTarget={data?.pages[0]?.data?.readTargets[interval]}
                 />
               );
             })
