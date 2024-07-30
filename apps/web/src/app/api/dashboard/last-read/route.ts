@@ -29,7 +29,6 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardL
       where: {
         readerId: session.user.id,
       },
-      take,
       select: {
         id: true,
         name: true,
@@ -43,25 +42,31 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardL
       },
     });
 
-    const base64PlaceholderPromises = books.map((book) =>
+    const sortedBooks = books
+      .map((book) => ({
+        ...book,
+        lastReadDate: book.readRegistries.length > 0 ? book.readRegistries[0].createdAt : book.createdAt,
+      }))
+      .sort((a, b) => new Date(b.lastReadDate).getTime() - new Date(a.lastReadDate).getTime())
+      .slice(0, take);
+
+    const base64PlaceholderPromises = sortedBooks.map((book) =>
       generatePlaceholderImage(getImagePublicUrl('BookCovers', book.image.path))
     );
 
     const placeholderImages = await Promise.all(base64PlaceholderPromises);
 
-    const mappedBooks: DashboardLastReadEntry[] = books.map((book, index) => ({
+    const mappedBooks: DashboardLastReadEntry[] = sortedBooks.map((book, index) => ({
       book: {
         ...book,
         placeholderImage: {
           blurUrl: placeholderImages[index],
         },
       },
-      date: book.readRegistries.length > 0 ? book.readRegistries[0].createdAt : book.createdAt,
+      date: book.lastReadDate,
     }));
 
-    const sortedBooks = mappedBooks.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-    return NextResponse.json({ data: { books: sortedBooks } });
+    return NextResponse.json({ data: { books: mappedBooks } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
