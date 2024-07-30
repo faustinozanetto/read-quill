@@ -9,6 +9,7 @@ import { siteConfig } from '@config/config';
 import Providers from './providers';
 import { auth } from 'auth';
 import UmaniAnalytics from '@modules/analytics/components/umani-analytics';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 const rubikFont = Rubik({
   variable: '--font-sans',
@@ -101,6 +102,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className="bg-background font-sans subpixel-antialiased scroll-smooth">
         <Providers session={session}>
           {children}
+          <GoogleAnalytics gaId="G-SP5YH2222P" />
           <UmaniAnalytics />
           <Analytics />
           <ToastsContainer />
