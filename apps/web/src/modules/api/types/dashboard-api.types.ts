@@ -1,6 +1,7 @@
 import {
   BookProgressEntry,
   DashboardBookRatingEntry,
+  DashboardLastReadEntry,
   DashboardReadActivty,
   DashboardReadTargetHistoryEntry,
   DashboardReadTargets,
@@ -101,5 +102,11 @@ export interface DashboardReadTargetsHistoryGetResponse extends BaseApiResponse 
 export interface DashboardHasReadGetResponse extends BaseApiResponse {
   data?: {
     hasRead: boolean;
+  };
+}
+
+export interface DashboardLastReadGetResponse extends BaseApiResponse {
+  data?: {
+    books: DashboardLastReadEntry[];
   };
 }

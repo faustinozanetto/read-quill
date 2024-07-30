@@ -1,4 +1,5 @@
-import { Image, ReadRegistry, ReadTargets } from '@read-quill/database';
+import { BookWithDetails } from '@modules/books/types/book.types';
+import { Book, Image, ReadRegistry, ReadTargets } from '@read-quill/database';
 
 export const DASHBOARD_READ_TARGETS = ['daily', 'weekly', 'monthly'] as const;
 export type DashboardReadTargetsType = (typeof DASHBOARD_READ_TARGETS)[number];
@@ -48,4 +49,9 @@ export interface DashboardReadTargetHistoryEntry {
   date: string;
   value: number;
   progress: number;
+}
+
+export interface DashboardLastReadEntry {
+  book: Pick<BookWithDetails, 'id' | 'image' | 'placeholderImage' | 'name'>;
+  date: Date;
 }
