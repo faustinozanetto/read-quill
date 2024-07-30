@@ -10,11 +10,13 @@ import DashboardAverageReadingTime from './average-reading-time/dashboard-averag
 import DashboardReadTrends from './read-trends/dashboard-read-trends';
 import DashboardReadTimeDistribution from './read-time-distribution/dashboard-read-time-distribution';
 import DashboardReadTargetsHistory from './read-targets-history/dashboard-read-targets-history';
+import DashboardHasRead from './has-read/dashboard-has-read';
 
 const Dashboard: React.FC = () => {
   return (
     <section className="space-y-4">
       <DashboardGreeting />
+      <DashboardHasRead />
       <div className="flex gap-4 2xl:flex-row flex-col">
         <DashboardReadTargets />
         <DashboardAverageReadingTime />
