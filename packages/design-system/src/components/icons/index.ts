@@ -74,3 +74,5 @@ export * from './thumbs-down-off-icon';
 export * from './thumbs-up-off-icon';
 export * from './download-icon';
 export * from './filter-icon';
+export * from './pinned-icon';
+export * from './pinned-off-icon';

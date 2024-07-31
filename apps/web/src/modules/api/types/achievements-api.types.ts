@@ -13,3 +13,13 @@ export interface AchievementsLockedGetResponse extends BaseApiResponse {
     lockedAchievements: AchievementWithProgress[];
   };
 }
+
+export interface AchievementsTogglePinnedPostResponse extends BaseApiResponse {
+  data?: {
+    isPinned: boolean;
+  };
+}
+
+export interface AchievementsPinnedGetResponse extends BaseApiResponse {
+  data?: { pinnedAchievements: AchievementWithUserAchievement[] };
+}
