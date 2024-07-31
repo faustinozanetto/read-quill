@@ -6,14 +6,23 @@ import type { AchievementsUnLockedGetResponse } from '@modules/api/types/achieve
 
 export type UseUnLockedAchievementsReturn = Pick<UseQueryResult<AchievementsUnLockedGetResponse>, 'data' | 'isLoading'>;
 
-export const useUnLockedAchievements = (): UseUnLockedAchievementsReturn => {
+interface UseUnLockedAchievementsParams {
+  userId?: string;
+}
+
+export const useUnLockedAchievements = (params: UseUnLockedAchievementsParams): UseUnLockedAchievementsReturn => {
+  const { userId } = params;
   const { toast } = useToast();
 
   const { data, status } = useQuery<AchievementsUnLockedGetResponse>({
-    queryKey: ['achivements-un-locked'],
+    queryKey: ['achivements-un-locked', userId],
+    enabled: !!userId,
     queryFn: async () => {
       try {
+        if (!userId) return;
+
         const url = new URL('/api/achievements/un-locked', __URL__);
+        url.searchParams.set('userId', userId);
         const response = await fetch(url, { method: 'GET' });
 
         if (!response.ok) {

@@ -11,9 +11,11 @@ import {
 } from '@modules/achievements/lib/achievements-filtering.lib';
 import UserUnLockedAchievementCardPlaceholder from '../cards/un-lockeed/user-un-locked-achievement-card-placeholder';
 import UserUnLockedAchievementsFeed from '../feed/un-locked/user-un-locked-achievements-feed';
+import { useAuthContext } from '@modules/auth/hooks/use-auth-context';
 
 const UnLockedAchievements: React.FC = () => {
-  const { data, isLoading } = useUnLockedAchievements();
+  const { user } = useAuthContext();
+  const { data, isLoading } = useUnLockedAchievements({ userId: user?.id });
 
   return (
     <div className="flex flex-col gap-4">

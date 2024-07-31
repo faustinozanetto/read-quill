@@ -137,6 +137,7 @@ model UserAchievement {
   userId        String
   achievementId String
   unlockedAt    DateTime?
+  isPinned      Boolean   @default(false)
 
   user        User        @relation(fields: [userId], references: [id])
   achievement Achievement @relation(fields: [achievementId], references: [id])
