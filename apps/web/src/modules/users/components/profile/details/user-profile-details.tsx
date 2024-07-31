@@ -3,7 +3,7 @@
 import React from 'react';
 import UserProfileAvatar from './avatar/user-profile-avatar';
 import { useUserContext } from '@modules/users/hooks/use-user-context';
-import UserProfileDetailsAchievements from './user-profile-details-achievements';
+import UserProfileDetailsAchievements from './achievements/user-profile-details-achievements';
 
 const UserProfileDetails: React.FC = () => {
   const { user } = useUserContext((s) => s);

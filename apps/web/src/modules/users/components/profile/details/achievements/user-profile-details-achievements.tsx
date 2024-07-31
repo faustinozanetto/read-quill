@@ -1,10 +1,11 @@
 'use client';
 
 import React from 'react';
-import UserProfileAvatar from './avatar/user-profile-avatar';
+
 import { useUserContext } from '@modules/users/hooks/use-user-context';
 import { usePinnedAchievements } from '@modules/achievements/hooks/use-pinned-achievements';
-import { Badge, Skeleton, ThropyIcon } from '@read-quill/design-system';
+import { Skeleton } from '@read-quill/design-system';
+import UserProfileDetailsAchievementEntry from './user-profile-details-achievements-entry';
 
 const UserProfileDetailsAchievements: React.FC = () => {
   const { user } = useUserContext((s) => s);
@@ -27,9 +28,10 @@ const UserProfileDetailsAchievements: React.FC = () => {
   return (
     <div className="flex flex-wrap gap-2">
       {data?.data?.pinnedAchievements.map((pinnedAchievement) => (
-        <Badge>
-          <ThropyIcon className="mr-2" /> {pinnedAchievement.name}
-        </Badge>
+        <UserProfileDetailsAchievementEntry
+          key={`profile-achievement-${pinnedAchievement.id}`}
+          pinnedAchievement={pinnedAchievement}
+        />
       ))}
     </div>
   );
