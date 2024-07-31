@@ -4,12 +4,12 @@ import React from 'react';
 import { __URL__ } from '@modules/common/lib/common.constants';
 
 import { useParams } from 'next/navigation';
-import CommunityThreadCardPlaceholder from '@modules/community/components/threads/card/community-thread-card-placeholder';
 
 import UserProfileAchievementsHeader from './user-profile-achievements-header';
 import { useUnLockedAchievements } from '@modules/achievements/hooks/use-un-locked-achievements';
 import UserUnLockedAchievementCard from '@modules/achievements/components/cards/un-lockeed/user-un-locked-achievement-card';
 import { useAuthContext } from '@modules/auth/hooks/use-auth-context';
+import UserUnLockedAchievementCardPlaceholder from '@modules/achievements/components/cards/un-lockeed/user-un-locked-achievement-card-placeholder';
 
 const UserProfilAchievements: React.FC = () => {
   const params = useParams<{ userId: string }>();
@@ -24,9 +24,9 @@ const UserProfilAchievements: React.FC = () => {
       <UserProfileAchievementsHeader />
 
       {isLoading ? (
-        <div className="flex flex-col gap-2">
+        <div className="grid gap-2.5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 grow h-fit">
           {Array.from({ length: 4 }).map((_, i) => (
-            <CommunityThreadCardPlaceholder key={`thread-placeholder-${i}`} />
+            <UserUnLockedAchievementCardPlaceholder key={`unlocked-achievement-card-placeholder-${i}`} />
           ))}
         </div>
       ) : null}
