@@ -16,8 +16,6 @@ import { ACHIEVEMENT_DISPLAY_CRITERIAS } from '@modules/achievements/lib/achieve
 import { PinnedIcon, PinnedOffIcon } from '@read-quill/design-system/src';
 import { useAchievementTogglePinned } from '@modules/achievements/hooks/use-achievement-toggle-pinned';
 import { useQueryClient } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
-import { useAuthContext } from '@modules/auth/hooks/use-auth-context';
 
 /**
  * Props for the UserUnLockedAchievementCard component.
@@ -40,7 +38,9 @@ const UserUnLockedAchievementCard: React.FC<UserUnLockedAchievementCardProps> = 
   const { achievementTogglePinned, isPending } = useAchievementTogglePinned({
     onSuccess: async (data) => {
       if (data.data) {
-        toast({ variant: 'success', content: 'Achievement pinned updated successfully!' });
+        const message = data.data.isPinned ? 'Achievement pinned to profile!' : 'Achievement unpinned from profile!';
+        toast({ variant: 'success', content: message });
+
         await queryClient.refetchQueries({
           queryKey: ['achivements-un-locked'],
         });
@@ -60,7 +60,7 @@ const UserUnLockedAchievementCard: React.FC<UserUnLockedAchievementCardProps> = 
   const label = userAchievement.isPinned ? 'Unpin Achievement' : 'Pin Achievement';
 
   return (
-    <div className="rounded-lg border p-2.5 transition-transform hover:scale-[101%] shadow flex flex-col items-center justify-start text-center hover:border-primary relative">
+    <div className="rounded-lg border p-2.5 shadow flex flex-col items-center justify-start text-center hover:border-primary relative">
       {showPinButton && (
         <div className="absolute top-4 right-4">
           <Button

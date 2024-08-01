@@ -4,25 +4,28 @@ import React, { useState } from 'react';
 import { useUserBooks } from '@modules/books/hooks/use-user-books';
 import { BOOKS_INITIAL_FILTERS, BOOKS_INITIAL_SORT } from '@modules/books/lib/book-filtering.lib';
 import { FilterProvider } from '@modules/filters/components/filter-provider';
-import { useAuthContext } from '@modules/auth/hooks/use-auth-context';
-import UserLibraryBooksHeader from './user-library-books-header';
 import UserLibraryBooksFeed from './feed/user-library-books-feed';
 import BookCardPlaceholder from '@modules/books/components/cards/book-card-placeholder';
 
-const UserLibraryBooks: React.FC = () => {
-  const { user } = useAuthContext();
+interface UserLibraryBooksProps {
+  userId?: string;
+  onRenderHeader: React.ReactNode;
+}
+
+const UserLibraryBooks: React.FC<UserLibraryBooksProps> = (props) => {
+  const { userId, onRenderHeader } = props;
 
   const [pageSize, setPageSize] = useState(6);
 
   const { data, getCanNextPage, getCanPreviousPage, isLoading, nextPage, page, previousPage, setPageIndex } =
     useUserBooks({
       pageSize,
-      userId: user?.id,
+      userId,
     });
 
   return (
     <div className="flex w-full flex-col gap-2">
-      <UserLibraryBooksHeader />
+      {onRenderHeader}
 
       <FilterProvider
         initialState={{
@@ -42,6 +45,7 @@ const UserLibraryBooks: React.FC = () => {
             setPageIndex={setPageIndex}
             pageSize={pageSize}
             setPageSize={setPageSize}
+            isLoading={isLoading}
           >
             {isLoading ? (
               <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
