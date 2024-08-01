@@ -78,6 +78,8 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardB
       ...progressData,
     }));
 
+    console.log({ mappedBooksProgress, booksProgress, bookIds, readRegistries });
+
     return NextResponse.json({ data: { booksProgress: mappedBooksProgress, pageCount, hasMore } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
