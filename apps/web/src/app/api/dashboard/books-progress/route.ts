@@ -25,17 +25,20 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardB
     const pageIndex = Number.parseInt(searchParams.get('pageIndex') ?? '0');
     const pageSize = Number.parseInt(searchParams.get('pageSize') ?? '6');
 
-    // Paginate the books
-    const books = await prisma.book.findMany({
-      where: { readerId: session.user.id },
-      skip: pageSize * pageIndex,
-      take: pageSize,
-    });
+    const [books, totalCount] = await Promise.all([
+      prisma.book.findMany({
+        where: { readerId: session.user.id },
+        skip: pageSize * pageIndex,
+        take: pageSize,
+      }),
+      prisma.book.count({
+        where: { readerId: session.user.id },
+      }),
+    ]);
 
-    // Fetch the total count of books
-    const totalCount = await prisma.book.count({
-      where: { readerId: session.user.id },
-    });
+    if (!books.length) {
+      return NextResponse.json({ data: { booksProgress: [], pageCount: 0, hasMore: false } });
+    }
 
     // Calculate the total number of pages for pagination
     const pageCount = Math.ceil(totalCount / pageSize);
@@ -65,18 +68,15 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardB
       }
 
       acc[bookId].completed = acc[bookId].progress >= 100;
-
       acc[bookId].progress = Math.round(acc[bookId].progress);
 
       return acc;
     }, {});
 
-    const mappedBooksProgress = Object.entries(booksProgress).map((entry) => {
-      return {
-        id: entry[0],
-        ...entry[1],
-      };
-    });
+    const mappedBooksProgress = Object.entries(booksProgress).map(([id, progressData]) => ({
+      id,
+      ...progressData,
+    }));
 
     return NextResponse.json({ data: { booksProgress: mappedBooksProgress, pageCount, hasMore } });
   } catch (error) {
