@@ -2,9 +2,8 @@ import React from 'react';
 import { prisma } from '@read-quill/database';
 import UserProfile from '@modules/users/components/profile/user-profile';
 import { __URL__ } from '@modules/common/lib/common.constants';
-import { UserGetResponse } from '@modules/api/types/users-api.types';
-import { notFound } from 'next/navigation';
 import { Metadata, ResolvingMetadata } from 'next';
+import { siteConfig } from '@config/config';
 
 interface UserPageProps {
   params: {
@@ -18,8 +17,8 @@ export async function generateMetadata({ params }: UserPageProps, parent: Resolv
   const user = await prisma.user.findUnique({ where: { id: userId } });
   if (!user) return {};
 
-  const title = user.name!;
-  const description = `"Explore ${title}'s literary world on ReadQuill. Discover their reading progress, favorite books, and insightful reviews. Dive into ${title}'s engaging threads to join discussions and share thoughts on various literary topics. `;
+  const title = `${user.name!} | ${siteConfig.name}`;
+  const description = `Explore the profile of this avid reader. Discover their favorite books, achievements, and contributions to the community. Get insights into their reading habits and literary interests. Visit their public profile now!`;
   const previousImages = (await parent).openGraph?.images || [];
   const image = user.image ?? previousImages;
 
@@ -31,33 +30,16 @@ export async function generateMetadata({ params }: UserPageProps, parent: Resolv
       description,
       images: [...image],
     },
+    twitter: {
+      title,
+      description,
+      images: [...image],
+    },
   };
 }
 
-const fetchUserData = async (userId: string): Promise<UserGetResponse | undefined> => {
-  try {
-    const url = new URL('/api/user', __URL__);
-    url.searchParams.set('userId', userId);
-
-    const response = await fetch(url.toString(), { method: 'GET' });
-
-    return response.json();
-  } catch (error) {
-    return undefined;
-  }
-};
-
-const UserPage: React.FC<UserPageProps> = async (props) => {
-  const { params } = props;
-  const { userId } = params;
-
-  const userData = await fetchUserData(userId);
-
-  if (!userData?.data?.user) {
-    return notFound();
-  }
-
-  return <UserProfile user={userData.data.user} />;
+const UserPage: React.FC<UserPageProps> = async () => {
+  return <UserProfile />;
 };
 
 export default UserPage;

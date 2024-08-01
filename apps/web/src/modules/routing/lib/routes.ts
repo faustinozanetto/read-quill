@@ -12,6 +12,7 @@ export const PUBLIC_ROUTES = [
   /^\/community\/threads\/[^\/]+$/,
   /^\/books\/[^\/]+$/,
   /^\/users\/[^\/]+$/,
+  /^\/users\/[^\/]+\/books$/,
 ];
 export const DEFAULT_AUTHENTICATED_ROUTE = '/dashboard';
 export const SIGN_IN_ROUTE = '/sign-in';
