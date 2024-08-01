@@ -26,24 +26,22 @@ const LockedAchievements: React.FC = () => {
       </div>
 
       <div className="rounded-lg border shadow">
-        {isLoading ? (
-          <div className="grid gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <UserUnLockedAchievementCardPlaceholder key={`user-achievement-placeholder-${i}`} />
-            ))}
-          </div>
-        ) : null}
-
-        {!isLoading && data?.data?.lockedAchievements.length ? (
-          <FilterProvider
-            initialState={{
-              initialFilters: LOCKED_ACHIEVEMENTS_INITIAL_FILTERS,
-              initialSort: LOCKED_ACHIEVEMENTS_INITIAL_SORT,
-            }}
-          >
-            <UserLockedAchievementsFeed userAchievements={data.data.lockedAchievements} />
-          </FilterProvider>
-        ) : null}
+        <FilterProvider
+          initialState={{
+            initialFilters: LOCKED_ACHIEVEMENTS_INITIAL_FILTERS,
+            initialSort: LOCKED_ACHIEVEMENTS_INITIAL_SORT,
+          }}
+        >
+          <UserLockedAchievementsFeed userAchievements={data?.data?.lockedAchievements ?? []}>
+            {isLoading ? (
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <UserUnLockedAchievementCardPlaceholder key={`user-achievement-placeholder-${i}`} />
+                ))}
+              </div>
+            ) : null}
+          </UserLockedAchievementsFeed>
+        </FilterProvider>
       </div>
     </div>
   );

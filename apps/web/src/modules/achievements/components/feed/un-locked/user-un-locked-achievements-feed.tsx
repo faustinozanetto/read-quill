@@ -7,13 +7,15 @@ import { useFilterData } from '@modules/filters/hooks/use-filter-data';
 import FiltersShell from '@modules/filters/components/filters-shell';
 import UnLockedAchievementCard from '../../cards/un-lockeed/user-un-locked-achievement-card';
 import UserUnLockedAchievementsFiltering from './user-un-locked-achievements-filtering';
+import { Skeleton } from '@read-quill/design-system';
 
 interface UserUnLockedAchievementsFeedProps {
   userAchievements: AchievementWithUserAchievement[];
+  children?: React.ReactNode;
 }
 
 const UserUnLockedAchievementsFeed: React.FC<UserUnLockedAchievementsFeedProps> = (props) => {
-  const { userAchievements } = props;
+  const { userAchievements, children } = props;
 
   const filterFunctions: UseFilterFilteringFunctions<AchievementWithUserAchievement> = {
     name: (item, value) => item.name.toLowerCase().includes((value as string).toLowerCase()),
@@ -39,7 +41,7 @@ const UserUnLockedAchievementsFeed: React.FC<UserUnLockedAchievementsFeedProps> 
     },
   };
 
-  const { filteredData, sort, filters } = useFilterData<AchievementWithUserAchievement>({
+  const { filteredData, sort, filters, noResults } = useFilterData<AchievementWithUserAchievement>({
     data: userAchievements,
     filterFunctions,
     sortFunctions,
@@ -51,15 +53,31 @@ const UserUnLockedAchievementsFeed: React.FC<UserUnLockedAchievementsFeedProps> 
         return <UserUnLockedAchievementsFiltering filters={filters} sort={sort} />;
       }}
     >
-      <div className="max-h-[600px] overflow-y-auto grid gap-2.5 p-4 grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 grow h-fit">
-        {filteredData.map((userAchievement) => {
-          return (
-            <UnLockedAchievementCard
-              key={`unlocked-achievement-${userAchievement.id}`}
-              userAchievement={userAchievement}
-            />
-          );
-        })}
+      <div className="p-4 grow flex flex-col gap-4">
+        <span className="font-medium">Showing {filteredData.length} Achievements</span>
+
+        {noResults ? (
+          <p className="my-auto text-center">
+            It looks like there are <strong>no achievements</strong> that match your current filters, try adjusting your
+            filters!
+          </p>
+        ) : (
+          <>
+            {filteredData.length > 0 && (
+              <div className="max-h-[600px] overflow-y-auto justify-items-stretch content-start grid gap-2.5 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4">
+                {filteredData.map((userAchievement) => {
+                  return (
+                    <UnLockedAchievementCard
+                      key={`unlocked-achievement-${userAchievement.id}`}
+                      userAchievement={userAchievement}
+                    />
+                  );
+                })}
+              </div>
+            )}
+            {children}
+          </>
+        )}
       </div>
     </FiltersShell>
   );

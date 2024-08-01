@@ -13,6 +13,7 @@ export const PUBLIC_ROUTES = [
   /^\/books\/[^\/]+$/,
   /^\/users\/[^\/]+$/,
   /^\/users\/[^\/]+\/books$/,
+  /^\/users\/[^\/]+\/achievements$/,
 ];
 export const DEFAULT_AUTHENTICATED_ROUTE = '/dashboard';
 export const SIGN_IN_ROUTE = '/sign-in';

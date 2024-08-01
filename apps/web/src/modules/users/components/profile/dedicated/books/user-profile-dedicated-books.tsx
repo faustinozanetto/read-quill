@@ -9,6 +9,9 @@ export const UserProfileDedicatedBooks: React.FC = (props) => {
   const user = useUserContext((s) => s.user);
 
   return (
-    <UserLibraryBooks userId={user.id} onRenderHeader={<UserLibraryBooksHeaderPublic title={`${user.name} Books`} />} />
+    <UserLibraryBooks
+      userId={user.id}
+      onRenderHeader={<UserLibraryBooksHeaderPublic title={`${user.name}'s Books`} />}
+    />
   );
 };
