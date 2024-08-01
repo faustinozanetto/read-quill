@@ -50,7 +50,12 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardB
         },
       }),
       prisma.book.count({
-        where: { readerId: session.user.id },
+        where: {
+          readerId: session.user.id,
+          readRegistries: {
+            some: {},
+          },
+        },
       }),
     ]);
 
@@ -78,8 +83,6 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardB
         completed: progress >= 100,
       };
     });
-
-    console.log({ booksProgress, bookIds, books });
 
     return NextResponse.json({ data: { booksProgress, pageCount, hasMore } });
   } catch (error) {
