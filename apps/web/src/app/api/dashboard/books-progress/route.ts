@@ -30,6 +30,19 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardB
         where: { readerId: session.user.id },
         skip: pageSize * pageIndex,
         take: pageSize,
+        select: {
+          id: true,
+          name: true,
+          image: true,
+          pageCount: true,
+          readRegistries: {
+            select: {
+              pagesRead: true,
+              createdAt: true,
+            },
+            orderBy: { createdAt: 'desc' },
+          },
+        },
       }),
       prisma.book.count({
         where: { readerId: session.user.id },
@@ -46,41 +59,24 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardB
 
     // Get the read registries for the paginated books
     const bookIds = books.map((book) => book.id);
-    const readRegistries = await prisma.readRegistry.findMany({
-      where: { bookId: { in: bookIds } },
-      include: { book: { select: { name: true, pageCount: true, image: true } } },
-    });
 
     // Calculate the progress for each book
-    const booksProgress = readRegistries.reduce<Record<string, Omit<BookProgressEntry, 'id'>>>((acc, curr) => {
-      const { bookId, pagesRead, book } = curr;
-      const bookPageCount = book.pageCount;
+    const booksProgress: BookProgressEntry[] = books.map((book) => {
+      const totalPagesRead = book.readRegistries.reduce((total, registry) => total + registry.pagesRead, 0);
+      const progress = (totalPagesRead / book.pageCount) * 100;
 
-      if (!acc[bookId]) {
-        acc[bookId] = {
-          progress: (pagesRead / bookPageCount) * 100,
-          cover: book.image,
-          name: book.name,
-          completed: false,
-        };
-      } else {
-        acc[bookId].progress += (pagesRead / bookPageCount) * 100;
-      }
+      return {
+        id: book.id,
+        name: book.name,
+        cover: book.image,
+        progress: Math.round(progress),
+        completed: progress >= 100,
+      };
+    });
 
-      acc[bookId].completed = acc[bookId].progress >= 100;
-      acc[bookId].progress = Math.round(acc[bookId].progress);
+    console.log({ booksProgress, bookIds, books });
 
-      return acc;
-    }, {});
-
-    const mappedBooksProgress = Object.entries(booksProgress).map(([id, progressData]) => ({
-      id,
-      ...progressData,
-    }));
-
-    console.log({ mappedBooksProgress, booksProgress, bookIds, readRegistries });
-
-    return NextResponse.json({ data: { booksProgress: mappedBooksProgress, pageCount, hasMore } });
+    return NextResponse.json({ data: { booksProgress, pageCount, hasMore } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;
