@@ -27,7 +27,12 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardB
 
     const [books, totalCount] = await Promise.all([
       prisma.book.findMany({
-        where: { readerId: session.user.id },
+        where: {
+          readerId: session.user.id,
+          readRegistries: {
+            some: {},
+          },
+        },
         skip: pageSize * pageIndex,
         take: pageSize,
         select: {

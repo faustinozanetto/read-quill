@@ -15,7 +15,7 @@ import DashboardBooksProgressFeed from './feed/dashboard-books-progress-feed';
 
 const DashboardBooksProgress: React.FC = () => {
   const { data, isLoading, page, getCanPreviousPage, getCanNextPage, previousPage, nextPage, setPageIndex } =
-    useBooksProgress({ pageSize: 4 });
+    useBooksProgress({ pageSize: 6 });
 
   return (
     <div className="rounded-lg border p-4 shadow flex flex-col gap-2">
@@ -44,7 +44,7 @@ const DashboardBooksProgress: React.FC = () => {
           >
             {isLoading && (
               <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-4 mt-2">
-                {Array.from({ length: 4 }).map((_, i) => (
+                {Array.from({ length: 6 }).map((_, i) => (
                   <Skeleton className="h-48 w-full" key={`dashboard-books-progress-placeholder-${i}`} />
                 ))}
               </div>
