@@ -11,11 +11,12 @@ import { Skeleton } from '@read-quill/design-system';
 
 interface UserUnLockedAchievementsFeedProps {
   userAchievements: AchievementWithUserAchievement[];
+  isLoading: boolean;
   children?: React.ReactNode;
 }
 
 const UserUnLockedAchievementsFeed: React.FC<UserUnLockedAchievementsFeedProps> = (props) => {
-  const { userAchievements, children } = props;
+  const { userAchievements, isLoading, children } = props;
 
   const filterFunctions: UseFilterFilteringFunctions<AchievementWithUserAchievement> = {
     name: (item, value) => item.name.toLowerCase().includes((value as string).toLowerCase()),
@@ -54,7 +55,11 @@ const UserUnLockedAchievementsFeed: React.FC<UserUnLockedAchievementsFeedProps> 
       }}
     >
       <div className="p-4 grow flex flex-col gap-4">
-        <span className="font-medium">Showing {filteredData.length} Achievements</span>
+        {isLoading ? (
+          <Skeleton className="h-4 w-52" />
+        ) : (
+          <span className="font-medium">Showing {filteredData.length} Achievements</span>
+        )}
 
         {noResults ? (
           <p className="my-auto text-center">

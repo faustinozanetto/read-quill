@@ -32,7 +32,7 @@ const LockedAchievements: React.FC = () => {
             initialSort: LOCKED_ACHIEVEMENTS_INITIAL_SORT,
           }}
         >
-          <UserLockedAchievementsFeed userAchievements={data?.data?.lockedAchievements ?? []}>
+          <UserLockedAchievementsFeed isLoading={isLoading} userAchievements={data?.data?.lockedAchievements ?? []}>
             {isLoading ? (
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
                 {Array.from({ length: 4 }).map((_, i) => (

@@ -6,14 +6,16 @@ import { useFilterData } from '@modules/filters/hooks/use-filter-data';
 import FiltersShell from '@modules/filters/components/filters-shell';
 import UserLockedAchievementCard from '../../cards/locked/user-locked-achievement-card';
 import UserLockedAchievementsFiltering from './user-locked-achievements-filtering';
+import { Skeleton } from '@read-quill/design-system';
 
 interface UserLockedAchievementsFeedProps {
   userAchievements: AchievementWithProgress[];
+  isLoading: boolean;
   children?: React.ReactNode;
 }
 
 const UserLockedAchievementsFeed: React.FC<UserLockedAchievementsFeedProps> = (props) => {
-  const { userAchievements, children } = props;
+  const { userAchievements, isLoading, children } = props;
 
   const filterFunctions: UseFilterFilteringFunctions<AchievementWithProgress> = {
     name: (item, value) => item.name.toLowerCase().includes((value as string).toLowerCase()),
@@ -47,7 +49,11 @@ const UserLockedAchievementsFeed: React.FC<UserLockedAchievementsFeedProps> = (p
       }}
     >
       <div className="p-4 grow flex flex-col gap-4">
-        <span className="font-medium">Showing {filteredData.length} Achievements</span>
+        {isLoading ? (
+          <Skeleton className="h-4 w-52" />
+        ) : (
+          <span className="font-medium">Showing {filteredData.length} Achievements</span>
+        )}
 
         {noResults ? (
           <p className="my-auto text-center">

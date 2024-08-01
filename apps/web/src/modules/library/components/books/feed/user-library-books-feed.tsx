@@ -18,6 +18,7 @@ import BooksFeed from '@modules/books/components/feed/books-feed';
 
 interface UserLibraryBooksFeedProps extends PaginationControlsProps {
   books: BookWithDetails[];
+  isLoading: boolean;
   children: React.ReactNode;
 }
 
@@ -33,6 +34,7 @@ const UserLibraryBooksFeed: React.FC<UserLibraryBooksFeedProps> = (props) => {
     setPageIndex,
     pageSize,
     setPageSize,
+    isLoading,
     children,
   } = props;
 
@@ -87,10 +89,10 @@ const UserLibraryBooksFeed: React.FC<UserLibraryBooksFeedProps> = (props) => {
     >
       <div className="p-4 grow flex flex-col justify-between gap-4">
         <div className="flex items-center justify-between">
-          {books.length ? (
-            <span className="font-medium">Showing {filteredData.length} Books</span>
+          {isLoading ? (
+            <Skeleton className="h-5 w-44" />
           ) : (
-            <Skeleton className="h-5 w-36" />
+            <span className="font-medium">Showing {filteredData.length} Books</span>
           )}
           <ToggleGroup
             type="single"

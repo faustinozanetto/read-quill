@@ -45,6 +45,7 @@ const UserLibraryBooks: React.FC<UserLibraryBooksProps> = (props) => {
             setPageIndex={setPageIndex}
             pageSize={pageSize}
             setPageSize={setPageSize}
+            isLoading={isLoading}
           >
             {isLoading ? (
               <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">

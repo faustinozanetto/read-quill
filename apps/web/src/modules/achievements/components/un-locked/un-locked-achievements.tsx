@@ -31,7 +31,7 @@ const UnLockedAchievements: React.FC<UnLockedAchievementsProps> = (props) => {
             initialSort: UN_LOCKED_ACHIEVEMENTS_INITIAL_SORT,
           }}
         >
-          <UserUnLockedAchievementsFeed userAchievements={data?.data?.unLockedAchievements ?? []}>
+          <UserUnLockedAchievementsFeed isLoading={isLoading} userAchievements={data?.data?.unLockedAchievements ?? []}>
             {isLoading ? (
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
                 {Array.from({ length: 4 }).map((_, i) => (
