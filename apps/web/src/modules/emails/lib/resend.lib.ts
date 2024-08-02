@@ -3,7 +3,7 @@ import { Resend } from 'resend';
 import type { ReactElement, JSXElementConstructor } from 'react';
 
 const BUSINESS_EMAIL = 'business@readquill.com';
-const resendClient = new Resend(process.env.RESEND_API_KEY);
+const resendClient = new Resend(process.env.RESEND_API_KEY!);
 
 interface SendEmailParams {
   email: string;
