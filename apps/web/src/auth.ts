@@ -18,7 +18,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     strategy: 'jwt',
   },
   events: {
-    async signIn(message) {
+    async createUser(message) {
       try {
         const email = message.user.email!;
 
