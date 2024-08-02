@@ -4,6 +4,8 @@ import { __PROD__ } from '@modules/common/lib/common.constants';
 import NextAuth from 'next-auth';
 import Google from 'next-auth/providers/google';
 import Github from 'next-auth/providers/github';
+import { sendEmail } from '@modules/emails/lib/resend.lib';
+import WelcomeEmail from '@modules/emails/components/templates/welcome-email';
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   ...authPrismaAdapterConfig,
@@ -16,16 +18,14 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     strategy: 'jwt',
   },
   events: {
-    async signIn(message) {
-      // if (!message.isNewUser) return;
-
+    async createUser(message) {
       const email = message.user.email!;
 
-      // await sendEmail({
-      //   subject: 'Welcome to Read Quill!',
-      //   email,
-      //   template: <WelcomeEmail userFirstname={message.user.name!} />,
-      // });
+      await sendEmail({
+        subject: 'Welcome to Read Quill!',
+        email,
+        template: <WelcomeEmail userFirstname={message.user.name!} />,
+      });
     },
   },
 });

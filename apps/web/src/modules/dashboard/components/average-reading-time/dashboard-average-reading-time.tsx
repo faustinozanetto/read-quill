@@ -32,7 +32,7 @@ const DashboardAverageReadingTime: React.FC = () => {
       )}
 
       {!isLoading && data?.data?.averageReadingTimes && (
-        <div className="flex gap-2 overflow-x-auto justify-evenly items-center">
+        <div className="flex gap-2 overflow-x-auto justify-evenly items-stretch">
           <DashboardAverageReadingTimeCard
             title="Daily"
             current={data.data.averageReadingTimes.daily.current}

@@ -1,16 +1,7 @@
 'use client';
 
 import React from 'react';
-import {
-  ArrowBigDownLinesIcon,
-  ArrowBigUpLinesIcon,
-  ArrowDownIcon,
-  ArrowUpIcon,
-  Badge,
-  BadgeProps,
-  EqualIcon,
-  cn,
-} from '@read-quill/design-system';
+import { Badge, BadgeProps, EqualIcon, cn } from '@read-quill/design-system';
 
 import { useCountUp } from '@modules/common/hooks/use-count-up';
 import { TrendingDownIcon, TrendingUpIcon } from '@read-quill/design-system/src';

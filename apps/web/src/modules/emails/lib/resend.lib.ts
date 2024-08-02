@@ -2,7 +2,8 @@ import { render } from 'jsx-email';
 import { Resend } from 'resend';
 import type { ReactElement, JSXElementConstructor } from 'react';
 
-const resendClient = new Resend(process.env.RESENND_API_KEY);
+const BUSINESS_EMAIL = 'business@readquill.com';
+const resendClient = new Resend(process.env.RESEND_API_KEY);
 
 interface SendEmailParams {
   email: string;
@@ -16,7 +17,7 @@ export const sendEmail = async (params: SendEmailParams): Promise<ReturnType<typ
   const html = await render(template);
 
   const result = await resendClient.emails.send({
-    from: 'Read Quill <onboarding@faustinozanetto.com>',
+    from: `Read Quill <${BUSINESS_EMAIL}>`,
     to: [email],
     subject,
     html,
