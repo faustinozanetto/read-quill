@@ -1,10 +1,11 @@
 import { EmailSendPostResponse } from '@modules/api/types/emails-api.types';
-import WelcomeEmail from '@modules/emails/components/templates/welcome-email';
+
 import { EMAIL_ACTIONS_VALIDATIONS_API } from '@modules/emails/lib/emails.validations';
 import { sendEmail } from '@modules/emails/lib/resend.lib';
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { z } from 'zod';
+import { WelcomeEmail } from '@read-quill/emails/emails/welcome-email';
 
 // /api/emails/welcome POST : Sends a welcome email.
 export async function POST(request: NextRequest): Promise<NextResponse<EmailSendPostResponse>> {
@@ -17,7 +18,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<EmailSend
     const result = await sendEmail(resend, {
       email: target,
       subject,
-      template: <WelcomeEmail userFirstname={completeName} />,
+      react: WelcomeEmail({ name: completeName }),
     });
     if (result.error) {
       return NextResponse.json({ error: { message: 'Could not send email!' } }, { status: 500 });

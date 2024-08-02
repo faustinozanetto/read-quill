@@ -17,14 +17,14 @@
     "seed": "tsx packages/database/src/seed.ts"
   },
   "scripts": {
-    "build": "turbo run build",
+    "build": "turbo build --filter=!@read-quill/emails",
+    "dev": "turbo dev",
     "db:migrate:deploy": "turbo run db:migrate:deploy",
     "db:push": "turbo run db:push",
     "db:seed": "turbo run db:seed",
-    "dev": "turbo run dev",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "generate": "turbo run generate",
-    "lint": "turbo run lint",
+    "lint": "turbo lint --filter=!@read-quill/emails",
     "test": "turbo run test"
   },
   "devDependencies": {

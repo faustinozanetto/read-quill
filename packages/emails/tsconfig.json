@@ -1,0 +1,5 @@
+{
+  "extends": "@read-quill/typescript-config/react-library.json",
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "tsup.config.ts", "eslint.config.mjs"],
+  "exclude": ["node_modules"]
+}
