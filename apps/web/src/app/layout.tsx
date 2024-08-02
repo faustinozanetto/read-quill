@@ -8,6 +8,7 @@ import type { Metadata } from 'next';
 import { siteConfig } from '@config/config';
 import Providers from './providers';
 import { auth } from 'auth';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import UmaniAnalytics from '@modules/analytics/components/umani-analytics';
 import { GoogleAnalytics } from '@next/third-parties/google';
 
@@ -105,6 +106,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <GoogleAnalytics gaId="G-SP5YH2222P" />
           <UmaniAnalytics />
           <Analytics />
+          <SpeedInsights />
           <ToastsContainer />
         </Providers>
       </body>

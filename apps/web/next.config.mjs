@@ -14,6 +14,9 @@ const nextJsConfig = {
       },
     ],
   },
+  env: {
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
+  },
   webpack: (config, { isServer }) => {
     if (isServer && process.env.NODE_ENV === 'production') {
       config.plugins = [...config.plugins, new PrismaPlugin()];
