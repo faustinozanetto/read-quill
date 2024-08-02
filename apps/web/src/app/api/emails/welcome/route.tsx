@@ -6,15 +6,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { z } from 'zod';
 
-const RESENED_CLIENT = new Resend(process.env.RESEND_API_KEY!);
-
 // /api/emails/welcome POST : Sends a welcome email.
 export async function POST(request: NextRequest): Promise<NextResponse<EmailSendPostResponse>> {
   try {
     const json = await request.json();
     const { target, subject, completeName } = EMAIL_ACTIONS_VALIDATIONS_API.SEND_WELCOME.parse(json);
 
-    const result = await sendEmail(RESENED_CLIENT, {
+    const resend = new Resend(process.env.RESEND_API_KEY!);
+
+    const result = await sendEmail(resend, {
       email: target,
       subject,
       template: <WelcomeEmail userFirstname={completeName} />,
