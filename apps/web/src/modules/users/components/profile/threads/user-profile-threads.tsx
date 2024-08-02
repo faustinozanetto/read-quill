@@ -8,6 +8,7 @@ import { useUserThreads } from '@modules/community/hooks/use-user-threads';
 import CommunityThreadCardPlaceholder from '@modules/community/components/threads/card/community-thread-card-placeholder';
 import { CommunityThreadCard } from '@modules/community/components/threads/card/community-thread-card';
 import UserProfileThreadsHeader from './user-profile-threads-header';
+import { ExclamationIcon } from '@read-quill/design-system';
 
 const UserProfilThreads: React.FC = () => {
   const params = useParams<{ userId: string }>();
@@ -47,7 +48,14 @@ const UserProfilThreads: React.FC = () => {
         </div>
       ) : null}
 
-      {!isLoading && !threads.length ? <p>It looks like this user hasn't posted threads yet!</p> : null}
+      {!isLoading && !threads.length ? (
+        <div className="flex items-center justify-center gap-2">
+          <div className="bg-primary p-2 rounded-lg border">
+            <ExclamationIcon className="stroke-primary-foreground" />
+          </div>
+          <p>It looks like this user hasn't posted threads yet!</p>
+        </div>
+      ) : null}
     </div>
   );
 };

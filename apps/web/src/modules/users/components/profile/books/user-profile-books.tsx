@@ -7,7 +7,7 @@ import BookCardPlaceholder from '@modules/books/components/cards/book-card-place
 import { useUserBooks } from '@modules/books/hooks/use-user-books';
 import UserProfileBooksHeader from './user-profile-books-header';
 import { useParams } from 'next/navigation';
-import { BookIcon, Button, Separator } from '@read-quill/design-system';
+import { BookIcon, Button, ExclamationIcon, Separator } from '@read-quill/design-system';
 import Link from 'next/link';
 import { useAuthContext } from '@modules/auth/hooks/use-auth-context';
 
@@ -49,7 +49,14 @@ const UserProfileBooks: React.FC = () => {
         </div>
       ) : null}
 
-      {!isLoading && data && !data?.data?.books.length ? <p>This user has not read any books so far!</p> : null}
+      {!isLoading && data && !data?.data?.books.length ? (
+        <div className="flex items-center justify-center gap-2">
+          <div className="bg-primary p-2 rounded-lg border">
+            <ExclamationIcon className="stroke-primary-foreground" />
+          </div>
+          <p>This user has not read any books so far!</p>
+        </div>
+      ) : null}
     </div>
   );
 };

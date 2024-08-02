@@ -1,3 +1,4 @@
+import { siteConfig } from '@config/config';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import CommunityThread from '@modules/community/components/threads/detailed/community-thread';
 import { prisma } from '@read-quill/database';
@@ -22,13 +23,18 @@ export async function generateMetadata(
   if (!thread) return {};
 
   const previousImages = (await parent).openGraph?.images || [];
-  const title = thread.title;
+  const title = `${thread.title} | ${siteConfig.name}`;
   const description = `${thread.content.slice(0, 250)}...`;
 
   return {
     title,
     description,
     openGraph: {
+      title,
+      description,
+      images: [...previousImages],
+    },
+    twitter: {
       title,
       description,
       images: [...previousImages],

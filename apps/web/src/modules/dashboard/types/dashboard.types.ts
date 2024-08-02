@@ -1,4 +1,4 @@
-import { BookWithDetails } from '@modules/books/types/book.types';
+import { BookPlaceholderImage, BookWithDetails } from '@modules/books/types/book.types';
 import { Book, Image, ReadRegistry, ReadTargets } from '@read-quill/database';
 
 export const DASHBOARD_READ_TARGETS = ['daily', 'weekly', 'monthly'] as const;
@@ -17,9 +17,11 @@ export interface DashboardReadActivityEntry {
 
 export interface BookProgressEntry {
   id: string;
+  name: string;
+  author: string;
   progress: number;
   cover: Image;
-  name: string;
+  placeholderCover: BookPlaceholderImage;
   completed: boolean;
 }
 

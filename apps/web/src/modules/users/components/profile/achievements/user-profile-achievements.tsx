@@ -10,7 +10,7 @@ import { useUnLockedAchievements } from '@modules/achievements/hooks/use-un-lock
 import UserUnLockedAchievementCard from '@modules/achievements/components/cards/un-lockeed/user-un-locked-achievement-card';
 import { useAuthContext } from '@modules/auth/hooks/use-auth-context';
 import UserUnLockedAchievementCardPlaceholder from '@modules/achievements/components/cards/un-lockeed/user-un-locked-achievement-card-placeholder';
-import { BookIcon, Button, Separator } from '@read-quill/design-system';
+import { BookIcon, Button, ExclamationIcon, Separator } from '@read-quill/design-system';
 import Link from 'next/link';
 
 const UserProfilAchievements: React.FC = () => {
@@ -63,7 +63,12 @@ const UserProfilAchievements: React.FC = () => {
       ) : null}
 
       {!isLoading && !data?.data?.unLockedAchievements.length ? (
-        <p>It looks like this user hasn't unlocked achievements yet!</p>
+        <div className="flex items-center justify-center gap-2">
+          <div className="bg-primary p-2 rounded-lg border">
+            <ExclamationIcon className="stroke-primary-foreground" />
+          </div>
+          <p>It looks like this user hasn't unlocked achievements yet!</p>
+        </div>
       ) : null}
     </div>
   );

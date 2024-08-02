@@ -82,11 +82,8 @@ const DashboardBooksProgressFeed: React.FC<DashboardBooksProgressFeedProps> = (p
                   {filteredData.map((bookProgress) => {
                     return (
                       <DashboardBooksProgressCard
-                        cover={bookProgress.cover}
-                        id={bookProgress.id}
                         key={`dashboard-books-progress-${bookProgress.id}`}
-                        name={bookProgress.name}
-                        progress={bookProgress.progress}
+                        bookProgress={bookProgress}
                       />
                     );
                   })}

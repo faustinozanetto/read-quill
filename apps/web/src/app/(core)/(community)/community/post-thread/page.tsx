@@ -4,7 +4,7 @@ import CreateThread from '@modules/community/components/threads/create/create-th
 export const metadata: Metadata = {
   title: 'Create Thread',
   description:
-    'Discover Your Library at ReadQuill. Dive into your personalized collection, explore your bookshelf, and revel in the joy of your literary journey. Your books, your stories, all in one place – welcome to the Books page at ReadQuill.',
+    'Start a new discussion in our community by creating a thread. Share your thoughts, ask questions, and engage with fellow members. This page allows you to contribute to the conversation, connect with others, and become an active participant in our community. Create your thread now and join the dialogue!',
 };
 
 export default function CreateThreadPage(): React.JSX.Element {

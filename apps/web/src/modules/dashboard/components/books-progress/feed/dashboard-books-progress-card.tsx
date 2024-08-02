@@ -1,46 +1,42 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
 import { useCountUp } from '@modules/common/hooks/use-count-up';
 import Link from 'next/link';
-import { Image as DBImage } from '@read-quill/database';
-import { getImagePublicUrl } from '@modules/images/lib/images.lib';
+import UserBookCover from '@modules/books/components/user/details/cover/user-book-cover';
+import { Button } from '@read-quill/design-system';
+import { BookProgressEntry } from '@modules/dashboard/types/dashboard.types';
 
 interface DashboardBooksProgressCardProps {
-  id: string;
-  name: string;
-  cover: DBImage;
-  progress: number;
+  bookProgress: BookProgressEntry;
 }
 
 const DashboardBooksProgressCard: React.FC<DashboardBooksProgressCardProps> = (props) => {
-  const { id, name, cover, progress } = props;
+  const { bookProgress } = props;
+  const { id, progress, author, cover, name, placeholderCover } = bookProgress;
 
   const clampedProgress = Math.max(0, Math.min(progress, 100));
 
   const { count, ref } = useCountUp({ startValue: 0, endValue: clampedProgress, startOnInView: true });
 
   return (
-    <div className="rounded-lg border shadow" ref={ref}>
-      <div className="relative">
-        <Image
-          alt={`${name} progress image`}
-          className="h-40 w-full rounded-t-lg object-cover object-center"
-          height={200}
-          src={getImagePublicUrl('BookCovers', cover.path)}
-          width={200}
-        />
+    <div ref={ref} className="rounded-lg border p-4 shadow flex flex-col h-fit shrink-0">
+      <div className="relative mb-2">
+        <UserBookCover className="h-32 md:h-36 lg:h-40" image={cover} placeholderImage={placeholderCover} />
         <div
-          className="bg-primary/80 left-0 bottom-0 right-0 absolute items-center justify-center flex rounded-t-lg"
+          className="bg-primary/80 left-0 bottom-0 right-0 absolute items-center justify-center flex rounded-lg"
           style={{ top: `${100 - count}%` }}
         >
           {count > 10 ? <span className="text-2xl text-primary-foreground font-bold block">{count}%</span> : null}
         </div>
       </div>
-      <Link href={`/books/${id}`} className="block font-medium text-center text-sm p-1 hover:underline">
-        {name}
-      </Link>
+      <h2 className="font-semibold">{name}</h2>
+      <h3 className="text-sm">{author}</h3>
+      <Button variant="link" className="ml-auto w-fit" asChild>
+        <Link href={`/books/${id}`} title="Goto Book Page">
+          Goto Book Page
+        </Link>
+      </Button>
     </div>
   );
 };

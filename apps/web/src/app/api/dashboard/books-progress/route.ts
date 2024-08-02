@@ -4,6 +4,8 @@ import { NextResponse } from 'next/server';
 import type { DashboardBooksProgressGetResponse } from '@modules/api/types/dashboard-api.types';
 import { auth } from 'auth';
 import { BookProgressEntry } from '@modules/dashboard/types/dashboard.types';
+import { generatePlaceholderImage } from '@modules/images/lib/image-placeholder.lib';
+import { getImagePublicUrl } from '@modules/images/lib/images.lib';
 
 // /api/dashboard/books-progress GET : Gets the reading progress of the user books
 export async function GET(request: NextRequest): Promise<NextResponse<DashboardBooksProgressGetResponse>> {
@@ -40,6 +42,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardB
           name: true,
           image: true,
           pageCount: true,
+          author: true,
           readRegistries: {
             select: {
               pagesRead: true,
@@ -67,18 +70,24 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardB
     const pageCount = Math.ceil(totalCount / pageSize);
     const hasMore = pageIndex < pageCount - 1;
 
-    // Get the read registries for the paginated books
-    const bookIds = books.map((book) => book.id);
+    // Generate placeholder images
+    const base64PlaceholderPromises = books.map((book) =>
+      generatePlaceholderImage(getImagePublicUrl('BookCovers', book.image.path))
+    );
+
+    const placeholderImages = await Promise.all(base64PlaceholderPromises);
 
     // Calculate the progress for each book
-    const booksProgress: BookProgressEntry[] = books.map((book) => {
+    const booksProgress: BookProgressEntry[] = books.map((book, index) => {
       const totalPagesRead = book.readRegistries.reduce((total, registry) => total + registry.pagesRead, 0);
       const progress = (totalPagesRead / book.pageCount) * 100;
 
       return {
         id: book.id,
         name: book.name,
+        author: book.author,
         cover: book.image,
+        placeholderCover: { blurUrl: placeholderImages[index] },
         progress: Math.round(progress),
         completed: progress >= 100,
       };
