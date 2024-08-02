@@ -76,3 +76,5 @@ export * from './download-icon';
 export * from './filter-icon';
 export * from './pinned-icon';
 export * from './pinned-off-icon';
+export * from './trending-down-icon';
+export * from './trending-up-icon';

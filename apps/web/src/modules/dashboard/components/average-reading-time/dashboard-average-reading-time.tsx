@@ -9,6 +9,12 @@ import DashboardAverageReadingTimeCard from './dashboard-average-reading-time-ca
 const DashboardAverageReadingTime: React.FC = () => {
   const { data, isLoading } = useAverageReadingTime();
 
+  const renderPast = (difference: number, sign: string, type: 'day' | 'week' | 'month') => {
+    if (difference === 0) return `Same as last ${type}`;
+
+    return `${sign}${difference} than last ${type}`;
+  };
+
   return (
     <div className="rounded-lg border p-4 shadow flex flex-col gap-2 h-fit">
       <h3 className="text-xl font-bold">Average Reading Time</h3>
@@ -31,19 +37,19 @@ const DashboardAverageReadingTime: React.FC = () => {
             title="Daily"
             current={data.data.averageReadingTimes.daily.current}
             past={data.data.averageReadingTimes.daily.past}
-            renderPast={(difference, sign) => `${sign}${difference} than last day`}
+            renderPast={(difference, sign) => renderPast(difference, sign, 'day')}
           />
           <DashboardAverageReadingTimeCard
             title="Weekly"
             current={data.data.averageReadingTimes.weekly.current}
             past={data.data.averageReadingTimes.weekly.past}
-            renderPast={(difference, sign) => `${sign}${difference} than last week`}
+            renderPast={(difference, sign) => renderPast(difference, sign, 'week')}
           />
           <DashboardAverageReadingTimeCard
             title="Monhtly"
             current={data.data.averageReadingTimes.monthly.current}
             past={data.data.averageReadingTimes.monthly.past}
-            renderPast={(difference, sign) => `${sign}${difference} than last month`}
+            renderPast={(difference, sign) => renderPast(difference, sign, 'month')}
           />
         </div>
       )}
