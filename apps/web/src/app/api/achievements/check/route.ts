@@ -19,7 +19,7 @@ export async function POST(): Promise<NextResponse> {
     // Fetch user-specific data
     const readRegistries = await prisma.readRegistry.findMany({
       where: { book: { readerId: session.user.id } },
-      orderBy: { createdAt: 'asc' },
+      orderBy: { createdAt: 'desc' },
     });
     const books = await prisma.book.findMany({ where: { readerId: session.user.id } });
 

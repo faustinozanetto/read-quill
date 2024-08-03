@@ -12,7 +12,7 @@ import {
   useToast,
 } from '@read-quill/design-system';
 import type { AchievementWithUserAchievement } from '@modules/achievements/types/achievements.types';
-import { ACHIEVEMENT_DISPLAY_CRITERIAS } from '@modules/achievements/lib/achievement.constants';
+import { ACHIEVEMENT_DISPLAY_CRITERIAS, AchievementCriterias } from '@modules/achievements/lib/achievement.constants';
 import { PinnedIcon, PinnedOffIcon } from '@read-quill/design-system/src';
 import { useAchievementTogglePinned } from '@modules/achievements/hooks/use-achievement-toggle-pinned';
 import { useQueryClient } from '@tanstack/react-query';
@@ -97,7 +97,7 @@ const UserUnLockedAchievementCard: React.FC<UserUnLockedAchievementCardProps> = 
         <div role="list" className="flex flex-wrap gap-1.5 my-auto justify-center items-center">
           {Object.entries(userAchievement.criteria).map(([criteriaName, criteriaValue]) => (
             <Badge key={criteriaName} role="listitem" className="text-pretty">
-              {ACHIEVEMENT_DISPLAY_CRITERIAS[criteriaName] || criteriaName} {criteriaValue}
+              {ACHIEVEMENT_DISPLAY_CRITERIAS[criteriaName as AchievementCriterias] || criteriaName} {criteriaValue}
             </Badge>
           ))}
         </div>

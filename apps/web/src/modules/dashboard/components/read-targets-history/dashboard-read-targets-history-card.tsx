@@ -37,7 +37,7 @@ const DashboardReadTargetsHistoryCard = forwardRef<HTMLDivElement, DashboardRead
         ref={ref}
         className={cn(
           'p-1 border rounded-lg shadow flex flex-col text-center font-medium items-center hover:border-primary min-w-28',
-          isEntryMarked && 'border-primary border-2'
+          isEntryMarked && 'border-primary border'
         )}
       >
         <svg className="m-auto" height="76" width="76" xmlns="http://www.w3.org/2000/svg">

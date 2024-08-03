@@ -9,6 +9,7 @@ import DashboardReadTargetsHistory from './read-targets-history/dashboard-read-t
 import DashboardHasRead from './has-read/dashboard-has-read';
 import DashboardLastRead from './last-read/dashboard-last-read';
 import dynamic from 'next/dynamic';
+import DashboardReadStreak from './read-streak/dashboard-read-streak';
 
 const DashboardReadTrends = dynamic(() => import('./read-trends/dashboard-read-trends'));
 const DashboardReadTimeDistribution = dynamic(
@@ -26,6 +27,7 @@ const Dashboard: React.FC = () => {
         <DashboardReadTargets />
         <DashboardAverageReadingTime />
       </div>
+      <DashboardReadStreak />
       <DashboardReadTargetsHistory />
       <DashboardLastRead />
       <DashboardReadRegistries />

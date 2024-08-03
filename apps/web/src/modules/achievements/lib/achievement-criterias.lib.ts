@@ -1,12 +1,14 @@
 import type { Book, ReadRegistry } from '@read-quill/database';
-import { isYesterday, differenceInDays } from 'date-fns';
+import { differenceInDays } from 'date-fns';
 
 /**
  * Function that calculates a mapping of book ids and pages read.
  * @param readRegistries - Read registries data.
  * @returns Book pages read.
  */
-const calculateBookPagesRead = (readRegistries: ReadRegistry[]): Record<string, number> => {
+const calculateBookPagesRead = (
+  readRegistries: Pick<ReadRegistry, 'bookId' | 'pagesRead' | 'createdAt'>[]
+): Record<string, number> => {
   const booksPagesRead = readRegistries.reduce<Record<string, number>>((acc, curr) => {
     const key = curr.bookId;
     acc[key] = (acc[key] || 0) + curr.pagesRead;
@@ -31,7 +33,7 @@ const calculateBooksRead = (books: Book[], booksPagesRead: Record<string, number
  * @param readRegistries - Read registries data.
  * @returns Pages read.
  */
-const calculatePagesRead = (readRegistries: ReadRegistry[]): number => {
+const calculatePagesRead = (readRegistries: Pick<ReadRegistry, 'bookId' | 'pagesRead' | 'createdAt'>[]): number => {
   return readRegistries.reduce((acc, curr) => acc + curr.pagesRead, 0);
 };
 
@@ -40,27 +42,27 @@ const calculatePagesRead = (readRegistries: ReadRegistry[]): number => {
  * @param readRegistries - Read registries data.
  * @returns Read days streak.
  */
-const calculateReadDaysStreak = (readRegistries: ReadRegistry[]): number => {
-  let currentStreak = 0;
-  let maxStreak = 0;
+const calculateReadDaysStreak = (
+  readRegistries: Pick<ReadRegistry, 'bookId' | 'pagesRead' | 'createdAt'>[]
+): number => {
+  if (readRegistries.length === 0) return 0;
+
+  let streakCount = 1;
 
   for (let i = 1; i < readRegistries.length; i++) {
-    const prevRegistry = readRegistries[i - 1];
-    const currentRegistry = readRegistries[i];
+    const currentDate = readRegistries[i].createdAt;
+    const previousDate = readRegistries[i - 1].createdAt;
 
-    const isConsecutive =
-      isYesterday(prevRegistry.createdAt) && differenceInDays(currentRegistry.createdAt, prevRegistry.createdAt) <= 1;
-
-    if (isConsecutive) {
-      currentStreak += 1;
+    // Check if the current date is the day before the previous date
+    const daysDifference = differenceInDays(previousDate, currentDate);
+    if (daysDifference <= 1) {
+      streakCount++;
     } else {
-      maxStreak = Math.max(maxStreak, currentStreak);
-      currentStreak = 0;
+      break;
     }
   }
-  maxStreak = Math.max(maxStreak, currentStreak);
 
-  return maxStreak;
+  return streakCount;
 };
 
 /**
@@ -69,7 +71,10 @@ const calculateReadDaysStreak = (readRegistries: ReadRegistry[]): number => {
  * @param readRegistries - Read registries data.
  * @returns Achievement criterias.
  */
-export const calculateCriterias = (books: Book[], readRegistries: ReadRegistry[]): Record<string, number> => {
+export const calculateCriterias = (
+  books: Book[],
+  readRegistries: Pick<ReadRegistry, 'bookId' | 'pagesRead' | 'createdAt'>[]
+): Record<string, number> => {
   const pagesRead = calculatePagesRead(readRegistries);
   const booksPagesRead = calculateBookPagesRead(readRegistries);
   const booksRead = calculateBooksRead(books, booksPagesRead);
