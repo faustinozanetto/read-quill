@@ -1,11 +1,13 @@
 'use client';
 
 import React from 'react';
-import CommunityThreadComments from './comments/community-thread-comments';
 import CommunityThreadDetails from './details/community-thread-details';
 import CommunityThreadAttachments from '../attachments/community-thread-attachments';
 
 import { useFetchThread } from '@modules/community/hooks/threads/use-fetch-thread';
+import dynamic from 'next/dynamic';
+
+const CommunityThreadComments = dynamic(() => import('./comments/community-thread-comments'));
 
 interface CommunityThreadProps {
   threadId: string;

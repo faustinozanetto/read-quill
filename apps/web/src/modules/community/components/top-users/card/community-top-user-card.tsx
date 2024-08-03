@@ -18,12 +18,12 @@ const CommunityTopUserCard: React.FC<CommunityTopUserCardProps> = (props) => {
 
   return (
     <Link href={`/users/${user.id}`}>
-      <div className="border rounded-lg shadow hover:scale-[102%] transition-all hover:border-primary hover:border-2 flex flex-col items-stretch">
+      <div className="border rounded-lg shadow hover:border-primary flex flex-col items-stretch">
         <div className="relative group flex flex-col">
           <div className="absolute top-2 left-2 bg-background border text-center p-1 rounded-lg border-primary font-bold z-50">
             #{position}
           </div>
-          <div className="hidden absolute inset-0 group-hover:flex items-center justify-center group-hover:backdrop-blur-md transition-all duration-300">
+          <div className="hidden absolute inset-0 group-hover:flex items-center justify-center group-hover:backdrop-blur-md transition-all duration-300 rounded-t-lg">
             <h3 className="text-center font-bold text-primary-foreground bg-primary">{user.name}</h3>
           </div>
           <UserAvatar
