@@ -35,7 +35,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<Achievemen
 
     const filteredAchievements = lockedAchievements.filter((achievement) => {
       const achievementCriteria = achievement.criteria;
-      const criteriaKeys = new Set(Object.keys(achievementCriteria));
+      const criteriaKeys = new Set(Object.keys(achievementCriteria as object));
       return [...parsedCriterias].some((criteria) => criteriaKeys.has(criteria));
     });
 
