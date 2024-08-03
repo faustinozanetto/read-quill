@@ -79,7 +79,6 @@ export const calculateCriterias = (
   const booksPagesRead = calculateBookPagesRead(readRegistries);
   const booksRead = calculateBooksRead(books, booksPagesRead);
   const readDaysStreak = calculateReadDaysStreak(readRegistries);
-  console.log({ readDaysStreak });
 
   return { pagesRead, booksRead, readDaysStreak };
 };
