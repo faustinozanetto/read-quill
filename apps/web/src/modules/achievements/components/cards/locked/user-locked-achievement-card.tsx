@@ -1,7 +1,7 @@
 import React from 'react';
 import { Badge, ThropyIcon } from '@read-quill/design-system';
 import type { AchievementWithProgress } from '@modules/achievements/types/achievements.types';
-import { ACHIEVEMENT_DISPLAY_CRITERIAS } from '@modules/achievements/lib/achievement.constants';
+import { ACHIEVEMENT_DISPLAY_CRITERIAS, AchievementCriterias } from '@modules/achievements/lib/achievement.constants';
 
 /**
  * Props for the UserLockedAchievementCard component.
@@ -27,7 +27,7 @@ const UserLockedAchievementCard: React.FC<UserLockedAchievementCardProps> = (pro
         <ul className="flex flex-wrap gap-1.5 my-auto justify-center items-center">
           {Object.entries(userAchievement.criteria).map(([criteriaName, criteriaValue]) => (
             <Badge key={criteriaName} className="text-pretty">
-              {ACHIEVEMENT_DISPLAY_CRITERIAS[criteriaName] || criteriaName} {criteriaValue}
+              {ACHIEVEMENT_DISPLAY_CRITERIAS[criteriaName as AchievementCriterias] || criteriaName} {criteriaValue}
             </Badge>
           ))}
         </ul>
