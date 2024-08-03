@@ -10,7 +10,7 @@ import {
   TooltipTrigger,
 } from '@read-quill/design-system';
 import { AchievementWithUserAchievement } from '@modules/achievements/types/achievements.types';
-import { ACHIEVEMENT_DISPLAY_CRITERIAS } from '@modules/achievements/lib/achievement.constants';
+import { ACHIEVEMENT_DISPLAY_CRITERIAS, AchievementCriterias } from '@modules/achievements/lib/achievement.constants';
 
 interface UserProfileDetailsAchievementEntryProps {
   pinnedAchievement: AchievementWithUserAchievement;
@@ -21,9 +21,10 @@ const UserProfileDetailsAchievementEntry: React.FC<UserProfileDetailsAchievement
 
   const criterias = pinnedAchievement.criteria
     ? Object.entries(pinnedAchievement.criteria).reduce((acc, [criteriaName, criteriaValue]) => {
-        if (acc === '') return `${criteriaValue} ${ACHIEVEMENT_DISPLAY_CRITERIAS[criteriaName] || criteriaName}`;
+        if (acc === '')
+          return `${criteriaValue} ${ACHIEVEMENT_DISPLAY_CRITERIAS[criteriaName as AchievementCriterias] || criteriaName}`;
 
-        return `${acc} | ${criteriaValue} ${ACHIEVEMENT_DISPLAY_CRITERIAS[criteriaName] || criteriaName}`;
+        return `${acc} | ${criteriaValue} ${ACHIEVEMENT_DISPLAY_CRITERIAS[criteriaName as AchievementCriterias] || criteriaName}`;
       }, '')
     : '';
 
