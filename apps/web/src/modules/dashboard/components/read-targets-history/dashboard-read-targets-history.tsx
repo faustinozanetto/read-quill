@@ -57,9 +57,9 @@ const DashboardReadTargetsHistory: React.FC = () => {
 
       <DashboardReadTargetsHistoryIntervalSelect interval={interval} setInterval={setInterval} />
 
-      <div className="flex gap-2 overflow-x-auto py-1.5 px-2 relative">
+      <div className="flex gap-2 overflow-x-auto pt-2 pb-4 relative">
         {dedupedEntries.length
-          ? dedupedEntries.map((readTargetHistoryEntry, index) => {
+          ? dedupedEntries.map((readTargetHistoryEntry) => {
               return (
                 <DashboardReadTargetsHistoryCard
                   key={`dashboard-read-targets-history-${readTargetHistoryEntry.date}`}

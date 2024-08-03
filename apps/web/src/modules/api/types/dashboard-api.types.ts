@@ -116,5 +116,6 @@ export interface DashboardReadStreakGetResponse extends BaseApiResponse {
   data?: {
     readStreak: number;
     readActivity: DashboardReadStreakActivityEntry[];
+    totalPagesRead: number;
   };
 }

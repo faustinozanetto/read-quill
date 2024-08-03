@@ -34,6 +34,7 @@ export * from './components/switch';
 export * from './components/radio-group';
 export * from './components/separator';
 export * from './components/tabs';
+export * from './components/progress';
 export * from './components/checkbox';
 export * from './lib/design-system.lib';
 // Hook Expors

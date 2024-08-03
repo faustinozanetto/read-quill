@@ -1,12 +1,14 @@
 import type { Book, ReadRegistry } from '@read-quill/database';
-import { isYesterday, differenceInDays } from 'date-fns';
+import { differenceInDays } from 'date-fns';
 
 /**
  * Function that calculates a mapping of book ids and pages read.
  * @param readRegistries - Read registries data.
  * @returns Book pages read.
  */
-const calculateBookPagesRead = (readRegistries: ReadRegistry[]): Record<string, number> => {
+const calculateBookPagesRead = (
+  readRegistries: Pick<ReadRegistry, 'bookId' | 'pagesRead' | 'createdAt'>[]
+): Record<string, number> => {
   const booksPagesRead = readRegistries.reduce<Record<string, number>>((acc, curr) => {
     const key = curr.bookId;
     acc[key] = (acc[key] || 0) + curr.pagesRead;
@@ -31,7 +33,7 @@ const calculateBooksRead = (books: Book[], booksPagesRead: Record<string, number
  * @param readRegistries - Read registries data.
  * @returns Pages read.
  */
-const calculatePagesRead = (readRegistries: ReadRegistry[]): number => {
+const calculatePagesRead = (readRegistries: Pick<ReadRegistry, 'bookId' | 'pagesRead' | 'createdAt'>[]): number => {
   return readRegistries.reduce((acc, curr) => acc + curr.pagesRead, 0);
 };
 
@@ -40,7 +42,9 @@ const calculatePagesRead = (readRegistries: ReadRegistry[]): number => {
  * @param readRegistries - Read registries data.
  * @returns Read days streak.
  */
-const calculateReadDaysStreak = (readRegistries: ReadRegistry[]): number => {
+const calculateReadDaysStreak = (
+  readRegistries: Pick<ReadRegistry, 'bookId' | 'pagesRead' | 'createdAt'>[]
+): number => {
   if (readRegistries.length === 0) return 0;
 
   let streakCount = 1;
@@ -67,7 +71,10 @@ const calculateReadDaysStreak = (readRegistries: ReadRegistry[]): number => {
  * @param readRegistries - Read registries data.
  * @returns Achievement criterias.
  */
-export const calculateCriterias = (books: Book[], readRegistries: ReadRegistry[]): Record<string, number> => {
+export const calculateCriterias = (
+  books: Book[],
+  readRegistries: Pick<ReadRegistry, 'bookId' | 'pagesRead' | 'createdAt'>[]
+): Record<string, number> => {
   const pagesRead = calculatePagesRead(readRegistries);
   const booksPagesRead = calculateBookPagesRead(readRegistries);
   const booksRead = calculateBooksRead(books, booksPagesRead);

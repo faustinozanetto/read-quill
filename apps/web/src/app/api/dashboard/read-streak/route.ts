@@ -87,7 +87,9 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardR
       dateRead: format(new Date(registry.createdAt), 'MMMM d, yyyy'),
     }));
 
-    return NextResponse.json({ data: { readStreak: dedupedStreakCount, readActivity } });
+    const totalPagesRead = selectedRegistries.reduce<number>((acc, curr) => acc + curr.pagesRead, 0);
+
+    return NextResponse.json({ data: { readStreak: dedupedStreakCount, readActivity, totalPagesRead } });
   } catch (error) {
     let errorMessage = 'An error occurred!';
     if (error instanceof Error) errorMessage = error.message;

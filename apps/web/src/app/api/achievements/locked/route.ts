@@ -1,12 +1,13 @@
 import type { Prisma } from '@read-quill/database';
 import { prisma } from '@read-quill/database';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import type { AchievementsLockedGetResponse } from '@modules/api/types/achievements-api.types';
 import { calculateCriterias } from '@modules/achievements/lib/achievement-criterias.lib';
 import { auth } from 'auth';
+import { ACHIEVEMENT_CRITERIAS } from '@modules/achievements/lib/achievement.constants';
 
 // /api/achievements/locked GET : Gets the locked achievements of a user.
-export async function GET(): Promise<NextResponse<AchievementsLockedGetResponse>> {
+export async function GET(request: NextRequest): Promise<NextResponse<AchievementsLockedGetResponse>> {
   try {
     const session = await auth();
 
@@ -14,12 +15,16 @@ export async function GET(): Promise<NextResponse<AchievementsLockedGetResponse>
       return new NextResponse('Unauthorized', { status: 403 });
     }
 
+    const { searchParams } = new URL(request.url);
+    const criterias = searchParams.get('criterias');
+    const parsedCriterias = criterias ? criterias.split(',') : ACHIEVEMENT_CRITERIAS;
+
     const achievements = await prisma.achievement.findMany();
 
     // Retrieve user's unlocked achievements
     const userUnlockedAchievements = await prisma.userAchievement.findMany({
       where: { userId: session.user.id },
-      select: { achievementId: true },
+      select: { achievementId: true, achievement: { select: { criteria: true } } },
     });
 
     // Extract the IDs of unlocked achievements
@@ -28,9 +33,23 @@ export async function GET(): Promise<NextResponse<AchievementsLockedGetResponse>
     // Filter locked achievements
     const lockedAchievements = achievements.filter((achievement) => !unlockedAchievementIds.includes(achievement.id));
 
+    const filteredAchievements = lockedAchievements.filter((achievement) => {
+      const achievementCriteria = achievement.criteria;
+      const criteriaKeys = new Set(Object.keys(achievementCriteria));
+      return [...parsedCriterias].some((criteria) => criteriaKeys.has(criteria));
+    });
+
     // Fetch user-specific data
     const readRegistries = await prisma.readRegistry.findMany({
       where: { book: { readerId: session.user.id } },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      select: {
+        pagesRead: true,
+        bookId: true,
+        createdAt: true,
+      },
     });
     const books = await prisma.book.findMany({ where: { readerId: session.user.id } });
 
@@ -38,7 +57,7 @@ export async function GET(): Promise<NextResponse<AchievementsLockedGetResponse>
     const criteriaConditions = calculateCriterias(books, readRegistries);
 
     // Calculate percentage of completion for each locked achievement
-    const achievementsWithProgress = lockedAchievements.map((lockedAchievement) => {
+    const achievementsWithProgress = filteredAchievements.map((lockedAchievement) => {
       const criteriaObject = lockedAchievement.criteria as Prisma.JsonObject;
 
       // Calculate user's progress for each criteria

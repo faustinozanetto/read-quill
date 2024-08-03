@@ -17,7 +17,7 @@ const UserLockedAchievementCard: React.FC<UserLockedAchievementCardProps> = (pro
   const { userAchievement } = props;
 
   return (
-    <div className="rounded-lg border p-2.5 shadow flex flex-col items-center justify-start text-center relative">
+    <div className="rounded-lg border p-2.5 shadow flex flex-col items-center justify-start text-center relative min-w-52">
       <div className="absolute top-2 right-2 bg-card p-1.5 rounded-lg shadow border aspect-square font-bold flex text-sm items-center justify-center size-11">
         {userAchievement.completionPercentage}%
       </div>
