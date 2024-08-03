@@ -7,6 +7,7 @@ import { useReadStreak } from '@modules/dashboard/hooks/use-read-streak';
 
 import DashboardReadStreakCard from './dashboard-read-streak-card';
 import DashboardReadStreakCardPlaceholder from './dashboard-read-streak-card-placeholder';
+import DashboardNoDataMessage from '../common/dashboard-no-data-message';
 
 const DashboardReadStreak: React.FC = () => {
   const { data, isLoading } = useReadStreak();
@@ -49,6 +50,14 @@ const DashboardReadStreak: React.FC = () => {
           </div>
         </>
       )}
+
+      {!isLoading && !data?.data?.readActivity.length ? (
+        <DashboardNoDataMessage>
+          <p>
+            Your reading streak is currently at 0 days. Start reading today to build your streak and stay motivated!
+          </p>
+        </DashboardNoDataMessage>
+      ) : null}
     </div>
   );
 };
