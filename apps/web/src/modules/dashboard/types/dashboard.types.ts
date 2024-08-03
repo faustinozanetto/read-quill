@@ -57,3 +57,12 @@ export interface DashboardLastReadEntry {
   book: Pick<BookWithDetails, 'id' | 'image' | 'placeholderImage' | 'name'>;
   date: Date;
 }
+
+export interface DashboardReadStreakActivityEntry {
+  book: {
+    id: string;
+    name: string;
+  };
+  pagesRead: number;
+  dateRead: string;
+}

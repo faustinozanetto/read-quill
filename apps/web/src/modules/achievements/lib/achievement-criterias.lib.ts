@@ -41,26 +41,24 @@ const calculatePagesRead = (readRegistries: ReadRegistry[]): number => {
  * @returns Read days streak.
  */
 const calculateReadDaysStreak = (readRegistries: ReadRegistry[]): number => {
-  let currentStreak = 0;
-  let maxStreak = 0;
+  if (readRegistries.length === 0) return 0;
+
+  let streakCount = 1;
 
   for (let i = 1; i < readRegistries.length; i++) {
-    const prevRegistry = readRegistries[i - 1];
-    const currentRegistry = readRegistries[i];
+    const currentDate = readRegistries[i].createdAt;
+    const previousDate = readRegistries[i - 1].createdAt;
 
-    const isConsecutive =
-      isYesterday(prevRegistry.createdAt) && differenceInDays(currentRegistry.createdAt, prevRegistry.createdAt) <= 1;
-
-    if (isConsecutive) {
-      currentStreak += 1;
+    // Check if the current date is the day before the previous date
+    const daysDifference = differenceInDays(previousDate, currentDate);
+    if (daysDifference <= 1) {
+      streakCount++;
     } else {
-      maxStreak = Math.max(maxStreak, currentStreak);
-      currentStreak = 0;
+      break;
     }
   }
-  maxStreak = Math.max(maxStreak, currentStreak);
 
-  return maxStreak;
+  return streakCount;
 };
 
 /**
@@ -74,6 +72,7 @@ export const calculateCriterias = (books: Book[], readRegistries: ReadRegistry[]
   const booksPagesRead = calculateBookPagesRead(readRegistries);
   const booksRead = calculateBooksRead(books, booksPagesRead);
   const readDaysStreak = calculateReadDaysStreak(readRegistries);
+  console.log({ readDaysStreak });
 
   return { pagesRead, booksRead, readDaysStreak };
 };
