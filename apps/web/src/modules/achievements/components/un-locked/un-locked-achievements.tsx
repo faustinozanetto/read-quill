@@ -43,7 +43,7 @@ const UnLockedAchievements: React.FC<UnLockedAchievementsProps> = (props) => {
             {!isLoading && !data?.data?.unLockedAchievements.length ? (
               <div className="flex items-center justify-center gap-2 p-4">
                 <div className="bg-primary p-2 rounded-lg border">
-                  <ExclamationIcon />
+                  <ExclamationIcon className="stroke-accent" />
                 </div>
                 <p>
                   The achievement board is ready for your story. Start your reading adventure and unlock achievements.
