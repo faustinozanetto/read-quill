@@ -48,14 +48,6 @@ const DashboardReadStreak: React.FC = () => {
         </>
       )}
 
-      {!isLoading && data?.data?.readStreak && (
-        <>
-          <DashboardReadStreakActivity readActivity={data.data.readActivity} readStreak={data.data.readStreak} />
-          <DashboardReadStreakInformation readStreak={data.data.readStreak} totalPagesRead={data.data.totalPagesRead} />
-        </>
-      )}
-      <DashboardReadStreakAchievements />
-
       {!isLoading && !data?.data?.readActivity.length ? (
         <DashboardNoDataMessage>
           <p>
@@ -63,6 +55,15 @@ const DashboardReadStreak: React.FC = () => {
           </p>
         </DashboardNoDataMessage>
       ) : null}
+
+      {!isLoading && data?.data?.readStreak ? (
+        <>
+          <DashboardReadStreakActivity readActivity={data.data.readActivity} readStreak={data.data.readStreak} />
+          <DashboardReadStreakInformation readStreak={data.data.readStreak} totalPagesRead={data.data.totalPagesRead} />
+        </>
+      ) : null}
+
+      <DashboardReadStreakAchievements />
     </div>
   );
 };

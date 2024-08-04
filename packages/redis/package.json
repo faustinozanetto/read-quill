@@ -22,11 +22,11 @@
   },
   "devDependencies": {
     "@read-quill/eslint-config": "workspace:*",
-    "eslint": "9.0.0",
-    "rimraf": "5.0.5",
+    "eslint": "9.8.0",
+    "rimraf": "6.0.1",
     "@read-quill/typescript-config": "workspace:*",
-    "tsup": "8.0.2",
-    "tsx": "4.7.2",
-    "typescript": "5.4.4"
+    "tsup": "8.2.4",
+    "tsx": "4.16.5",
+    "typescript": "5.5.4"
   }
 }

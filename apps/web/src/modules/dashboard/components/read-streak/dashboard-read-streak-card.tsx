@@ -17,7 +17,7 @@ const DashboardReadStreakCard: React.FC<DashboardReadStreakCardProps> = (props) 
     <div
       className={`rounded-lg border p-4 shadow flex flex-col h-fit shrink-0 w-52 ${isToday ? 'border-primary' : ''}`}
     >
-      <div className="rounded-lg border bg-foreground text-accent p-2 w-fit text-xl text-center uppercase font-extrabold aspect-square mx-auto mb-2">
+      <div className="rounded-lg border bg-foreground text-accent p-2 w-fit text-xl text-center uppercase font-extrabold aspect-square mx-auto mb-2 shrink-0">
         <p>{new Date(readStreak.dateRead).toLocaleDateString('en-US', { day: '2-digit' })}</p>
         <p className="block"> {new Date(readStreak.dateRead).toLocaleDateString('en-US', { month: 'short' })}</p>
       </div>
