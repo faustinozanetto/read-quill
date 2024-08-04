@@ -1,14 +1,13 @@
-import type { Book, ReadRegistry } from '@read-quill/database';
+import type { Book, ReadRegistry, Review } from '@read-quill/database';
 import { differenceInDays, isToday } from 'date-fns';
+import { AchievementCriterias } from './achievement.constants';
 
 /**
  * Function that calculates a mapping of book ids and pages read.
  * @param readRegistries - Read registries data.
  * @returns Book pages read.
  */
-const calculateBookPagesRead = (
-  readRegistries: Pick<ReadRegistry, 'bookId' | 'pagesRead' | 'createdAt'>[]
-): Record<string, number> => {
+const calculateBookPagesRead = (readRegistries: ReadRegistry[]): Record<string, number> => {
   const booksPagesRead = readRegistries.reduce<Record<string, number>>((acc, curr) => {
     const key = curr.bookId;
     acc[key] = (acc[key] || 0) + curr.pagesRead;
@@ -33,7 +32,7 @@ const calculateBooksRead = (books: Book[], booksPagesRead: Record<string, number
  * @param readRegistries - Read registries data.
  * @returns Pages read.
  */
-const calculatePagesRead = (readRegistries: Pick<ReadRegistry, 'bookId' | 'pagesRead' | 'createdAt'>[]): number => {
+const calculatePagesRead = (readRegistries: ReadRegistry[]): number => {
   return readRegistries.reduce((acc, curr) => acc + curr.pagesRead, 0);
 };
 
@@ -42,9 +41,7 @@ const calculatePagesRead = (readRegistries: Pick<ReadRegistry, 'bookId' | 'pages
  * @param readRegistries - Read registries data.
  * @returns Read days streak.
  */
-const calculateReadDaysStreak = (
-  readRegistries: Pick<ReadRegistry, 'bookId' | 'pagesRead' | 'createdAt'>[]
-): number => {
+const calculateReadDaysStreak = (readRegistries: ReadRegistry[]): number => {
   if (readRegistries.length === 0) return 0;
 
   let streakCount = 0;
@@ -75,6 +72,10 @@ const calculateReadDaysStreak = (
   return streakCount;
 };
 
+const calculateBooksReviewed = (bookReviews: Review[]) => {
+  return bookReviews.length;
+};
+
 /**
  * Function that calculates the criterias needed for achievements.
  * @param books - Books data.
@@ -83,12 +84,14 @@ const calculateReadDaysStreak = (
  */
 export const calculateCriterias = (
   books: Book[],
-  readRegistries: Pick<ReadRegistry, 'bookId' | 'pagesRead' | 'createdAt'>[]
-): Record<string, number> => {
+  readRegistries: ReadRegistry[],
+  bookReviews: Review[]
+): Record<AchievementCriterias, number> => {
   const pagesRead = calculatePagesRead(readRegistries);
   const booksPagesRead = calculateBookPagesRead(readRegistries);
   const booksRead = calculateBooksRead(books, booksPagesRead);
   const readDaysStreak = calculateReadDaysStreak(readRegistries);
+  const booksReviewed = calculateBooksReviewed(bookReviews);
 
-  return { pagesRead, booksRead, readDaysStreak };
+  return { pagesRead, booksRead, readDaysStreak, booksReviewed };
 };

@@ -3,6 +3,7 @@ import { prisma } from '@read-quill/database';
 import { NextResponse } from 'next/server';
 import { calculateCriterias } from '@modules/achievements/lib/achievement-criterias.lib';
 import { auth } from 'auth';
+import { AchievementCriterias } from '@modules/achievements/lib/achievement.constants';
 
 // /api/achievements/check POST : Checks if the user met the requirements for unlocking achievements.
 export async function POST(): Promise<NextResponse> {
@@ -14,16 +15,23 @@ export async function POST(): Promise<NextResponse> {
     }
 
     // Fetch database achievements
-    const achievements = await prisma.achievement.findMany();
+    const [achievements, readRegistries, books, reviews] = await Promise.all([
+      prisma.achievement.findMany(),
+      prisma.readRegistry.findMany({
+        where: { book: { readerId: session.user.id } },
+        orderBy: { createdAt: 'desc' },
+      }),
+      prisma.book.findMany({ where: { readerId: session.user.id } }),
+      prisma.review.findMany({
+        where: {
+          book: {
+            readerId: session.user.id,
+          },
+        },
+      }),
+    ]);
 
-    // Fetch user-specific data
-    const readRegistries = await prisma.readRegistry.findMany({
-      where: { book: { readerId: session.user.id } },
-      orderBy: { createdAt: 'desc' },
-    });
-    const books = await prisma.book.findMany({ where: { readerId: session.user.id } });
-
-    const criteriaConditions = calculateCriterias(books, readRegistries);
+    const criteriaConditions = calculateCriterias(books, readRegistries, reviews);
 
     // Identify completed achievements
     const completedAchievements: string[] = achievements
@@ -31,7 +39,7 @@ export async function POST(): Promise<NextResponse> {
         const criteriaObject = achievement.criteria as Prisma.JsonObject;
 
         return Object.entries(criteriaObject).every(([criteriaCondition, targetCriteriaValue]) => {
-          const criteriaValue = criteriaConditions[criteriaCondition] || 0;
+          const criteriaValue = criteriaConditions[criteriaCondition as AchievementCriterias] || 0;
           return criteriaValue >= (targetCriteriaValue as number);
         });
       })
