@@ -16,6 +16,8 @@ import {
   useCreateReadRegistry,
 } from '@modules/read-registries/hooks/use-create-read-registry';
 import ReadRegistryCreateForm from './read-registry-create-form';
+import { analytics } from '@modules/analytics/lib/analytics.lib';
+import { useAuthContext } from '@modules/auth/hooks/use-auth-context';
 
 interface ReadRegistryCreateProps {
   onSuccess: UseCreateReadRegistryParams['onSuccess'];
@@ -26,12 +28,24 @@ interface ReadRegistryCreateProps {
 const ReadRegistryCreate: React.FC<ReadRegistryCreateProps> = (props) => {
   const { createButton, onSuccess, bookId } = props;
 
+  const { user } = useAuthContext();
   const { toast } = useToast();
 
   const { createReadRegistry } = useCreateReadRegistry({
     onSuccess: async (data, variables, context) => {
-      if (data.data?.readRegistry) {
+      if (data.data?.readRegistry && user) {
         await onSuccess(data, variables, context);
+        analytics.readRegistries.trackCreate(
+          {
+            user: {
+              id: user.id!,
+              name: user.name!,
+            },
+          },
+          {
+            readRegistry: data.data.readRegistry,
+          }
+        );
         toast({ variant: 'success', content: 'Read registry created successfully!' });
       }
     },
