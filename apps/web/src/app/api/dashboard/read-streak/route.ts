@@ -8,14 +8,25 @@ import { NextRequest, NextResponse } from 'next/server';
 const calculateStreak = (readRegistries: { createdAt: Date }[]) => {
   if (readRegistries.length === 0) return 0;
 
-  let streakCount = 1;
+  let streakCount = 0;
+  const currentDate = new Date();
+  const firstRegistryDate = readRegistries[0].createdAt;
+
+  // Check if there's a gap of more than 1 day between today and the first registry
+  const diffs = differenceInDays(currentDate, firstRegistryDate);
+  if (diffs > 1) {
+    return 0;
+  }
+
+  streakCount++;
 
   for (let i = 1; i < readRegistries.length; i++) {
-    const currentDate = readRegistries[i].createdAt;
-    const previousDate = readRegistries[i - 1].createdAt;
+    const currentRegistryDate = readRegistries[i].createdAt;
+    const previousRegistryDate = readRegistries[i - 1].createdAt;
 
-    // Check if the current date is the day before the previous date
-    const daysDifference = differenceInDays(previousDate, currentDate);
+    // Check if the current date is within 1 day of the previous date
+    const daysDifference = differenceInDays(previousRegistryDate, currentRegistryDate);
+
     if (daysDifference <= 1) {
       streakCount++;
     } else {
