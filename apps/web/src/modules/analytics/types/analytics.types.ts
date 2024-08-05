@@ -1,4 +1,5 @@
-import { ReadRegistry } from '@read-quill/database';
+import { AnalyticsReadRegistriesAPI } from './analytics-read-registries.types';
+import { AnalyticsBooksAPI } from './analytics-books.types';
 
 export interface AnalyticsContext {
   user: {
@@ -7,14 +8,7 @@ export interface AnalyticsContext {
   };
 }
 
-interface AnalyticsReadRegistriesCreatePayload {
-  readRegistry: ReadRegistry;
-}
-
-export interface AnalyticsReadRegistriesAPI {
-  trackCreate: (context: AnalyticsContext, payload: AnalyticsReadRegistriesCreatePayload) => void;
-}
-
 export interface AnalyticsAPI {
   readRegistries: AnalyticsReadRegistriesAPI;
+  books: AnalyticsBooksAPI;
 }

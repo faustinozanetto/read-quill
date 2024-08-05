@@ -5,6 +5,8 @@ import { BOOK_MAX_RATING } from '@modules/books/lib/book.constants';
 import BookRatingStar from './book-rating-star';
 import { useChangeBookRating } from '@modules/books/hooks/rating/use-change-book-rating';
 import { useQueryClient } from '@tanstack/react-query';
+import { analytics } from '@modules/analytics/lib/analytics.lib';
+import { useAuthContext } from '@modules/auth/hooks/use-auth-context';
 
 interface BookRatingProps {
   book: Book;
@@ -13,15 +15,20 @@ interface BookRatingProps {
 const BookRating: React.FC<BookRatingProps> = (props) => {
   const { book } = props;
 
-  const queryClient = useQueryClient();
   const { toast } = useToast();
+  const { user } = useAuthContext();
+  const queryClient = useQueryClient();
 
   const [rating, setRating] = useState(book.rating ?? -1);
 
   const { changeRating, isPending } = useChangeBookRating({
     onSuccess: async (data) => {
-      if (data.data?.rating) {
+      if (data.data?.rating && user) {
         await queryClient.refetchQueries({ queryKey: ['book', book.id] });
+        analytics.books.trackRating(
+          { user: { id: user.id!, name: user.name! } },
+          { bookId: book.id, rating: data.data.rating }
+        );
         toast({
           variant: 'success',
           content: 'Book rating updated successfully!',
