@@ -41,7 +41,11 @@ const UserBookInsights: React.FC = () => {
               content={
                 <span>
                   {data.data.lastRead
-                    ? new Date(data.data.lastRead).toLocaleDateString('en-US', { dateStyle: 'long' })
+                    ? new Date(data.data.lastRead).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: '2-digit',
+                        year: 'numeric',
+                      })
                     : 'None'}
                 </span>
               }
