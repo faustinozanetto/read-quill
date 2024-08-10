@@ -13,6 +13,7 @@ import UmaniAnalytics from '@modules/analytics/components/umani-analytics';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { CORE_RICH_RESULTS } from '../modules/rich-results/lib/core-rich-results';
 import { __PROD__ } from '@modules/common/lib/common.constants';
+import Script from 'next/script';
 
 const rubikFont = Rubik({
   variable: '--font-sans',
@@ -115,7 +116,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           )}
           <ToastsContainer />
 
-          {/* <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(CORE_RICH_RESULTS) }} /> */}
+          <Script
+            strategy="beforeInteractive"
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(CORE_RICH_RESULTS) }}
+          />
         </Providers>
       </body>
     </html>

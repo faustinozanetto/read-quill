@@ -8,6 +8,9 @@ import { prisma } from '@read-quill/database';
 import { auth } from 'auth';
 import { siteConfig } from '@config/config';
 import { generateBookRichResults } from '@modules/rich-results/lib/book-rich-results';
+import { CORE_RICH_RESULTS } from '@modules/rich-results/lib/core-rich-results';
+import Head from 'next/head';
+import Script from 'next/script';
 
 interface UserBookPageProps {
   params: {
@@ -55,12 +58,15 @@ const UserBookPage: React.FC<UserBookPageProps> = async (props) => {
   const isBookOwner = session?.user.id === book?.readerId;
 
   const richResults = generateBookRichResults(restBook, image, reader, review);
-  console.log(JSON.stringify(richResults));
 
   return (
     <>
       <UserBook bookId={bookId} isBookOwner={isBookOwner} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(richResults) }} />
+      <Script
+        strategy="beforeInteractive"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(richResults) }}
+      />
     </>
   );
 };
