@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: UserPageProps, parent: Resolv
   const title = `${user.name!} | ${siteConfig.name}`;
   const description = `Explore the profile of this avid reader. Discover their favorite books, achievements, and contributions to the community. Get insights into their reading habits and literary interests. Visit their public profile now!`;
   const previousImages = (await parent).openGraph?.images || [];
-  const image = user.image ?? previousImages;
+  const images = user.image ? [user.image] : [...previousImages];
 
   return {
     title,
@@ -28,12 +28,12 @@ export async function generateMetadata({ params }: UserPageProps, parent: Resolv
     openGraph: {
       title,
       description,
-      images: [...image],
+      images,
     },
     twitter: {
       title,
       description,
-      images: [...image],
+      images,
     },
   };
 }
