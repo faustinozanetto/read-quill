@@ -21,6 +21,15 @@ const nextJsConfig = {
 
     return config;
   },
+
+  async rewrites() {
+    return [
+      {
+        source: '/sitemap.xml',
+        destination: '/api/sitemap',
+      },
+    ];
+  },
 };
 
 export default withSentryConfig(

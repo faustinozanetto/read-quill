@@ -11,6 +11,8 @@ import { auth } from 'auth';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import UmaniAnalytics from '@modules/analytics/components/umani-analytics';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { CORE_RICH_RESULTS } from '../modules/rich-results/lib/core-rich-results';
+import { __PROD__ } from '@modules/common/lib/common.constants';
 
 const rubikFont = Rubik({
   variable: '--font-sans',
@@ -103,11 +105,17 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className="bg-background font-sans subpixel-antialiased scroll-smooth">
         <Providers session={session}>
           {children}
-          <GoogleAnalytics gaId="G-SP5YH2222P" />
-          <UmaniAnalytics />
-          <Analytics />
-          <SpeedInsights />
+          {__PROD__ && (
+            <>
+              <GoogleAnalytics gaId="G-SP5YH2222P" />
+              <UmaniAnalytics />
+              <Analytics />
+              <SpeedInsights />
+            </>
+          )}
           <ToastsContainer />
+
+          {/* <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(CORE_RICH_RESULTS) }} /> */}
         </Providers>
       </body>
     </html>
