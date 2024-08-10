@@ -11,7 +11,6 @@ import DashboardNoDataMessage from '../common/dashboard-no-data-message';
 import DashboardReadStreakAchievements from './dashboard-read-streak-achievements';
 import DashboardReadStreakInformation from './dashboard-read-streak-targets';
 import DashboardReadStreakActivity from './dashboard-read-streak-activity';
-import UserUnLockedAchievementCardPlaceholder from '@modules/achievements/components/cards/un-lockeed/user-un-locked-achievement-card-placeholder';
 
 const DashboardReadStreak: React.FC = () => {
   const { data, isLoading } = useReadStreak();

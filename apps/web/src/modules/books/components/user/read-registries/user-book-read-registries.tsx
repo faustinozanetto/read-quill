@@ -25,7 +25,7 @@ const UserBookReadRegistries: React.FC = () => {
     <div className="flex flex-col rounded-lg p-4 shadow border gap-2">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <div className="flex justify-between items-center gap-2">
-          <h2 className="text-xl sm:text-2xl font-bold">Read Registries</h2>
+          <h2 className="text-xl sm:text-2xl font-bold">🖋️ Read Registries</h2>
           <Badge variant="outline">Visible to you</Badge>
         </div>
         <ReadRegistryCreate
