@@ -51,3 +51,7 @@ export interface BookReviewDetailsLikesGetResponse extends BaseApiResponse {
     pageCount: number;
   };
 }
+
+export interface BookInsightsGetResponse extends BaseApiResponse {
+  data?: { progress: number; pagesRead: number; sessionsCount: number; lastRead?: Date };
+}

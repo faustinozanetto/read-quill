@@ -9,7 +9,7 @@ const UserBookAnnotationsHeader: React.FC = () => {
 
   return (
     <div className="flex items-center justify-between gap-2">
-      <h2 className="text-2xl font-bold">Annotations</h2>
+      <h2 className="text-2xl font-bold">📝 Annotations</h2>
 
       {isBookOwner && book ? <UserBookAnnotationsManagement bookId={book.id} /> : null}
     </div>

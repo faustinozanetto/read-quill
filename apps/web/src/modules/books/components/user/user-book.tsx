@@ -6,6 +6,7 @@ import UserBookReview from './review/user-book-review';
 import UserBookAnnotations from './annotations/user-book-annotations';
 import { useFetchBook } from '@modules/books/hooks/use-fetch-book';
 import UserBookReadRegistries from './read-registries/user-book-read-registries';
+import UserBookInsights from './insights/user-book-insights';
 
 interface UserBookProps {
   bookId: string;
@@ -20,6 +21,7 @@ const UserBook: React.FC<UserBookProps> = (props) => {
   return (
     <section className="space-y-4">
       <UserBookDetails />
+      <UserBookInsights />
       <UserBookReview isBookOwner={isBookOwner} />
       <UserBookAnnotations isBookOwner={isBookOwner} />
       {isBookOwner && <UserBookReadRegistries />}

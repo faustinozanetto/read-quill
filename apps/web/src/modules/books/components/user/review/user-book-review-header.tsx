@@ -19,7 +19,7 @@ const UserBookReviewHeader: React.FC<UserBookReviewHeaderProps> = (props) => {
 
   return (
     <div className="flex items-center justify-between">
-      <h2 className="text-2xl font-bold">Review</h2>
+      <h2 className="text-2xl font-bold">📜 Review</h2>
 
       {!contentLoading && isBookOwner && book && (
         <UserBookReviewManagement readerWrittenReview={readerWrittenReview} bookId={book.id} review={review} />

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Progress } from '@read-quill/design-system';
+import { cn, Progress } from '@read-quill/design-system';
 
 interface DashboardReadStreakProgressProps {
   readStreak: number;
@@ -8,6 +8,8 @@ interface DashboardReadStreakProgressProps {
 
 const DashboardReadStreakProgress: React.FC<DashboardReadStreakProgressProps> = (props) => {
   const { readStreak, targetReadStreak } = props;
+
+  const isCompleted = readStreak >= targetReadStreak;
 
   const calculatePercentage = () => {
     if (targetReadStreak === 0) return 0;
@@ -19,11 +21,17 @@ const DashboardReadStreakProgress: React.FC<DashboardReadStreakProgressProps> = 
       <div className="flex items-center justify-between mb-1.5">
         <h4 className="font-bold">{targetReadStreak} Days</h4>
         <p className="text-sm">
-          {readStreak}/{targetReadStreak} days, <span className="font-bold">{targetReadStreak - readStreak}</span> to
-          go!
+          {isCompleted ? (
+            'Completed!'
+          ) : (
+            <>
+              {readStreak}/{targetReadStreak} days, <span className="font-bold">{targetReadStreak - readStreak}</span>{' '}
+              to go!
+            </>
+          )}
         </p>
       </div>
-      <Progress value={calculatePercentage()} />
+      <Progress value={calculatePercentage()} barClassNames={cn(isCompleted ? 'bg-success' : 'bg-primary')} />
     </div>
   );
 };
