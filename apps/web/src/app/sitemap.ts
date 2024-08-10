@@ -2,6 +2,8 @@ import { siteConfig } from '@config/config';
 import { prisma } from '@read-quill/database';
 import { MetadataRoute } from 'next';
 
+export const dynamic = 'force-dynamic';
+
 const getBookIds = async () => {
   const bookIds = await prisma.book.findMany({ select: { id: true } });
   return bookIds.map((book) => book.id);

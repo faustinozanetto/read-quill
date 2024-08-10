@@ -7,6 +7,7 @@ import { getImagePublicUrl } from '@modules/images/lib/images.lib';
 import { prisma } from '@read-quill/database';
 import { auth } from 'auth';
 import { siteConfig } from '@config/config';
+import { generateBookRichResults } from '@modules/rich-results/lib/book-rich-results';
 
 interface UserBookPageProps {
   params: {
@@ -40,15 +41,28 @@ const UserBookPage: React.FC<UserBookPageProps> = async (props) => {
   const { params } = props;
   const { bookId } = params;
 
-  const book = await prisma.book.findUnique({ where: { id: bookId } });
+  const book = await prisma.book.findUnique({
+    where: { id: bookId },
+    include: { image: true, reader: true, review: true },
+  });
   if (!book) {
     return notFound();
   }
 
+  const { reader, image, review, ...restBook } = book;
+
   const session = await auth();
   const isBookOwner = session?.user.id === book?.readerId;
 
-  return <UserBook bookId={bookId} isBookOwner={isBookOwner} />;
+  const richResults = generateBookRichResults(restBook, image, reader, review);
+  console.log(JSON.stringify(richResults));
+
+  return (
+    <>
+      <UserBook bookId={bookId} isBookOwner={isBookOwner} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(richResults) }} />
+    </>
+  );
 };
 
 export default UserBookPage;
