@@ -22,7 +22,12 @@ const DashboardBooksProgressCard: React.FC<DashboardBooksProgressCardProps> = (p
   return (
     <div ref={ref} className="rounded-lg border p-4 shadow flex flex-col h-fit shrink-0">
       <div className="relative mb-2">
-        <UserBookCover className="h-32 md:h-36 lg:h-40" image={cover} placeholderImage={placeholderCover} />
+        <UserBookCover
+          className="w-full"
+          imageClassNames="h-32 md:h-36 lg:h-40 w-full"
+          image={cover}
+          placeholderImage={placeholderCover}
+        />
         <div
           className="bg-primary/80 left-0 bottom-0 right-0 absolute items-center justify-center flex rounded-lg"
           style={{ top: `${100 - count}%` }}
