@@ -78,7 +78,7 @@ const DashboardBooksProgressFeed: React.FC<DashboardBooksProgressFeedProps> = (p
           <>
             {filteredData.length > 0 && (
               <>
-                <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-4 mt-2">
+                <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 mt-2">
                   {filteredData.map((bookProgress) => {
                     return (
                       <DashboardBooksProgressCard
