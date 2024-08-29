@@ -5,25 +5,25 @@ import { Image as DBImage } from '@read-quill/database';
 import { getImagePublicUrl } from '@modules/images/lib/images.lib';
 import { BookPlaceholderImage } from '@modules/books/types/book.types';
 
-interface UserBookCoverProps {
+interface UserBookCoverProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> {
   image: DBImage;
   placeholderImage: BookPlaceholderImage;
-  className?: string;
+  imageClassNames?: string;
 }
 
 const UserBookCover: React.FC<UserBookCoverProps> = (props) => {
-  const { image, placeholderImage, className } = props;
+  const { image, placeholderImage, imageClassNames, ...rest } = props;
 
   return (
     <Dialog>
-      <DialogTrigger>
+      <DialogTrigger {...rest}>
         <Image
           key={image.path}
           alt="Book Cover"
           title="Book Cover"
           className={cn(
-            'h-80 w-full rounded-lg border shadow object-cover object-center lg:h-[350px] md:h-[250px] md:w-40 lg:w-60',
-            className
+            'h-80 w-full rounded-lg border shadow object-cover object-center lg:h-[350px] md:h-[250px]',
+            imageClassNames
           )}
           src={getImagePublicUrl('BookCovers', image.path)}
           width={600}

@@ -16,7 +16,7 @@ const DashboardLastReadCard: React.FC<DashboardLastReadCardProps> = (props) => {
   return (
     <div className="rounded-lg border p-4 shadow flex flex-col h-fit shrink-0 w-64">
       <UserBookCover
-        className="h-32 md:h-36 lg:h-40 mb-2"
+        imageClassNames="h-32 md:h-36 lg:h-40 mb-2"
         image={book.image}
         placeholderImage={book.placeholderImage}
       />
