@@ -21,7 +21,8 @@ export const useReadActivity = (params: UseBookReadActivityParams): UseReadActiv
   const { toast } = useToast();
 
   const { data, status } = useQuery<BookReadActivityGetResponse | undefined>({
-    queryKey: ['book-read-activity'],
+    queryKey: ['book-read-activity', bookId],
+    enabled: !!bookId,
     queryFn: async () => {
       try {
         if (!bookId) return;
