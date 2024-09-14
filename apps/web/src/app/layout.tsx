@@ -14,6 +14,7 @@ import { CORE_RICH_RESULTS } from '../modules/rich-results/lib/core-rich-results
 import { __PROD__ } from '@modules/common/lib/common.constants';
 import Script from 'next/script';
 import { Partytown } from '@builder.io/partytown/react';
+import Head from 'next/head';
 
 const rubikFont = Rubik({
   variable: '--font-sans',
@@ -103,15 +104,13 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
   return (
     <html className={rubikFont.variable} lang="en" suppressHydrationWarning>
-      <body className="bg-background font-sans subpixel-antialiased scroll-smooth">
-        <Providers session={session}>
-          {children}
-          <Partytown debug={!__PROD__} forward={['dataLayer.push']} />
-          <Script type="text/partytown" src="https://www.googletagmanager.com/gtag/js?id=G-SP5YH2222P" />
-          <Script
-            type="text/partytown"
-            dangerouslySetInnerHTML={{
-              __html: `
+      <head>
+        <Partytown debug={!__PROD__} forward={['dataLayer.push']} />
+        <script type="text/partytown" src="https://www.googletagmanager.com/gtag/js?id=G-SP5YH2222P" async />
+        <script
+          type="text/partytown"
+          dangerouslySetInnerHTML={{
+            __html: `
             window.dataLayer = window.dataLayer || [];
             window.gtag = function gtag(){window.dataLayer.push(arguments);}
             gtag('js', new Date());
@@ -120,8 +119,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 page_path: window.location.pathname,
             });
         `,
-            }}
-          />
+          }}
+        />
+      </head>
+      <body className="bg-background font-sans subpixel-antialiased scroll-smooth">
+        <Providers session={session}>
+          {children}
           <UmaniAnalytics />
           <Analytics />
           <SpeedInsights />
