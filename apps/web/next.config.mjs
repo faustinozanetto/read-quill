@@ -6,6 +6,9 @@ import { withSentryConfig } from '@sentry/nextjs';
  */
 const nextJsConfig = {
   reactStrictMode: true,
+  experimental: {
+    nextScriptWorkers: false,
+  },
   images: {
     remotePatterns: [
       {

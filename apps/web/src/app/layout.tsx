@@ -10,10 +10,10 @@ import Providers from './providers';
 import { auth } from 'auth';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import UmaniAnalytics from '@modules/analytics/components/umani-analytics';
-import { GoogleAnalytics } from '@next/third-parties/google';
 import { CORE_RICH_RESULTS } from '../modules/rich-results/lib/core-rich-results';
 import { __PROD__ } from '@modules/common/lib/common.constants';
 import Script from 'next/script';
+import { Partytown } from '@builder.io/partytown/react';
 
 const rubikFont = Rubik({
   variable: '--font-sans',
@@ -106,14 +106,25 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className="bg-background font-sans subpixel-antialiased scroll-smooth">
         <Providers session={session}>
           {children}
-          {__PROD__ && (
-            <>
-              <GoogleAnalytics gaId="G-SP5YH2222P" />
-              <UmaniAnalytics />
-              <Analytics />
-              <SpeedInsights />
-            </>
-          )}
+          <Partytown debug={!__PROD__} forward={['dataLayer.push']} />
+          <Script type="text/partytown" src="https://www.googletagmanager.com/gtag/js?id=G-SP5YH2222P" />
+          <Script
+            type="text/partytown"
+            dangerouslySetInnerHTML={{
+              __html: `
+            window.dataLayer = window.dataLayer || [];
+            window.gtag = function gtag(){window.dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-SP5YH2222', {
+                page_path: window.location.pathname,
+            });
+        `,
+            }}
+          />
+          <UmaniAnalytics />
+          <Analytics />
+          <SpeedInsights />
           <ToastsContainer />
 
           <Script
