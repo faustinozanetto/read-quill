@@ -1,11 +1,11 @@
 import React, { memo, useMemo } from 'react';
-import type { DashboardReadActivityEntry } from '@modules/dashboard/types/dashboard.types';
+import { ReadActivityEntry } from '@modules/common/types/common.types';
 
-interface DashboardReadActivityGraphEntryProps {
-  activity: DashboardReadActivityEntry;
+interface ReadActivityGraphEntryProps {
+  activity: ReadActivityEntry;
 }
 
-const DashboardReadActivityGraphEntry: React.FC<DashboardReadActivityGraphEntryProps> = memo(
+const ReadActivityGraphEntry: React.FC<ReadActivityGraphEntryProps> = memo(
   (props) => {
     const { activity } = props;
 
@@ -25,6 +25,6 @@ const DashboardReadActivityGraphEntry: React.FC<DashboardReadActivityGraphEntryP
   (prev, next) => prev.activity === next.activity
 );
 
-DashboardReadActivityGraphEntry.displayName = 'DashboardReadActivityGraphEntry';
+ReadActivityGraphEntry.displayName = 'ReadActivityGraphEntry';
 
-export default DashboardReadActivityGraphEntry;
+export default ReadActivityGraphEntry;

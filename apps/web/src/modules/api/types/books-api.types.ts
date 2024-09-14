@@ -2,6 +2,7 @@ import { BookReviewDetailsLikesEntry, BookWithDetails } from '@modules/books/typ
 import type { Image, ReadRegistry } from '@read-quill/database';
 import { BaseApiResponse } from './api.types';
 import { DashboardBookName } from '@modules/dashboard/types/dashboard.types';
+import { ReadActivty } from '@modules/common/types/common.types';
 
 export interface UserBooksGetResponse extends BaseApiResponse {
   data?: { books: BookWithDetails[]; hasMore: boolean; pageCount: number };
@@ -54,4 +55,8 @@ export interface BookReviewDetailsLikesGetResponse extends BaseApiResponse {
 
 export interface BookInsightsGetResponse extends BaseApiResponse {
   data?: { progress: number; pagesRead: number; sessionsCount: number; lastRead?: Date };
+}
+
+export interface BookReadActivityGetResponse extends BaseApiResponse {
+  data?: { readActivity: ReadActivty };
 }

@@ -10,11 +10,6 @@ export type DashboardReadTrendsIntervalType = (typeof dashboardReadTrendsInterva
 export const dashboardAverageReadingTimeIntervals = ['daily', 'weekly', 'monthly'] as const;
 export type DashboardAverageReadingTimeIntervalType = (typeof dashboardAverageReadingTimeIntervals)[number];
 
-export interface DashboardReadActivityEntry {
-  level: number;
-  date: string;
-}
-
 export interface BookProgressEntry {
   id: string;
   name: string;
@@ -34,8 +29,6 @@ export interface DashboardBookName {
   id: string;
   name: string;
 }
-
-export type DashboardReadActivty = Record<string, number>;
 
 export interface DashboardReadTargets {
   targetReadTargets: Pick<ReadTargets, 'daily' | 'weekly' | 'monthly'>;

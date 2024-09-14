@@ -2,7 +2,6 @@ import {
   BookProgressEntry,
   DashboardBookRatingEntry,
   DashboardLastReadEntry,
-  DashboardReadActivty,
   DashboardReadStreakActivityEntry,
   DashboardReadTargetHistoryEntry,
   DashboardReadTargets,
@@ -10,6 +9,7 @@ import {
 } from '@modules/dashboard/types/dashboard.types';
 import type { ReadRegistry, ReadTargets } from '@read-quill/database';
 import { BaseApiResponse } from './api.types';
+import { ReadActivty } from '@modules/common/types/common.types';
 
 export type DashboardReadRegistry = ReadRegistry & {
   book: {
@@ -63,7 +63,7 @@ export interface DashboardReadTimeDistributionGetResponse extends BaseApiRespons
 }
 
 export interface DashboardReadActivityGetResponse extends BaseApiResponse {
-  data?: { readActivity: DashboardReadActivty };
+  data?: { readActivity: ReadActivty };
 }
 
 export interface DashboardBooksRatingsGetResponse extends BaseApiResponse {

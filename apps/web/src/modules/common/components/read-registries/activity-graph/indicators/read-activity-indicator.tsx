@@ -1,10 +1,10 @@
 import React from 'react';
 
-interface DashboardReadActivityIndicatorProps {
+interface ReadActivityIndicatorProps {
   thresholdLevel: number;
 }
 
-const DashboardReadActivityIndicator: React.FC<DashboardReadActivityIndicatorProps> = (props) => {
+const ReadActivityIndicator: React.FC<ReadActivityIndicatorProps> = (props) => {
   const { thresholdLevel } = props;
 
   return (
@@ -15,4 +15,4 @@ const DashboardReadActivityIndicator: React.FC<DashboardReadActivityIndicatorPro
   );
 };
 
-export default DashboardReadActivityIndicator;
+export default ReadActivityIndicator;
