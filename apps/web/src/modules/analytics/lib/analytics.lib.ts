@@ -2,9 +2,7 @@ import { AnalyticsAPI, AnalyticsReadRegistriesAPI } from '../types/analytics.typ
 
 const readRegistries: AnalyticsReadRegistriesAPI = {
   trackCreate: (context, payload) => {
-    if (!window.gtag) return;
-
-    window.gtag('event', 'read_registry_created', {
+    (window as any)?.gtag('event', 'read_registry_created', {
       value: {
         context,
         payload,
