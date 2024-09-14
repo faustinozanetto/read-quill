@@ -1,16 +1,16 @@
 'use client';
 
 import React from 'react';
-import type { DashboardReadActivityEntry, DashboardReadActivty } from '@modules/dashboard/types/dashboard.types';
-import { useReadActivityGraph } from '@modules/dashboard/hooks/read-activity/use-read-activity-graph';
 
-import DashboardReadActivityGraphEntry from './dashboard-read-activity-graph-entry';
+import ReadActivityGraphEntry from './read-activity-graph-entry';
+import { ReadActivityEntry, ReadActivty } from '@modules/common/types/common.types';
+import { useReadActivityGraph } from '@modules/common/hooks/read-registries/use-read-activity-graph';
 
-interface DashboardReadActivityGraphProps {
-  readActivity: DashboardReadActivty;
+interface ReadActivityGraphProps {
+  readActivity: ReadActivty;
 }
 
-const DashboardReadActivityGraph: React.FC<DashboardReadActivityGraphProps> = (props) => {
+const ReadActivityGraph: React.FC<ReadActivityGraphProps> = (props) => {
   const { readActivity } = props;
 
   const { mapActivityToLevel, startDate, daysPerRow } = useReadActivityGraph({ daysPerRow: 50, daysBack: 140 });
@@ -35,12 +35,12 @@ const DashboardReadActivityGraph: React.FC<DashboardReadActivityGraphProps> = (p
                 // Calculate activity level
                 const activityValue = readActivity[formattedDate] ?? 0;
 
-                const activity: DashboardReadActivityEntry = {
+                const activity: ReadActivityEntry = {
                   date: formattedDate,
                   level: mapActivityToLevel(activityValue),
                 };
 
-                return <DashboardReadActivityGraphEntry activity={activity} key={`read-activity-${formattedDate}`} />;
+                return <ReadActivityGraphEntry activity={activity} key={`read-activity-${formattedDate}`} />;
               })}
             </tr>
           ))}
@@ -50,4 +50,4 @@ const DashboardReadActivityGraph: React.FC<DashboardReadActivityGraphProps> = (p
   );
 };
 
-export default DashboardReadActivityGraph;
+export default ReadActivityGraph;

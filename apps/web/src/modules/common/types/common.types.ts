@@ -10,3 +10,9 @@ export type ActionMap<M extends Record<string, unknown>> = {
 };
 
 export type NoUndefinedField<T> = { [P in keyof T]-?: NoUndefinedField<NonNullable<T[P]>> };
+
+export type ReadActivty = Record<string, number>;
+export interface ReadActivityEntry {
+  level: number;
+  date: string;
+}
