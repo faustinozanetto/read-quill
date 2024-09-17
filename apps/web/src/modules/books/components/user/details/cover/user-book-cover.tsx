@@ -9,10 +9,11 @@ interface UserBookCoverProps extends React.ComponentPropsWithoutRef<typeof Dialo
   image: DBImage;
   placeholderImage: BookPlaceholderImage;
   imageClassNames?: string;
+  isPriority?: boolean;
 }
 
 const UserBookCover: React.FC<UserBookCoverProps> = (props) => {
-  const { image, placeholderImage, imageClassNames, ...rest } = props;
+  const { image, placeholderImage, imageClassNames, isPriority = false, ...rest } = props;
 
   return (
     <Dialog>
@@ -29,6 +30,7 @@ const UserBookCover: React.FC<UserBookCoverProps> = (props) => {
           width={600}
           height={600}
           placeholder="blur"
+          priority={isPriority}
           blurDataURL={placeholderImage.blurUrl}
         />
       </DialogTrigger>

@@ -15,7 +15,7 @@ const UserBookInsightsCard: React.FC<UserBookInsightsCardProps> = (props) => {
         {content}
       </div>
       <Separator />
-      <h4 className="font-bold">{title}</h4>
+      <span className="font-bold">{title}</span>
     </div>
   );
 };
