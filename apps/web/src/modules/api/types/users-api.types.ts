@@ -25,3 +25,7 @@ export interface UserCompleteProfilePostResponse extends BaseApiResponse {
 export interface UserAvatarUploadPostResponse extends BaseApiResponse {
   data?: { avatarImage: Image };
 }
+
+export interface UserAvatarDeleteResponse extends BaseApiResponse {
+  data?: { success: boolean };
+}

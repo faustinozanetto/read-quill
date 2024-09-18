@@ -9,7 +9,6 @@ import Resend from 'next-auth/providers/resend';
 import { AUTH_RESEND_KEY, BUSINESS_EMAIL, sendEmailVerificationRequest } from './modules/emails/lib/resend.lib';
 import { prisma } from '@read-quill/database';
 import { sendWelcomeEmail } from '@modules/emails/lib/emails.lib';
-import { UserAvatarUploadPostResponse } from '@modules/api/types/users-api.types';
 
 const createAvatarFromAuthImage = async (image: string, email: string, name: string) => {
   const imageResponse = await fetch(image);
@@ -27,20 +26,6 @@ const createAvatarFromAuthImage = async (image: string, email: string, name: str
     body: formData,
   });
   if (!uploadResponse.ok) return;
-
-  const uploadData = (await uploadResponse.json()) as UserAvatarUploadPostResponse;
-  if (!uploadData.data) return;
-
-  await prisma.user.update({
-    where: {
-      email,
-    },
-    data: {
-      avatar: {
-        connect: { id: uploadData.data.avatarImage.id },
-      },
-    },
-  });
 };
 
 export const { auth, handlers, signIn, signOut } = NextAuth(async () => {

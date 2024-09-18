@@ -2,10 +2,24 @@ import { NextResponse } from 'next/server';
 import { convertFileToWebp, uploadImageToSupabase } from '@modules/uploads/lib/uploads.lib';
 import { prisma } from '@read-quill/database';
 import { UserAvatarUploadPostResponse } from '@modules/api/types/users-api.types';
+import { auth } from 'auth';
 
 // /api/user/avatar/upload POST : Uploads an avatar user file.
 export async function POST(request: Request): Promise<NextResponse<UserAvatarUploadPostResponse>> {
   try {
+    const session = await auth();
+
+    if (!session) {
+      return NextResponse.json(
+        {
+          error: {
+            message: 'You must be logged in!',
+          },
+        },
+        { status: 403 }
+      );
+    }
+
     const formData = await request.formData();
 
     const avatarFile = formData.get('avatarFile') as Blob | null;
@@ -40,6 +54,17 @@ export async function POST(request: Request): Promise<NextResponse<UserAvatarUpl
     const avatarImage = await prisma.image.create({
       data: {
         path: uploadResult.data.path,
+      },
+    });
+
+    await prisma.user.update({
+      where: {
+        email: session.user.email,
+      },
+      data: {
+        avatar: {
+          connect: { id: avatarImage.id },
+        },
       },
     });
 
