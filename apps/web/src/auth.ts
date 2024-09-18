@@ -8,6 +8,7 @@ import Resend from 'next-auth/providers/resend';
 
 import { SendWelcomeEmailApiActionData } from '@modules/emails/types/email-validations.types';
 import { AUTH_RESEND_KEY, BUSINESS_EMAIL, sendEmailVerificationRequest } from './modules/emails/lib/resend.lib';
+import { prisma } from '@read-quill/database';
 
 export const { auth, handlers, signIn, signOut } = NextAuth(async (req) => {
   return {
@@ -33,8 +34,19 @@ export const { auth, handlers, signIn, signOut } = NextAuth(async (req) => {
       strategy: 'jwt',
     },
     events: {
+      async signIn(message) {
+        const { account, user, isNewUser } = message;
+        if (!account || !isNewUser) return;
+
+        const { provider, type } = account;
+        if (provider === 'resend' && type === 'email') return;
+
+        // Profile completed is set to true for all login of new users that dont use the email option.
+        await prisma.user.update({ where: { id: user.id }, data: { profileCompleted: true } });
+      },
       async createUser(message) {
         try {
+          console.log({ message });
           const email = message.user.email!;
 
           const payload: SendWelcomeEmailApiActionData = {
