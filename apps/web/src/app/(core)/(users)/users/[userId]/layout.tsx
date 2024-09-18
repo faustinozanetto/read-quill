@@ -17,7 +17,7 @@ const fetchUserData = async (userId: string): Promise<UserGetResponse | undefine
     const url = new URL('/api/user', __URL__);
     url.searchParams.set('userId', userId);
 
-    const response = await fetch(url.toString(), { method: 'GET' });
+    const response = await fetch(url.toString(), { method: 'GET', cache: 'no-store' });
 
     return response.json();
   } catch (error) {

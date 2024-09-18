@@ -4,6 +4,7 @@ import UserProfile from '@modules/users/components/profile/user-profile';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { Metadata, ResolvingMetadata } from 'next';
 import { siteConfig } from '@config/config';
+import { getImagePublicUrl } from '@modules/images/lib/images.lib';
 
 interface UserPageProps {
   params: {
@@ -14,13 +15,14 @@ interface UserPageProps {
 export async function generateMetadata({ params }: UserPageProps, parent: ResolvingMetadata): Promise<Metadata> {
   const userId = params.userId;
 
-  const user = await prisma.user.findUnique({ where: { id: userId } });
+  const user = await prisma.user.findUnique({ where: { id: userId }, include: { avatar: true } });
   if (!user) return {};
 
   const title = `${user.name!} | ${siteConfig.name}`;
   const description = `Explore the profile of this avid reader. Discover their favorite books, achievements, and contributions to the community. Get insights into their reading habits and literary interests. Visit their public profile now!`;
   const previousImages = (await parent).openGraph?.images || [];
-  const images = user.image ? [user.image] : [...previousImages];
+  const avatar = user.avatar ? getImagePublicUrl('UserAvatars', user.avatar.path) : null;
+  const images = avatar ? [avatar] : [...previousImages];
 
   return {
     title,
