@@ -16,4 +16,4 @@ export const PUBLIC_ROUTES = [
   /^\/users\/[^\/]+\/achievements$/,
 ];
 export const DEFAULT_AUTHENTICATED_ROUTE = '/dashboard';
-export const SIGN_IN_ROUTE = '/sign-in';
+export const SIGN_IN_ROUTE = '/auth/sign-in';

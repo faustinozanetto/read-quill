@@ -1,17 +1,9 @@
-import Link from 'next/link';
-import type { Metadata } from 'next';
+import React from 'react';
 import { Button } from '@read-quill/design-system';
-import { Suspense } from 'react';
+import Link from 'next/link';
 import ThemeToggler from '@modules/theme/components/theme-toggler';
-import AuthSignIn from '@modules/auth/components/sign-in/auth-sign-in';
 
-export const metadata: Metadata = {
-  title: 'Sign In',
-  description:
-    'Unlock a world of literary wonders at ReadQuill. Sign in to track and review your favourite books, access personalized recommendations, and join a thriving community of book enthusiasts. Your next reading adventure awaits with ReadQuill seamless sign-in experience.',
-};
-
-export default function AuthSignInPage(): React.JSX.Element {
+export default function AuthLayout({ children }: { children: React.ReactNode }): JSX.Element {
   return (
     <div className="container flex h-screen w-screen flex-col items-center justify-center">
       <Button asChild className="absolute left-4 top-4">
@@ -36,9 +28,7 @@ export default function AuthSignInPage(): React.JSX.Element {
       <div className="absolute right-4 top-4">
         <ThemeToggler size="icon" />
       </div>
-      <Suspense>
-        <AuthSignIn />
-      </Suspense>
+      {children}
     </div>
   );
 }

@@ -64,7 +64,10 @@ const HomeHero: React.FC = () => {
               <Link className={cn(buttonVariants({ className: 'w-full md:h-12' }))} href="#features" scroll>
                 Learn More
               </Link>
-              <Link className={cn(buttonVariants({ variant: 'outline', className: 'w-full md:h-12' }))} href="/sign-in">
+              <Link
+                className={cn(buttonVariants({ variant: 'outline', className: 'w-full md:h-12' }))}
+                href="/auth/sign-in"
+              >
                 <SignInIcon className="mr-2" />
                 Sign In for Free
               </Link>

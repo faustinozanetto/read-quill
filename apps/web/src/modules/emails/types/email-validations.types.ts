@@ -6,3 +6,4 @@ import { EMAIL_ACTIONS_VALIDATIONS_API } from '../lib/emails.validations';
 
 /* Actions */
 export type SendWelcomeEmailApiActionData = z.infer<typeof EMAIL_ACTIONS_VALIDATIONS_API.SEND_WELCOME>;
+export type SendMagicLinkEmailApiActionData = z.infer<typeof EMAIL_ACTIONS_VALIDATIONS_API.SEND_MAGIC_LINK>;

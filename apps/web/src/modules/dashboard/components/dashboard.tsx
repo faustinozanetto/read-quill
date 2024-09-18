@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import DashboardGreeting from './dashboard-greeting';
 import DashboardReadTargets from './read-targets/dashboard-read-targets';
