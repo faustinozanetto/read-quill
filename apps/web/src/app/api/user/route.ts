@@ -23,7 +23,12 @@ export async function GET(request: NextRequest): Promise<NextResponse<UserGetRes
       );
     }
 
-    const user = await prisma.user.findUnique({ where: { id: userId } });
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      include: {
+        avatar: true,
+      },
+    });
     if (!user) {
       return NextResponse.json(
         {
