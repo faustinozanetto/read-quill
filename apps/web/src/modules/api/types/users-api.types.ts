@@ -12,3 +12,11 @@ export interface UserDeleteResponse extends BaseApiResponse {
 export interface UserMemberSinceGetResponse extends BaseApiResponse {
   data?: { memberSince: Date };
 }
+
+export interface UserProfileCompletedGetResponse extends BaseApiResponse {
+  data?: { profileCompleted: boolean };
+}
+
+export interface UserCompleteProfilePostResponse extends BaseApiResponse {
+  data?: { success: boolean };
+}
