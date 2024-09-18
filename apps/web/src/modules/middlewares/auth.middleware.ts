@@ -34,32 +34,28 @@ export async function authMiddleware(request: NextRequest) {
 
   if (isPublicRoute || isApiAuthRoute) return NextResponse.next();
 
+  const signInUrl = new URL(SIGN_IN_ROUTE, __URL__);
+
+  const isProfileCompletedRoute = nextUrl.pathname === '/complete-profile';
+
+  // If auth and profile not completed, redirect to complete profile.
+  if (isAuthenticated) {
+    const isProfileCompleted = await isUserProfileCompleted();
+    if (!isProfileCompleted) {
+      const completeProfileUrl = new URL('/auth/complete-profile', __URL__);
+      return NextResponse.rewrite(completeProfileUrl);
+    }
+  } else if (isProfileCompletedRoute) {
+    return NextResponse.redirect(signInUrl);
+  }
+
   // Handle private routes
   if (isPrivateRoute) {
     if (isAuthenticated) {
-      const isProfileCompletedRoute = nextUrl.pathname === '/complete-profile';
-      if (isProfileCompletedRoute) {
-        const isProfileCompleted = await isUserProfileCompleted();
-
-        // Redirect to default auth route if already complete profile.
-        if (isProfileCompleted) return NextResponse.redirect(new URL(DEFAULT_AUTHENTICATED_ROUTE, nextUrl));
-
-        return NextResponse.next();
-      } else {
-        const isProfileCompleted = await isUserProfileCompleted();
-
-        if (!isProfileCompleted) {
-          const completeProfileUrl = new URL('/auth/complete-profile', __URL__);
-          return NextResponse.redirect(completeProfileUrl);
-        }
-      }
-
       return NextResponse.next();
     }
 
-    const signInUrl = new URL(SIGN_IN_ROUTE, __URL__);
     signInUrl.searchParams.set('next', nextUrl.pathname);
-
     return NextResponse.redirect(signInUrl);
   }
 
