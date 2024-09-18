@@ -28,15 +28,15 @@ export async function DELETE(request: NextRequest): Promise<NextResponse<UserAva
     if (!user?.avatar) {
       return NextResponse.json(
         {
-          error: {
-            message: 'No avatar found',
+          data: {
+            success: true,
           },
         },
-        { status: 400 }
+        { status: 200 }
       );
     }
 
-    const { error, data } = await deleteImageFromSupabase('UserAvatars', user.avatar.path);
+    const { error } = await deleteImageFromSupabase('UserAvatars', user.avatar.path);
     if (error) {
       return NextResponse.json(
         {

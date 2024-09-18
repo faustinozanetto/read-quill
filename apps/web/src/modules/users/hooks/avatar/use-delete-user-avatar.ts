@@ -27,7 +27,6 @@ export const useDeleteUserAvatar = (params: UseDeleteUserAvatarParams = {}): Use
 
       const response = await fetch(url, { method: 'DELETE' });
       const responseData = (await response.json()) as UserAvatarDeleteResponse;
-
       if (!response.ok) {
         let errorMessage = response.statusText;
         if (responseData.error) errorMessage = responseData.error.message;
