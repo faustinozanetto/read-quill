@@ -1,3 +1,4 @@
+import { UserWithDetails } from '@modules/users/types/user.types';
 import { Image, Thread, ThreadAttachment, ThreadComment, User } from '@read-quill/database';
 
 export interface ThreadWithDetails extends Thread, ThreadAuthor, ThreadCommentsCount {
@@ -33,7 +34,7 @@ export interface ThreadCommentNode {
 }
 
 export interface CommunityTopUser {
-  user: Omit<User, 'emailVerified' | 'email'>;
+  user: Omit<UserWithDetails, 'emailVerified' | 'email'>;
   threadsCount: number;
   totalVotes: number;
 }

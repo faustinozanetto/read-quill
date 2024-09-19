@@ -42,7 +42,7 @@ const UserBookManagement: React.FC<UserBookManagementProps> = (props) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size={size} variant={variant} {...rest}>
+        <Button title="Management" aria-label="Management" size={size} variant={variant} {...rest}>
           <ManageIcon />
         </Button>
       </DropdownMenuTrigger>

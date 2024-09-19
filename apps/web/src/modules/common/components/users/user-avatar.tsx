@@ -19,10 +19,11 @@ const variants = cva('aspect-square', {
 interface UserAvatarProps extends VariantProps<typeof variants>, Omit<ImageProps, 'src'> {
   image: User['image'];
   name: User['name'];
+  initialsClassName?: string;
 }
 
 const UserAvatar: React.FC<UserAvatarProps> = (props) => {
-  const { image, name, size, className, ...rest } = props;
+  const { image, name, size, className, initialsClassName, ...rest } = props;
 
   const userInitials =
     name &&
@@ -40,7 +41,8 @@ const UserAvatar: React.FC<UserAvatarProps> = (props) => {
         <div
           className={cn(
             'w-12 h-12 rounded-full shadow border text-lg font-bold flex items-center justify-center aspect-square text-primary',
-            variants({ size })
+            variants({ size }),
+            initialsClassName
           )}
         >
           {userInitials}

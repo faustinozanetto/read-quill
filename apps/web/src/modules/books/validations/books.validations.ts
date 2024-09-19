@@ -35,7 +35,6 @@ export const BOOK_ATTRIBUTES_VALIDATIONS = {
   finishedAt: bookFinishedAtValidationSchema,
   coverImageUpload: bookCoverImageUploadValidationSchema,
   imageId: bookCoverImageIdValidationSchema,
-
   rating: bookRatingValidationSchema,
   favourite: bookFavouriteValidationSchema,
 };

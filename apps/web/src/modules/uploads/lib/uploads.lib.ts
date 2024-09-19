@@ -2,7 +2,6 @@ import { supabase } from '@modules/supabase/lib/supabase.lib';
 import mime from 'mime';
 import sharp from 'sharp';
 import { FileDeleteResult, FileUploadResult } from '../types/uploads.types';
-import { join } from 'path';
 
 export const convertFileToWebp = async (file: Blob): Promise<Blob> => {
   const processedFile = await sharp(await file.arrayBuffer())
@@ -22,7 +21,6 @@ export const uploadImageToSupabase = async (
   const fileName = `${uniqueSuffix}.${mime.getExtension(blob.type)}`;
 
   const completePath = `${filePath}/${fileName}`;
-
   const result = await supabase.storage.from(bucket).upload(completePath, blob, {
     cacheControl: '3600',
     upsert: false,

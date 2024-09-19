@@ -78,3 +78,4 @@ export * from './pinned-icon';
 export * from './pinned-off-icon';
 export * from './trending-down-icon';
 export * from './trending-up-icon';
+export * from './mail-icon';

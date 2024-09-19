@@ -18,6 +18,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<CommunityT
         },
       },
       include: {
+        avatar: true,
         threads: {
           select: {
             _count: true, // Select the count of threads

@@ -2,9 +2,10 @@
 import React from 'react';
 import { signIn } from 'next-auth/react';
 import type { BuiltInProviderType } from 'next-auth/providers/index';
-import { Button, useToast, GithubIcon, GoogleIcon } from '@read-quill/design-system';
+import { Button, useToast, GithubIcon, GoogleIcon, Separator, MailIcon } from '@read-quill/design-system';
 import { useSearchParams } from 'next/navigation';
 import type { AuthSignInOption } from '@modules/auth/types/auth.types';
+import AuthSignInMail from './auth-sign-in-mail';
 
 export const AUTH_SIGN_IN_OPTIONS: AuthSignInOption[] = [
   {
@@ -46,6 +47,7 @@ const AuthSignIn: React.FC = () => {
             return (
               <Button
                 aria-label={`Sign In With ${option.label}`}
+                title={`Sign In With ${option.label}`}
                 key={option.provider}
                 onClick={async () => {
                   await handleAuthSignIn(option.provider);
@@ -57,6 +59,8 @@ const AuthSignIn: React.FC = () => {
             );
           })}
         </div>
+        <Separator />
+        <AuthSignInMail />
       </div>
     </div>
   );

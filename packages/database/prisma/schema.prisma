@@ -29,13 +29,26 @@ model Account {
   @@id([provider, providerAccountId])
 }
 
+model VerificationToken {
+  identifier String
+  token      String
+  expires    DateTime
+
+  @@id([identifier, token])
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
   email         String    @unique
   emailVerified DateTime?
   image         String?
-  accounts      Account[]
+
+  avatar   Image?  @relation(fields: [avatarId], references: [id])
+  avatarId String?
+
+  accounts         Account[]
+  profileCompleted Boolean   @default(false)
 
   readTargets  ReadTargets?
   books        Book[]
@@ -219,6 +232,7 @@ model Image {
 
   threadAttachments ThreadAttachment[]
   books             Book[]
+  users             User[]
 
   createdAt DateTime @default(now())
 }

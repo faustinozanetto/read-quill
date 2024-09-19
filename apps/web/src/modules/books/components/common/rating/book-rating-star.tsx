@@ -36,7 +36,7 @@ const BookRatingStar: React.FC<BookRatingStarProps> = (props) => {
   const handleRatingPointerEnter = (): void => {
     if (!isBookOwner) return;
 
-    setRating(value + 1);
+    setRating(value);
   };
 
   const handleRatingPointerLeave = (): void => {
@@ -45,7 +45,8 @@ const BookRatingStar: React.FC<BookRatingStarProps> = (props) => {
     setRating(bookRating ?? -1);
   };
 
-  const isSelectedRange = value + 1 <= stateRating;
+  const isSelectedRange = value <= stateRating;
+  const label = `Rate ${value} Stars`;
 
   return (
     <Button
@@ -56,6 +57,8 @@ const BookRatingStar: React.FC<BookRatingStarProps> = (props) => {
       onPointerLeave={handleRatingPointerLeave}
       size="icon"
       variant="ghost"
+      title={label}
+      aria-label={label}
     >
       <StarIcon
         className={cn(
