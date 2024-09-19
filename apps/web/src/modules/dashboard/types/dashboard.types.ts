@@ -28,6 +28,7 @@ export interface DashboardBookRatingEntry {
 export interface DashboardBookName {
   id: string;
   name: string;
+  image: Image;
 }
 
 export interface DashboardReadTargets {

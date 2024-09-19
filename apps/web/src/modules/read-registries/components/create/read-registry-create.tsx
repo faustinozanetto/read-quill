@@ -31,6 +31,8 @@ const ReadRegistryCreate: React.FC<ReadRegistryCreateProps> = (props) => {
   const { user } = useAuthContext();
   const { toast } = useToast();
 
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
   const { createReadRegistry } = useCreateReadRegistry({
     onSuccess: async (data, variables, context) => {
       if (data.data?.readRegistry && user) {
@@ -47,12 +49,13 @@ const ReadRegistryCreate: React.FC<ReadRegistryCreateProps> = (props) => {
           }
         );
         toast({ variant: 'success', content: 'Read registry created successfully!' });
+        setIsDialogOpen(false);
       }
     },
   });
 
   return (
-    <Dialog>
+    <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
       <DialogTrigger asChild>{createButton}</DialogTrigger>
 
       <DialogContent>

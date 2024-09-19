@@ -41,6 +41,7 @@ const DashboardBooksProgress: React.FC = () => {
             pageCount={data?.data?.pageCount ?? 0}
             previousPage={previousPage}
             setPageIndex={setPageIndex}
+            isLoading={isLoading}
           >
             {isLoading && (
               <div className="grid gap-2 md:grid-cols-2 xl:grid-cols-4 mt-2">

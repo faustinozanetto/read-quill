@@ -9,6 +9,7 @@ import DashboardReadTargetsHistoryCardPlaceholder from './dashboard-read-targets
 import { Button } from '@read-quill/design-system';
 import { PlusIcon } from '@read-quill/design-system';
 import { LoadingIcon } from '@read-quill/design-system';
+import DashboardNoDataMessage from '../common/dashboard-no-data-message';
 
 const DashboardReadTargetsHistory: React.FC = () => {
   const { data, isLoading, fetchNextPage, isFetchingNextPage, hasNextPage, interval, setInterval } =
@@ -55,36 +56,44 @@ const DashboardReadTargetsHistory: React.FC = () => {
         your literary adventure on track.
       </p>
 
-      <DashboardReadTargetsHistoryIntervalSelect interval={interval} setInterval={setInterval} />
+      {dedupedEntries.length ? (
+        <DashboardReadTargetsHistoryIntervalSelect interval={interval} setInterval={setInterval} />
+      ) : null}
 
-      <div className="flex gap-2 overflow-x-auto pt-2 pb-4 relative">
-        {dedupedEntries.length
-          ? dedupedEntries.map((readTargetHistoryEntry) => {
-              return (
-                <DashboardReadTargetsHistoryCard
-                  key={`dashboard-read-targets-history-${readTargetHistoryEntry.date}`}
-                  readTargetHistoryEntry={readTargetHistoryEntry}
-                  interval={interval}
-                  readTarget={data?.pages[0]?.data?.readTargets[interval]}
-                />
-              );
-            })
-          : null}
-        {(isFetchingNextPage || isLoading) &&
-          Array.from({ length: 6 }).map((_, i) => (
-            <DashboardReadTargetsHistoryCardPlaceholder key={`dashboard-read-targets-history-placeholder-${i}`} />
-          ))}
-        {hasNextPage && (
-          <Button
-            aria-label="Load More"
-            className="my-auto"
-            onClick={async () => await fetchNextPage()}
-            disabled={isFetchingNextPage}
-          >
-            {isFetchingNextPage ? <LoadingIcon className="mr-2" /> : <PlusIcon className="mr-2" />} Load More
-          </Button>
-        )}
-      </div>
+      {dedupedEntries.length ? (
+        <div className="flex gap-2 overflow-x-auto pt-2 pb-4 relative">
+          {dedupedEntries.map((readTargetHistoryEntry) => {
+            return (
+              <DashboardReadTargetsHistoryCard
+                key={`dashboard-read-targets-history-${readTargetHistoryEntry.date}`}
+                readTargetHistoryEntry={readTargetHistoryEntry}
+                interval={interval}
+                readTarget={data?.pages[0]?.data?.readTargets[interval]}
+              />
+            );
+          })}
+          {(isFetchingNextPage || isLoading) &&
+            Array.from({ length: 6 }).map((_, i) => (
+              <DashboardReadTargetsHistoryCardPlaceholder key={`dashboard-read-targets-history-placeholder-${i}`} />
+            ))}
+          {hasNextPage && (
+            <Button
+              aria-label="Load More"
+              className="my-auto"
+              onClick={async () => await fetchNextPage()}
+              disabled={isFetchingNextPage}
+            >
+              {isFetchingNextPage ? <LoadingIcon className="mr-2" /> : <PlusIcon className="mr-2" />} Load More
+            </Button>
+          )}
+        </div>
+      ) : null}
+
+      {!isLoading && dedupedEntries.length === 0 ? (
+        <DashboardNoDataMessage>
+          <p>Log your reading sessions to discover your read targets history.</p>
+        </DashboardNoDataMessage>
+      ) : null}
     </div>
   );
 };

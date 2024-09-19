@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import type { BooksNamesGetResponse } from '@modules/api/types/books-api.types';
 import { auth } from 'auth';
 
-// /api/book/names GET : Gets the user books names and ids.
+// /api/book/names GET : Gets the user books names and ids and photos.
 export async function GET(): Promise<NextResponse<BooksNamesGetResponse>> {
   try {
     const session = await auth();
@@ -21,7 +21,7 @@ export async function GET(): Promise<NextResponse<BooksNamesGetResponse>> {
 
     const booksNames = await prisma.book.findMany({
       where: { readerId: session.user.id },
-      select: { id: true, name: true },
+      select: { id: true, name: true, image: true },
     });
 
     return NextResponse.json({ data: { booksNames } });
