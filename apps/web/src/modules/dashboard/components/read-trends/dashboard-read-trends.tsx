@@ -21,7 +21,7 @@ const DashboardReadTrends: React.FC<DashboardReadTrendsProps> = (props) => {
   return (
     <div className={cn('rounded-lg border p-4 shadow flex flex-col gap-2 h-fit', className)}>
       <div className="flex flex-col gap-2">
-        <h3 className="text-xl font-bold">Read Trends</h3>
+        <h3 className="text-xl font-bold">📈 Read Trends</h3>
         <p>
           Dive into your reading habits with Read Trends, showcasing detailed bar charts for daily, weekly, and monthly
           page consumption. Track your progress, set goals, and discover patterns to make the most of your reading

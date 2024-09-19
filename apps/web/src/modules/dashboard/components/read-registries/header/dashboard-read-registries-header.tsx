@@ -20,7 +20,7 @@ const DashboardReadRegistriesHeader: React.FC = () => {
 
   return (
     <div className="flex items-center justify-between">
-      <h2 className="text-xl font-bold">Read Registries</h2>
+      <h2 className="text-xl font-bold">✒️ Read Registries</h2>
       <ReadRegistryCreate
         onSuccess={handleOnReadRegistryCreated}
         createButton={

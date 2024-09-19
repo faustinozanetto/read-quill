@@ -7,7 +7,7 @@ import { BookPlaceholderImage } from '@modules/books/types/book.types';
 
 interface UserBookCoverProps extends React.ComponentPropsWithoutRef<typeof DialogTrigger> {
   image: DBImage;
-  placeholderImage: BookPlaceholderImage;
+  placeholderImage?: BookPlaceholderImage;
   imageClassNames?: string;
   isPriority?: boolean;
 }
@@ -29,9 +29,9 @@ const UserBookCover: React.FC<UserBookCoverProps> = (props) => {
           src={getImagePublicUrl('BookCovers', image.path)}
           width={600}
           height={600}
-          placeholder="blur"
+          placeholder={placeholderImage ? 'blur' : 'empty'}
           priority={isPriority}
-          blurDataURL={placeholderImage.blurUrl}
+          blurDataURL={placeholderImage?.blurUrl}
         />
       </DialogTrigger>
       <DialogContent>
@@ -46,8 +46,8 @@ const UserBookCover: React.FC<UserBookCoverProps> = (props) => {
           draggable={false}
           height={2000}
           width={2000}
-          placeholder="blur"
-          blurDataURL={placeholderImage.blurUrl}
+          placeholder={placeholderImage ? 'blur' : 'empty'}
+          blurDataURL={placeholderImage?.blurUrl}
         />
       </DialogContent>
     </Dialog>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   FormField,
   FormItem,
@@ -19,9 +19,12 @@ import {
   cn,
   ArrowsSortIcon,
   CommandList,
+  Input,
 } from '@read-quill/design-system';
 import { useFormContext } from 'react-hook-form';
 import { DashboardBookName } from '@modules/dashboard/types/dashboard.types';
+import Image from 'next/image';
+import { getImagePublicUrl } from '@modules/images/lib/images.lib';
 
 interface ReadRegistryFormBookProps {
   booksNames: DashboardBookName[];
@@ -31,52 +34,66 @@ const ReadRegistryFormBook: React.FC<ReadRegistryFormBookProps> = (props) => {
   const { booksNames } = props;
 
   const form = useFormContext();
+  const [filterBooks, setFilterBooks] = useState<string>();
+
+  const handleFilterBookChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setFilterBooks(value);
+  };
+
+  const filteredBooks = filterBooks ? booksNames.filter((book) => book.name.includes(filterBooks)) : booksNames;
 
   return (
     <FormField
       control={form.control}
       name="bookId"
       render={({ field }) => (
-        <FormItem className="flex flex-col">
+        <FormItem className="">
           <FormLabel>Book</FormLabel>
-          <Popover>
-            <PopoverTrigger asChild>
-              <FormControl>
-                <Button
-                  className={cn('justify-between', !field.value && 'text-muted-foreground')}
-                  role="combobox"
-                  variant="outline"
-                >
-                  {field.value && booksNames ? booksNames.find((book) => book.id === field.value)?.name : 'Select book'}
-                  <ArrowsSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                </Button>
-              </FormControl>
-            </PopoverTrigger>
+          <Input id="filter-book" name="filter-book" placeholder="Book name..." onChange={handleFilterBookChange} />
+          {filteredBooks.length > 0 ? (
+            <div className="flex max-w-full gap-4 overflow-x-scroll relative">
+              {filteredBooks.map((book) => {
+                const bookImageUrl = getImagePublicUrl('BookCovers', book.image.path);
+                const isSelected = field.value && field.value === book.id;
+                const label = `Select ${book.name}`;
 
-            <PopoverContent className="w-[200px] md:w-full p-0">
-              <Command shouldFilter={false}>
-                <CommandList>
-                  <CommandEmpty>No book found.</CommandEmpty>
-                  <CommandGroup heading="Books">
-                    {booksNames.map((book) => (
-                      <CommandItem
-                        key={book.id}
-                        onSelect={(value) => {
-                          form.setValue('bookId', value);
-                        }}
-                        value={book.id}
-                      >
-                        {book.name}
-                        <CheckIcon
-                          className={cn('ml-auto h-4 w-4', book.id === field.value ? 'opacity-100' : 'opacity-0')}
-                        />
-                      </CommandItem>
-                    ))}
-                  </CommandGroup>
-                </CommandList>
-              </Command>
-            </PopoverContent>
-          </Popover>
+                return (
+                  <button
+                    key={book.id}
+                    type="button"
+                    title={label}
+                    aria-label={label}
+                    className={cn(
+                      'flex flex-col items-center justify-center gap-2 rounded-lg relative shrink-0 disabled:cursor-not-allowed',
+                      isSelected ? 'bg-foreground' : 'border-2 border-primary/50 hover:border-primary'
+                    )}
+                    onClick={() => form.setValue('bookId', book.id, { shouldValidate: true })}
+                    disabled={form.formState.isSubmitting}
+                  >
+                    <Image
+                      src={bookImageUrl}
+                      alt="Test"
+                      width={160}
+                      height={160}
+                      className="w-full h-20 md:h-36 object-cover rounded-t-lg"
+                    />
+                    <span
+                      className={cn(
+                        'font-semibold overflow-ellipsis text-sm pb-2',
+                        isSelected ? 'text-background' : 'text-foreground'
+                      )}
+                    >
+                      {book.name}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <p>No books match your filter, try other one!</p>
+          )}
+
           <FormDescription>Select the book you read.</FormDescription>
           <FormMessage />
         </FormItem>

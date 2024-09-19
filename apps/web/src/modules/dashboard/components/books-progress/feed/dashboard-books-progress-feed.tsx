@@ -12,6 +12,7 @@ import { Skeleton } from '@read-quill/design-system';
 
 interface DashboardBooksProgressFeedProps extends PaginationControlsProps {
   booksProgress: BookProgressEntry[];
+  isLoading: boolean;
   children: React.ReactNode;
 }
 
@@ -25,6 +26,7 @@ const DashboardBooksProgressFeed: React.FC<DashboardBooksProgressFeedProps> = (p
     nextPage,
     previousPage,
     setPageIndex,
+    isLoading,
     children,
   } = props;
 
@@ -63,7 +65,7 @@ const DashboardBooksProgressFeed: React.FC<DashboardBooksProgressFeedProps> = (p
       }}
     >
       <div className="p-4 grow flex flex-col justify-between gap-4">
-        {booksProgress.length ? (
+        {!isLoading ? (
           <span className="font-medium">Showing {filteredData.length} Books</span>
         ) : (
           <Skeleton className="h-5 w-36" />

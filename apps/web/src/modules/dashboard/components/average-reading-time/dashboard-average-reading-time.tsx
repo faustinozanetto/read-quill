@@ -17,7 +17,7 @@ const DashboardAverageReadingTime: React.FC = () => {
 
   return (
     <div className="rounded-lg border p-4 shadow flex flex-col gap-2 h-fit">
-      <h3 className="text-xl font-bold">Average Reading Time</h3>
+      <h3 className="text-xl font-bold">📊 Average Reading Time</h3>
       <p>
         Stay informed about your reading habits with insights into your average reading times. Track your progress and
         maintain motivation by comparing your daily, weekly, monthly, and semester reading patterns.

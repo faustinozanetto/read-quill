@@ -74,7 +74,7 @@ const MultiStepFormWrapper = <T extends FieldValues>(props: MultiStepFormWrapper
   } = useMultiStepForm(formProps);
 
   return (
-    <div className="space-y-2.5">
+    <div className="space-y-2.5 relative">
       <div className="flex justify-between items-center">
         <ol
           className="grid justify-center items-center w-full"
@@ -124,7 +124,7 @@ const MultiStepFormWrapper = <T extends FieldValues>(props: MultiStepFormWrapper
       </div>
       <Separator />
       <Form {...form}>
-        <form className="flex flex-col gap-2" onSubmit={form.handleSubmit(onSubmit)}>
+        <form className="flex flex-col gap-2 relative" onSubmit={form.handleSubmit(onSubmit)}>
           {children(form, currentStep)}
           <div className="mt-4 grid grid-cols-2 gap-2 sm:ml-auto">
             <Button disabled={!getCanGoPrevStep()} variant="outline" onClick={gotoPrevStep}>

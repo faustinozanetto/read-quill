@@ -1,5 +1,4 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { useToast } from '@read-quill/design-system';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import type { DashboardReadTargetsHistoryGetResponse } from '@modules/api/types/dashboard-api.types';
 import { DashboardReadTargetsType } from '@modules/dashboard/types/dashboard.types';
@@ -23,8 +22,6 @@ const buildUrl = (cursor: string | null, pageSize: number, interval: DashboardRe
 };
 
 export const useReadTargetsHistory = (): UseReadTargetsHistoryReturn => {
-  const { toast } = useToast();
-
   const [interval, setInterval] = useState<DashboardReadTargetsType>('daily');
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = useInfiniteQuery<
@@ -37,26 +34,16 @@ export const useReadTargetsHistory = (): UseReadTargetsHistoryReturn => {
     },
     initialPageParam: null,
     queryFn: async ({ pageParam }) => {
-      try {
-        const url = buildUrl(pageParam as string | null, 50, interval);
+      const url = buildUrl(pageParam as string | null, 50, interval);
 
-        const response = await fetch(url, { method: 'GET' });
-        const responseData = (await response.json()) as DashboardReadTargetsHistoryGetResponse;
+      const response = await fetch(url, { method: 'GET' });
+      const responseData = (await response.json()) as DashboardReadTargetsHistoryGetResponse;
 
-        if (!response.ok) {
-          let errorMessage = response.statusText;
-          if (responseData.error) errorMessage = responseData.error.message;
-
-          throw new Error(errorMessage);
-        }
-
-        return responseData;
-      } catch (error) {
-        let errorMessage = 'Failed to fetch read targets!';
-        if (error instanceof Error) errorMessage = error.message;
-
-        toast({ variant: 'error', content: errorMessage });
+      if (!response.ok) {
+        return;
       }
+
+      return responseData;
     },
   });
 
