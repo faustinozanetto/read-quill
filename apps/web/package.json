@@ -55,7 +55,7 @@
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "14.2.3",
-    "@prisma/nextjs-monorepo-workaround-plugin": "5.17.0",
+    "@prisma/nextjs-monorepo-workaround-plugin": "5.19.1",
     "@read-quill/eslint-config": "workspace:*",
     "@read-quill/tailwind-config": "workspace:*",
     "@read-quill/typescript-config": "workspace:*",
