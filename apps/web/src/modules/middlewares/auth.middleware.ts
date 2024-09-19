@@ -61,7 +61,7 @@ export async function authMiddleware(request: NextRequest) {
 
   // Redirect authenticated users from non-private routes to the dashboard
   if (isAuthenticated) {
-    return NextResponse.redirect(new URL(DEFAULT_AUTHENTICATED_ROUTE, nextUrl));
+    //q return NextResponse.redirect(new URL(DEFAULT_AUTHENTICATED_ROUTE, nextUrl));
   }
 
   // Default action: proceed to the requested route

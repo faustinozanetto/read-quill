@@ -1,8 +1,8 @@
 import React from 'react';
 import {
   Button,
-  CheckIcon,
   FileInput,
+  FileUploadIcon,
   Form,
   FormControl,
   FormDescription,
@@ -49,7 +49,7 @@ const UserProfileAvatarUpdateForm: React.FC<UserProfileAvatarProps> = (props) =>
         />
 
         <Button type="submit" className="w-full" aria-label="Upload Avatar" title="Upload Avatar" disabled={isPending}>
-          {isPending ? <LoadingIcon className="mr-2" /> : <CheckIcon className="mr-2" />}
+          {isPending ? <LoadingIcon className="mr-2" /> : <FileUploadIcon className="mr-2" />}
           Upload Avatar
         </Button>
       </form>
