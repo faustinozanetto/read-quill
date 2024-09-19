@@ -21,10 +21,16 @@ const sendWelcomeEmailValidationSchema = sendEmailValidationSchema.extend({
   completeName: z.string({ message: 'Complete name is required!' }),
 });
 
+const sendMagicLinkEmailValidationSchema = sendEmailValidationSchema.extend({
+  url: z.string({ message: 'Url is required!' }),
+});
+
 export const EMAIL_ACTIONS_VALIDATIONS_API = {
   SEND_WELCOME: sendWelcomeEmailValidationSchema,
+  SEND_MAGIC_LINK: sendMagicLinkEmailValidationSchema,
 };
 
 export const EMAIL_ACTIONS_VALIDATIONS_FORMS = {
   SEND_WELCOME: sendWelcomeEmailValidationSchema,
+  SEND_MAGIC_LINK: sendMagicLinkEmailValidationSchema,
 };

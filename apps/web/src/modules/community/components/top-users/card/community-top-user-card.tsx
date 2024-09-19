@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import UserAvatar from '@modules/common/components/users/user-avatar';
 import { Badge, ThumbsUpIcon } from '@read-quill/design-system';
+import { getImagePublicUrl } from '@modules/images/lib/images.lib';
 
 interface CommunityTopUserCardProps {
   position: number;
@@ -27,12 +28,13 @@ const CommunityTopUserCard: React.FC<CommunityTopUserCardProps> = (props) => {
             <h3 className="text-center font-bold text-primary-foreground bg-primary">{user.name}</h3>
           </div>
           <UserAvatar
-            image={user.image}
+            image={user.avatar ? getImagePublicUrl('UserAvatars', user.avatar.path) : null}
             name={user.name}
             alt={`Top User ${user.name} Avatar`}
             width={250}
             height={250}
             className="rounded-t-lg rounded-b-none max-h-32 h-full w-full object-cover"
+            initialsClassName="w-full h-32 text-3xl border-none shadow-none"
           />
         </div>
         <p className="text-center font-medium mt-1">{threadsCount} Threads</p>

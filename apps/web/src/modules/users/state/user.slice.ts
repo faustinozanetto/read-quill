@@ -1,8 +1,8 @@
 import { createStore } from 'zustand';
-import { User } from '@read-quill/database';
+import { UserWithDetails } from '../types/user.types';
 
 export interface UserSliceState {
-  user: User;
+  user: UserWithDetails;
 }
 
 export type UserStore = ReturnType<typeof createUserStore>;

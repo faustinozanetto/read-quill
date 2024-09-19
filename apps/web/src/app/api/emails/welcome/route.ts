@@ -7,7 +7,7 @@ import { Resend } from 'resend';
 import { z } from 'zod';
 import { WelcomeEmail } from '@read-quill/emails/emails/welcome-email';
 
-// /api/emails/welcome POST : Sends a welcome email.
+// /api/emails/magic-link POST : Sends a magic link email.
 export async function POST(request: NextRequest): Promise<NextResponse<EmailSendPostResponse>> {
   try {
     const json = await request.json();

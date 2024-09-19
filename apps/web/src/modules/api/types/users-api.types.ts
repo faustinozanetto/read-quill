@@ -1,8 +1,9 @@
-import { User } from '@read-quill/database';
+import { Image } from '@read-quill/database';
 import { BaseApiResponse } from './api.types';
+import { UserWithDetails } from '@modules/users/types/user.types';
 
 export interface UserGetResponse extends BaseApiResponse {
-  data?: { user: User };
+  data?: { user: UserWithDetails };
 }
 
 export interface UserDeleteResponse extends BaseApiResponse {
@@ -11,4 +12,20 @@ export interface UserDeleteResponse extends BaseApiResponse {
 
 export interface UserMemberSinceGetResponse extends BaseApiResponse {
   data?: { memberSince: Date };
+}
+
+export interface UserProfileCompletedGetResponse extends BaseApiResponse {
+  data?: { profileCompleted: boolean };
+}
+
+export interface UserCompleteProfilePostResponse extends BaseApiResponse {
+  data?: { success: boolean };
+}
+
+export interface UserAvatarUploadPostResponse extends BaseApiResponse {
+  data?: { avatarImage: Image };
+}
+
+export interface UserAvatarDeleteResponse extends BaseApiResponse {
+  data?: { success: boolean };
 }
