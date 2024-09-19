@@ -41,7 +41,9 @@ const ReadRegistryFormBook: React.FC<ReadRegistryFormBookProps> = (props) => {
     setFilterBooks(value);
   };
 
-  const filteredBooks = filterBooks ? booksNames.filter((book) => book.name.includes(filterBooks)) : booksNames;
+  const filteredBooks = filterBooks
+    ? booksNames.filter((book) => book.name.toLowerCase().includes(filterBooks.toLowerCase()))
+    : booksNames;
 
   return (
     <FormField
