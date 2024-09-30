@@ -36,7 +36,7 @@
   "devDependencies": {
     "@read-quill/eslint-config": "workspace:*",
     "eslint": "9.10.0",
-    "prisma": "5.19.1",
+    "prisma": "5.20.0",
     "rimraf": "6.0.1",
     "@faker-js/faker": "8.4.1",
     "@read-quill/typescript-config": "workspace:*",
