@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@builder.io/partytown": "0.10.2",
-    "@auth/prisma-adapter": "2.4.2",
+    "@auth/prisma-adapter": "2.5.3",
     "@hookform/resolvers": "3.4.2",
     "@next/third-parties": "^14.2.5",
     "@read-quill/database": "workspace:*",
