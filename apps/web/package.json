@@ -54,7 +54,7 @@
     "schema-dts": "1.1.2"
   },
   "devDependencies": {
-    "@next/eslint-plugin-next": "14.2.3",
+    "@next/eslint-plugin-next": "14.2.14",
     "@prisma/nextjs-monorepo-workaround-plugin": "5.19.1",
     "@read-quill/eslint-config": "workspace:*",
     "@read-quill/tailwind-config": "workspace:*",
