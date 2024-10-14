@@ -54,7 +54,7 @@ const ReadRegistryFormBook: React.FC<ReadRegistryFormBookProps> = (props) => {
           <FormLabel>Book</FormLabel>
           <Input id="filter-book" name="filter-book" placeholder="Book name..." onChange={handleFilterBookChange} />
           {filteredBooks.length > 0 ? (
-            <div className="flex max-w-full gap-4 overflow-x-scroll relative">
+            <div className="flex max-w-[320px] mx-auto md:max-w-[450px] gap-4 overflow-x-scroll relative">
               {filteredBooks.map((book) => {
                 const bookImageUrl = getImagePublicUrl('BookCovers', book.image.path);
                 const isSelected = field.value && field.value === book.id;
@@ -82,7 +82,7 @@ const ReadRegistryFormBook: React.FC<ReadRegistryFormBookProps> = (props) => {
                     />
                     <span
                       className={cn(
-                        'font-semibold overflow-ellipsis text-sm pb-2',
+                        'font-semibold overflow-ellipsis text-sm pb-2 px-1.5',
                         isSelected ? 'text-background' : 'text-foreground'
                       )}
                     >

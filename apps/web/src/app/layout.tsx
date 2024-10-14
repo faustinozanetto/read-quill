@@ -14,7 +14,6 @@ import { CORE_RICH_RESULTS } from '../modules/rich-results/lib/core-rich-results
 import { __PROD__ } from '@modules/common/lib/common.constants';
 import Script from 'next/script';
 import { Partytown } from '@builder.io/partytown/react';
-import Head from 'next/head';
 
 const rubikFont = Rubik({
   variable: '--font-sans',
@@ -105,9 +104,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html className={rubikFont.variable} lang="en" suppressHydrationWarning>
       <head>
-        <Partytown debug={!__PROD__} forward={['dataLayer.push']} />
-        <script type="text/partytown" src="https://www.googletagmanager.com/gtag/js?id=G-SP5YH2222P" async />
-        <script
+        <Partytown debug={!__PROD__} forward={['dataLayer.push', 'gtag']} />
+        <Script
+          strategy="beforeInteractive"
+          type="text/partytown"
+          src="https://www.googletagmanager.com/gtag/js?id=G-SP5YH2222P"
+          async
+        />
+        <Script
+          strategy="beforeInteractive"
+          id="gtag-init"
           type="text/partytown"
           dangerouslySetInnerHTML={{
             __html: `
