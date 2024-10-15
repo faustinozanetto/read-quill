@@ -13,7 +13,6 @@ import UmaniAnalytics from '@modules/analytics/components/umani-analytics';
 import { CORE_RICH_RESULTS } from '../modules/rich-results/lib/core-rich-results';
 import { __PROD__ } from '@modules/common/lib/common.constants';
 import Script from 'next/script';
-import { Partytown } from '@builder.io/partytown/react';
 
 const rubikFont = Rubik({
   variable: '--font-sans',
@@ -104,18 +103,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html className={rubikFont.variable} lang="en" suppressHydrationWarning>
       <head>
-        <Partytown debug={!__PROD__} forward={['dataLayer.push', 'gtag']} />
         {__PROD__ && (
           <>
-            <Script
-              strategy="beforeInteractive"
-              type="text/partytown"
-              src="https://www.googletagmanager.com/gtag/js?id=G-SP5YH2222P"
-            />
+            <Script strategy="beforeInteractive" src="https://www.googletagmanager.com/gtag/js?id=G-SP5YH2222P" />
             <Script
               strategy="beforeInteractive"
               id="gtag-init"
-              type="text/partytown"
               dangerouslySetInnerHTML={{
                 __html: `
             window.dataLayer = window.dataLayer || [];
