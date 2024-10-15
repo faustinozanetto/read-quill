@@ -105,18 +105,19 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html className={rubikFont.variable} lang="en" suppressHydrationWarning>
       <head>
         <Partytown debug={!__PROD__} forward={['dataLayer.push', 'gtag']} />
-        <Script
-          strategy="beforeInteractive"
-          type="text/partytown"
-          src="https://www.googletagmanager.com/gtag/js?id=G-SP5YH2222P"
-          async
-        />
-        <Script
-          strategy="beforeInteractive"
-          id="gtag-init"
-          type="text/partytown"
-          dangerouslySetInnerHTML={{
-            __html: `
+        {__PROD__ && (
+          <>
+            <Script
+              strategy="beforeInteractive"
+              type="text/partytown"
+              src="https://www.googletagmanager.com/gtag/js?id=G-SP5YH2222P"
+            />
+            <Script
+              strategy="beforeInteractive"
+              id="gtag-init"
+              type="text/partytown"
+              dangerouslySetInnerHTML={{
+                __html: `
             window.dataLayer = window.dataLayer || [];
             window.gtag = function gtag(){window.dataLayer.push(arguments);}
             gtag('js', new Date());
@@ -125,8 +126,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                 page_path: window.location.pathname,
             });
         `,
-          }}
-        />
+              }}
+            />
+          </>
+        )}
       </head>
       <body className="bg-background font-sans subpixel-antialiased scroll-smooth">
         <Providers session={session}>

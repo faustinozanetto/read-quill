@@ -7,6 +7,8 @@ import React from 'react';
 import UserSettingsDetails from './details/user-settings-details';
 import UserSettingsSecurity from './security/user-settings-security';
 import UserSettingsDanger from './danger/user-settings-danger';
+import UserSettingsReferral from './referral/user-settings-referral';
+import { TagIcon } from '@read-quill/design-system/src';
 
 const UserSettings: React.FC = async () => {
   const session = await auth();
@@ -14,12 +16,14 @@ const UserSettings: React.FC = async () => {
 
   const TAB_COMPONENTS: Record<UserSettingsTabType, React.ReactNode> = {
     details: <UserSettingsDetails session={session} />,
+    referral: <UserSettingsReferral session={session} />,
     security: <UserSettingsSecurity />,
     danger: <UserSettingsDanger />,
   };
 
   const TAB_TRIGGER_ICONS: Record<UserSettingsTabType, React.ReactNode> = {
     danger: <ExclamationIcon />,
+    referral: <TagIcon />,
     security: <KeyIcon />,
     details: <UserIcon />,
   };
@@ -30,7 +34,7 @@ const UserSettings: React.FC = async () => {
         <h1 className="text-xl sm:text-2xl font-bold">Account Settings</h1>
       </div>
 
-      <Tabs defaultValue="details" className="w-full flex-col sm:flex-row flex gap-4">
+      <Tabs defaultValue="referral" className="w-full flex-col sm:flex-row flex gap-4">
         <TabsList className="sm:flex-col sm:h-fit w-full sm:max-w-48">
           {USER_SETTINGS_TABS.map((settingsTab) => {
             return (

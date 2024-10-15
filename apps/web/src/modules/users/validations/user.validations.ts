@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 /* Attributes Validations */
+const userIdValidationSchema = z.string({ required_error: 'Id is required!' });
 const userNameValidationSchema = z.string({ required_error: 'Name is required!' });
 const userAvatarImageUploadValidationSchema = z
   .instanceof(File)
@@ -12,6 +13,7 @@ const userAvatarImageUploadValidationSchema = z
 const userAvatarImageIdValidationSchema = z.string({ required_error: 'Image Id is required!' });
 
 export const USER_ATTRIBUTES_VALIDATIONS = {
+  id: userIdValidationSchema,
   name: userNameValidationSchema,
   avatarImageUpload: userAvatarImageUploadValidationSchema,
   imageId: userAvatarImageIdValidationSchema,
