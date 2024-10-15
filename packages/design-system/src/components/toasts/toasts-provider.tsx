@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useReducer } from 'react';
 import { toastsReducer } from '../../context/toasts/toasts-reducer';
 import { ToastContext } from '../../context/toasts/toasts-context';

@@ -48,7 +48,10 @@ model User {
   avatarId String?
 
   accounts         Account[]
-  profileCompleted Boolean   @default(false)
+  profileCompleted Boolean    @default(false)
+  referralCode     String?    @unique
+  referredUsers    Referral[] @relation("ReferredUsers")
+  referredOwner    Referral[] @relation("ReferredOwner")
 
   readTargets  ReadTargets?
   books        Book[]
@@ -233,6 +236,20 @@ model Image {
   threadAttachments ThreadAttachment[]
   books             Book[]
   users             User[]
+
+  createdAt DateTime @default(now())
+}
+
+model Referral {
+  id String @id @default(cuid())
+
+  // Owner of the referral.
+  owner   User   @relation("ReferredOwner", fields: [ownerId], references: [id])
+  ownerId String
+
+  // Referred user.
+  referred   User   @relation("ReferredUsers", fields: [referredId], references: [id])
+  referredId String
 
   createdAt DateTime @default(now())
 }

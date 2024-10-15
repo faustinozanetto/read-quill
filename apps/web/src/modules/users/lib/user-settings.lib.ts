@@ -1,1 +1,1 @@
-export const USER_SETTINGS_TABS = ['details', 'security', 'danger'] as const;
+export const USER_SETTINGS_TABS = ['details', 'referral', 'security', 'danger'] as const;
