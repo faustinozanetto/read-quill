@@ -62,7 +62,7 @@
     "@read-quill/emails": "workspace:*",
     "@tailwindcss/typography": "0.5.13",
     "@testing-library/jest-dom": "6.4.8",
-    "@testing-library/react": "16.0.0",
+    "@testing-library/react": "16.0.1",
     "@types/jest": "29.5.13",
     "@types/node": "^22.0.0",
     "@types/qrcode": "1.5.5",
