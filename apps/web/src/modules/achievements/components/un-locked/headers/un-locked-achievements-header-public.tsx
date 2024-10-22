@@ -8,7 +8,7 @@ const UnLockedAchievementsHeaderPublic: React.FC<UnLockedAchievementsHeaderPubli
   const { title } = props;
 
   return (
-    <div className="flex flex-col rounded-lg shadow border p-4 gap-2">
+    <div className="flex flex-col rounded-lg border p-4 gap-2">
       <h1 className="text-2xl font-bold">{title}</h1>
       <p>
         Explore the unlocked achievements of this avid reader. See the significant milestones they've reached,

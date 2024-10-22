@@ -17,7 +17,7 @@ const CommunityThreadAttachments: React.FC = () => {
   const { data, isLoading } = useThreadAttachments({ threadId: thread?.id });
 
   return (
-    <div className="border p-4 rounded-lg shadow">
+    <div className="border p-4 rounded-lg">
       <h3 className="text-xl font-bold mb-2">Attachments</h3>
       {isLoading ? (
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-2">
@@ -46,7 +46,7 @@ const CommunityThreadAttachments: React.FC = () => {
             {selectedAttachment && (
               <div className="space-y-2">
                 <Image
-                  className="rounded-lg border shadow"
+                  className="rounded-lg border"
                   src={getImagePublicUrl('ThreadAttachments', selectedAttachment.image.path)}
                   alt={selectedAttachment.description}
                   width={1000}

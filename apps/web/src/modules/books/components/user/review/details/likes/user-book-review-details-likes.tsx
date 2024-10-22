@@ -10,7 +10,7 @@ const UserBookReviewDetailsLikes: React.FC = () => {
   const { data, pagination, setPagination, isLoading } = useBookReviewDetailsLikes({ pageSize: 10, bookId: book?.id });
 
   return (
-    <div className="flex flex-col rounded-lg p-4 shadow border">
+    <div className="flex flex-col rounded-lg p-4 border">
       <h2 className="text-2xl font-bold">Review Likes</h2>
       <p>
         View and manage the reactions to your book's reviews. See who has liked or disliked each review to understand

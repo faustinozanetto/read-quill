@@ -49,7 +49,7 @@ const UserSettings: React.FC = async () => {
             );
           })}
         </TabsList>
-        <div className="border p-4 rounded-lg shadow flex-1">
+        <div className="border p-4 rounded-lg flex-1">
           {USER_SETTINGS_TABS.map((settingsTab) => TAB_COMPONENTS[settingsTab])}
         </div>
       </Tabs>

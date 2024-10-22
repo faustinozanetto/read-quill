@@ -14,7 +14,7 @@ const HomeStatsCard: React.FC<HomeStatsCardProps> = (props) => {
 
   return (
     <div
-      className="border shadow rounded-lg p-4 flex flex-col items-center justify-center text-center bg-card ease-in-out group transition-transform hover:scale-[102%]"
+      className="border rounded-lg p-4 flex flex-col items-center justify-center text-center bg-card ease-in-out group transition-transform hover:scale-[102%]"
       ref={ref}
     >
       <div className="group-hover:rotate-12 transition-transform">{icon}</div>

@@ -15,7 +15,7 @@ const AnnotationCard: React.FC<AnnotationCardProps> = (props) => {
   const [revealContent, setRevealContent] = useState(false);
 
   return (
-    <div className="rounded-lg border shadow flex flex-col">
+    <div className="rounded-lg border flex flex-col">
       <div className="p-4 flex justify-between items-start ">
         <div>
           <span className="text-lg font-semibold block">{annotation.title}</span>

@@ -40,7 +40,7 @@ const DashboardReadTimeDistributionChart: React.FC<DashboardReadTimeDistribution
         mode: theme === 'dark' ? 'dark' : 'light',
         monochrome: {
           enabled: true,
-          color: '#e0c36c',
+          color: '#f9ce94',
           shadeTo: theme === 'dark' ? 'dark' : 'light',
         },
       },

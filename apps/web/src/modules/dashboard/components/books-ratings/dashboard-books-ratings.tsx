@@ -17,7 +17,7 @@ const DashboardBooksRatings: React.FC<DashboardBooksRatingsProps> = (props) => {
   const { data, isLoading } = useBooksRatings();
 
   return (
-    <div className={cn('rounded-lg border p-4 shadow flex flex-col gap-2 h-fit', className)}>
+    <div className={cn('rounded-lg border p-4 flex flex-col gap-2 h-fit', className)}>
       <DashboardBooksRatingsHeader />
       <p>
         Get a quick overview of your book ratings with our visual representation. Discover the distribution of ratings

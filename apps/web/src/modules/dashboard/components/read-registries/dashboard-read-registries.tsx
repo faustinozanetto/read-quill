@@ -10,7 +10,7 @@ const DashboardReadRegistries: React.FC = () => {
   const { data, isLoading, pagination, setPagination } = useReadRegistries();
 
   return (
-    <div className="rounded-lg border p-4 shadow flex flex-col gap-2">
+    <div className="rounded-lg border p-4 flex flex-col gap-2">
       <DashboardReadRegistriesHeader />
       <p>
         Create detailed entries for each book you delve into, capturing essential details like progress, book covers,

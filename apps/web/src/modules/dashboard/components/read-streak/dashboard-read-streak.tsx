@@ -16,7 +16,7 @@ const DashboardReadStreak: React.FC = () => {
   const { data, isLoading } = useReadStreak();
 
   return (
-    <div className="rounded-lg border p-4 shadow flex flex-col gap-2 h-fit">
+    <div className="rounded-lg border p-4 flex flex-col gap-2 h-fit">
       <h3 className="text-xl font-bold">🔥Read Streak</h3>
       <p>
         Keep track of your reading habits with our Days Read Streak feature! This section highlights your commitment to

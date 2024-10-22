@@ -25,7 +25,7 @@ const CommunityThreadWriteComment: React.FC = () => {
   });
 
   return (
-    <div className="p-4 border rounded-lg shadow flex flex-col">
+    <div className="p-4 border rounded-lg flex flex-col">
       <CommunityThreadWriteCommentForm onSubmit={createComment} />
     </div>
   );

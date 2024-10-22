@@ -5,7 +5,7 @@ import { Button } from '@read-quill/design-system';
 export default function NotFoundPage(): React.JSX.Element {
   return (
     <div className="mx-4 flex w-full flex-col items-center md:mx-0">
-      <div className="my-6 w-full rounded-lg border p-4 px-4 shadow-lg sm:px-6 md:my-14 md:max-w-lg md:p-6 lg:my-20">
+      <div className="my-6 w-full rounded-lg border p-4 px-4 sm:px-6 md:my-14 md:max-w-lg md:p-6 lg:my-20">
         <div className="flex flex-col items-center gap-4">
           <h1 className="text-center text-2xl font-extrabold tracking-tight sm:text-3xl md:text-4xl">
             The page does not exist!

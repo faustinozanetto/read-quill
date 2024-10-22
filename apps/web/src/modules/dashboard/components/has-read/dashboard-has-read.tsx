@@ -9,7 +9,7 @@ const DashboardHasRead: React.FC = () => {
   const { data, isLoading } = useHasRead();
 
   return (
-    <div className="rounded-lg border p-4 shadow flex flex-col gap-2 h-fit">
+    <div className="rounded-lg border p-4 flex flex-col gap-2 h-fit">
       {isLoading && <Skeleton className="h-24 w-full" />}
 
       {!isLoading && data?.data && data.data.hasRead && (

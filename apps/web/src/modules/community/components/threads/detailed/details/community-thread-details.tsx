@@ -23,7 +23,7 @@ const CommunityThreadDetails: React.FC = () => {
   if (!thread) return null;
 
   return (
-    <div className="p-4 border rounded-lg shadow flex flex-col">
+    <div className="p-4 border rounded-lg flex flex-col">
       <div className="flex items-center justify-between">
         <Button asChild variant="link" className="mr-auto">
           <Link href="/community">

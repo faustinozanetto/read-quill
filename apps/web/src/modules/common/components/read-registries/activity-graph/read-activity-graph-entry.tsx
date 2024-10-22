@@ -17,7 +17,7 @@ const ReadActivityGraphEntry: React.FC<ReadActivityGraphEntryProps> = memo(
 
       if (activity.level > 0) return { backgroundColor: `hsl(var(--primary) / ${(1 / activity.level).toFixed(2)})` };
 
-      return { backgroundColor: 'hsl(var(--foreground) / 0.05)' };
+      return { backgroundColor: 'hsl(var(--primary) / 0.05)' };
     }, [activity]);
 
     return <td className="w-[16px] h-[16px] rounded-sm" style={styles} />;

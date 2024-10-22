@@ -21,7 +21,7 @@ const UserProfileBooks: React.FC = () => {
   const isProfileOwner = Boolean(authUser.user?.id === params.userId);
 
   return (
-    <div className="flex flex-col gap-2 rounded-lg p-4 shadow border">
+    <div className="flex flex-col gap-2 rounded-lg p-4 border">
       <UserProfileBooksHeader />
 
       {isLoading ? (

@@ -9,7 +9,7 @@ const CommunityTopUsers: React.FC = () => {
   const { data, isLoading } = useCommunityTopUsers({ take: 6 });
 
   return (
-    <div className="flex w-full flex-col border p-4 rounded-lg shadow">
+    <div className="flex w-full flex-col border p-4 rounded-lg">
       <h1 className="text-2xl font-bold">Top Users</h1>
       <p className="mb-2">Have a look at our top users in the community!</p>
 

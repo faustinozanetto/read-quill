@@ -37,7 +37,7 @@ const DashboardReadTargetsCard: React.FC<DashboardReadTargetsCardProps> = (props
   const isCompleted = value >= target;
 
   return (
-    <div className="rounded-lg border p-4 shadow min-w-56 w-full" ref={ref}>
+    <div className="rounded-lg border p-4 min-w-56 w-full" ref={ref}>
       <h3 className="font-bold text-lg underline decoration-primary decoration-4 mb-2">{capitalize(type)}</h3>
       {isCompleted ? <Fireworks onInit={onInitConfetti} /> : null}
       <svg className="m-auto mt-2" height="128" width="128" xmlns="http://www.w3.org/2000/svg">

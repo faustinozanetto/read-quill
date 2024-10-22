@@ -15,7 +15,7 @@ const CommunityThreadAttachmentCard: React.FC<CommunityThreadAttachmentCardProps
   const { attachment, threadId, onSelected } = props;
 
   return (
-    <div className="border rounded-lg shadow hover:border-primary transition-all hover:scale-[102%] relative">
+    <div className="border rounded-lg hover:border-primary transition-all hover:scale-[102%] relative">
       <div className="absolute top-2 right-2">
         <CommunityThreadAttachmentManagement attachment={attachment} threadId={threadId} />
       </div>

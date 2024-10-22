@@ -20,7 +20,7 @@ const DashboardBooksProgressCard: React.FC<DashboardBooksProgressCardProps> = (p
   const { count, ref } = useCountUp({ startValue: 0, endValue: clampedProgress, startOnInView: true });
 
   return (
-    <div ref={ref} className="rounded-lg border p-4 shadow flex flex-col h-fit shrink-0">
+    <div ref={ref} className="rounded-lg border p-4 flex flex-col h-fit shrink-0">
       <div className="relative">
         <UserBookCover
           className="w-full"

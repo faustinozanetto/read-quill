@@ -25,7 +25,7 @@ const CommunityThreads: React.FC = () => {
           initialSort: THREADS_INITIAL_SORT,
         }}
       >
-        <div className="rounded-lg shadow border space-y-4">
+        <div className="rounded-lg border space-y-4">
           <CommunityThreadsFeed threads={threads}>
             {isFetchingNextPage || isLoading ? (
               <div className="flex flex-col gap-2">

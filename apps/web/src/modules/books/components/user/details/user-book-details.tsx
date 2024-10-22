@@ -23,7 +23,7 @@ const UserBookDetails: React.FC = () => {
   if (!book) return null;
 
   return (
-    <div className="flex w-full flex-col gap-2 rounded-lg p-4 shadow md:flex-row border">
+    <div className="flex w-full flex-col gap-2 rounded-lg p-4 md:flex-row border">
       <UserBookCover className="md:w-60" image={book.image} placeholderImage={book.placeholderImage} isPriority />
       <div className="flex-1 flex-col pl-2">
         <div className="flex justify-between">

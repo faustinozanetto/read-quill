@@ -15,7 +15,7 @@ const CommunityThreadComments: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-2">
-      <div className="p-4 border rounded-lg shadow flex flex-col">
+      <div className="p-4 border rounded-lg flex flex-col">
         <h3 className="text-xl font-bold">Comments</h3>
       </div>
       <CommunityThreadWriteComment />
@@ -37,7 +37,7 @@ const CommunityThreadComments: React.FC = () => {
       ) : null}
 
       {!isLoading && !data?.data?.comments.length ? (
-        <div className="rounded-lg p-4 shadow border space-y-4">
+        <div className="rounded-lg p-4 border space-y-4">
           <p>
             This thread has no comments! Be the first one by clicking the{' '}
             <span className="text-primary font-bold underline">Post</span> button to get started.

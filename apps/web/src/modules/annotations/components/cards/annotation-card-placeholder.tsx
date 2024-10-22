@@ -3,7 +3,7 @@ import { Skeleton } from '@read-quill/design-system';
 
 const AnnotationCardPlaceholder: React.FC = () => {
   return (
-    <div className="rounded-lg border p-4 shadow flex flex-col">
+    <div className="rounded-lg border p-4 flex flex-col">
       <div className="flex justify-between mb-2">
         <Skeleton className="h-4 w-1/2" />
         <Skeleton className="h-4 w-1/3" />

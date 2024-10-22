@@ -23,7 +23,7 @@ const UserBookCover: React.FC<UserBookCoverProps> = (props) => {
           alt="Book Cover"
           title="Book Cover"
           className={cn(
-            'h-80 w-full rounded-lg border shadow object-cover object-center lg:h-[350px] md:h-[250px]',
+            'h-80 w-full rounded-lg border object-cover object-center lg:h-[350px] md:h-[250px]',
             imageClassNames
           )}
           src={getImagePublicUrl('BookCovers', image.path)}
@@ -42,7 +42,7 @@ const UserBookCover: React.FC<UserBookCoverProps> = (props) => {
           src={getImagePublicUrl('BookCovers', image.path)}
           alt="Book Cover"
           aria-label="Book Cover"
-          className="w-full rounded-lg border shadow object-cover object-center"
+          className="w-full rounded-lg border object-cover object-center"
           draggable={false}
           height={2000}
           width={2000}

@@ -11,7 +11,7 @@ const UserBookInsights: React.FC = () => {
   const { data, isLoading } = useBookInsights({ bookId: book?.id });
 
   return (
-    <div className="flex flex-col rounded-lg p-4 gap-2 shadow border">
+    <div className="flex flex-col rounded-lg p-4 gap-2 border">
       <h2 className="text-2xl font-bold">📈 Insights</h2>
 
       {isBookLoading && <Skeleton className="h-10 w-full" />}

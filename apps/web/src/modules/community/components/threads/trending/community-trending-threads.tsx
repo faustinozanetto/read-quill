@@ -12,7 +12,7 @@ const CommunityTrendingThreads: React.FC = () => {
   });
 
   return (
-    <div className="flex w-full flex-col border p-4 rounded-lg shadow space-y-2 h-fit">
+    <div className="flex w-full flex-col border p-4 rounded-lg space-y-2 h-fit">
       <h1 className="text-2xl font-bold">🔥Trending Threads</h1>
       <p>
         {!isLoading && !data?.data?.threads.length

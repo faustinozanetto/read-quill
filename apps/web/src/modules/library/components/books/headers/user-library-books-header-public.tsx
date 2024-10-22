@@ -8,7 +8,7 @@ const UserLibraryBooksHeaderPublic: React.FC<UserLibraryBooksHeaderPublicProps> 
   const { title } = props;
 
   return (
-    <div className="flex flex-col rounded-lg shadow border p-4 gap-2">
+    <div className="flex flex-col rounded-lg border p-4 gap-2">
       <h1 className="text-2xl font-bold">{title}</h1>
       <p>
         Welcome to this reader's bookshelf! Here, you can explore all the books they've added and organized, offering a

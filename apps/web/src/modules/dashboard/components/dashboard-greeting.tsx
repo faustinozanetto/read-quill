@@ -7,7 +7,7 @@ const DashboardGreeting: React.FC = async () => {
   const session = await auth();
 
   return (
-    <div className="rounded-lg border p-4 shadow">
+    <div className="rounded-lg border p-4">
       {!session ? (
         <Skeleton className="h-6 w-1/2" />
       ) : (

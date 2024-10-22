@@ -24,10 +24,10 @@ const CreateThread: React.FC = () => {
 
   return (
     <div className="space-y-4">
-      <div className="p-4 border rounded-lg shadow">
+      <div className="p-4 border rounded-lg">
         <h1 className="text-2xl font-bold">Posting Thread</h1>
       </div>
-      <div className="p-4 border rounded-lg shadow">
+      <div className="p-4 border rounded-lg">
         <CreateThreadForm onSubmit={createThread} />
       </div>
     </div>

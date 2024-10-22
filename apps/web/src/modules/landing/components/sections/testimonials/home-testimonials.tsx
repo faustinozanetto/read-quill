@@ -52,7 +52,7 @@ const HomeTestimonials: React.FC = () => {
   return (
     <section className="w-full bg-primary" id="testimonials">
       <div className="mx-auto w-full max-w-screen-2xl py-10 md:px-20 md:py-24 relative">
-        <div className="relative mx-auto max-w-2xl px-4 text-center z-20 mb-6 text-primary-foreground">
+        <div className="relative mx-auto max-w-2xl px-4 text-center z-20 mb-8 xl:mb-12 text-primary-foreground">
           <motion.h2
             className="font-display text-4xl font-extrabold sm:text-5xl"
             initial={{ opacity: 0, translateX: 20 }}
@@ -62,7 +62,7 @@ const HomeTestimonials: React.FC = () => {
           >
             Loved by Readers
           </motion.h2>
-          <p className="mt-4 md:text-lg">
+          <p className="mt-6 md:text-lg">
             Hear what our community has to say about their transformative journey with Read Quill. Our readers share
             their experiences and how Read Quill has become an integral part of their reading adventures.
           </p>

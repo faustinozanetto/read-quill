@@ -18,7 +18,7 @@ const DashboardBooksProgress: React.FC = () => {
     useBooksProgress({ pageSize: 6 });
 
   return (
-    <div className="rounded-lg border p-4 shadow flex flex-col gap-2">
+    <div className="rounded-lg border p-4 flex flex-col gap-2">
       <DashboardBooksProgressHeader />
       <p>
         Track your literary journey with the Books Progress section. Visualize the percentage of each book you&apos;ve
@@ -31,7 +31,7 @@ const DashboardBooksProgress: React.FC = () => {
           initialSort: BOOKS_PROGRESS_INITIAL_SORT,
         }}
       >
-        <div className="rounded-lg shadow border space-y-4">
+        <div className="rounded-lg border space-y-4">
           <DashboardBooksProgressFeed
             booksProgress={data?.data?.booksProgress ?? []}
             getCanNextPage={getCanNextPage}

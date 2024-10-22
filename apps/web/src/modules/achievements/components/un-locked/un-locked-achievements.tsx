@@ -24,7 +24,7 @@ const UnLockedAchievements: React.FC<UnLockedAchievementsProps> = (props) => {
     <div className="flex flex-col gap-4">
       {onRenderHeader}
 
-      <div className="rounded-lg border shadow">
+      <div className="rounded-lg border">
         <FilterProvider
           initialState={{
             initialFilters: UN_LOCKED_ACHIEVEMENTS_INITIAL_FILTERS,

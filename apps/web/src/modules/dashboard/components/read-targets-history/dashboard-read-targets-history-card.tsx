@@ -36,7 +36,7 @@ const DashboardReadTargetsHistoryCard = forwardRef<HTMLDivElement, DashboardRead
       <div
         ref={ref}
         className={cn(
-          'p-1 border rounded-lg shadow flex flex-col text-center font-medium items-center hover:border-primary min-w-28',
+          'p-1 border rounded-lg flex flex-col text-center font-medium items-center hover:border-primary min-w-28',
           isEntryMarked && 'border-primary border'
         )}
       >

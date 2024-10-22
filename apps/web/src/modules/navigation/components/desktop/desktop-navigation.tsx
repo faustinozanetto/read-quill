@@ -12,10 +12,10 @@ const DesktopNavigation: React.FC = async () => {
   const session = await auth();
 
   return (
-    <aside className="hidden md:block drop-shadow-xl sticky inset-y-0 left-0 h-screen z-[100]">
+    <aside className="hidden md:block sticky inset-y-0 left-0 h-screen z-[100]">
       <div className="bg-primary/20 border-r border-primary float-left flex h-full flex-col gap-2 rounded-r-lg p-4 items-start">
         <Link href="/" title="Home">
-          <MarketingLogo />
+          <MarketingLogo textClassName="dark:fill-primary" />
         </Link>
         <nav className="flex grow flex-col gap-2 mt-2 w-full">
           {NAVIGATION_LINKS.map((link) => {

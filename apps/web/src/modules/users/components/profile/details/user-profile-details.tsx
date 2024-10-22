@@ -9,7 +9,7 @@ const UserProfileDetails: React.FC = () => {
   const { user } = useUserContext((s) => s);
 
   return (
-    <div className="flex w-full flex-col gap-2 rounded-lg p-4 shadow md:flex-row md:gap-4 border">
+    <div className="flex w-full flex-col gap-2 rounded-lg p-4 md:flex-row md:gap-4 border">
       <UserProfileAvatar name={user.name!} avatar={user.avatar} />
       <div className="flex-1 flex-col">
         <h1 className="text-2xl font-bold md:text-3xl">{user?.name ?? 'Name'}</h1>

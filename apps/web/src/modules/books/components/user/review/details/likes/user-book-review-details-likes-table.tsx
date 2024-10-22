@@ -68,7 +68,7 @@ const UserBookReviewDetailsLikesTable: React.FC<UserBookReviewDetailsLikesTableP
               alt={`${row.original.user.name} Avatar`}
               width={50}
               height={50}
-              className="rounded-full border shadow h-9 w-9 aspect-square"
+              className="rounded-full border h-9 w-9 aspect-square"
             />
           );
         },
