@@ -17,7 +17,7 @@ const variants = cva('aspect-square', {
 });
 
 interface UserAvatarProps extends VariantProps<typeof variants>, Omit<ImageProps, 'src'> {
-  image: User['image'];
+  image?: User['image'];
   name: User['name'];
   initialsClassName?: string;
 }

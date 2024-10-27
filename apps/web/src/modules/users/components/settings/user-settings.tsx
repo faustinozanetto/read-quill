@@ -35,7 +35,7 @@ const UserSettings: React.FC = async () => {
       </div>
 
       <Tabs defaultValue="referral" className="w-full flex-col sm:flex-row flex gap-4">
-        <TabsList className="sm:flex-col sm:h-fit w-full sm:max-w-48">
+        <TabsList className="sm:flex-col sm:h-fit w-full max-w-full sm:max-w-48 overflow-x-scroll sm:overflow-hidden">
           {USER_SETTINGS_TABS.map((settingsTab) => {
             return (
               <TabsTrigger

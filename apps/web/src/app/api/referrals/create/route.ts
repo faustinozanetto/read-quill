@@ -1,6 +1,6 @@
 import { ReferralsCreatePostResponse, ReferralsGetResponse } from '@modules/api/types/referrals-api.types';
 import { REFERRALS_ACTIONS_VALIDATIONS_API } from '@modules/referrals/lib/referrals.validations';
-import { prisma } from '@read-quill/database';
+import { Prisma, prisma } from '@read-quill/database';
 import { auth } from 'auth';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -22,6 +22,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<Referrals
 
     const json = await request.json();
     const { userId, referralCode } = REFERRALS_ACTIONS_VALIDATIONS_API.CREATE.parse(json);
+
     if (session.user.id !== userId) {
       return NextResponse.json(
         {
@@ -31,6 +32,19 @@ export async function POST(request: NextRequest): Promise<NextResponse<Referrals
         },
         { status: 403 }
       );
+    }
+
+    // Code already exists handling.
+    const referralCodes = await prisma.user.findMany({
+      where: {
+        referralCode: { equals: referralCode },
+      },
+      select: {
+        id: true,
+      },
+    });
+    if (referralCodes.length > 0) {
+      return NextResponse.json({ error: { message: 'Code already exists!' } }, { status: 400 });
     }
 
     await prisma.user.update({
