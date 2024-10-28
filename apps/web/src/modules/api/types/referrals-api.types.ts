@@ -18,19 +18,37 @@ export interface ReferralsUserGetResponse extends BaseApiResponse {
   };
 }
 
-export interface ReferralsCreatePostResponse extends BaseApiResponse {
+export interface ReferralsPostResponse extends BaseApiResponse {
   data?: {
     referralCode: string;
   };
 }
 
-export interface ReferralsUseGetResponse extends BaseApiResponse {
+export interface ReferralsPatchResponse extends BaseApiResponse {
+  data?: {
+    referralCode: string;
+  };
+}
+
+export interface ReferralsDeleteResponse extends BaseApiResponse {
+  data?: {
+    success: boolean;
+  };
+}
+
+export interface ReferralsUsedGetResponse extends BaseApiResponse {
   data?: {
     usedReferralCode: string | null;
   };
 }
 
-export interface ReferralsChangePostResponse extends BaseApiResponse {
+export interface ReferralsUsedPostResponse extends BaseApiResponse {
+  data?: {
+    success: boolean;
+  };
+}
+
+export interface ReferralsUsedDeleteResponse extends BaseApiResponse {
   data?: {
     success: boolean;
   };

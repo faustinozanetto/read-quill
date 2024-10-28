@@ -12,7 +12,10 @@ import {
 } from '@read-quill/design-system';
 
 import { useAuthContext } from '@modules/auth/hooks/use-auth-context';
-import { useChangeReferralCode, UseChangeReferralCodeParams } from '@modules/referrals/hooks/use-change-referral-code';
+import {
+  useChangeReferralCode,
+  UseChangeReferralCodeParams,
+} from '@modules/referrals/hooks/used/use-change-referral-code';
 import ChangeReferralCodeForm from './change-referral-code-form';
 
 interface ChangeReferralCodeProps {
