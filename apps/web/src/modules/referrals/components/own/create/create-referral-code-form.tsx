@@ -8,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 
 import { CreateReferralCodeFormActionData } from '@modules/referrals/types/referrals-validations.types';
 import { REFERRALS_ACTIONS_VALIDATIONS_FORMS } from '@modules/referrals/lib/referrals.validations';
-import ReferralsFormCode from '../forms/referrals-form-code';
+import ReferralsFormCode from '../../forms/referrals-form-code';
 
 const STEPS_DATA: MultiStepFormStep<CreateReferralCodeFormActionData>[] = [
   {

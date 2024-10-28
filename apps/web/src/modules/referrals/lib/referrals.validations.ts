@@ -22,12 +22,18 @@ const changeReferralCodeValidationSchema = z.object({
   referralCode: REFERRALS_ATTRIBUTES_VALIDATIONS.referralCode,
 });
 
+const editReferralCodeValidationSchema = z.object({
+  referralCode: REFERRALS_ATTRIBUTES_VALIDATIONS.referralCode,
+});
+
 export const REFERRALS_ACTIONS_VALIDATIONS_API = {
   CREATE: createReferralCodeValidationSchema,
   CHANGE: changeReferralCodeValidationSchema,
+  EDIT: editReferralCodeValidationSchema,
 };
 
 export const REFERRALS_ACTIONS_VALIDATIONS_FORMS = {
   CREATE: createReferralCodeValidationSchema,
   CHANGE: changeReferralCodeValidationSchema,
+  EDIT: editReferralCodeValidationSchema,
 };

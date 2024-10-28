@@ -8,14 +8,17 @@ import { useUserReferralCode } from '@modules/referrals/hooks/use-user-referral-
 import { Skeleton } from '@read-quill/design-system';
 import { Button } from '@read-quill/design-system';
 import { PlusIcon } from '@read-quill/design-system';
-import { CreateReferralCode } from '@modules/referrals/components/create/create-referral-code';
-import { useQueryClient } from '@tanstack/react-query';
 
-interface UserSettingsReferralYoursProps {
+import { useQueryClient } from '@tanstack/react-query';
+import UserSettingsReferralOwnEdit from './user-settings-referral-own-edit';
+import UserSettingsReferralOwnDelete from './user-settings-referral-own-delete';
+import { CreateReferralCode } from '@modules/referrals/components/own/create/create-referral-code';
+
+interface UserSettingsReferralOwnProps {
   session: Session;
 }
 
-const UserSettingsReferralYours: React.FC<UserSettingsReferralYoursProps> = (props) => {
+const UserSettingsReferralOwn: React.FC<UserSettingsReferralOwnProps> = (props) => {
   const { session } = props;
 
   const { data, isLoading } = useUserReferralCode({
@@ -47,8 +50,16 @@ const UserSettingsReferralYours: React.FC<UserSettingsReferralYoursProps> = (pro
           />
         </div>
       )}
-      {!isLoading && data?.data?.referralCode && <span>{data.data.referralCode}</span>}
+      {!isLoading && data?.data?.referralCode && (
+        <div className="flex justify-between flex-wrap gap-4">
+          <span>{data.data.referralCode}</span>
+          <div className="flex gap-2">
+            <UserSettingsReferralOwnEdit session={session} />
+            <UserSettingsReferralOwnDelete />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
-export default UserSettingsReferralYours;
+export default UserSettingsReferralOwn;
