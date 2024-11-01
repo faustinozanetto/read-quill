@@ -23,7 +23,7 @@ const ReferredUserCard: React.FC<ReferredUserCardProps> = (props) => {
         }
         name={referredUser.referred.name}
         alt={`${referredUser.referred.name} Avatar`}
-        className="h-14 w-14"
+        className="h-14 w-14 object-cover"
         initialsClassName="h-14 w-14"
       />
       <div className="space-y-1">
