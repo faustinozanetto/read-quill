@@ -15,6 +15,7 @@ import {
 } from '@read-quill/design-system';
 
 export interface PaginationControlsProps {
+  perPageTitle: string;
   page: number;
   getCanPreviousPage: () => boolean;
   getCanNextPage: () => boolean;
@@ -25,10 +26,11 @@ export interface PaginationControlsProps {
   setPageSize?: (size: number) => void;
   pageSize?: number;
 }
-const PAGE_SIZES = [4, 6, 12, 16, 20];
+const PAGE_SIZES = [2, 4, 6, 12, 16, 20];
 
 const PaginationControls: React.FC<PaginationControlsProps> = (props) => {
   const {
+    perPageTitle,
     pageCount,
     page,
     getCanPreviousPage,
@@ -44,7 +46,7 @@ const PaginationControls: React.FC<PaginationControlsProps> = (props) => {
     <div className="flex justify-end flex-col items-end sm:items-center sm:flex-row gap-4">
       {pageSize && setPageSize ? (
         <div className="flex items-center space-x-2">
-          <p className="text-sm font-medium">Books per page</p>
+          <p className="text-sm font-medium">{perPageTitle}</p>
           <Select
             onValueChange={(value) => {
               setPageSize(Number(value));

@@ -1,6 +1,7 @@
 export const PRIVATE_ROUTES = [
   '/dashboard',
   '/settings',
+  '/referrals',
   '/library',
   '/community/post-thread',
   '/achievements',

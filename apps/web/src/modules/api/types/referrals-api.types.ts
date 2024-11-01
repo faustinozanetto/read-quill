@@ -1,3 +1,4 @@
+import { ReferredUser } from '@modules/referrals/types/referrals.types';
 import { BaseApiResponse } from './api.types';
 
 export interface ReferralsGetResponse extends BaseApiResponse {
@@ -51,5 +52,13 @@ export interface ReferralsUsedPostResponse extends BaseApiResponse {
 export interface ReferralsUsedDeleteResponse extends BaseApiResponse {
   data?: {
     success: boolean;
+  };
+}
+
+export interface ReferralsReferredGetRespone extends BaseApiResponse {
+  data?: {
+    referredUsers: ReferredUser[];
+    hasMore: boolean;
+    pageCount: number;
   };
 }

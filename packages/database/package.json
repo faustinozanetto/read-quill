@@ -20,6 +20,7 @@
     "db:seed-achievements": "tsx src/seed/seed-achievements.ts",
     "db:seed-community": "tsx src/seed/seed-community.ts",
     "db:seed-users": "tsx src/seed/seed-users.ts",
+    "db:seed-referrals": "tsx src/seed/seed-referrals.ts",
     "build": "tsup",
     "dev": "tsup --watch",
     "format": "prisma format",
