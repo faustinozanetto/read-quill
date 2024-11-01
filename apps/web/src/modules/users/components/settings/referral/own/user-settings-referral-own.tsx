@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Session } from 'next-auth';
-import { Label } from '@read-quill/design-system';
+import { Label, ManageIcon } from '@read-quill/design-system';
 
 import { useUserReferralCode } from '@modules/referrals/hooks/use-user-referral-code';
 import { Skeleton } from '@read-quill/design-system';
@@ -13,6 +13,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import UserSettingsReferralOwnEdit from './user-settings-referral-own-edit';
 import UserSettingsReferralOwnDelete from './user-settings-referral-own-delete';
 import { CreateReferralCode } from '@modules/referrals/components/own/create/create-referral-code';
+import Link from 'next/link';
 
 interface UserSettingsReferralOwnProps {
   session: Session;
@@ -54,6 +55,11 @@ const UserSettingsReferralOwn: React.FC<UserSettingsReferralOwnProps> = (props) 
         <div className="flex justify-between flex-wrap gap-4">
           <span>{data.data.referralCode}</span>
           <div className="flex gap-2">
+            <Button size="icon" variant="outline" asChild>
+              <Link href="/referrals" title="Manage Referrals">
+                <ManageIcon />
+              </Link>
+            </Button>
             <UserSettingsReferralOwnEdit session={session} />
             <UserSettingsReferralOwnDelete />
           </div>

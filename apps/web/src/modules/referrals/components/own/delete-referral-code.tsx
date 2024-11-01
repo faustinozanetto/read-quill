@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -26,17 +26,20 @@ const DeleteReferralCode: React.FC<DeleteReferralCodeProps> = (props) => {
 
   const { toast } = useToast();
 
+  const [isOpen, setIsOpen] = useState(false);
+
   const { isPending, deleteReferralCode } = useDeleteReferralCode({
     onSuccess: async (data, variables, context) => {
       if (data.data?.success) {
         await onSuccess(data, variables, context);
         toast({ variant: 'success', content: `Referral code deleted successfully!` });
+        setIsOpen(false);
       }
     },
   });
 
   return (
-    <AlertDialog>
+    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogTrigger asChild>{deleteButton}</AlertDialogTrigger>
 
       <AlertDialogContent className="sm:max-w-[425px]">
