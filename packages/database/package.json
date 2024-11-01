@@ -31,8 +31,8 @@
     "studio": "prisma studio"
   },
   "dependencies": {
+    "@prisma/extension-accelerate": "1.2.1"
     "@prisma/client": "5.21.1",
-    "@prisma/extension-accelerate": "1.1.0"
   },
   "devDependencies": {
     "@read-quill/eslint-config": "workspace:*",
