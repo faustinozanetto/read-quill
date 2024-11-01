@@ -1,11 +1,16 @@
 import React from 'react';
-import { BookIcon, MedalIcon, UsersIcon, TargetIcon } from '@read-quill/design-system';
+import { BookIcon, MedalIcon, TagIcon, UsersIcon } from '@read-quill/design-system';
 import type { NavigationLinkProps } from '../components/navigation-link';
 
-export const NAVIGATION_LINKS: Omit<NavigationLinkProps, 'isCompact'>[] = [
+interface NavigationLink extends Omit<NavigationLinkProps, 'isCompact'> {
+  showInMobile: boolean;
+}
+
+export const NAVIGATION_LINKS: NavigationLink[] = [
   {
     href: '/dashboard',
     children: 'Dashboard',
+    showInMobile: true,
     icon: (
       <svg
         className="h-5 w-5 stroke-primary-foreground md:stroke-current"
@@ -24,11 +29,13 @@ export const NAVIGATION_LINKS: Omit<NavigationLinkProps, 'isCompact'>[] = [
   {
     href: '/library',
     children: 'Library',
+    showInMobile: true,
     icon: <BookIcon className="stroke-primary-foreground md:stroke-current" />,
   },
   {
     href: '/achievements',
     children: 'Achievements',
+    showInMobile: true,
     icon: <MedalIcon className="stroke-primary-foreground md:stroke-current" />,
   },
   // {
@@ -39,6 +46,13 @@ export const NAVIGATION_LINKS: Omit<NavigationLinkProps, 'isCompact'>[] = [
   {
     href: '/community',
     children: 'Community',
+    showInMobile: true,
     icon: <UsersIcon className="stroke-primary-foreground md:stroke-current" />,
+  },
+  {
+    href: '/referrals',
+    children: 'Referrals',
+    showInMobile: false,
+    icon: <TagIcon className="stroke-primary-foreground md:stroke-current" />,
   },
 ];

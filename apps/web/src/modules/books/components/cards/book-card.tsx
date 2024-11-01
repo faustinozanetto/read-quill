@@ -8,7 +8,7 @@ import { cn } from '@read-quill/design-system';
 import { BookWithDetails } from '@modules/books/types/book.types';
 import { getImagePublicUrl } from '@modules/images/lib/images.lib';
 
-const containerVariants = cva('rounded-lg border transition-transform hover:scale-[101%] shadow hover:border-primary', {
+const containerVariants = cva('rounded-lg border transition-transform hover:scale-[101%] hover:border-primary', {
   variants: {
     variant: {
       landscape: 'flex gap-2.5',
@@ -29,7 +29,7 @@ const metadataVariants = cva('', {
   },
 });
 
-const imageVariants = cva('shadow object-cover object-center', {
+const imageVariants = cva('object-cover object-center', {
   variants: {
     variant: {
       landscape: 'aspect-square w-24 rounded-l-lg ',

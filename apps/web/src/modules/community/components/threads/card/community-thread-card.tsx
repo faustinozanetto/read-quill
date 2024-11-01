@@ -47,7 +47,7 @@ const CommunityThreadCardRoot: React.FC<CommunityThreadCardRootProps> = (props) 
 
   return (
     <CommunityThreadCardProvider thread={thread}>
-      <Link href={`/community/threads/${thread.id}`} className="p-4 border shadow rounded-lg hover:border-primary">
+      <Link href={`/community/threads/${thread.id}`} className="p-4 border rounded-lg hover:border-primary">
         {children}
       </Link>
     </CommunityThreadCardProvider>

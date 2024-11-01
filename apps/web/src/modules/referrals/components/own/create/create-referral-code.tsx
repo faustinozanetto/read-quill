@@ -11,8 +11,12 @@ import {
   useToast,
 } from '@read-quill/design-system';
 import CreateReferralCodeForm from './create-referral-code-form';
-import { useCreateReferralCode, UseCreateReferralCodeParams } from '../../hooks/use-create-referral-code';
+
 import { useAuthContext } from '@modules/auth/hooks/use-auth-context';
+import {
+  useCreateReferralCode,
+  UseCreateReferralCodeParams,
+} from '@modules/referrals/hooks/own/use-create-referral-code';
 
 interface CreateReferralCodeProps {
   createButton: React.ReactNode;

@@ -33,7 +33,7 @@ const UserLibraryBooks: React.FC<UserLibraryBooksProps> = (props) => {
           initialSort: BOOKS_INITIAL_SORT,
         }}
       >
-        <div className="rounded-lg shadow border space-y-4">
+        <div className="rounded-lg border space-y-4">
           <UserLibraryBooksFeed
             books={data?.data?.books ?? []}
             getCanNextPage={getCanNextPage}

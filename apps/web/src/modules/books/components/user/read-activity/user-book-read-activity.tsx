@@ -17,7 +17,7 @@ const UserBookReadActivity: React.FC = () => {
   const readActivityArray = data?.data ? Object.entries(data.data?.readActivity) : [];
 
   return (
-    <div className="rounded-lg border p-4 shadow flex flex-col gap-2 overflow-hidden h-fit">
+    <div className="rounded-lg border p-4 flex flex-col gap-2 overflow-hidden h-fit">
       <div className="flex flex-col gap-2 md:flex-row md:justify-between md:gap-0">
         <h2 className="text-xl font-bold">📖 Read Activity</h2>
       </div>

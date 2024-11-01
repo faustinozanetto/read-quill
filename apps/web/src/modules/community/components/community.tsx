@@ -10,7 +10,7 @@ const Community: React.FC = async () => {
 
   return (
     <section className="mx-auto gap-4 flex flex-col max-w-[100rem]">
-      <div className="rounded-lg border p-4 shadow">
+      <div className="rounded-lg border p-4">
         <h1 className="leading-2 block text-xl font-bold md:text-2xl lg:text-3xl">Welcome to the Community</h1>
         <p className="mt-2 text-sm md:text-base">
           Welcome to our vibrant community hub! Join the conversation, share your thoughts, and connect with fellow book

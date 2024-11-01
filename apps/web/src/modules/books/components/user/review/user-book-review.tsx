@@ -19,7 +19,7 @@ const UserBookReview: React.FC<UserBookReviewProps> = (props) => {
   const hasReview = Boolean(data?.data?.review);
 
   return (
-    <div className="flex flex-col rounded-lg p-4 gap-2 shadow border">
+    <div className="flex flex-col rounded-lg p-4 gap-2 border">
       <UserBookReviewHeader
         readerWrittenReview={hasReview}
         contentLoading={isLoading}

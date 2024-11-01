@@ -3,7 +3,7 @@ import { Skeleton } from '@read-quill/design-system';
 
 const UserBookDetailsPlaceholder: React.FC = () => {
   return (
-    <div className="flex w-full flex-col gap-2 rounded-lg p-4 shadow md:flex-row md:gap-4 border">
+    <div className="flex w-full flex-col gap-2 rounded-lg p-4 md:flex-row md:gap-4 border">
       <Skeleton className="h-80 w-full lg:h-[350px] md:h-[250px] md:w-40 lg:w-60" />
       <div className="flex-1 flex-col relative">
         <Skeleton className="mb-2 h-8 w-[80%]" />

@@ -20,6 +20,7 @@
     "db:seed-achievements": "tsx src/seed/seed-achievements.ts",
     "db:seed-community": "tsx src/seed/seed-community.ts",
     "db:seed-users": "tsx src/seed/seed-users.ts",
+    "db:seed-referrals": "tsx src/seed/seed-referrals.ts",
     "build": "tsup",
     "dev": "tsup --watch",
     "format": "prisma format",
@@ -30,12 +31,12 @@
     "studio": "prisma studio"
   },
   "dependencies": {
-    "@prisma/client": "5.20.0",
     "@prisma/extension-accelerate": "1.2.1"
+    "@prisma/client": "5.21.1",
   },
   "devDependencies": {
     "@read-quill/eslint-config": "workspace:*",
-    "prisma": "5.20.0",
+    "prisma": "5.21.1",
     "eslint": "9.12.0",
     "rimraf": "6.0.1",
     "@faker-js/faker": "8.4.1",

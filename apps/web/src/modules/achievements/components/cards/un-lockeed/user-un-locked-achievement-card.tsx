@@ -60,7 +60,7 @@ const UserUnLockedAchievementCard: React.FC<UserUnLockedAchievementCardProps> = 
   const label = userAchievement.isPinned ? 'Unpin Achievement' : 'Pin Achievement';
 
   return (
-    <div className="rounded-lg border p-2.5 shadow flex flex-col items-center justify-start text-center hover:border-primary relative">
+    <div className="rounded-lg border p-2.5 flex flex-col items-center justify-start text-center hover:border-primary relative">
       {showPinButton && (
         <div className="absolute top-4 right-4">
           <Button
@@ -76,7 +76,7 @@ const UserUnLockedAchievementCard: React.FC<UserUnLockedAchievementCardProps> = 
         </div>
       )}
 
-      <ThropyIcon className="w-14 h-14 sm:w-16 sm:h-16 bg-primary p-2 rounded-lg shadow-lg mb-1 stroke-accent" />
+      <ThropyIcon className="w-14 h-14 sm:w-16 sm:h-16 bg-primary p-2 rounded-lg shadow-lg mb-1 stroke-primary-foreground" />
       <span className="font-bold uppercase block">{userAchievement.name}</span>
 
       <TooltipProvider>

@@ -10,7 +10,7 @@ const HomeTestimonialCard: React.FC<HomeTestimonialCardProps> = (props) => {
   const { name, content } = props;
 
   return (
-    <div className="border bg-card shadow rounded-lg p-6 relative backdrop-blur-md w-[400px]">
+    <div className="border bg-card rounded-lg p-6 relative backdrop-blur-md w-[400px]">
       <div className="flex gap-4 items-center justify-start mb-4">
         <Image
           alt="Testimonial"

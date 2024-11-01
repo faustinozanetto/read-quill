@@ -46,7 +46,7 @@ const LandingNavbarMobile: React.FC<LandingNavbarMobileProps> = (props) => {
 
       {showMobileNav ? (
         <div className="fixed inset-0 top-20 h-[calc(100vh-6rem)] duration-500 animate-in slide-in-from-top-80 sm:hidden">
-          <div className="grid gap-4 rounded-b-lg bg-background p-4 shadow">
+          <div className="grid gap-4 rounded-b-lg bg-background p-4">
             <nav className="grid gap-4">
               <LandingNavbarLinks session={session} />
             </nav>

@@ -48,7 +48,7 @@ const DashboardReadTargetsHistory: React.FC = () => {
   }, [historyEntries]);
 
   return (
-    <div className="rounded-lg border p-4 shadow flex flex-col gap-2 h-fit">
+    <div className="rounded-lg border p-4 flex flex-col gap-2 h-fit">
       <h2 className="text-xl font-bold">📆 Read Targets History</h2>
       <p>
         Track your reading journey with our Read Targets History. View your progress from previous days, weeks, and

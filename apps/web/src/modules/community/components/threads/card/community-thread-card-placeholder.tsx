@@ -9,7 +9,7 @@ const CommunityThreadCardPlaceholder: React.FC<CommunityThreadCardPlaceholderPro
   const { className = '' } = props;
 
   return (
-    <div className={cn('p-4 border rounded-lg shadow hover:scale-[101%] transition-transform w-full', className)}>
+    <div className={cn('p-4 border rounded-lg hover:scale-[101%] transition-transform w-full', className)}>
       <div className="flex gap-2 items-center mb-1">
         <Skeleton className="h-12 w-12 aspect-square rounded-full" />
         <div className="w-full space-y-1">

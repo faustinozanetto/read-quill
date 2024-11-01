@@ -5,7 +5,7 @@ import { Skeleton } from '@read-quill/design-system';
 const CommunityThreadCommentPlaceholder: React.FC = () => {
   return (
     <div className="flex flex-col">
-      <div className="py-2.5 px-4 border rounded-lg shadow flex flex-col">
+      <div className="py-2.5 px-4 border rounded-lg flex flex-col">
         <div className="space-y-1 grow">
           <div className="flex gap-2 items-center">
             <Skeleton className="h-12 w-12 aspect-square rounded-full" />

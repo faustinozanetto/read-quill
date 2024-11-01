@@ -18,7 +18,7 @@ const LandingNavbar: React.FC<LandingNavbarProps> = (props) => {
       <div className="mx-auto flex items-center justify-between sm:container">
         <LandingNavbarMobile session={session} />
         <Link aria-label="Home Page" href="/">
-          <MarketingLogo />
+          <MarketingLogo textClassName="dark:fill-primary" />
         </Link>
         <nav className="ml-auto mr-4 hidden sm:flex">
           <LandingNavbarLinks session={session} />

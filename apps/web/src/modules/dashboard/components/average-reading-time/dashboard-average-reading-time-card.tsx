@@ -54,7 +54,7 @@ const DashboardAverageReadingTimeCard: React.FC<DashboardAverageReadingTimeCardP
   };
 
   return (
-    <div className="rounded-lg border p-4 shadow text-center min-w-56 w-full flex items-start flex-col gap-1.5">
+    <div className="rounded-lg border p-4 text-center min-w-56 w-full flex items-start flex-col gap-1.5">
       <h3 className="text-xl font-bold">{title}</h3>
       <div className="flex gap-1.5 items-center justify-between w-full">
         <p className={cn('text-3xl font-extrabold tabular-nums', TEXT_CLASSES[STATUS])}>

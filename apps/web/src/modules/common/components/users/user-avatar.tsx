@@ -17,7 +17,7 @@ const variants = cva('aspect-square', {
 });
 
 interface UserAvatarProps extends VariantProps<typeof variants>, Omit<ImageProps, 'src'> {
-  image: User['image'];
+  image?: User['image'];
   name: User['name'];
   initialsClassName?: string;
 }
@@ -34,13 +34,11 @@ const UserAvatar: React.FC<UserAvatarProps> = (props) => {
 
   return (
     <>
-      {image && (
-        <Image src={image} className={cn('rounded-full shadow border', variants({ size }), className)} {...rest} />
-      )}
+      {image && <Image src={image} className={cn('rounded-full border', variants({ size }), className)} {...rest} />}
       {!image && name && (
         <div
           className={cn(
-            'w-12 h-12 rounded-full shadow border text-lg font-bold flex items-center justify-center aspect-square text-primary',
+            'w-12 h-12 rounded-full border text-lg font-bold flex items-center justify-center aspect-square text-primary',
             variants({ size }),
             initialsClassName
           )}

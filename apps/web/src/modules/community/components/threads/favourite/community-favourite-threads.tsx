@@ -17,7 +17,7 @@ const CommunityFavouriteThreads: React.FC = () => {
   const threads = data?.pages.flatMap((v) => v?.data?.threads ?? []) ?? [];
 
   return (
-    <div className="flex w-full flex-col border p-4 rounded-lg shadow space-y-2">
+    <div className="flex w-full flex-col border p-4 rounded-lg space-y-2">
       <h1 className="text-2xl font-bold">💖 Favourite Threads</h1>
       <p>
         {!isLoading && !threads.length

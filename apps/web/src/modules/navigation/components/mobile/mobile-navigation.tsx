@@ -17,7 +17,7 @@ const MobileNavigation: React.FC = async () => {
           <MarketingLogoSimple />
         </Link>
         <nav className="flex items-center justify-center gap-2">
-          {NAVIGATION_LINKS.map((link) => {
+          {NAVIGATION_LINKS.filter((link) => link.showInMobile).map((link) => {
             return <NavigationLink href={link.href} icon={link.icon} key={link.href} size="icon" />;
           })}
 

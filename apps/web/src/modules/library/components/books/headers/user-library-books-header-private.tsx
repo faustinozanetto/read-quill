@@ -10,7 +10,7 @@ const UserLibraryBooksHeaderPrivate: React.FC = () => {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col rounded-lg shadow border p-4 gap-2">
+    <div className="flex flex-col rounded-lg border p-4 gap-2">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold">Books</h1>
         <BookCreate

@@ -22,7 +22,7 @@ const UserProfilAchievements: React.FC = () => {
   const isProfileOwner = Boolean(user?.id === params.userId);
 
   return (
-    <div className="flex flex-col gap-2 rounded-lg p-4 shadow border">
+    <div className="flex flex-col gap-2 rounded-lg p-4 border">
       <UserProfileAchievementsHeader />
 
       {isLoading ? (

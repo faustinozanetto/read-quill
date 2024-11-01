@@ -17,7 +17,7 @@ const DashboardLastRead: React.FC<DashboardLastReadProps> = (props) => {
   const { data, isLoading } = useLastRead();
 
   return (
-    <div className={cn('rounded-lg border p-4 shadow flex flex-col gap-2 h-fit', className)}>
+    <div className={cn('rounded-lg border p-4 flex flex-col gap-2 h-fit', className)}>
       <div className="flex flex-col gap-2 md:flex-row md:justify-between md:gap-0">
         <h2 className="text-xl font-bold">📚 Last Read Books</h2>
       </div>

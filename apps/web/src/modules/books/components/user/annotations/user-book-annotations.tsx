@@ -22,7 +22,7 @@ const UserBookAnnotations: React.FC<UserBookAnnotationsProps> = (props) => {
   });
 
   return (
-    <div className="flex flex-col rounded-lg p-4 shadow border gap-2">
+    <div className="flex flex-col rounded-lg p-4 border gap-2">
       <UserBookAnnotationsHeader />
       <p>
         {isBookOwner ? (

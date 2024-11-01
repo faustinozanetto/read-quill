@@ -20,7 +20,7 @@ const DashboardReadActivity: React.FC<DashboardReadActivityProps> = (props) => {
   const readActivityArray = data?.data ? Object.entries(data.data?.readActivity) : [];
 
   return (
-    <div className={cn('rounded-lg border p-4 shadow flex flex-col gap-2 overflow-hidden h-fit', className)}>
+    <div className={cn('rounded-lg border p-4 flex flex-col gap-2 overflow-hidden h-fit', className)}>
       <DashboardReadActivityHeader />
       <p>
         Explore your reading journey visually with the Read Activity Graph. Each square represents a day, allowing you

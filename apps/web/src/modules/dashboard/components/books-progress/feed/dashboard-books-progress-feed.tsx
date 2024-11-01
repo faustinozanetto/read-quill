@@ -10,7 +10,7 @@ import DashboardBooksProgressFiltering from './filtering/dashboard-books-progres
 import { BookProgressEntry } from '@modules/dashboard/types/dashboard.types';
 import { Skeleton } from '@read-quill/design-system';
 
-interface DashboardBooksProgressFeedProps extends PaginationControlsProps {
+interface DashboardBooksProgressFeedProps extends Omit<PaginationControlsProps, 'perPageTitle'> {
   booksProgress: BookProgressEntry[];
   isLoading: boolean;
   children: React.ReactNode;
@@ -91,6 +91,7 @@ const DashboardBooksProgressFeed: React.FC<DashboardBooksProgressFeedProps> = (p
                   })}
                 </div>
                 <PaginationControls
+                  perPageTitle="Books per page"
                   getCanNextPage={getCanNextPage}
                   getCanPreviousPage={getCanPreviousPage}
                   nextPage={nextPage}

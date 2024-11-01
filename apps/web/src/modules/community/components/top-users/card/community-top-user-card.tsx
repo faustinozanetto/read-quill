@@ -19,7 +19,7 @@ const CommunityTopUserCard: React.FC<CommunityTopUserCardProps> = (props) => {
 
   return (
     <Link href={`/users/${user.id}`}>
-      <div className="border rounded-lg shadow hover:border-primary flex flex-col items-stretch">
+      <div className="border rounded-lg hover:border-primary flex flex-col items-stretch">
         <div className="relative group flex flex-col">
           <div className="absolute top-2 left-2 bg-background border text-center p-1 rounded-lg border-primary font-bold z-50">
             #{position}
@@ -34,7 +34,7 @@ const CommunityTopUserCard: React.FC<CommunityTopUserCardProps> = (props) => {
             width={250}
             height={250}
             className="rounded-t-lg rounded-b-none max-h-32 h-full w-full object-cover"
-            initialsClassName="w-full h-32 text-3xl border-none shadow-none"
+            initialsClassName="w-full h-32 text-3xl border-none"
           />
         </div>
         <p className="text-center font-medium mt-1">{threadsCount} Threads</p>

@@ -16,7 +16,7 @@ import { LayoutGridIcon } from '@read-quill/design-system';
 import { BookWithDetails } from '@modules/books/types/book.types';
 import BooksFeed from '@modules/books/components/feed/books-feed';
 
-interface UserLibraryBooksFeedProps extends PaginationControlsProps {
+interface UserLibraryBooksFeedProps extends Omit<PaginationControlsProps, 'perPageTitle'> {
   books: BookWithDetails[];
   isLoading: boolean;
   children: React.ReactNode;
@@ -122,6 +122,7 @@ const UserLibraryBooksFeed: React.FC<UserLibraryBooksFeedProps> = (props) => {
               <>
                 <BooksFeed className="flex-1" books={filteredData} cardVariant={cardVariant} />
                 <PaginationControls
+                  perPageTitle="Books per page"
                   getCanNextPage={getCanNextPage}
                   getCanPreviousPage={getCanPreviousPage}
                   nextPage={nextPage}

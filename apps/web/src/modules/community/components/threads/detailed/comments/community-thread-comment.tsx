@@ -47,7 +47,7 @@ const CommunityThreadComment: React.FC<CommunityThreadCommentProps> = (props) =>
       }}
     >
       <div className="relative">
-        <div className="py-2.5 px-4 border rounded-lg shadow flex flex-col">
+        <div className="py-2.5 px-4 border rounded-lg flex flex-col">
           <div className="space-y-1 grow">
             {/* Details */}
             <div className="flex gap-2 items-center">

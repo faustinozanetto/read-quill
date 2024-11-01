@@ -81,13 +81,13 @@ const HomeHero: React.FC = () => {
             whileInView={{ opacity: 1, translateX: 0 }}
           >
             <Image
+              src="/images/home-hero.svg"
               alt="Home Hero Illustration"
               className="w-full rounded"
-              height={2000}
-              priority
-              src="/images/home-hero-background.png"
               title="Hero Picture"
-              width={2000}
+              height={850}
+              width={850}
+              priority
             />
           </motion.div>
         </div>

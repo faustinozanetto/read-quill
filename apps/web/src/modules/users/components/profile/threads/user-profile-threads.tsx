@@ -17,7 +17,7 @@ const UserProfilThreads: React.FC = () => {
   const threads = data?.pages.flatMap((v) => v?.data?.threads ?? []) ?? [];
 
   return (
-    <div className="flex flex-col gap-2 rounded-lg p-4 shadow border">
+    <div className="flex flex-col gap-2 rounded-lg p-4 border">
       <UserProfileThreadsHeader />
 
       {isLoading ? (

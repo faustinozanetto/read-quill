@@ -16,7 +16,7 @@ const LockedAchievements: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="rounded-lg border p-4 shadow">
+      <div className="rounded-lg border p-4">
         <h1 className="leading-2 block text-xl font-bold md:text-2xl lg:text-3xl">Locked Achievements</h1>
         <p>
           Uncover a world of achievements that showcase your reading prowess. From page-turning milestones to conquering
@@ -25,7 +25,7 @@ const LockedAchievements: React.FC = () => {
         </p>
       </div>
 
-      <div className="rounded-lg border shadow">
+      <div className="rounded-lg border">
         <FilterProvider
           initialState={{
             initialFilters: LOCKED_ACHIEVEMENTS_INITIAL_FILTERS,

@@ -11,7 +11,7 @@ const DashboardReadTargets: React.FC = () => {
   const { targetsCreated, data, isLoading } = useReadTargets();
 
   return (
-    <div className="rounded-lg border p-4 shadow flex flex-col gap-2 h-fit">
+    <div className="rounded-lg border p-4 flex flex-col gap-2 h-fit">
       <DashboardReadTargetsHeader
         readTargets={data?.data?.readTargets}
         isLoading={isLoading}

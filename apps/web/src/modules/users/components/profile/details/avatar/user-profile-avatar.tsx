@@ -39,7 +39,7 @@ const UserProfileAvatar: React.FC<UserProfileAvatarProps> = (props) => {
           width={512}
         />
       ) : (
-        <div className="h-32 w-full rounded-lg object-cover object-center md:h-36 md:w-36 shadow border text-4xl font-bold flex items-center justify-center aspect-square text-primary">
+        <div className="h-32 w-full rounded-lg object-cover object-center md:h-36 md:w-36 border text-4xl font-bold flex items-center justify-center aspect-square text-primary">
           {userInitials}
         </div>
       )}
