@@ -6,6 +6,7 @@ export const PRIVATE_ROUTES = [
   '/community/post-thread',
   '/achievements',
   /^\/books\/[^/]+\/review-details$/,
+  /^\/books\/[^/]+\/annotations$/,
 ];
 export const PUBLIC_ROUTES = [
   '/',
