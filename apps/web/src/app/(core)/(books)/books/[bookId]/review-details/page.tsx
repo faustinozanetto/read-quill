@@ -20,11 +20,6 @@ const UserBookReviewDetailsPage: React.FC<UserBookReviewDetailsPageProps> = asyn
   const { params } = props;
   const { bookId } = params;
 
-  const bookCount = await prisma.book.count({ where: { id: bookId } });
-  if (bookCount === 0) {
-    return notFound();
-  }
-
   const session = await auth();
   const book = await prisma.book.findUnique({ where: { id: bookId } });
   const isBookOwner = session?.user.id === book?.readerId;

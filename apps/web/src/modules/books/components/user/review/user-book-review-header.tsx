@@ -2,8 +2,8 @@ import React from 'react';
 
 import { useIsBookOwner } from '@modules/books/hooks/use-is-book-owner';
 import UserBookReviewManagement from './management/user-book-review-management';
-import { useBookStore } from '@modules/books/state/book.slice';
 import { Review } from '@read-quill/database';
+import { useBookContext } from '@modules/books/hooks/use-book-context';
 
 interface UserBookReviewHeaderProps {
   readerWrittenReview: boolean;
@@ -14,7 +14,7 @@ interface UserBookReviewHeaderProps {
 const UserBookReviewHeader: React.FC<UserBookReviewHeaderProps> = (props) => {
   const { readerWrittenReview, contentLoading, review } = props;
 
-  const { book } = useBookStore();
+  const { book } = useBookContext();
   const { isBookOwner } = useIsBookOwner();
 
   return (

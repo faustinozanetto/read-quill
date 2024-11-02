@@ -1,12 +1,12 @@
-import { useBookReviewDetailsLikes } from '@modules/books/hooks/review/use-book-review-details-likes';
-import { useBookStore } from '@modules/books/state/book.slice';
 import React from 'react';
+import { useBookReviewDetailsLikes } from '@modules/books/hooks/review/use-book-review-details-likes';
 
 import UserBookReviewDetailsLikesTable from './user-book-review-details-likes-table';
 import { Separator, Skeleton } from '@read-quill/design-system';
+import { useBookContext } from '@modules/books/hooks/use-book-context';
 
 const UserBookReviewDetailsLikes: React.FC = () => {
-  const { book } = useBookStore();
+  const { book } = useBookContext();
   const { data, pagination, setPagination, isLoading } = useBookReviewDetailsLikes({ pageSize: 10, bookId: book?.id });
 
   return (

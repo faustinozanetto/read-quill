@@ -1,6 +1,6 @@
 import { useAuthContext } from '@modules/auth/hooks/use-auth-context';
 
-import { useBookStore } from '../state/book.slice';
+import { useBookContext } from './use-book-context';
 
 interface UseIsBookOwnerReturn {
   isBookOwner: boolean;
@@ -8,7 +8,7 @@ interface UseIsBookOwnerReturn {
 
 export const useIsBookOwner = (): UseIsBookOwnerReturn => {
   const { user } = useAuthContext();
-  const { book } = useBookStore();
+  const { book } = useBookContext();
 
   const isBookOwner = Boolean(user?.id === book?.readerId);
 

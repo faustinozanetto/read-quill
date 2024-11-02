@@ -1,23 +1,15 @@
-import { create } from 'zustand';
+import { createStore } from 'zustand';
 import { BookWithDetails } from '../types/book.types';
 
 export interface BookSliceState {
-  isLoading: boolean;
   book: BookWithDetails | null;
+  isBookOwner: boolean;
 }
 
-export interface BookSliceActions {
-  setIsLoading: (isLoading: boolean) => void;
-  setBook: (book: BookWithDetails) => void;
-}
+export type BookStore = ReturnType<typeof createBookStore>;
 
-export const useBookStore = create<BookSliceState & BookSliceActions>((set) => ({
-  book: null,
-  isLoading: true,
-  setBook(book) {
-    set({ book });
-  },
-  setIsLoading(isLoading) {
-    set({ isLoading });
-  },
-}));
+export const createBookStore = (initProps: BookSliceState) => {
+  return createStore<BookSliceState>()((set) => ({
+    ...initProps,
+  }));
+};

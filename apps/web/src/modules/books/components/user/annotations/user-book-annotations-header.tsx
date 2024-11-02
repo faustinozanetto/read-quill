@@ -1,10 +1,10 @@
 import React from 'react';
 import { useIsBookOwner } from '@modules/books/hooks/use-is-book-owner';
 import UserBookAnnotationsManagement from './management/user-book-annotations-management';
-import { useBookStore } from '@modules/books/state/book.slice';
+import { useBookContext } from '@modules/books/hooks/use-book-context';
 
 const UserBookAnnotationsHeader: React.FC = () => {
-  const { book } = useBookStore();
+  const { book } = useBookContext();
   const { isBookOwner } = useIsBookOwner();
 
   return (
