@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { useBookReviewDetailsLikes } from '@modules/books/hooks/review/use-book-review-details-likes';
 

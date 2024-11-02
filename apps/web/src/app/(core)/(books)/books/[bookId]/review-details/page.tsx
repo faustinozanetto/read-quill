@@ -27,7 +27,7 @@ const UserBookReviewDetailsPage: React.FC<UserBookReviewDetailsPageProps> = asyn
     return notFound();
   }
 
-  return <UserBookReviewDetails bookId={bookId} />;
+  return <UserBookReviewDetails />;
 };
 
 export default UserBookReviewDetailsPage;

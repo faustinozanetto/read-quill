@@ -21,7 +21,7 @@ const UserBookAnnotationsDetails: React.FC = () => {
 
   return (
     <div className="flex flex-col rounded-lg p-4 border gap-2">
-      <UserBookAnnotationsHeader />
+      <UserBookAnnotationsHeader showManageLink={false} />
       <p>
         View and manage your book annotations here, use the filters to browse them in a efficient way. You can also
         create ones using the Create button.

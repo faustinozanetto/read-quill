@@ -14,8 +14,11 @@ export interface BookReviewDetailsLikesEntry {
   id: string;
   isLike: boolean;
   user: {
-    image: string;
+    avatar: {
+      path: string;
+    } | null;
     id: string;
     name: string;
   };
+  createdAt: Date;
 }

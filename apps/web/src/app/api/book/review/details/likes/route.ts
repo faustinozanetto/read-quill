@@ -29,7 +29,8 @@ export async function GET(request: NextRequest): Promise<NextResponse<BookReview
       select: {
         id: true,
         isLike: true,
-        user: { select: { id: true, name: true, image: true } },
+        createdAt: true,
+        user: { select: { id: true, name: true, avatar: { select: { path: true } } } },
       },
       skip: pageSize * pageIndex,
       take: pageSize,
