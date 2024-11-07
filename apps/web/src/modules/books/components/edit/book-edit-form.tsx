@@ -7,7 +7,7 @@ import { MultiStepFormStep } from '@modules/forms/hooks/use-multi-step-form';
 import { EditBookFormActionData } from '@modules/books/types/book-validations.types';
 import { BOOK_ACTIONS_VALIDATIONS_FORMS } from '@modules/books/validations/books.validations';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useBookStore } from '@modules/books/state/book.slice';
+import { useBookContext } from '@modules/books/hooks/use-book-context';
 
 const STEPS_DATA: MultiStepFormStep<EditBookFormActionData>[] = [
   {
@@ -36,7 +36,7 @@ interface BookEditFormProps {
 const BookEditForm: React.FC<BookEditFormProps> = (props) => {
   const { onSubmit, isBookCoverUploading } = props;
 
-  const { book } = useBookStore();
+  const { book } = useBookContext();
 
   return (
     <BookForm

@@ -1,3 +1,4 @@
+import React, { useMemo, useState } from 'react';
 import { UseBookReviewDetailsLikesReturn } from '@modules/books/hooks/review/use-book-review-details-likes';
 import { BookReviewDetailsLikesEntry } from '@modules/books/types/book.types';
 import { LikeReviewType } from '@modules/review/types/review-validations.types';
@@ -25,7 +26,6 @@ import {
   DataTableViewOptions,
 } from '@read-quill/design-system/src';
 import {
-  ColumnDef,
   ColumnFiltersState,
   Row,
   SortingState,
@@ -38,8 +38,8 @@ import {
 } from '@tanstack/react-table';
 import Image from 'next/image';
 import Link from 'next/link';
-import { title } from 'process';
-import React, { useMemo, useState } from 'react';
+import UserAvatar from '@modules/common/components/users/user-avatar';
+import { getImagePublicUrl } from '@modules/images/lib/images.lib';
 
 interface UserBookReviewDetailsLikesTableProps
   extends Pick<UseBookReviewDetailsLikesReturn, 'pagination' | 'setPagination'> {
@@ -58,16 +58,18 @@ const UserBookReviewDetailsLikesTable: React.FC<UserBookReviewDetailsLikesTableP
 
   const columns = useMemo(
     () => [
-      columnHelpher.accessor('user.image', {
+      columnHelpher.accessor('user.avatar.path', {
         id: 'User Image',
         header: 'User Image',
         cell: ({ row }) => {
+          const { user } = row.original;
           return (
-            <Image
-              src={row.original.user.image}
-              alt={`${row.original.user.name} Avatar`}
+            <UserAvatar
+              name={user.name}
+              image={user.avatar ? getImagePublicUrl('UserAvatars', user.avatar.path) : undefined}
               width={50}
               height={50}
+              alt={`${row.original.user.name} Avatar`}
               className="rounded-full border h-9 w-9 aspect-square"
             />
           );
@@ -149,6 +151,16 @@ const UserBookReviewDetailsLikesTable: React.FC<UserBookReviewDetailsLikesTableP
         },
         // @ts-ignore
         filterFn: 'filterLikeType',
+      }),
+      columnHelpher.accessor('createdAt', {
+        id: 'createdAt',
+        header: ({ column }) => <DataTableColumnHeader column={column} title="Date" />,
+        cell: ({ row }) => {
+          const createdAt = new Date(row.original.createdAt).toLocaleDateString('en-US', {
+            dateStyle: 'full',
+          });
+          return <span className="">{createdAt}</span>;
+        },
       }),
     ],
     []

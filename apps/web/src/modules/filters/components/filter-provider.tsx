@@ -1,3 +1,5 @@
+'use client';
+
 import type { Reducer } from 'react';
 import React, { createContext, useMemo, useReducer } from 'react';
 import { filterReducer } from '@modules/filters/context/filter/filter-reducer';

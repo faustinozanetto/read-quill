@@ -2,8 +2,8 @@ import { BookGetResponse } from '@modules/api/types/books-api.types';
 import { __URL__ } from '@modules/common/lib/common.constants';
 import { useQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import { useBookStore } from '../state/book.slice';
 import { useToast } from '@read-quill/design-system';
+import { useBookContext } from './use-book-context';
 
 interface UseFetchBookParams {
   bookId: string;
@@ -14,7 +14,7 @@ export const useFetchBook = (params: UseFetchBookParams) => {
 
   const { toast } = useToast();
 
-  const { setBook, setIsLoading } = useBookStore();
+  // const { setBook, setIsLoading } = useBookContext();
   const { data, status } = useQuery<BookGetResponse | undefined>({
     queryKey: ['book', bookId],
     queryFn: async () => {
@@ -44,11 +44,11 @@ export const useFetchBook = (params: UseFetchBookParams) => {
 
   useEffect(() => {
     if (data && data.data?.book) {
-      setBook(data.data.book);
+      // setBook(data.data.book);
     }
   }, [data?.data?.book]);
 
   useEffect(() => {
-    setIsLoading(status === 'pending');
+    // setIsLoading(status === 'pending');
   }, [status]);
 };

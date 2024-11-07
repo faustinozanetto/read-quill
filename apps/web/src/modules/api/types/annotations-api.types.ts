@@ -5,6 +5,10 @@ export interface BookAnnotationsGetResponse extends BaseApiResponse {
   data?: { annotations: Annotation[]; hasMore: boolean; pageCount: number };
 }
 
+export interface BookAnnotationsTimeGetResponse extends BaseApiResponse {
+  data?: { annotations: Record<string, Annotation[]> };
+}
+
 export interface AnnotationGetResponse extends BaseApiResponse {
   data?: { annotation: Annotation };
 }
