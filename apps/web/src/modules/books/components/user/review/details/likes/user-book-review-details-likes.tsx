@@ -13,7 +13,7 @@ const UserBookReviewDetailsLikes: React.FC = () => {
 
   return (
     <div className="flex flex-col rounded-lg p-4 border">
-      <h2 className="text-2xl font-bold">Review Likes</h2>
+      <h2 className="text-2xl font-bold">👍🏻 Review Likes</h2>
       <p>
         View and manage the reactions to your book's reviews. See who has liked or disliked each review to understand
         your readers' feedback better. Engage with your audience by acknowledging their reactions and fostering a more

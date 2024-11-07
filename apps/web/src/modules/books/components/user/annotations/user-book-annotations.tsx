@@ -2,7 +2,7 @@
 
 import React from 'react';
 import UserBookAnnotationsHeader from './user-book-annotations-header';
-import { useBookAnnotations } from '@modules/books/hooks/use-book-annotations';
+import { useBookAnnotations } from '@modules/books/hooks/annotations/use-book-annotations';
 
 import AnnotationCardPlaceholder from '@modules/annotations/components/cards/annotation-card-placeholder';
 import AnnotationsFeed from '@modules/annotations/components/feed/annotations-feed';

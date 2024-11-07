@@ -7,7 +7,7 @@ import {
 } from '@modules/annotations/lib/annotations-filtering.lib';
 import { FilterProvider } from '@modules/filters/components/filter-provider';
 import AnnotationsFilteredFeed from '@modules/annotations/components/feed/annotations-filtered-feed';
-import { useBookAnnotations } from '@modules/books/hooks/use-book-annotations';
+import { useBookAnnotations } from '@modules/books/hooks/annotations/use-book-annotations';
 import { useBookContext } from '@modules/books/hooks/use-book-context';
 import AnnotationCardPlaceholder from '@modules/annotations/components/cards/annotation-card-placeholder';
 import UserBookAnnotationsHeader from '../user-book-annotations-header';
