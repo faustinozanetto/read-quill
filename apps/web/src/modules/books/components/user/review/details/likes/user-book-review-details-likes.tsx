@@ -1,17 +1,19 @@
-import { useBookReviewDetailsLikes } from '@modules/books/hooks/review/use-book-review-details-likes';
-import { useBookStore } from '@modules/books/state/book.slice';
+'use client';
+
 import React from 'react';
+import { useBookReviewDetailsLikes } from '@modules/books/hooks/review/use-book-review-details-likes';
 
 import UserBookReviewDetailsLikesTable from './user-book-review-details-likes-table';
 import { Separator, Skeleton } from '@read-quill/design-system';
+import { useBookContext } from '@modules/books/hooks/use-book-context';
 
 const UserBookReviewDetailsLikes: React.FC = () => {
-  const { book } = useBookStore();
+  const { book } = useBookContext();
   const { data, pagination, setPagination, isLoading } = useBookReviewDetailsLikes({ pageSize: 10, bookId: book?.id });
 
   return (
     <div className="flex flex-col rounded-lg p-4 border">
-      <h2 className="text-2xl font-bold">Review Likes</h2>
+      <h2 className="text-2xl font-bold">👍🏻 Review Likes</h2>
       <p>
         View and manage the reactions to your book's reviews. See who has liked or disliked each review to understand
         your readers' feedback better. Engage with your audience by acknowledging their reactions and fostering a more

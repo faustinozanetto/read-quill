@@ -8,10 +8,10 @@ import ReadActivityIndicators from '@modules/common/components/read-registries/a
 
 import DashboardNoDataMessage from '@modules/dashboard/components/common/dashboard-no-data-message';
 import { useReadActivity } from '@modules/books/hooks/use-read-activity';
-import { useBookStore } from '@modules/books/state/book.slice';
+import { useBookContext } from '@modules/books/hooks/use-book-context';
 
 const UserBookReadActivity: React.FC = () => {
-  const { book } = useBookStore();
+  const { book } = useBookContext();
   const { data, isLoading } = useReadActivity({ bookId: book?.id });
 
   const readActivityArray = data?.data ? Object.entries(data.data?.readActivity) : [];

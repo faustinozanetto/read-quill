@@ -2,18 +2,13 @@
 
 import React from 'react';
 import UserBookReviewHeader from './user-book-review-header';
-import { useBookStore } from '@modules/books/state/book.slice';
 import { Separator, Skeleton } from '@read-quill/design-system';
 import { useFetchReviewFromBook } from '@modules/review/hooks/use-fetch-review-from-book';
 import UserBookReviewLike from './user-book-review-like';
+import { useBookContext } from '@modules/books/hooks/use-book-context';
 
-interface UserBookReviewProps {
-  isBookOwner: boolean;
-}
-
-const UserBookReview: React.FC<UserBookReviewProps> = (props) => {
-  const { isBookOwner } = props;
-  const { book } = useBookStore();
+const UserBookReview: React.FC = () => {
+  const { book, isBookOwner } = useBookContext();
   const { data, isLoading } = useFetchReviewFromBook({ bookId: book?.id });
 
   const hasReview = Boolean(data?.data?.review);

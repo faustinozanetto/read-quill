@@ -1,12 +1,14 @@
+'use client';
+
 import React from 'react';
 import { useBookInsights } from '@modules/books/hooks/use-book-insights';
 import { useIsBookOwner } from '@modules/books/hooks/use-is-book-owner';
-import { useBookStore } from '@modules/books/state/book.slice';
 import { Skeleton } from '@read-quill/design-system';
 import UserBookInsightsCard from './user-book-insights-card';
+import { useBookContext } from '@modules/books/hooks/use-book-context';
 
 const UserBookInsights: React.FC = () => {
-  const { book, isLoading: isBookLoading } = useBookStore();
+  const { book } = useBookContext();
   const { isBookOwner } = useIsBookOwner();
   const { data, isLoading } = useBookInsights({ bookId: book?.id });
 
@@ -14,7 +16,6 @@ const UserBookInsights: React.FC = () => {
     <div className="flex flex-col rounded-lg p-4 gap-2 border">
       <h2 className="text-2xl font-bold">📈 Insights</h2>
 
-      {isBookLoading && <Skeleton className="h-10 w-full" />}
       {isLoading && (
         <div className="grid gap-2 md:gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <Skeleton className="h-32 w-full" />
@@ -24,7 +25,7 @@ const UserBookInsights: React.FC = () => {
         </div>
       )}
 
-      {!(isBookLoading && isLoading) && data?.data && (
+      {!isLoading && data?.data && (
         <>
           <p>
             {isBookOwner

@@ -2,20 +2,15 @@
 
 import React from 'react';
 import UserBookAnnotationsHeader from './user-book-annotations-header';
-import { useBookAnnotations } from '@modules/books/hooks/use-book-annotations';
+import { useBookAnnotations } from '@modules/books/hooks/annotations/use-book-annotations';
 
 import AnnotationCardPlaceholder from '@modules/annotations/components/cards/annotation-card-placeholder';
 import AnnotationsFeed from '@modules/annotations/components/feed/annotations-feed';
-import { useBookStore } from '@modules/books/state/book.slice';
 import { Separator } from '@read-quill/design-system';
+import { useBookContext } from '@modules/books/hooks/use-book-context';
 
-interface UserBookAnnotationsProps {
-  isBookOwner: boolean;
-}
-
-const UserBookAnnotations: React.FC<UserBookAnnotationsProps> = (props) => {
-  const { isBookOwner } = props;
-  const { book } = useBookStore();
+const UserBookAnnotations: React.FC = (props) => {
+  const { book, isBookOwner } = useBookContext();
   const { data, isLoading } = useBookAnnotations({
     pageSize: 6,
     bookId: book?.id,
