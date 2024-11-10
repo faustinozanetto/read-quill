@@ -16,3 +16,6 @@ export interface ReadActivityEntry {
   level: number;
   date: string;
 }
+
+export const INTERVARL_TYPE = ['daily', 'weekly', 'monthly'] as const;
+export type DataInterval = (typeof INTERVARL_TYPE)[number];

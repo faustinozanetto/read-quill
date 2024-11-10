@@ -3,14 +3,14 @@
 import React from 'react';
 
 import { useBookReadRegistries } from '@modules/books/hooks/use-book-read-registries';
-import { useBookStore } from '@modules/books/state/book.slice';
 import UserBookReadRegistriesTable from './user-book-read-registries-table';
 import { Badge, Button, PlusIcon, Separator, Skeleton } from '@read-quill/design-system';
 import ReadRegistryCreate from '@modules/read-registries/components/create/read-registry-create';
 import { useQueryClient } from '@tanstack/react-query';
+import { useBookContext } from '@modules/books/hooks/use-book-context';
 
 const UserBookReadRegistries: React.FC = () => {
-  const { book } = useBookStore();
+  const { book, isBookOwner } = useBookContext();
   const { data, isLoading, pagination, setPagination } = useBookReadRegistries({
     bookId: book?.id,
     pageSize: 8,
@@ -20,6 +20,8 @@ const UserBookReadRegistries: React.FC = () => {
   const handleOnRegistryCreated = async () => {
     await queryClient.refetchQueries({ queryKey: ['book-read-registries'] });
   };
+
+  if (!isBookOwner) return null;
 
   return (
     <div className="flex flex-col rounded-lg p-4 border gap-2">

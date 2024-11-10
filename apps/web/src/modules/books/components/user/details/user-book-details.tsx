@@ -11,14 +11,11 @@ import BookFinishedAt from '../../common/book-finished-at';
 import BookRating from '../../common/rating/book-rating';
 import UserBookCover from './cover/user-book-cover';
 
-import { useBookStore } from '@modules/books/state/book.slice';
-import UserBookDetailsPlaceholder from './user-book-details-placeholder';
+import { useBookContext } from '@modules/books/hooks/use-book-context';
 
 const UserBookDetails: React.FC = () => {
-  const { book, isLoading } = useBookStore();
+  const { book } = useBookContext();
   const { isBookOwner } = useIsBookOwner();
-
-  if (isLoading) return <UserBookDetailsPlaceholder />;
 
   if (!book) return null;
 

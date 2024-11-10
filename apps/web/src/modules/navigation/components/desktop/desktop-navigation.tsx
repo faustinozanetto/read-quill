@@ -19,7 +19,9 @@ const DesktopNavigation: React.FC = async () => {
         </Link>
         <nav className="flex grow flex-col gap-2 mt-2 w-full">
           {NAVIGATION_LINKS.map((link) => {
-            return <NavigationLink className="w-full justify-start gap-2" key={link.href} {...link} />;
+            const { showInMobile, ...restLink } = link;
+
+            return <NavigationLink className="w-full justify-start gap-2" key={link.href} {...restLink} />;
           })}
         </nav>
 

@@ -3,6 +3,7 @@ import type { Annotation } from '@read-quill/database';
 import { Badge, EyeIcon, Button, cn, Separator } from '@read-quill/design-system';
 import { useIsBookOwner } from '@modules/books/hooks/use-is-book-owner';
 import AnnotationManagement from '../management/annotation-management';
+import { format } from 'date-fns';
 
 interface AnnotationCardProps {
   annotation: Annotation;
@@ -19,7 +20,10 @@ const AnnotationCard: React.FC<AnnotationCardProps> = (props) => {
       <div className="p-4 flex justify-between items-start ">
         <div>
           <span className="text-lg font-semibold block">{annotation.title}</span>
-          <Badge>{annotation.chapter}</Badge>
+          <div className="flex gap-2 items-center">
+            <Badge>{annotation.chapter}</Badge>
+            <Badge>{new Date(annotation.createdAt).toLocaleDateString('en-US', { dateStyle: 'long' })}</Badge>
+          </div>
         </div>
         {isBookOwner ? <AnnotationManagement annotation={annotation} /> : null}
       </div>
