@@ -34,6 +34,9 @@ export async function GET(request: NextRequest): Promise<NextResponse<UserBooksG
         image: true,
         reader: true,
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
 
     const bookPlaceholderImagePromises = books.map((book) =>

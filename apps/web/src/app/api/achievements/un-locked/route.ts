@@ -21,6 +21,9 @@ export async function GET(request: NextRequest): Promise<NextResponse<Achievemen
 
     const userAchievements = await prisma.userAchievement.findMany({
       where: { userId },
+      orderBy: {
+        unlockedAt: 'desc',
+      },
       include: { achievement: true },
     });
 
