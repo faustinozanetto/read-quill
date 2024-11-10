@@ -104,7 +104,7 @@ const AnnotationsFilteredFeed: React.FC<AnnotationsFilteredFeedProps> = (props) 
               <>
                 <AnnotationsFeed className="flex-1" annotations={filteredData} />
                 <PaginationControls
-                  perPageTitle="Books per page"
+                  perPageTitle="Annotations per page"
                   getCanNextPage={getCanNextPage}
                   getCanPreviousPage={getCanPreviousPage}
                   nextPage={nextPage}

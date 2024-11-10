@@ -12,7 +12,7 @@ const UserLibraryBooksHeaderPrivate: React.FC = () => {
   return (
     <div className="flex flex-col rounded-lg border p-4 gap-2">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Books</h1>
+        <h1 className="text-2xl font-bold">📚 Books</h1>
         <BookCreate
           createButton={
             <Button aria-label="Create Book" size="sm">

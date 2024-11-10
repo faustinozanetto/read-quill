@@ -8,7 +8,7 @@ export const BOOKS_PROGRESS_INITIAL_FILTERS: Filter<BookProgressEntry>[] = [
 ];
 
 export const BOOKS_PROGRESS_INITIAL_SORT: Sort<BookProgressEntry> = {
-  property: 'name',
+  property: 'progress',
   ascending: false,
 };
 

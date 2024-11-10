@@ -13,7 +13,7 @@ const UserProfileBooksHeader: React.FC = () => {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex flex-col sm:items-center sm:flex-row sm:justify-between gap-2">
-        <h2 className="text-2xl font-bold">Books</h2>
+        <h2 className="text-2xl font-bold">📚 Books</h2>
 
         {isProfileOwner ? (
           <Button aria-label="Manage Containers" asChild className="md:w-auto" size="sm" variant="outline">

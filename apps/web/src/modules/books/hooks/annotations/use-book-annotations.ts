@@ -35,7 +35,7 @@ export const useBookAnnotations = (params: UseBookAnnotationsParams): UseBookAnn
   const [page, setPage] = useState(0);
 
   const { data, status, isPlaceholderData } = useQuery<BookAnnotationsGetResponse | undefined>({
-    queryKey: ['book-annotations', bookId],
+    queryKey: ['book-annotations', bookId, pageSize],
     enabled: !!bookId,
     placeholderData: (previousData) => previousData,
     queryFn: async () => {

@@ -5,7 +5,7 @@ import UserReferralsReferred from './referred/user-referrals-referred';
 const UserReferrals: React.FC = () => {
   return (
     <div className="space-y-4">
-      <div className="flex flex-col rounded-lg border p-4 gap-2">
+      <div className="flex flex-col rounded-lg border p-4">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold">Referrals</h1>
           <UserReferralsManagement />

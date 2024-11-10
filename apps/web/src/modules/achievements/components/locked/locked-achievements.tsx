@@ -17,7 +17,7 @@ const LockedAchievements: React.FC = () => {
   return (
     <div className="flex flex-col gap-4">
       <div className="rounded-lg border p-4">
-        <h1 className="leading-2 block text-xl font-bold md:text-2xl lg:text-3xl">Locked Achievements</h1>
+        <h1 className="leading-2 block text-2xl font-bold mb-2">🔒 Locked Achievements</h1>
         <p>
           Uncover a world of achievements that showcase your reading prowess. From page-turning milestones to conquering
           entire books, these badges represent the epic chapters of your reading adventure. Dive in and celebrate your

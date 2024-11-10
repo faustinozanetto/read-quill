@@ -56,8 +56,8 @@ const UserBookAnnotationsDetails: React.FC = () => {
 
             {!isLoading && !data?.data?.annotations.length ? (
               <p className="m-auto">
-                Let&apos;s build your book collection! Click the{' '}
-                <span className="text-primary text-center font-bold underline">Create Book</span> button to get started.
+                It looks like you haven't createda annotations yet use the{' '}
+                <span className="text-primary text-center font-bold underline">Create</span> button to get started.
               </p>
             ) : null}
           </AnnotationsFilteredFeed>

@@ -21,7 +21,7 @@ const UserReferralsReferred: React.FC = () => {
   return (
     <div className="flex flex-col rounded-lg border p-4 gap-2">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Referred Users</h1>
+        <h1 className="text-2xl font-bold">👥 Referred Users</h1>
       </div>
       <p className="mb-2">View and manage the users you referred using your unique code here.</p>
 
