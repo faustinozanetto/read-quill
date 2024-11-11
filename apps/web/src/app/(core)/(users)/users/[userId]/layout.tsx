@@ -6,9 +6,9 @@ import { UserGetResponse } from '@modules/api/types/users-api.types';
 import { __URL__ } from '@modules/common/lib/common.constants';
 
 interface UserPageLayoutProps {
-  params: {
+  params: Promise<{
     userId: string;
-  };
+  }>;
   children: React.ReactNode;
 }
 
@@ -27,7 +27,7 @@ const fetchUserData = async (userId: string): Promise<UserGetResponse | undefine
 
 export default async function UserProfileLayout(props: UserPageLayoutProps) {
   const { children, params } = props;
-  const { userId } = params;
+  const { userId } = await params;
 
   const userData = await fetchUserData(userId);
 

@@ -9,8 +9,11 @@ export async function threadMiddleware(request: NextRequest): Promise<NextRespon
 
     const url = new URL('/api/community/thread/view', __URL__);
     url.searchParams.set('threadId', threadId);
+
+    const headersList = await headers();
+
     await fetch(url, {
-      headers: headers(),
+      headers: headersList,
       method: 'POST',
     });
   } catch (err) {

@@ -7,13 +7,13 @@ import { prisma } from '@read-quill/database';
 import { siteConfig } from '@config/config';
 
 interface UserBookPageProps {
-  params: {
+  params: Promise<{
     bookId: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({ params }: UserBookPageProps, parent: ResolvingMetadata): Promise<Metadata> {
-  const bookId = params.bookId;
+  const bookId = (await params).bookId;
 
   const book = await prisma.book.findUnique({ where: { id: bookId }, include: { image: true } });
   if (!book) return {};

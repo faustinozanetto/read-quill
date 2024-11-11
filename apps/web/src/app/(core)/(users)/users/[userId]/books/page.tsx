@@ -7,13 +7,13 @@ import { siteConfig } from '@config/config';
 import { getImagePublicUrl } from '@modules/images/lib/images.lib';
 
 interface UserBooksPageProps {
-  params: {
+  params: Promise<{
     userId: string;
-  };
+  }>;
 }
 
 export async function generateMetadata({ params }: UserBooksPageProps, parent: ResolvingMetadata): Promise<Metadata> {
-  const userId = params.userId;
+  const userId = (await params).userId;
 
   const user = await prisma.user.findUnique({ where: { id: userId }, include: { avatar: true } });
   if (!user) return {};

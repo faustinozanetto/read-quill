@@ -12,7 +12,8 @@ const { auth } = NextAuth({ ...authCallbackConfig, providers: [] });
 
 const isUserProfileCompleted = async (): Promise<boolean> => {
   const url = new URL('/api/user/profile-completed', __URL__);
-  const response = await fetch(url, { headers: headers() });
+  const headersList = await headers();
+  const response = await fetch(url, { headers: headersList });
   if (!response.ok) return false;
 
   const data = (await response.json()) as UserProfileCompletedGetResponse;

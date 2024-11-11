@@ -7,9 +7,9 @@ import UserBookReviewDetails from '@modules/books/components/user/review/details
 import { Metadata } from 'next';
 
 interface UserBookReviewDetailsPageProps {
-  params: {
+  params: Promise<{
     bookId: string;
-  };
+  }>;
 }
 
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 const UserBookReviewDetailsPage: React.FC<UserBookReviewDetailsPageProps> = async (props) => {
   const { params } = props;
-  const { bookId } = params;
+  const { bookId } = await params;
 
   const session = await auth();
   const book = await prisma.book.findUnique({ where: { id: bookId } });

@@ -8,16 +8,16 @@ import { notFound } from 'next/navigation';
 import React from 'react';
 
 interface CommunityThreadPageProps {
-  params: {
+  params: Promise<{
     threadId: string;
-  };
+  }>;
 }
 
 export async function generateMetadata(
   { params }: CommunityThreadPageProps,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const threadId = params.threadId;
+  const threadId = (await params).threadId;
 
   const thread = await prisma.thread.findUnique({ where: { id: threadId } });
   if (!thread) return {};
@@ -44,7 +44,7 @@ export async function generateMetadata(
 
 const CommunityThreadPage: React.FC<CommunityThreadPageProps> = async (props) => {
   const { params } = props;
-  const { threadId } = params;
+  const { threadId } = await params;
 
   const threadCount = await prisma.thread.count({ where: { id: threadId } });
   if (threadCount === 0) {

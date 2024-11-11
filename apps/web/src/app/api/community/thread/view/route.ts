@@ -38,6 +38,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ThreadVie
 
     const session = await auth();
     const userId = session?.user.id;
+    // @ts-ignore
     const userIp = request.ip;
 
     await incrementThreadView(threadId, userId, userIp);

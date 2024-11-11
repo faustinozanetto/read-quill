@@ -9,9 +9,9 @@ import { auth } from 'auth';
 import UserBookDetails from '@modules/books/components/user/details/user-book-details';
 
 interface BookPageLayoutProps {
-  params: {
+  params: Promise<{
     bookId: string;
-  };
+  }>;
   children: React.ReactNode;
 }
 
@@ -30,7 +30,7 @@ const fetchBookData = async (bookId: string): Promise<BookGetResponse | undefine
 
 export default async function BookLayout(props: BookPageLayoutProps) {
   const { children, params } = props;
-  const { bookId } = params;
+  const { bookId } = await params;
 
   const bookData = await fetchBookData(bookId);
 
