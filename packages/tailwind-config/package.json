@@ -8,7 +8,7 @@
   "types": "index.ts",
   "dependencies": {
     "@tailwindcss/forms": "^0.5.7",
-    "@tailwindcss/typography": "^0.5.13"
+    "@tailwindcss/typography": "^0.5.15"
   },
   "devDependencies": {
     "@read-quill/typescript-config": "workspace:*",
