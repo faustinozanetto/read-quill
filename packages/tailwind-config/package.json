@@ -7,7 +7,7 @@
   "main": "index.ts",
   "types": "index.ts",
   "dependencies": {
-    "@tailwindcss/forms": "^0.5.7",
+    "@tailwindcss/forms": "^0.5.9",
     "@tailwindcss/typography": "^0.5.13"
   },
   "devDependencies": {
