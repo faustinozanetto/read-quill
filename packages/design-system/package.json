@@ -39,7 +39,7 @@
     "@radix-ui/react-checkbox": "1.1.2",
     "@radix-ui/react-tabs": "1.1.1",
     "@radix-ui/react-progress": "1.1.0",
-    "react-day-picker": "8.10.1",
+    "react-day-picker": "9.5.0",
     "date-fns": "4.0.0",
     "cmdk": "1.0.0",
     "clsx": "2.1.1",
