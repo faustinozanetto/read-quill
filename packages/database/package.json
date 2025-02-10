@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@prisma/extension-accelerate": "1.2.1",
-    "@prisma/client": "5.22.0"
+    "@prisma/client": "6.3.1"
   },
   "devDependencies": {
     "@read-quill/eslint-config": "workspace:*",
