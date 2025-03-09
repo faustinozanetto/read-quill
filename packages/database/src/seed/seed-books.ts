@@ -14,7 +14,7 @@ void (async () => {
 
           const image = await prisma.image.findFirst({
             where: {
-              id: 'clx40t01s00003phz69xwuu8f',
+              id: 'clwmneu7i00003l8vz8wp4q8y',
             },
           });
           if (!image) return;

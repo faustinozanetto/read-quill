@@ -1,12 +1,7 @@
-import { forwardRef } from 'react';
 import { cn } from '../lib/design-system.lib';
 
-export type SkeletonProps = React.ButtonHTMLAttributes<HTMLDivElement>;
-
-const Skeleton = forwardRef<HTMLDivElement, SkeletonProps>(({ className, ...props }, ref) => {
-  return <div className={cn('bg-primary/10 animate-pulse rounded', className)} ref={ref} {...props} />;
-});
-
-Skeleton.displayName = 'Skeleton';
+function Skeleton({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
+  return <div className={cn('animate-pulse rounded-md bg-primary/10', className)} {...props} />;
+}
 
 export { Skeleton };

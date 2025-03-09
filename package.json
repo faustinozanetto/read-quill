@@ -44,12 +44,18 @@
   "engines": {
     "node": ">=18"
   },
+  "packageManager": "pnpm@10.2.0",
   "lint-staged": {
     "extends": "./lint-staged.config.ts"
   },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
+    }
+  },
+  "pnpm": {
+    "overrides": {
+      "sharp": "0.33.3"
     }
   }
 }

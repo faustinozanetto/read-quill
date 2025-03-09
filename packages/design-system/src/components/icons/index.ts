@@ -59,6 +59,7 @@ export * from './layout-list-icon';
 export * from './messages-icon';
 export * from './settings-icon';
 export * from './key-icon';
+export * from './circle-icon';
 export * from './number-one-icon';
 export * from './number-two-icon';
 export * from './number-three-icon';
