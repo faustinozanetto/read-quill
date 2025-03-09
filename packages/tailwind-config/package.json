@@ -12,6 +12,6 @@
   },
   "devDependencies": {
     "@read-quill/typescript-config": "workspace:*",
-    "tailwindcss": "^3.4.7"
+    "tailwindcss": "^4.0.12"
   }
 }
