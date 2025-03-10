@@ -12,8 +12,6 @@ import {
 } from '@modules/api/types/books-api.types';
 import { BOOK_ACTIONS_VALIDATIONS_API } from '@modules/books/validations/books.validations';
 import { deleteImageFromSupabase } from '@modules/uploads/lib/uploads.lib';
-import { generatePlaceholderImage } from '@modules/images/lib/image-placeholder.lib';
-import { getImagePublicUrl } from '@modules/images/lib/images.lib';
 import { BookWithDetails } from '@modules/books/types/book.types';
 
 // /api/book GET : Gets a book by a given bookId
@@ -45,13 +43,13 @@ export async function GET(request: NextRequest): Promise<NextResponse<BookGetRes
       );
     }
 
-    const base64PlaceholderBuffer = await generatePlaceholderImage(getImagePublicUrl('BookCovers', book.image.path));
+    // const base64PlaceholderBuffer = await generatePlaceholderImage(getImagePublicUrl('BookCovers', book.image.path));
 
     const mappedBook = {
       ...book,
-      placeholderImage: {
-        blurUrl: base64PlaceholderBuffer,
-      },
+      // placeholderImage: {
+      //   blurUrl: base64PlaceholderBuffer,
+      // },
     };
 
     return NextResponse.json({ data: { book: mappedBook } });
@@ -109,13 +107,13 @@ export async function POST(request: NextRequest): Promise<NextResponse<BookPostR
       },
     });
 
-    const base64PlaceholderBuffer = await generatePlaceholderImage(getImagePublicUrl('BookCovers', book.image.path));
+    // const base64PlaceholderBuffer = await generatePlaceholderImage(getImagePublicUrl('BookCovers', book.image.path));
 
     const mappedBook: BookWithDetails = {
       ...book,
-      placeholderImage: {
-        blurUrl: base64PlaceholderBuffer,
-      },
+      // placeholderImage: {
+      //   blurUrl: base64PlaceholderBuffer,
+      // },
     };
 
     return NextResponse.json({ data: { book: mappedBook } });
@@ -222,13 +220,13 @@ export async function PATCH(request: NextRequest): Promise<NextResponse<BookPatc
       },
     });
 
-    const base64PlaceholderBuffer = await generatePlaceholderImage(getImagePublicUrl('BookCovers', book.image.path));
+    // const base64PlaceholderBuffer = await generatePlaceholderImage(getImagePublicUrl('BookCovers', book.image.path));
 
     const mappedBook: BookWithDetails = {
       ...updatedBook,
-      placeholderImage: {
-        blurUrl: base64PlaceholderBuffer,
-      },
+      // placeholderImage: {
+      //   blurUrl: base64PlaceholderBuffer,
+      // },
     };
 
     return NextResponse.json({ data: { book: mappedBook } });

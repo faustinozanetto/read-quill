@@ -18,7 +18,7 @@ const DashboardLastReadCard: React.FC<DashboardLastReadCardProps> = (props) => {
       <UserBookCover
         imageClassNames="h-32 md:h-36 lg:h-40 mb-2"
         image={book.image}
-        placeholderImage={book.placeholderImage}
+        // placeholderImage={book.placeholderImage}
       />
       <h2 className="font-semibold">{book.name}</h2>
       <p className="text-sm">

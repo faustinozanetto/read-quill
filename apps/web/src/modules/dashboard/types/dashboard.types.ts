@@ -1,5 +1,5 @@
-import { BookPlaceholderImage, BookWithDetails } from '@modules/books/types/book.types';
-import { Book, Image, ReadRegistry, ReadTargets } from '@read-quill/database';
+import { BookWithDetails } from '@modules/books/types/book.types';
+import { Image, ReadRegistry, ReadTargets } from '@read-quill/database';
 
 export const DASHBOARD_READ_TARGETS = ['daily', 'weekly', 'monthly'] as const;
 export type DashboardReadTargetsType = (typeof DASHBOARD_READ_TARGETS)[number];
@@ -16,7 +16,7 @@ export interface BookProgressEntry {
   author: string;
   progress: number;
   cover: Image;
-  placeholderCover: BookPlaceholderImage;
+  // placeholderCover: BookPlaceholderImage;
   completed: boolean;
 }
 
@@ -48,7 +48,7 @@ export interface DashboardReadTargetHistoryEntry {
 }
 
 export interface DashboardLastReadEntry {
-  book: Pick<BookWithDetails, 'id' | 'image' | 'placeholderImage' | 'name'>;
+  book: Pick<BookWithDetails, 'id' | 'image' | 'name'>;
   date: Date;
 }
 

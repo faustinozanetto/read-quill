@@ -4,8 +4,6 @@ import { NextResponse } from 'next/server';
 import type { DashboardBooksProgressGetResponse } from '@modules/api/types/dashboard-api.types';
 import { auth } from 'auth';
 import { BookProgressEntry } from '@modules/dashboard/types/dashboard.types';
-import { generatePlaceholderImage } from '@modules/images/lib/image-placeholder.lib';
-import { getImagePublicUrl } from '@modules/images/lib/images.lib';
 
 // /api/dashboard/books-progress GET : Gets the reading progress of the user books
 export async function GET(request: NextRequest): Promise<NextResponse<DashboardBooksProgressGetResponse>> {
@@ -71,11 +69,11 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardB
     const hasMore = pageIndex < pageCount - 1;
 
     // Generate placeholder images
-    const base64PlaceholderPromises = books.map((book) =>
-      generatePlaceholderImage(getImagePublicUrl('BookCovers', book.image.path))
-    );
+    // const base64PlaceholderPromises = books.map((book) =>
+    //   generatePlaceholderImage(getImagePublicUrl('BookCovers', book.image.path))
+    // );
 
-    const placeholderImages = await Promise.all(base64PlaceholderPromises);
+    // const placeholderImages = await Promise.all(base64PlaceholderPromises);
 
     // Calculate the progress for each book
     const booksProgress: BookProgressEntry[] = books.map((book, index) => {
@@ -87,7 +85,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardB
         name: book.name,
         author: book.author,
         cover: book.image,
-        placeholderCover: { blurUrl: placeholderImages[index] },
+        // placeholderCover: { blurUrl: placeholderImages[index] },
         progress: Math.round(progress),
         completed: progress >= 100,
       };

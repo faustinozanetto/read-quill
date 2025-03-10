@@ -58,8 +58,8 @@ const BookCard: React.FC<BookCardProps> = (props) => {
           className={imageVariants({
             variant,
           })}
-          blurDataURL={book.placeholderImage.blurUrl}
-          placeholder="blur"
+          // blurDataURL={book.placeholderImage.blurUrl}
+          // placeholder="blur"
         />
         <div className={metadataVariants({ variant })}>
           <span className="font-bold uppercase blockt text-ellipsis line-clamp-1">{book.name}</span>
