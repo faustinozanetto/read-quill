@@ -16,7 +16,7 @@ const LandingFooter: React.FC = () => {
           })}
         </div>
 
-        <span className="text-sm text-primary-foreground">© 2024 Faustino Zanetto. All rights reserved</span>
+        <span className="text-sm text-primary-foreground">© 2025 Faustino Zanetto. All rights reserved</span>
       </div>
     </footer>
   );

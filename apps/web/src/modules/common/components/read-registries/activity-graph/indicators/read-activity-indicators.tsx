@@ -10,7 +10,7 @@ const ReadActivityIndicators: React.FC = () => {
     <div className="w-full justify-between flex text-xs">
       <div className="flex gap-2 items-center">
         <span>Today</span>
-        <div className="h-[14px] w-[14px] rounded-sm bg-success" />
+        <div className="h-[14px] w-[14px] rounded-lg bg-success" />
       </div>
       <div className="flex gap-1 items-center">
         <span>Less</span>

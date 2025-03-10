@@ -20,7 +20,7 @@ const ReadActivityGraphEntry: React.FC<ReadActivityGraphEntryProps> = memo(
       return { backgroundColor: 'hsl(var(--primary) / 0.05)' };
     }, [activity]);
 
-    return <td className="w-[16px] h-[16px] rounded-sm" style={styles} />;
+    return <td className="w-[16px] h-[16px] rounded-lg" style={styles} />;
   },
   (prev, next) => prev.activity === next.activity
 );

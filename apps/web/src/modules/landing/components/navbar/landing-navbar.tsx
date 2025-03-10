@@ -14,11 +14,11 @@ const LandingNavbar: React.FC<LandingNavbarProps> = (props) => {
   const { session } = props;
 
   return (
-    <div className="bg-background/80 sticky left-0 right-0 top-0 z-[999] w-full border-b p-4 backdrop-blur-lg h-20 ">
+    <div className="bg-background/80 sticky left-0 right-0 top-0 z-[999] w-full border-b p-4 backdrop-blur-lg h-20 flex items-center">
       <div className="mx-auto flex items-center justify-between sm:container">
         <LandingNavbarMobile session={session} />
         <Link aria-label="Home Page" href="/">
-          <MarketingLogo textClassName="dark:fill-primary" />
+          <MarketingLogo textClassName="fill-primary" />
         </Link>
         <nav className="ml-auto mr-4 hidden sm:flex">
           <LandingNavbarLinks session={session} />

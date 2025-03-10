@@ -13,7 +13,7 @@ const NavigationLink: React.FC<NavigationLinkProps> = (props) => {
   const { href, className, icon, children, ...rest } = props;
 
   return (
-    <Button asChild className={className} variant="ghost" {...rest}>
+    <Button asChild className={className} variant="ghost-primary" {...rest}>
       <Link href={href}>
         {icon}
         {children}

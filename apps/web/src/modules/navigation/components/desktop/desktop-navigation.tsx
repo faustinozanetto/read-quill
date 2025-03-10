@@ -13,9 +13,9 @@ const DesktopNavigation: React.FC = async () => {
 
   return (
     <aside className="hidden md:block sticky inset-y-0 left-0 h-screen z-[100]">
-      <div className="bg-primary/20 border-r border-primary float-left flex h-full flex-col gap-2 rounded-r-lg p-4 items-start">
+      <div className="bg-primary/10 border-r border-primary float-left flex h-full flex-col gap-2 rounded-r-lg p-4 items-start">
         <Link href="/" title="Home">
-          <MarketingLogo textClassName="dark:fill-primary" />
+          <MarketingLogo textClassName="fill-primary" />
         </Link>
         <nav className="flex grow flex-col gap-2 mt-2 w-full">
           {NAVIGATION_LINKS.map((link) => {
@@ -25,7 +25,7 @@ const DesktopNavigation: React.FC = async () => {
           })}
         </nav>
 
-        <ThemeToggler className="w-full justify-start" variant="ghost">
+        <ThemeToggler className="w-full justify-start" variant="ghost-primary">
           <span className="ml-2">Toggle Theme</span>
         </ThemeToggler>
 
