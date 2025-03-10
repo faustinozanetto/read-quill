@@ -47,7 +47,7 @@
     "class-variance-authority": "0.7.1"
   },
   "peerDependencies": {
-    "react": "^18.2.0",
+    "react": "^19.0.0",
     "react-hook-form": "7.51.5",
     "@hookform/resolvers": "3.4.2",
     "@tanstack/react-table": "8.21.2",
@@ -59,10 +59,10 @@
     "@read-quill/eslint-config": "workspace:*",
     "@read-quill/tailwind-config": "workspace:*",
     "@read-quill/typescript-config": "workspace:*",
-    "@types/react": "^18.2.0",
+    "@types/react": "^19.0.10",
     "postcss": "8.5.3",
     "autoprefixer": "10.4.21",
-    "react": "^18.2.0",
+    "react": "^19.0.0",
     "tailwindcss": "3.4.14",
     "tsup": "8.4.0",
     "typescript": "5.8.2"
