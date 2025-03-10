@@ -13,7 +13,7 @@ interface DashboardBooksProgressCardProps {
 
 const DashboardBooksProgressCard: React.FC<DashboardBooksProgressCardProps> = (props) => {
   const { bookProgress } = props;
-  const { id, progress, author, cover, name, placeholderCover } = bookProgress;
+  const { id, progress, author, cover, name } = bookProgress;
 
   const clampedProgress = Math.max(0, Math.min(progress, 100));
 
@@ -26,7 +26,7 @@ const DashboardBooksProgressCard: React.FC<DashboardBooksProgressCardProps> = (p
           className="w-full"
           imageClassNames="h-32 md:h-36 lg:h-40 w-full"
           image={cover}
-          placeholderImage={placeholderCover}
+          // placeholderImage={placeholderCover}
         />
         <div
           className="bg-primary/80 left-0 bottom-2 right-0 absolute items-center justify-center flex rounded-lg"

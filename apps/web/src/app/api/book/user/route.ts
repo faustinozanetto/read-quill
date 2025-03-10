@@ -2,9 +2,7 @@ import { prisma } from '@read-quill/database';
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
 import type { UserBooksGetResponse } from '@modules/api/types/books-api.types';
-import { getImagePublicUrl } from '@modules/images/lib/images.lib';
 import { BookWithDetails } from '@modules/books/types/book.types';
-import { generatePlaceholderImage } from '@modules/images/lib/image-placeholder.lib';
 
 // /api/book/user GET : Gets the books of the user
 export async function GET(request: NextRequest): Promise<NextResponse<UserBooksGetResponse>> {
@@ -39,17 +37,17 @@ export async function GET(request: NextRequest): Promise<NextResponse<UserBooksG
       },
     });
 
-    const bookPlaceholderImagePromises = books.map((book) =>
-      generatePlaceholderImage(getImagePublicUrl('BookCovers', book.image.path))
-    );
+    // const bookPlaceholderImagePromises = books.map((book) =>
+    //   generatePlaceholderImage(getImagePublicUrl('BookCovers', book.image.path))
+    // );
 
-    const placeholderImages = await Promise.all(bookPlaceholderImagePromises);
+    // const placeholderImages = await Promise.all(bookPlaceholderImagePromises);
 
     const mappedBooks: BookWithDetails[] = books.map((book, index) => {
       return {
-        placeholderImage: {
-          blurUrl: placeholderImages[index],
-        },
+        // placeholderImage: {
+        //   blurUrl: placeholderImages[index],
+        // },
         ...book,
       };
     });

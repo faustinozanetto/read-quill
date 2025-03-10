@@ -1,7 +1,5 @@
 import { DashboardLastReadGetResponse } from '@modules/api/types/dashboard-api.types';
 import { DashboardLastReadEntry } from '@modules/dashboard/types/dashboard.types';
-import { generatePlaceholderImage } from '@modules/images/lib/image-placeholder.lib';
-import { getImagePublicUrl } from '@modules/images/lib/images.lib';
 import { prisma } from '@read-quill/database';
 import { auth } from 'auth';
 import { NextRequest, NextResponse } from 'next/server';
@@ -53,18 +51,18 @@ export async function GET(request: NextRequest): Promise<NextResponse<DashboardL
       .sort((a, b) => new Date(b.lastReadDate).getTime() - new Date(a.lastReadDate).getTime())
       .slice(0, take);
 
-    const base64PlaceholderPromises = sortedBooks.map((book) =>
-      generatePlaceholderImage(getImagePublicUrl('BookCovers', book.image.path))
-    );
+    // const base64PlaceholderPromises = sortedBooks.map((book) =>
+    //   generatePlaceholderImage(getImagePublicUrl('BookCovers', book.image.path))
+    // );
 
-    const placeholderImages = await Promise.all(base64PlaceholderPromises);
+    // const placeholderImages = await Promise.all(base64PlaceholderPromises);
 
     const mappedBooks: DashboardLastReadEntry[] = sortedBooks.map((book, index) => ({
       book: {
         ...book,
-        placeholderImage: {
-          blurUrl: placeholderImages[index],
-        },
+        // placeholderImage: {
+        //   blurUrl: placeholderImages[index],
+        // },
       },
       date: book.lastReadDate,
     }));
