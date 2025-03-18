@@ -3,7 +3,6 @@ import '@styles/global.css';
 import React from 'react';
 import { Rubik } from 'next/font/google';
 import { ToastsContainer } from '@read-quill/design-system';
-import { Analytics } from '@vercel/analytics/react';
 import type { Metadata } from 'next';
 import { siteConfig } from '@config/config';
 import Providers from './providers';
@@ -128,7 +127,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <Providers session={session}>
           {children}
           <UmaniAnalytics />
-          <Analytics />
           <SpeedInsights />
           <ToastsContainer />
 
