@@ -49,7 +49,7 @@ const HomeCta: React.FC = () => {
         </div>
 
         <Button asChild className="w-full md:w-1/4">
-          <Link href="/sign-in">
+          <Link href="/auth/sign-in">
             <BookIcon className="mr-2" />
             Join Now
           </Link>
