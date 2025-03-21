@@ -36,7 +36,7 @@
     "framer-motion": "12.4.10",
     "html-to-image": "1.11.13",
     "mime": "4.0.6",
-    "next": "15.2.1",
+    "next": "15.2.3",
     "next-auth": "5.0.0-beta.25",
     "next-theme-kit": "0.2.1",
     "optional": "^0.1.4",
