@@ -31,7 +31,7 @@
     "studio": "prisma studio"
   },
   "dependencies": {
-    "@prisma/extension-accelerate": "1.2.2",
+    "@prisma/extension-accelerate": "2.0.0",
     "@prisma/client": "6.3.1"
   },
   "devDependencies": {
